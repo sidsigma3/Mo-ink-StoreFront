@@ -5,7 +5,7 @@ import { FaRegPaperPlane } from "react-icons/fa6";
 const Cta = () => {
   return (
     <div
-    className="position-relative p-5"
+    className="position-relative"
     >
         <div
         className='p-5 rounded-5'

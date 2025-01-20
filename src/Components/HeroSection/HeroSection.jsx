@@ -1,8 +1,8 @@
 import React from 'react'
 
-const HeroSection = () => {
+const HeroSection = ({productName}) => {
   return (
-    <div className='p-5'>
+    <div className=''>
         <div
         className='p-5 rounded-5'
         style={{
@@ -13,7 +13,7 @@ const HeroSection = () => {
             backgroundRepeat: 'no-repeat',
         }}
         >
-            <h3 className='text-4xl text-white font-bold mb-8'>Cotton</h3>
+            <h3 className='text-4xl text-white font-bold mb-8'>{productName}</h3>
 
             <nav aria-label="Breadcrumb">
             <ol className="flex items-center gap-1 text-sm text-white">

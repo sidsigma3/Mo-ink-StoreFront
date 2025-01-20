@@ -12,7 +12,7 @@ const NavbarHeader = () => {
   const purpuleColor = deepPurple[500]
   
   return (
-    <div className='px-5 py-2 d-flex align-items-center justify-content-between border-bottom'>
+    <div className='d-flex align-items-center justify-content-between border-bottom'>
         <div>
             <img src='/images/logo.png'></img>
         </div>

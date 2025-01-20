@@ -3,7 +3,7 @@ import { PiHeadphonesBold } from "react-icons/pi";
 
 const Navbar = () => {
   return (
-    <nav className='navbar px-5 py-2 border-bottom'>
+    <nav className='navbar border-bottom'>
         <div  id="navbarNav">
             <ul class="navbar-nav d-flex flex-row gap-3 fw-medium">
                 <li class="nav-item">

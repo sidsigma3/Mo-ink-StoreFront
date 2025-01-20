@@ -2,9 +2,9 @@ import React from 'react'
 
 const Banner = () => {
   return (
-    <div className='d-flex p-5 gap-2'>
-        <div className='h-full flex-1'>
-                <section className="relative overflow-hidden bg-gray-50 sm:grid sm:grid-cols-2 rounded-3">
+    <div className='row g-2 lg:h-screen md:h-1/2'>
+        <div className='col-lg-7 col-md-12 h-full'>
+                <section className="relative overflow-hidden bg-gray-50 sm:grid sm:grid-cols-2 rounded-3 h-100">
                     <div className="p-8 md:p-12 lg:px-16 lg:py-24 z-10">
                         <div className="mx-auto mt-40 max-w-xl text-left ltr:sm:text-left rtl:sm:text-right">
                         <h2 className="text-2xl font-bold text-white md:text-3xl">
@@ -36,10 +36,10 @@ const Banner = () => {
 
             </div>
 
-            <div className='flex-1 d-flex flex-column gap-2'>
-                    <div>
-                        <section className="relative overflow-hidden bg-gray-50 sm:grid sm:grid-cols-2 rounded-3">
-                        <div className="p-8 md:p-12 lg:px-16 lg:py-24 z-10">
+            <div className='col-lg-5 col-md-12 grid lg:grid-cols-1 md:grid-cols-2 gap-2'>
+                    <div className=''>
+                        <section className="relative overflow-hidden bg-gray-50 sm:grid sm:grid-cols-2 rounded-3 h-full">
+                        <div className="p-4 md:p-4 lg:px-4 lg:py-4 z-10">
                             <div className="mx-auto max-w-xl text-left ltr:sm:text-left rtl:sm:text-right">
                             <h2 className="text-2xl font-bold text-black md:text-3xl">
                                Excellence<br></br>
@@ -70,10 +70,10 @@ const Banner = () => {
                     </div>
 
 
-                    <div>
+                    <div className=''>
 
-                        <section className="relative overflow-hidden bg-gray-50 sm:grid sm:grid-cols-2 rounded-3">
-                        <div className="p-8 md:p-12 lg:px-16 lg:py-24 z-10">
+                        <section className="relative overflow-hidden bg-gray-50 sm:grid sm:grid-cols-2 rounded-3 h-full">
+                        <div className="p-4 md:p-4 lg:px-4 lg:py-4 z-10">
                             <div className="mx-auto max-w-xl text-left ltr:sm:text-left rtl:sm:text-right">
                             <h2 className="text-2xl font-bold text-white md:text-3xl">
                                 Where Quality<br></br>

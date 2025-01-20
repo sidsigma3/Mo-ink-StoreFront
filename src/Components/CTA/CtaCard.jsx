@@ -5,7 +5,7 @@ import { FcCheckmark } from "react-icons/fc";
 const CtaCard = () => {
   return (
 
-    <div className='d-flex gap-2 p-5'>
+    <div className='d-flex gap-2'>
 
     <div className='col-4 p-4'>
     <h4 className='font-semibold text-3xl'>What factors make us exceptional?</h4>

@@ -4,9 +4,9 @@ import FeturedBox from './FeturedBox'
 
 const FeturedList = () => {
   return (
-    <div className=' mt-2 px-5 py-3 bg-violet-100'>
+    <div className=' mt-2 bg-violet-100 px-5 pb-10'>
 
-        <h3 className='text-3xl font-medium'>Fetured Categories</h3>
+        <h3 className='text-3xl font-medium pt-14'>Featured Categories</h3>
 
         <ul className='overflow-auto m-0 d-flex gap-3 justify-content-around mt-5'>
             <li><FeturedBox productName={'Cotton Yran'} number={2}></FeturedBox></li>

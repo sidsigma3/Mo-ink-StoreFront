@@ -2,7 +2,7 @@ import React from 'react'
 
 const TopNavigation = () => {
   return (
-    <div className='d-flex justify-content-between px-2 border-bottom'>
+    <div className='d-flex justify-content-between border-bottom'>
         <ul style={{listStyle:'none'}} className='d-flex p-0 gap-1 m-0'>
             <li className='border border-start-0 border-end p-1 d-flex align-items-center' style={{fontSize:'0.8rem'}}>
                 About us

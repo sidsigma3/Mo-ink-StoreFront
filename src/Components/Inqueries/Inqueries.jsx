@@ -29,7 +29,7 @@ const Inqueries = () => {
 
 
   return (
-    <div className='p-5 d-flex gap-5'>
+    <div className='d-flex gap-5'>
         <div>
             <h4 className='font-semibold text-3xl'>Any Inquries</h4>
 

@@ -31,7 +31,7 @@ const LandingPage = () => {
         <div className='px-5 py-3 mt-10'> <CtaCard></CtaCard></div>
         <div className='mt-10'>  <Testimonial></Testimonial></div>
         <div className='px-5 py-3 mt-10'> <BlogList></BlogList></div>
-        <div className='px-5 py-3 mt-10'> <Inqueries></Inqueries></div>
+        <div className='px-5 py-3 mt-10'> <Inqueries show={true}></Inqueries></div>
         <div className='px-5 py-3 mt-10'> <FeturesList></FeturesList></div>
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>

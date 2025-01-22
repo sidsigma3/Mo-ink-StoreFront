@@ -4,7 +4,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { ImWhatsapp } from "react-icons/im";
 import { MdOutlineMailOutline } from "react-icons/md";
 
-const Inqueries = () => {
+const Inqueries = ({show}) => {
 
   const [location, setLocation] = useState([20.296059,85.824539]); // Default coordinates
   const [zoom, setZoom] = useState(13);
@@ -29,25 +29,41 @@ const Inqueries = () => {
 
 
   return (
-    <div className='d-flex gap-5'>
+    <div className='grid grid-cols-2 gap-5'>
         <div>
-            <h4 className='font-semibold text-3xl'>Any Inquries</h4>
+           
+            {show &&(
+                <>
+                 <h4 className='font-semibold text-3xl'>Any Inquries</h4>
 
-            <p className='text-lg font-medium mt-3'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque delectus ipsum qui molestiae neque alias error quis praesentium quidem, totam exercitationem recusandae unde.</p>
-        
+                 <p className='text-lg font-medium mt-3'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque delectus ipsum qui molestiae neque alias error quis praesentium quidem, totam exercitationem recusandae unde.</p>
+                 </>
+            )}
+
+            {show === false && (
+                <>
+                 <h4 className='font-bold text-4xl'>Get in <span className='text-violet-800 font-bold'>Touch</span></h4>
+
+                 <p className='text-lg font-medium mt-3'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque delectus ipsum qui molestiae neque alias error quis praesentium quidem, totam exercitationem recusandae unde.</p>
+                 </>
+            )}  
+
+
 
             <div className='d-flex flex-column gap-3 mt-3'>
-                <input className='p-2 rounded border-yellow-300' placeholder='Name *'></input>
+                <input className='p-2 rounded border-1' placeholder='Name *'></input>
 
-                <input className='p-2 rounded border-yellow-300 ' placeholder='Company Name *'></input>
+                <input className='p-2 rounded border-1 ' placeholder='Company Name *'></input>
 
-                <input className='p-2 rounded border-yellow-300' placeholder='Phone number *'></input>
+                <input className='p-2 rounded border-1' placeholder='Calling number *'></input>
 
-                <input className='p-2 rounded border-yellow-300' placeholder='Email *'></input>
+                <input className='p-2 rounded border-1' placeholder='WhatsApp number *'></input>
 
-                <input className='p-2 rounded border-yellow-300' placeholder='Select Supplier *'></input>
+                <input className='p-2 rounded border-1' placeholder='Email *'></input>
 
-                <input className='p-2 rounded border-yellow-300' placeholder='Query Type *'></input>
+                <input className='p-2 rounded border-1' placeholder='Select Supplier *'></input>
+
+                <input className='p-2 rounded border-1' placeholder='Query Type *'></input>
 
                 <button className='p-2 bg-violet-800 text-white rounded'>SEND</button>
 

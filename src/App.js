@@ -12,6 +12,11 @@ import ProductDetailPage from './Pages/ProductDetailPage/ProductDetailPage';
 import CheckoutPage from './Pages/Checkout/CheckoutPage';
 import AccountPage from './Pages/Account/AccountPage';
 import SettingPage from './Pages/SettingPage/SettingPage';
+import WalletPage from './Pages/Wallet/WalletPage';
+import OrderPage from './Pages/Order/OrderPage';
+import ContactPage from './Pages/ContactUs/ContactPage';
+import AddressPage from './Pages/Address/AddressPage';
+import OrderDetails from './Pages/Order/OrderDetails';
 
 
 function App() {
@@ -35,8 +40,20 @@ function App() {
 
             <Route path='/setting' element={<SettingPage></SettingPage>}></Route>
 
+            <Route path='/wallet' element={<WalletPage></WalletPage>}></Route>
+
+            <Route path='/orders' element={<OrderPage></OrderPage>}></Route>
+
+            <Route path='/contact' element={<ContactPage></ContactPage>}></Route>
+
+            <Route path='/address' element={<AddressPage></AddressPage>}></Route>
+
+            <Route path='/orderDetails' element={<OrderDetails></OrderDetails>}></Route>
+
+
+
         </Routes>
-    
+
     </BrowserRouter>
   );
 }

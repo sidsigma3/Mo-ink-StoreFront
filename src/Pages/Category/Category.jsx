@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect,useState} from 'react'
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -7,8 +7,81 @@ import Cta from '../../Components/CTA/Cta'
 import HeroSection from '../../Components/HeroSection/HeroSection'
 import { TiStarFullOutline } from "react-icons/ti";
 import CategoryBox from '../../Components/CategoryBox/CategoryBox'
+import { fetchProducts } from '../../Services/ProductService'
 
 const Category = () => {
+
+    const [products, setProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    
+        useEffect(() => {
+          const getProducts = async () => {
+            const response = await fetchProducts();
+            if (response.success) {
+              setProducts(response.data);
+            } else {
+              console.error(response.message);
+            }
+          };
+      
+          getProducts();
+        }, []);
+    
+    
+        const aggregateProductData = (productData) => {
+            return productData.map((product) => {
+              const groupedVariants = product.variants.reduce((acc, variant) => {
+                const { size, color, availableWeight ,id } = variant;
+          
+                if (!acc[size]) {
+                  acc[size] = {
+                    id,
+                    size,
+                    variants: [],
+                    totalWeight: 0,
+                  };
+                }
+        
+                
+          
+                // Add unique colors for this size
+                if (!acc[size].variants.some((v) => v.colorName === color.colorName)) {
+                  acc[size].variants.push({
+                    colorName: color.colorName,
+                    hexCode: color.hexCode || "#ccc",
+                    available:variant.availableWeight,
+                    price:variant.pricePerKg,
+                    id:variant.id,
+                  });
+                }
+                
+                // Accumulate availableWeight for this size
+                acc[size].totalWeight += Number(availableWeight);
+          
+                return acc;
+              }, {});
+          
+              // Return the aggregated product with grouped variants
+              return {
+                productId: product.id,
+                productName: product.productName,
+                productDescription: product.productDescription,
+                productImage: product.productImage,
+                compareAtPrice:product.productPrice?.compareAtPrice,
+                costPerItemPerKg:product.productPrice?.costPerItemPerKg,
+                gstOnProduct:product.productPrice?.gstOnProduct,
+                pricePerKg:product.productPrice?.pricePerKg,
+                availableStatus:product.availableStatus,
+                groupedVariants: Object.values(groupedVariants),
+              };
+            });
+          };
+        
+        
+        const finalData = aggregateProductData(products)
+        console.log(finalData)
+       
+
   return (
     <div>
        
@@ -21,50 +94,73 @@ const Category = () => {
                 <div className='border rounded p-3 shadow-md'>
                     <h4 className='text-xl font-semibold'>Category</h4>
                     <ul>
-                        <li className='p-2 border border-1 rounded mt-2'>
-                            <div className='flex justify-content-between font-medium'>
-                                <h5 className='text-base'>Silk Yarn</h5>
-                                <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                    <h6 className='text-sm'>11</h6>
-                                </div>
-                            </div>
-                        </li>
+                  
+          {products.length > 0 ? (
+            finalData.map((product, index) => (
+              <li 
+                key={index}
+                className={`p-2 border border-1 rounded mt-2 cursor-pointer ${
+                  selectedCategory === product.productName ? "bg-violet-200" : ""
+                }`}
+                onClick={() => setSelectedCategory(product.productName)}
+              >
+                <div className="flex justify-between font-medium">
+                  <h5 className="text-base">{product.productName}</h5>
+                  <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+                    <h6 className="text-sm">{product.groupedVariants.length}</h6>
+                  </div>
+                </div>
+              </li>
+            ))
+          ) : (
+            <p>No products available</p>
+          )}
+       
 
-                        <li className='p-2 border border-1 rounded mt-2'>
-                            <div className='flex justify-content-between font-medium'>
-                                <h5 className='text-base'>Jute Yarn</h5>
-                                <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                    <h6 className='text-sm'>11</h6>
-                                </div>
-                            </div>
-                        </li>
+                         {/* <li className='p-2 border border-1 rounded mt-2'>
+                             <div className='flex justify-content-between font-medium'>
+                                 <h5 className='text-base'>Silk Yarn</h5>
+                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                     <h6 className='text-sm'>11</h6>
+                                 </div>
+                             </div>
+                         </li>
 
-                        <li className='p-2 border border-1 rounded mt-2'>
-                            <div className='flex justify-content-between font-medium'>
-                                <h5 className='text-base'>Nylon Yarn</h5>
-                                <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                    <h6 className='text-sm'>11</h6>
-                                </div>
-                            </div>
-                        </li>
+                         <li className='p-2 border border-1 rounded mt-2'>
+                             <div className='flex justify-content-between font-medium'>
+                                 <h5 className='text-base'>Jute Yarn</h5>
+                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                     <h6 className='text-sm'>11</h6>
+                                 </div>
+                             </div>
+                         </li>
 
-                        <li className='p-2 border border-1 rounded mt-2'>
-                            <div className='flex justify-content-between font-medium'>
-                                <h5 className='text-base'>Wool Yarn</h5>
-                                <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                    <h6 className='text-sm'>11</h6>
-                                </div>
-                            </div>
-                        </li>
+                         <li className='p-2 border border-1 rounded mt-2'>
+                             <div className='flex justify-content-between font-medium'>
+                                 <h5 className='text-base'>Nylon Yarn</h5>
+                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                     <h6 className='text-sm'>11</h6>
+                                 </div>
+                             </div>
+                         </li>
 
-                        <li className='p-2 border border-1 rounded mt-2'>
-                            <div className='flex justify-content-between font-medium'>
-                                <h5 className='text-base'>Polyster Yarn</h5>
-                                <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                    <h6 className='text-sm'>11</h6>
-                                </div>
-                            </div>
-                        </li>
+                         <li className='p-2 border border-1 rounded mt-2'>
+                             <div className='flex justify-content-between font-medium'>
+                                 <h5 className='text-base'>Wool Yarn</h5>
+                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                     <h6 className='text-sm'>11</h6>
+                                 </div>
+                             </div>
+                         </li>
+
+                         <li className='p-2 border border-1 rounded mt-2'>
+                             <div className='flex justify-content-between font-medium'>
+                                 <h5 className='text-base'>Polyster Yarn</h5>
+                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                     <h6 className='text-sm'>11</h6>
+                                 </div>
+                             </div>
+                         </li> */}
                     </ul>
                 </div>    
 
@@ -143,7 +239,22 @@ const Category = () => {
             </div>
 
             <div className='col-span-3 grid grid-cols-3 gap-3'>
-                <div>
+
+            {selectedCategory &&
+                finalData
+                .filter((product) => product.productName === selectedCategory)
+                .flatMap((product) =>
+                    product.groupedVariants.flatMap((size,i) =>
+                        <CategoryBox
+                        key={i}
+                        size={size.size}
+                        color={size.variants}
+                        price={size.variants[0].price}
+                        product={product}
+                        />
+                    )
+                )}
+                {/* <div>
                     <CategoryBox></CategoryBox>
                 </div>
 
@@ -180,7 +291,7 @@ const Category = () => {
 
                 <div>
                     <CategoryBox></CategoryBox>
-                </div>
+                </div> */}
 
 
 

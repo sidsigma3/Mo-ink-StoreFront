@@ -1,15 +1,28 @@
 import React from 'react'
 import ProductSearch from '../ProductSearch/ProductSearch'
 import { FaRegHeart } from "react-icons/fa";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { PiShoppingCart } from "react-icons/pi";
 import { GoPerson } from "react-icons/go";
 import Badge from '@mui/material/Badge';
 import { deepPurple } from '@mui/material/colors';
 import YourLocation from '../YourLocation/YourLocation';
+import { useNavigate } from 'react-router-dom';
 
 const NavbarHeader = () => {
   
+  const navigate = useNavigate()
   const purpuleColor = deepPurple[500]
+
+
+  const handleWishlist = () => {
+      navigate("/wishlist")
+  }
+
+
+  const handleCart = () =>{
+    navigate("/shoppingCart")
+  }
+
   
   return (
     <div className='d-flex align-items-center justify-content-between border-bottom'>
@@ -27,12 +40,14 @@ const NavbarHeader = () => {
 
 
         <div className='d-flex gap-3'>
-          <div className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{width:'2.3rem' , height:'2.3rem'}}>
+          <div onClick={handleWishlist} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{width:'2.3rem' , height:'2.3rem' , cursor:'pointer'}}>
               <Badge badgeContent={4} 
               sx={{
                 '& .MuiBadge-badge': {
                   backgroundColor: purpuleColor,
-                  color: '#fff', // Text color
+                  color: '#fff', 
+                  top:'-7px',
+                  right:'-7px'
                 },
               }}
               >
@@ -40,22 +55,24 @@ const NavbarHeader = () => {
               </Badge>
           </div>
 
-          <div className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{width:'2.3rem' , height:'2.3rem'}}>
+          <div onClick={handleCart} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{width:'2.3rem' , height:'2.3rem',cursor:'pointer'}}>
               <Badge badgeContent={5}
               sx={{
                 '& .MuiBadge-badge': {
                   backgroundColor: purpuleColor,
                   color: '#fff', // Text color
+                  top:'-7px',
+                  right:'-7px'
                 },
               }}
               >
-              <span><MdOutlineShoppingCart size={20}/></span>
+              <span><PiShoppingCart size={22}/></span>
               </Badge>
           </div>
 
-          <div className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{width:'2.3rem' , height:'2.3rem'}}>
+          <div className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{width:'2.3rem' , height:'2.3rem',cursor:'pointer'}}>
               
-              <span><GoPerson /></span>
+              <span><GoPerson size={20}/></span>
           </div>
         </div>
 

@@ -1,13 +1,19 @@
 import React from 'react'
 import { PiHeadphonesBold } from "react-icons/pi";
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
+
+  const navigate = useNavigate()
+
+
   return (
     <nav className='navbar border-bottom'>
         <div  id="navbarNav">
             <ul class="navbar-nav d-flex flex-row gap-3 fw-medium">
                 <li class="nav-item">
-                <a class="nav-link " href="#">Home</a>
+                <a class="nav-link " href="#" onClick={()=>navigate('/')}>Home</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">About</a>

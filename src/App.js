@@ -17,7 +17,12 @@ import OrderPage from './Pages/Order/OrderPage';
 import ContactPage from './Pages/ContactUs/ContactPage';
 import AddressPage from './Pages/Address/AddressPage';
 import OrderDetails from './Pages/Order/OrderDetails';
-
+import LoginPage from './Pages/Authnticate/Login/LoginPage';
+import SignupPage from './Pages/Authnticate/Signup/SignupPage';
+import ForgotPassword from './Pages/Authnticate/ForgotPassword/ForgotPassword';
+import ResetPassword from './Pages/Authnticate/ResetPassword/ResetPassword';
+import AuthPage from './Pages/Authnticate/AuthPage';
+import VerifyCode from './Pages/Authnticate/Verify/VerifyCode';
 
 function App() {
   return (
@@ -51,6 +56,14 @@ function App() {
             <Route path='/orderDetails' element={<OrderDetails></OrderDetails>}></Route>
 
 
+
+
+            <Route path="/login" element={<LoginPage></LoginPage>} />
+            <Route path='/signup' element={<SignupPage></SignupPage>}></Route>
+            <Route path='/forgotPassword' element={<ForgotPassword></ForgotPassword>}></Route>
+            <Route path='/verifyCode' element={<VerifyCode></VerifyCode>}></Route>
+            <Route path='/resetPassword' element={<ResetPassword></ResetPassword>}></Route>
+            <Route path='/Authenticate' element={<AuthPage></AuthPage>}></Route>
 
         </Routes>
 

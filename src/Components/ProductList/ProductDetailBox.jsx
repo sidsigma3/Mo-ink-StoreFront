@@ -1,9 +1,77 @@
-import React from 'react'
+import React , {useState} from 'react'
 import { TiStarFullOutline } from "react-icons/ti";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { addToWishlist , removeFromWishlist} from '../../Services/WishlistService';
+import { addToCart, removeFromCart } from '../../Services/CartService';
 
-const ProductDetailBox = ({productName,number}) => {
+const ProductDetailBox = ({productName,price,size,color,itemQuantity,variantId,isWishlist, onWishlistToggle,onCartToggle}) => {
+
+    const [isWishlisted, setIsWishlisted] = useState(isWishlist || false);
+    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
+
+    const [quantity, setQuantity] = useState(itemQuantity || 1); // State for quantity
+
+    const handleIncrease = () => {
+      setQuantity(prev => prev + 1);
+    };
+
+    const handleDecrease = () => {
+      if (quantity > 1) {
+        setQuantity(prev => prev - 1);
+      }
+    };
+
+  
+    const handleWishlistClick = async () => {
+        if (!customer?.customerId) return;
+
+        try {
+            if (isWishlisted) {
+                await removeFromWishlist(customer.customerId, variantId);
+                alert("Item removed from Wishlist")
+            } else {
+                await addToWishlist(customer.customerId, variantId);
+                alert("Item added to Wishlist")
+            }
+            onWishlistToggle(); // Refresh wishlist
+        } catch (error) {
+            console.error("Error updating wishlist:", error);
+        }
+    };
+
+
+
+    const handleAddToCart = async () => {
+      if (!customer?.customerId) {
+        alert("Please log in to add items to your cart.");
+        return;
+      }
+    
+      try {
+        await addToCart(customer.customerId, variantId, quantity);
+        alert("Item added to cart successfully!"); // Success message
+      } catch (error) {
+        alert("Failed to add item to cart!");
+      }
+    };
+
+
+    const handleRemoveFromCart = async () =>{
+      if (!customer?.customerId) {
+        alert("Please log in to add items to your cart.");
+        return;
+      }
+    
+      try {
+        await removeFromCart(customer.customerId, variantId, quantity);
+        alert("Item removed from cart successfully!"); // Success message
+      } catch (error) {
+        alert("Failed to remove item from cart!");
+      }
+    }
+
+
   return (
     <div>
         <a className="relative block bg-white rounded-tr-3xl border border-gray-100 rounded" style={{width:'20rem'}}>
@@ -23,39 +91,48 @@ const ProductDetailBox = ({productName,number}) => {
             />
 
             <div className="p-4">
-                <h5 className='font-medium'>Cotton - 2/74 (Grey)</h5>
+                <h5 className='font-medium'>{productName}-{size} ({color})</h5>
 
                 <div className='d-flex align-items-center justify-content-between mt-3'>
-                    <div className='border px-4 py-2 rounded col-5'>
-                        <h5>100 Kg</h5>
+                  <div className='border px-4 py-2 rounded col-5'>
+                    <h5>100 Kg</h5>
+                  </div>
+
+                  <div className='col-5'>
+                    <label htmlFor="Quantity" className="sr-only"> Quantity </label>
+
+                    <div className="flex justify-between rounded border border-gray-200">
+                      <button 
+                        type="button" 
+                        onClick={handleDecrease}
+                        className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
+                      >
+                        &minus;
+                      </button>
+
+                      <input
+                        type="number"
+                        id="Quantity"
+                        value={quantity}
+                        readOnly
+                        className="h-10 w-16 border-transparent text-center sm:text-sm"
+                      />
+
+                      <button 
+                        type="button" 
+                        onClick={handleIncrease}
+                        className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
+                      >
+                        +
+                      </button>
                     </div>
-
-                    <div className='col-5'>
-                        <label htmlFor="Quantity" className="sr-only"> Quantity </label>
-
-                        <div className="flex justify-between rounded border border-gray-200">
-                            <button type="button" className="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                            &minus;
-                            </button>
-
-                            <input
-                            type="number"
-                            id="Quantity"
-                            value="1"
-                            className="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                            />
-
-                            <button type="button" className="size-10 leading-10 text-gray-600 transition hover:opacity-75">
-                            +
-                            </button>
-                        </div>
-                        </div>
+                  </div>
                 </div>
 
 
                 <div className='mt-2 d-flex justify-content-between rounded'>
                     <div className='d-flex gap-2 align-items-center'>
-                    <h4 className='purple-text font-semibold text-3xl'>₹328.85</h4>
+                    <h4 className='purple-text font-semibold text-3xl'>₹{price}</h4>
                     <p className='text-slate-400'><s>₹542.85</s></p>
                     </div>
 
@@ -69,9 +146,11 @@ const ProductDetailBox = ({productName,number}) => {
 
                 <div className='d-flex gap-2 mt-3'>
 
-                    <button className='d-flex align-items-center justify-content-center gap-2 bg-purple-100 p-2 purple-text font-medium rounded flex-1'>ADD TO CART <span><MdOutlineShoppingCart size={20}/></span></button>
+                    <button  onClick={handleAddToCart} className='d-flex align-items-center justify-content-center gap-2 bg-purple-100 p-2 purple-text font-medium rounded flex-1'>ADD TO CART <span><MdOutlineShoppingCart size={20}/></span></button>
 
-                    <button className='bg-purple-100 p-2 purple-text rounded px-4'><span><FaRegHeart /></span></button>
+                    <button className="bg-purple-100 p-2 purple-text rounded px-4" onClick={handleWishlistClick}>
+                        <span>{isWishlisted ? <FaHeart color="red" /> : <FaRegHeart />}</span>
+                    </button>
 
                 </div>
 

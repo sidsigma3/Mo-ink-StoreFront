@@ -5,13 +5,14 @@ import HeroSection from '../../Components/HeroSection/HeroSection'
 import Cta from '../../Components/CTA/Cta'
 import Footer from '../../Components/Footer/Footer'
 import OrderBox from '../../Components/OrderBox/OrderBox'
+import BottomNav from '../../Components/BottomNav/BottomNav'
 
 const OrderPage = () => {
   return (
     <div>
          <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
         <div className='px-5 py-3'> <Navbar></Navbar></div>
-        <div className='px-5 py-3 mt-10'>  <HeroSection productName={"Your Orders"}></HeroSection></div>
+        <div className='px-5 py-3 mt-0 md:mt-10'>  <HeroSection productName={"Your Orders"}></HeroSection></div>
 
 
         <div className='px-5 py-3'>
@@ -32,6 +33,7 @@ const OrderPage = () => {
 
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
+        <BottomNav></BottomNav>
     </div>
   )
 }

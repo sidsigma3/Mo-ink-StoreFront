@@ -8,15 +8,19 @@ import { RiAddLargeFill } from "react-icons/ri";
 import { MdOutlineWrongLocation } from "react-icons/md";
 import AddressBox from '../../Components/AddressBox/AddressBox'
 import ModalAddress from '../../Components/Modal/ModalAddress'
+import BottomNav from '../../Components/BottomNav/BottomNav'
 
 const AddressPage = () => {
 
     const [showModal,setShowModal] = useState(false)
 
+    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
 
     const handleClose = () =>{
         setShowModal(!showModal)
     }
+
+
 
   return (
     <div>
@@ -33,27 +37,42 @@ const AddressPage = () => {
                 </div>
             </div>
 
+            {customer.addresses.length === 0 ? (
             <div className='h-60 flex flex-col gap-2 items-center justify-center'>
                 <span className='text-gray-300'><MdOutlineWrongLocation size={70}/></span>
                 <h5 className='text-xl text-gray-500'>There's no saved adresses !</h5>
             </div>
+            ):(
 
-            <div>
+            <div className='mt-3'>
                 <ul className='flex flex-col gap-3'>
-                    <li><AddressBox></AddressBox></li>
+                    {
+                        customer.addresses.map((item,index)=>(
+                            <li key={index}>
+                                <AddressBox address={item} name={customer.customerName} company={customer.company} phone={customer.phoneNumber}></AddressBox>
+                            </li>
+                        ))
+                    }
+                    {/* <li><AddressBox></AddressBox></li>
 
                     <li><AddressBox></AddressBox></li>
 
-                    <li><AddressBox></AddressBox></li>
+                    <li><AddressBox></AddressBox></li> */}
                 </ul>
             </div>
+            )
+        }
+
+            
+
+         
         </div>
 
-        <ModalAddress show={showModal} handleClose={handleClose}></ModalAddress>
+        <ModalAddress show={showModal} handleClose={handleClose} customer={customer}></ModalAddress>
 
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
-
+        <BottomNav></BottomNav>
     </div>
   )
 }

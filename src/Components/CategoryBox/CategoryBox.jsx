@@ -14,7 +14,7 @@ const CategoryBox = ({ size, color, price , product}) => {
   };
 
   return (
-    <div className="bg-violet-100 rounded-4 p-3 cursor-pointer" onClick={handleClick}>
+    <div className="bg-violet-100 rounded-4 p-3 cursor-pointer h-fit w-full" onClick={handleClick}>
       <div className="flex justify-end">
         <div className="bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1">
           <span className="text-yellow-300"><TiStarFullOutline /></span>

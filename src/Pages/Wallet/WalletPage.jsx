@@ -6,6 +6,7 @@ import Cta from "../../Components/CTA/Cta";
 import Footer from "../../Components/Footer/Footer";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { getWalletTransactions } from "../../Services/CustomerService";
+import BottomNav from "../../Components/BottomNav/BottomNav";
 
 const WalletPage = () => {
   const [transactions, setTransactions] = useState([]);
@@ -110,6 +111,7 @@ const WalletPage = () => {
       <div className="px-5 py-3">
         <Footer />
       </div>
+      <BottomNav></BottomNav>
     </div>
   );
 };

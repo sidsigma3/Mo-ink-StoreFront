@@ -7,6 +7,7 @@ import ProductList from '../../Components/ProductList/ProductList'
 import Cta from '../../Components/CTA/Cta'
 import Footer from '../../Components/Footer/Footer'
 import Wishlist from './Wishlist'
+import BottomNav from '../../Components/BottomNav/BottomNav'
 
 const WishlistPage = () => {
   return (
@@ -18,7 +19,7 @@ const WishlistPage = () => {
         <div className='px-5 py-3 mt-10'> <Wishlist></Wishlist></div>
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
-
+        <BottomNav></BottomNav>
     </div>
   )
 }

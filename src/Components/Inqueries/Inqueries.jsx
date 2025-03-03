@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { FiPhoneCall } from "react-icons/fi";
 import { ImWhatsapp } from "react-icons/im";
 import { MdOutlineMailOutline } from "react-icons/md";
+import BottomNav from '../BottomNav/BottomNav';
 
 const Inqueries = ({show}) => {
 
@@ -29,7 +30,7 @@ const Inqueries = ({show}) => {
 
 
   return (
-    <div className='grid grid-cols-2 gap-5'>
+    <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
         <div>
            
             {show &&(
@@ -67,8 +68,8 @@ const Inqueries = ({show}) => {
 
                 <button className='p-2 bg-violet-800 text-white rounded'>SEND</button>
 
-                <div className='row'>
-                    <div className='col-4 d-flex align-items-center gap-2 justify-content-center'>
+                <div className='grid grid-cols-4 lg:grid-cols-3 gap-y-6'>
+                    <div className='d-flex col-span-2 lg:col-span-1 align-items-center gap-2 justify-content-center'>
                         <span><FiPhoneCall  size={30}/></span>
                         <div>
                             <h4 className='text-lg font-medium'>PHONE</h4>
@@ -76,7 +77,7 @@ const Inqueries = ({show}) => {
                         </div>
                     </div>
 
-                    <div  className='col-4 d-flex align-items-center gap-2 justify-content-center'>
+                    <div  className='d-flex col-span-2 lg:col-span-1 align-items-center gap-2 justify-content-center'>
                         <span><ImWhatsapp size={30}/></span>
                         <div>
                             <h4 className='text-lg font-medium'>WhatsApp</h4>
@@ -84,7 +85,7 @@ const Inqueries = ({show}) => {
                         </div>
                     </div>
 
-                    <div  className='col-4 d-flex align-items-center gap-2 justify-content-center'>
+                    <div  className='d-flex col-span-2 lg:col-span-1 align-items-center gap-2 justify-content-center'>
                         <span><MdOutlineMailOutline size={33}/></span>
                         <div>
                             <h4 className='text-lg font-medium'>EMAIL</h4>
@@ -111,7 +112,7 @@ const Inqueries = ({show}) => {
       </MapContainer>
     </div>
 
-
+        <BottomNav></BottomNav>
     </div>
   )
 }

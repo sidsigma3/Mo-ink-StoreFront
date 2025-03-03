@@ -10,6 +10,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
+import BottomNav from '../../Components/BottomNav/BottomNav'
 
 
 const ProductDetailPage = () => {
@@ -90,8 +91,9 @@ const ProductDetailPage = () => {
                 <div class="w-full lg:col-span-2">
 
                 <span class="inline-flex items-center rounded-md bg-pink-200 px-2 py-1 text-xs font-medium text-pink-600 ring-1 ring-inset ring-pink-700/10">Sale off</span>
-                <p className="text-gray-800 text-3xl font-bold">{product.productName} - {size}</p>
-                <div class="flex items-center space-x-1 mt-2 gap-2">
+                <div className='flex gap-3 lg:block'>
+                <p className="text-gray-800 text-3xl font-bold mt-6">{product.productName} - {size}</p>
+                <div class="flex items-center space-x-1 gap-2 mt-6">
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                         <span className='text-yellow-300'><TiStarFullOutline /></span>
                         <p>4.5</p>
@@ -99,8 +101,8 @@ const ProductDetailPage = () => {
 
                       <h5 className='text-gray-400'>(32 reviews)</h5>
                 </div>
-
-                <div className='d-flex gap-2 align-items-center'>
+                </div>
+                <div className='d-flex gap-2 align-items-center mt-3'>
                 <h4 className="purple-text font-bold text-4xl">₹{price}</h4>
                 <div>
                 <p className='text-yellow-500 font-medium text-sm'>26% Off</p>
@@ -443,7 +445,7 @@ const ProductDetailPage = () => {
         <div className='px-5 py-3'> <ProductList></ProductList></div>
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
-
+        <BottomNav></BottomNav>
     </div>
   )
 }

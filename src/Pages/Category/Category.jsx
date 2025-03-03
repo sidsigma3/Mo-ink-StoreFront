@@ -8,12 +8,16 @@ import HeroSection from '../../Components/HeroSection/HeroSection'
 import { TiStarFullOutline } from "react-icons/ti";
 import CategoryBox from '../../Components/CategoryBox/CategoryBox'
 import { fetchProducts } from '../../Services/ProductService'
+import BottomNav from '../../Components/BottomNav/BottomNav'
+import { IoFilterSharp } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
+
 
 const Category = () => {
 
     const [products, setProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    
+    const [isOpen, setIsOpen] = useState(false);
         useEffect(() => {
           const getProducts = async () => {
             const response = await fetchProducts();
@@ -89,8 +93,41 @@ const Category = () => {
         <div className='px-5 py-3'>   <Navbar></Navbar></div>
         <div className='px-5 py-3 mt-10'>  <HeroSection productName={"Cotton"}></HeroSection></div>
 
-        <div className='grid grid-cols-4 px-5 py-3 gap-5 mt-10'>
-            <div className='col-span-1 '>
+        <div className='px-5 py-3 flex justify-between lg:justify-end'>
+            <div className='flex gap-2 border rounded-md p-2 items-center cursor-pointer block lg:hidden' onClick={() => setIsOpen(true)}>
+                <span className='text-violet-800'><IoFilterSharp /></span>
+                <h4>Filters</h4>
+            </div>
+            
+            <div className='flex gap-2'>
+            
+            <div className='border rounded-md p-2'>
+                Show 50
+            </div>
+            <div className='border rounded-md p-2'>
+                Sort by:Featured
+            </div>
+            </div>
+        </div>
+
+           
+            <div
+              className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-transform ${
+                isOpen ? "translate-x-0" : "-translate-x-full"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+           
+              <div
+                className="bg-white w-2/5 h-full shadow-lg transform transition-transform"
+                onClick={(e) => e.stopPropagation()} 
+              >
+                
+                <div className='flex justify-between bg-black text-white p-3'>
+                <h4 className='text-xl font-bold'>Menu</h4>
+                <IoClose size={24} className="cursor-pointer mb-4" onClick={() => setIsOpen(false)} />
+                </div>
+                <div className='col-span-1 '>
                 <div className='border rounded p-3 shadow-md'>
                     <h4 className='text-xl font-semibold'>Category</h4>
                     <ul>
@@ -115,7 +152,115 @@ const Category = () => {
           ) : (
             <p>No products available</p>
           )}
-       
+        
+
+                </ul>
+                </div>    
+
+
+                <div className='border rounded p-3 shadow-md mt-3'>
+                <h4 className='text-xl font-semibold'>New Stock</h4>
+                <ul className='divide-y-2 divide-dotted'>
+                    <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
+                        <div className=''> 
+                            <img src='/images/wool-item.png'></img>
+                        </div>
+
+                        <div className='flex-1'>
+                            <h4 className='font-bold text-violet-800'>Wool - 2/92
+                                <br></br>
+                                (Pink)
+                            </h4>
+                            <p className='text-lg font-medium mt-2'>₹328.85</p>
+                            <div className='flex justify-end'>
+                                <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
+                                        <span className='text-yellow-300'><TiStarFullOutline /></span>
+                                        <p>4.5</p>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </li>
+
+                    <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
+                        <div className=''> 
+                            <img src='/images/wool-item.png'></img>
+                        </div>
+
+                        <div className='flex-1'>
+                            <h4 className='font-bold text-violet-800'>Wool - 2/92
+                                <br></br>
+                                (Pink)
+                            </h4>
+                            <p className='text-lg font-medium mt-2'>₹328.85</p>
+                            <div className='flex justify-end'>
+                                <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
+                                        <span className='text-yellow-300'><TiStarFullOutline /></span>
+                                        <p>4.5</p>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </li>
+
+                    <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
+                        <div className=''> 
+                            <img src='/images/wool-item.png'></img>
+                        </div>
+
+                        <div className='flex-1'>
+                            <h4 className='font-bold text-violet-800'>Wool - 2/92
+                                <br></br>
+                                (Pink)
+                            </h4>
+                            <p className='text-lg font-medium mt-2'>₹328.85</p>
+                            <div className='flex justify-end'>
+                                <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
+                                        <span className='text-yellow-300'><TiStarFullOutline /></span>
+                                        <p>4.5</p>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </li>
+                </ul>
+
+                </div>
+
+
+
+            </div>
+            </div>
+            </div>
+               
+
+        <div className='grid grid-cols-4 px-5 py-3 gap-5 mt-10'>
+            <div className='col-span-1 hidden lg:block'>
+                <div className='border rounded p-3 shadow-md'>
+                    <h4 className='text-xl font-semibold'>Category</h4>
+            <ul>
+                  
+          {products.length > 0 ? (
+            finalData.map((product, index) => (
+              <li 
+                key={index}
+                className={`p-2 border border-1 rounded mt-2 cursor-pointer ${
+                  selectedCategory === product.productName ? "bg-violet-200" : ""
+                }`}
+                onClick={() => setSelectedCategory(product.productName)}
+              >
+                <div className="flex justify-between font-medium">
+                  <h5 className="text-base">{product.productName}</h5>
+                  <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+                    <h6 className="text-sm">{product.groupedVariants.length}</h6>
+                  </div>
+                </div>
+              </li>
+            ))
+          ) : (
+            <p>No products available</p>
+          )}
+        
 
                          {/* <li className='p-2 border border-1 rounded mt-2'>
                              <div className='flex justify-content-between font-medium'>
@@ -238,7 +383,7 @@ const Category = () => {
 
             </div>
 
-            <div className='col-span-3 grid grid-cols-3 gap-3'>
+            <div className='col-span-4 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
 
             {selectedCategory &&
                 finalData
@@ -304,7 +449,7 @@ const Category = () => {
         <div className='px-5 py-3 mt-10'> <Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
 
-               
+        <BottomNav></BottomNav>
     </div>
   )
 }

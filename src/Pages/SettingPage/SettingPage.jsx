@@ -7,6 +7,7 @@ import Footer from '../../Components/Footer/Footer'
 import HeroSection from '../../Components/HeroSection/HeroSection'
 import { RxExit } from "react-icons/rx";
 import { getCustomerDetails , updateCustomerDetails } from '../../Services/CustomerService'
+import BottomNav from '../../Components/BottomNav/BottomNav'
 
 const SettingPage = () => {
 
@@ -91,7 +92,7 @@ const SettingPage = () => {
             <HeroSection productName={"General Settings"}></HeroSection>
         </div>
 
-        <div className='px-5 py-4 grid grid-cols-2 gap-x-16 gap-y-4'>
+        <div className='px-5 py-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4'>
 
        
                 {/* {Object.keys(customer).map((key) => (
@@ -182,6 +183,7 @@ const SettingPage = () => {
       
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
+        <BottomNav></BottomNav>
 
     </div>
   )

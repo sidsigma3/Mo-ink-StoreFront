@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useState} from 'react'
 import { PiHeadphonesBold } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
 
@@ -6,37 +6,42 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
 
   const navigate = useNavigate()
+  
 
 
   return (
-    <nav className='navbar border-bottom'>
-        <div  id="navbarNav">
-            <ul class="navbar-nav d-flex flex-row gap-3 fw-medium">
-                <li class="nav-item">
-                <a class="nav-link " href="#" onClick={()=>navigate('/')}>Home</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Blog</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link">Contact</a>
-                </li>
-            </ul>
+  
+   
+    <nav className="hidden md:flex justify-between items-center border-b px-6 py-3 bg-white">
+      {/* Navigation Links */}
+      <ul className="flex gap-6 font-medium">
+        <li>
+          <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/")}>
+            Home
+          </a>
+        </li>
+        <li>
+          <a className="hover:text-purple-600 cursor-pointer">About</a>
+        </li>
+        <li>
+          <a className="hover:text-purple-600 cursor-pointer">Blog</a>
+        </li>
+        <li>
+          <a className="hover:text-purple-600 cursor-pointer">Contact</a>
+        </li>
+      </ul>
+
+      {/* Contact Info */}
+      <div className="flex items-center gap-2">
+        <PiHeadphonesBold size={30} />
+        <div>
+          <h6 className="text-purple-600 font-bold m-0">+91 78788654122</h6>
+          <p className="text-gray-500 text-sm m-0">24/7 Support center</p>
         </div>
-
-
-        <div className='d-flex align-items-center gap-2'>
-            <span><PiHeadphonesBold size={30}/></span>
-            <div>
-                <h6 className='purple-text fw-bold m-0'>+91 78788654122</h6>
-                <p className='text-body-tertiary m-0' style={{fontSize:'0.75rem'}}>24/7 Support center</p>
-            </div>
-        </div>
-
+      </div>
     </nav>
+
+   
   )
 }
 

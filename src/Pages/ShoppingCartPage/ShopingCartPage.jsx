@@ -9,6 +9,7 @@ import Footer from '../../Components/Footer/Footer'
 
 import { SfButton } from '@storefront-ui/react';
 import Cart from './Cart'
+import BottomNav from '../../Components/BottomNav/BottomNav'
 
 const ShopingCartPage = () => {
   return (
@@ -20,7 +21,7 @@ const ShopingCartPage = () => {
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
 
-      
+        <BottomNav></BottomNav>
     </div>
   )
 }

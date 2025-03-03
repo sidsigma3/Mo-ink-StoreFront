@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 
 const ProductSearch = () => {
   return (
-    <div className='product-search d-flex bg-white gap-3 purple-border border-2 rounded' style={{width:'30rem'}}>
+    <div className='product-search d-flex bg-white gap-3 purple-border border-2 rounded w-full'>
 
         <Dropdown >
             <Dropdown.Toggle variant='light' className='bg-white border-0 fw-medium'>All categories</Dropdown.Toggle>

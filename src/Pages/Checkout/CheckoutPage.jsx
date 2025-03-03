@@ -13,12 +13,36 @@ import { RxCross2 } from "react-icons/rx";
 import { removeFromCart } from '../../Services/CartService'
 import { FaPlus } from "react-icons/fa6";
 import { Dropdown, DropdownHeader, DropdownToggle } from 'react-bootstrap'
+import BottomNav from '../../Components/BottomNav/BottomNav'
+import { IoClose } from "react-icons/io5";
+import { getAllDiscounts } from '../../Services/DiscountService'
 
 const CheckoutPage = () => {
 
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedPayment,setSelectedPayment] = useState('Select Payment type')
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [discounts, setDiscounts] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        if (isSidebarOpen) {
+          fetchDiscounts();
+        }
+      }, [isSidebarOpen]);
+    
+      const fetchDiscounts = async () => {
+        try {
+          setLoading(true);
+          const data = await getAllDiscounts();
+          setDiscounts(data.data); 
+        } catch (error) {
+          console.error("Failed to load discounts", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     
@@ -91,12 +115,15 @@ const CheckoutPage = () => {
         setSelectedPayment(type)
       }
     
+      const filteredDiscounts = discounts.filter((discount) =>
+        discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   return (
     <div>
         <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
         <div className='px-5 py-3'> <Navbar></Navbar></div>
-
+        
         <div className='px-5 py-3'>
             <HeroSection productName={"Check out"}></HeroSection>
         </div>
@@ -104,7 +131,7 @@ const CheckoutPage = () => {
         <div className='px-5 py-3 gap-5'>
         <h5 className='font-bold text-2xl'>Review your cart</h5>
             {cartItems.length > 0 ? (
-                  <ul className='mt-6 grid grid-cols-3 gap-2'>
+                  <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
                   {cartItems.map((item,index)=>(
                       <li key={index} className='border rounded-lg'>
                           <div className="position-relative">
@@ -129,7 +156,7 @@ const CheckoutPage = () => {
             )}
         
 
-            <div className='p-2 flex-1'>
+            <div className='p-2 flex-1 mt-3'>
                 
                 <div className='flex justify-between'>
                     <h5 className='font-bold text-2xl'>Shipping Address</h5>
@@ -161,7 +188,7 @@ const CheckoutPage = () => {
                     <input className='h-10 rounded-lg border-gray-300 ps-2 border-2' placeholder='Choose'></input>
                 </div>
 
-                    <div className='flex gap-2'>
+                    <div className='block md:flex gap-2'>
                             <div className='mt-6 flex-1 flex flex-col gap-1'>
                                 <label className='font-semibold text-lg'>City <span className='text-red-900'>*</span></label>
                                 <input className='h-10 rounded-lg border-gray-300 ps-2 border-2' placeholder='Enter City'></input>
@@ -184,8 +211,8 @@ const CheckoutPage = () => {
                         <p>I have read and agree to the Terms and Conditions</p>
                     </div>
 
-                    <div className='mt-5 flex justify-between gap-5'>
-                        <div className='w-1/2'>
+                    <div className='mt-5 grid grid-cols-1 md:grid-cols-2 gap-3'>
+                        <div className=''>
                         <h5 className='font-bold text-2xl'>Payment</h5>
                         <Dropdown onSelect={handleSelectPayment}  size="sm" className='mt-2'>
                            <Dropdown.Toggle variant="light" id="dropdown-basic" className="d-flex align-items-center justify-content-between gap-2 w-100">
@@ -236,18 +263,93 @@ const CheckoutPage = () => {
                         </Dropdown>
                         </div>
 
-                        <div className='w-1/2'>
-                            <h5 className='font-bold text-2xl'>Discounts</h5>
-                            <Dropdown>
-                                <Dropdown.Toggle variant="light" id="dropdown-basic" className="d-flex align-items-center justify-content-between gap-2 w-100">
-
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item></Dropdown.Item>
-                                </Dropdown.Menu>
+                         <div className="">
+                            <h5 className="font-bold text-2xl">Discounts</h5>
+                            <Dropdown className='mt-2'>
+                            <Dropdown.Toggle
+                                variant="light"
+                                id="dropdown-basic"
+                                className="d-flex align-items-center justify-content-between gap-2 w-100"
+                                onClick={() => setIsSidebarOpen(true)} // Open sidebar on click
+                            >
+                                Select Discount
+                            </Dropdown.Toggle>
                             </Dropdown>
                         </div>
                     </div>
+
+                    <div
+                        className={`fixed top-0 right-0 w-84 h-full bg-white shadow-lg transform transition-transform ${
+                        isSidebarOpen ? "translate-x-0" : "translate-x-full"
+                        } z-50 p-4`}
+                    >
+                        {/* Close Button */}
+                        <button
+                        className="absolute top-4 right-4 text-gray-600 hover:text-black"
+                        onClick={() => setIsSidebarOpen(false)} // Close sidebar
+                        >
+                        <IoClose size={24} />
+                        </button>
+
+                        {/* Sidebar Content */}
+                        <h4 className="font-bold text-xl mb-4">Apply Coupon</h4>
+                        {loading ? (
+                            <p className="text-center text-gray-500">Loading discounts...</p>
+                            ) : discounts.length > 0 ? (
+
+                                <div>
+                                
+                                <div>
+                                    <input 
+                                        className='border-2 rounded-md p-2 w-full' 
+                                        placeholder='Enter Coupon Code'
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+
+                                <h4 className='font-semibold text-lg mt-3'>Best Coupon</h4>
+
+                            <ul className="space-y-2 mt-3">
+                                { filteredDiscounts.map((discount) => (
+                                <li key={discount.discountId} className="border rounded-xl flex">
+                                    <div className='bg-violet-800 w-10  relative rounded-l-xl'>
+                                    <h4 className="-rotate-90 text-sm font-bold text-white -translate-x-4 translate-y-12 w-20"> {discount.discountValue}{discount.discountType === 'Percentage' ? '%' : '₹'} OFF</h4>
+                                        <div className="absolute top-4 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                        <div className="absolute top-8 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                        <div className="absolute top-12 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                        <div className="absolute top-16 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                        <div className="absolute top-20 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                        <div className="absolute top-24 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                        <div className="absolute top-28 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                    </div>
+                                    <div className='flex-1 p-2'>
+                                        <div className='flex justify-between'>
+                                            <h3 className="font-semibold text-xl">{discount.discountCode}</h3>
+                                            <h5 className='text-violet-800 font-bold text-md'>APPLY</h5>
+                                        </div>
+                                        <h4 className='text-green-600 font-semibold mt-2 border-b-2 border-dotted pb-2'>Save ₹{2103} on this order!</h4>
+                                        <h4 className='mt-4 font-medium'>Use Code {discount.discountCode} Get {discount.discountValue} {discount.discountType === 'Percentage' ? '%' : '₹'} off as <br></br>discount bonus</h4>
+                                       
+                                    </div>
+                                  
+                                </li>
+                                ))}
+                            </ul>
+
+                            </div>
+                            ) : (
+                            <p className="text-center text-gray-500">No discounts available.</p>
+                            )}
+                    </div>
+
+                 
+                    {isSidebarOpen && (
+                        <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                        onClick={() => setIsSidebarOpen(false)}
+                        ></div>
+                    )}
 
 
                     {/* <div className='mt-6'>
@@ -329,20 +431,79 @@ const CheckoutPage = () => {
                             
                             <tbody>
                                  <tr>
-                                    <td>Subtotal</td>
-                                    <td>items</td>
+                                    <td>Item Totol(+gst)</td>
+                                    <td>9 items</td>
                                     <td style={{textAlign:'end'}}>₹3,07,458</td>
                                 </tr>
                                 <tr>
+                                    <td>
+                                        <div>
+                                            <p>Item Discount</p>
+                                            <p className='text-gray-400 pl-12'>By payment Type</p>
+                                            <p className='text-gray-400 pl-12'>By coupon Code</p>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div>
+                                            <p>10.75%</p>
+                                            <p className='text-gray-400'>0.75%</p>
+                                            <p className='text-gray-400'>10%</p>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div>
+                                            <p className='text-end'>1856</p>
+                                            <p className='text-gray-400 text-end'>856</p>
+                                            <p className='text-gray-400 text-end'>1000</p>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                <tr className='border-b-2'>
+                                    <td className='pb-4'>Shipping or Delivery</td>
+                                    <td></td>
+                                    <td className='text-end'>₹3542</td>
+                                </tr>
+
+                                <tr>
+                                    <td>TO pay</td>
+                                    <td></td>
+                                    <td className='text-end'>₹3,20,470</td>
+                                </tr>
+
+                                <tr className='border-b-2'>
                                     <td>Wallet Ballance</td>
-                                    <td>₹4116</td>
+                                    <td className='pb-4'>₹4116</td>
                                     <td style={{textAlign:'end'}}>
                                     <input placeholder='Enter amount' className='w-28 border-1 border-gray-300 rounded-md ps-2'></input>
                                     </td>
         
                                 </tr>
 
+                                <tr className='border-b-2'> 
+                                    <td className='pb-4'>Net pay</td>
+                                    <td></td>
+                                    <td className='text-end'>₹3,20,470</td>
+                                </tr>
+
                                 <tr>
+                                    <td>COD (After delivery)</td>
+                                    <td className=''>25%</td>
+                                    <td className='text-end'>₹80,170</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Online Payment (Now)</td>
+                                    <td className=''>75%</td>
+                                    <td className='text-end'>₹2,40,353</td>
+                                </tr>
+
+
+
+                                {/* <tr>
                                     <td>Discounts by payment</td>
                                     <td>5%</td>
                                     <td style={{textAlign:'end'}}>₹748</td>
@@ -361,9 +522,9 @@ const CheckoutPage = () => {
                                     <td></td>
                                     <td style={{textAlign:'end'}}>₹2,156</td>
                                     
-                                </tr>
+                                </tr> */}
 
-                                <tr>
+                                {/* <tr>
                                     <td>SubTotal</td>
                                     <td></td>
                                     <td style={{textAlign:'end'}}>₹2,121,156</td>
@@ -382,7 +543,7 @@ const CheckoutPage = () => {
                                     <td></td>
                                     <td style={{textAlign:'end'}}>₹2,121,156</td>
                                     
-                                </tr>
+                                </tr> */}
         
         
         
@@ -410,6 +571,8 @@ const CheckoutPage = () => {
 
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
+
+        <BottomNav></BottomNav>
     </div>
   )
 }

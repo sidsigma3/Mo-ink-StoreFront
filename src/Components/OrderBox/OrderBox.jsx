@@ -5,12 +5,12 @@ import { MdArrowForwardIos } from "react-icons/md";
 
 const OrderBox = () => {
   return (
-    <div className='grid grid-cols-7 gap-3 border-1 rounded p-3'>
-        <div className='col-span-1'>
+    <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
+        <div className='col-span-3 md:col-span-2 lg:col-span-1'>
             <img src='/images/wool-item-1.png' className='h-40 rounded-md w-full'></img>
         </div>
 
-        <div className='col-span-4 text-gray-500 font-medium'>
+        <div className='col-span-5 md:col-span-3 lg:col-span-4 text-gray-500 font-medium'>
 
         <div className='flex justify-between'>
             <h5>Order ID: <span className='text-black font-bold'>33546</span></h5>
@@ -35,19 +35,19 @@ const OrderBox = () => {
                 <button><span><CiStar size={20} /></span></button>
             </div>
 
-            <h5>Rate & review the product.</h5>
+            <h5 className='hidden md:block'>Rate & review the product.</h5>
         </div>
 
         </div>
 
-        <div className='flex items-center'>
-        <div className='flex gap-2 bg-violet-100 text-violet-800 px-8 py-1 rounded items-center'>
+        <div className='flex items-center justify-content-end'>
+        <div className='flex gap-2 bg-violet-100 text-violet-800 md:px-5 lg:px-8 py-1 rounded items-center'>
             <span><TbFileInvoice size={20}/></span>
-            <h5>INVOICE</h5>
+            <h5 className='hidden md:block'>INVOICE</h5>
         </div>
         </div>
 
-        <div className='flex items-center justify-end'>
+        <div className='flex items-center justify-end hidden md:flex'>
             <span className='text-gray-400'><MdArrowForwardIos size={20}/></span>
         </div>
 

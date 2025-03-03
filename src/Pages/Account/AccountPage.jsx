@@ -13,8 +13,14 @@ import { LuWalletMinimal } from "react-icons/lu";
 import { BsCart2 } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { SlLocationPin } from "react-icons/sl";
+import BottomNav from '../../Components/BottomNav/BottomNav'
+import { useNavigate } from 'react-router-dom'
 
 const AccountPage = () => {
+
+  const navigate = useNavigate()
+
+
   return (
     <div>
        
@@ -25,8 +31,8 @@ const AccountPage = () => {
             <HeroSection productName={"Account"}></HeroSection>
         </div>
 
-        <div className='grid grid-cols-3 gap-4 px-5 py-3 mt-10'>
-            <div className='flex items-center gap-2 border-1 rounded-md p-2'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-5 py-3 mt-10'>
+            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/orders')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <FiShoppingBag size={40}/>
                 </div>
@@ -39,7 +45,7 @@ const AccountPage = () => {
                 </div>
             </div>
 
-            <div className='flex items-center gap-2 border-1 rounded-md p-2'>
+            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/setting')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <RiSettingsLine size={40}/>
                 </div>
@@ -52,7 +58,7 @@ const AccountPage = () => {
                 </div>
             </div>
 
-            <div className='flex items-center gap-2 border-1 rounded-md p-2'>
+            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer pointer' onClick={()=>navigate('/wallet')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <LuWalletMinimal size={40}/>
                 </div>
@@ -66,7 +72,7 @@ const AccountPage = () => {
             </div>
 
 
-            <div className='flex items-center gap-2 border-1 rounded-md p-2'>
+            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/shoppingCart')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <BsCart2  size={40}/>
                 </div>
@@ -80,7 +86,7 @@ const AccountPage = () => {
             </div>
 
 
-            <div className='flex items-center gap-2 border-1 rounded-md p-2'>
+            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer'onClick={()=>navigate('/wishlist')} >
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <FaRegHeart size={40}/>
                 </div>
@@ -94,7 +100,7 @@ const AccountPage = () => {
             </div>
 
 
-            <div className='flex items-center gap-2 border-1 rounded-md p-2'>
+            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/address')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <SlLocationPin size={40}/>
                 </div>
@@ -113,7 +119,7 @@ const AccountPage = () => {
         <div className='px-5 py-3 mt-10'><ProductList></ProductList></div>
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>
-
+        <BottomNav></BottomNav>
     </div>
   )
 }

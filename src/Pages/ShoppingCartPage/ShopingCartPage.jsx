@@ -6,8 +6,6 @@ import HeroSection from '../../Components/HeroSection/HeroSection'
 import ProductList from '../../Components/ProductList/ProductList'
 import Cta from '../../Components/CTA/Cta'
 import Footer from '../../Components/Footer/Footer'
-
-import { SfButton } from '@storefront-ui/react';
 import Cart from './Cart'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 

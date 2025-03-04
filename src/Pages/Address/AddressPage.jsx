@@ -68,7 +68,7 @@ const AddressPage = () => {
          
         </div>
 
-        <ModalAddress show={showModal} handleClose={handleClose} customer={customer}></ModalAddress>
+        <ModalAddress show={showModal} handleClose={handleClose} customer={customer} id={customer.addresses[0].id}></ModalAddress>
 
         <div className='px-5 py-3 mt-10'><Cta></Cta></div>
         <div className='px-5 py-3'> <Footer></Footer></div>

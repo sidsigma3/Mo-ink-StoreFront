@@ -6,9 +6,10 @@ import { BiBuildingHouse } from "react-icons/bi";
 import { updateCustomerDetails,getCustomerDetails } from '../../Services/CustomerService';
 
 
-const ModalAddress = ({show,handleClose,customer}) => {
+const ModalAddress = ({show,handleClose,customer,id}) => {
     const [formData, setFormData] = useState({
         customerAddress: "",
+        id,
         street: "",
         city: "",
         state: "",

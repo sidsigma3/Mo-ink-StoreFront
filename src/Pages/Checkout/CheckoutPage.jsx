@@ -132,14 +132,14 @@ const CheckoutPage = () => {
 
   return (
     <div>
-        <div className=' py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
         
-        <div className='px-5 py-3'>
+        <div className='px-6 md:px-14 py-3'>
             <HeroSection productName={"Check out"}></HeroSection>
         </div>
 
-        <div className='px-5 py-3 gap-5'>
+        <div className='px-6 md:px-14 py-3 gap-5'>
         <h5 className='font-bold text-2xl'>Review your cart</h5>
             {cartItems.length > 0 ? (
                   <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
@@ -632,8 +632,8 @@ const CheckoutPage = () => {
 
 
 
-        <div className='px-5 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
 
         <BottomNav></BottomNav>
     </div>

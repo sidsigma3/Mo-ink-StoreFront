@@ -85,14 +85,14 @@ const SettingPage = () => {
 
   return (
     <div>
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
 
-        <div className='px-5 py-3 mt-10'> 
+        <div className='px-6 md:px-14 py-3 mt-10'> 
             <HeroSection productName={"General Settings"}></HeroSection>
         </div>
 
-        <div className='px-5 py-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4'>
+        <div className='px-6 md:px-14 py-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4'>
 
        
                 {/* {Object.keys(customer).map((key) => (
@@ -172,7 +172,7 @@ const SettingPage = () => {
 
         </div>
 
-        <div className='px-5 py-3 flex justify-between'>
+        <div className='px-6 md:px-14 py-3 flex justify-between'>
             <button className='bg-red-100 text-red-500 rounded p-1 w-40 font-bold flex items-center justify-center gap-2'><span><RxExit size={20}/></span>LOG OUT</button>
 
             <button onClick={handleSaveChanges} className='bg-violet-100 text-violet-700 rounded p-1 w-40 font-bold'>SAVE CHANGES</button>
@@ -181,8 +181,8 @@ const SettingPage = () => {
 
         
       
-        <div className='px-5 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav></BottomNav>
 
     </div>

@@ -62,11 +62,11 @@ const ProductDetailPage = () => {
   return (
     <div>
        
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
 
 
-        <div class="px-5 py-3">
+        <div class="px-6 md:px-14 py-3">
             
 
             <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-8 mt-6">
@@ -442,9 +442,9 @@ const ProductDetailPage = () => {
             </div>
             </div>
 
-        <div className='px-5 py-3'> <ProductList></ProductList></div>
-        <div className='px-5 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3'> <ProductList></ProductList></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav></BottomNav>
     </div>
   )

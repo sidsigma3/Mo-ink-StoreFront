@@ -13,12 +13,12 @@ const WishlistPage = () => {
   return (
     <div>
        
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'> <Navbar></Navbar></div>
-        <div className='px-5 py-3 mt-10'>  <HeroSection productName={"Wishlist"}></HeroSection></div>
-        <div className='px-5 py-3 mt-10'> <Wishlist></Wishlist></div>
-        <div className='px-5 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3 mt-10'>  <HeroSection productName={"Wishlist"}></HeroSection></div>
+        <div className='px-6 md:px-14 py-3 mt-10'> <Wishlist></Wishlist></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav></BottomNav>
     </div>
   )

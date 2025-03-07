@@ -24,11 +24,11 @@ const AddressPage = () => {
 
   return (
     <div>
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'> <Navbar></Navbar></div>
-        <div className='px-5 py-3 mt-10'>  <HeroSection productName={"Address"}></HeroSection></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3 mt-10'>  <HeroSection productName={"Address"}></HeroSection></div>
 
-        <div className='px-5 py-3'>
+        <div className='px-6 md:px-14 py-3'>
 
             <div className='flex justify-end'>
                 <div className='flex font-semibold gap-2 bg-violet-100 text-violet-800 px-4 py-2 rounded cursor-pointer' onClick={handleClose}>
@@ -70,8 +70,8 @@ const AddressPage = () => {
 
         <ModalAddress show={showModal} handleClose={handleClose} customer={customer}></ModalAddress>
 
-        <div className='px-5 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav></BottomNav>
     </div>
   )

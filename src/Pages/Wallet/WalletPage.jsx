@@ -44,13 +44,13 @@ const WalletPage = () => {
 
   return (
     <div>
-      <div className="px-5 py-3">
+      <div className="px-6 md:px-14 py-3">
         <NavbarHeader />
       </div>
-      <div className="px-5 py-3">
+      <div className="px-6 md:px-14 py-3">
         <Navbar />
       </div>
-      <div className="px-5 py-3 mt-10">
+      <div className="px-6 md:px-14 py-3 mt-10">
         <HeroSection productName={"Wallet"} />
       </div>
 
@@ -61,7 +61,7 @@ const WalletPage = () => {
       </div>
 
       {/* Transaction Table */}
-      <div className="px-5">
+      <div className="px-6 md:px-14">
         {loading ? (
           <div className="py-5 text-gray-500 flex flex-col items-center">
             <span>Loading...</span>
@@ -105,10 +105,10 @@ const WalletPage = () => {
         )}
       </div>
 
-      <div className="px-5 py-3 mt-10">
+      <div className="px-6 md:px-14 py-3 mt-10">
         <Cta />
       </div>
-      <div className="px-5 py-3">
+      <div className="px-6 md:px-14 py-3">
         <Footer />
       </div>
       <BottomNav></BottomNav>

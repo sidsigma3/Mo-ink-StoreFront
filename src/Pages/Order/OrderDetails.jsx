@@ -16,14 +16,14 @@ import { LuBox } from "react-icons/lu";
 const OrderDetails = () => {
   return (
     <div>
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'> <Navbar></Navbar></div>
-        <div className='px-5 py-3 mt-10'>  <HeroSection productName={"Your Orders"}></HeroSection></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3 mt-10'>  <HeroSection productName={"Your Orders"}></HeroSection></div>
 
         
 
 
-        <div className='px-5 py-3 mt-10'>
+        <div className='px-6 md:px-14 py-3 mt-10'>
 
             <div className='flex justify-between border-bottom pb-6'>
                 <div>
@@ -213,8 +213,8 @@ const OrderDetails = () => {
 
         </div>
 
-        <div className='px-5 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
     </div>
   )
 }

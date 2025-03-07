@@ -89,11 +89,11 @@ const Category = () => {
   return (
     <div>
        
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'>   <Navbar></Navbar></div>
-        <div className='px-5 py-3 mt-10'>  <HeroSection productName={"Cotton"}></HeroSection></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'>   <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3 mt-10'>  <HeroSection productName={"Cotton"}></HeroSection></div>
 
-        <div className='px-5 py-3 flex justify-between lg:justify-end'>
+        <div className='px-6 md:px-14 py-3 flex justify-between lg:justify-end'>
             <div className='flex gap-2 border rounded-md p-2 items-center cursor-pointer block lg:hidden' onClick={() => setIsOpen(true)}>
                 <span className='text-violet-800'><IoFilterSharp /></span>
                 <h4>Filters</h4>
@@ -234,7 +234,7 @@ const Category = () => {
             </div>
                
 
-        <div className='grid grid-cols-4 px-5 py-3 gap-5 mt-10'>
+        <div className='grid grid-cols-4 px-6 md:px-14 py-3 gap-5 mt-10'>
             <div className='col-span-1 hidden lg:block'>
                 <div className='border rounded p-3 shadow-md'>
                     <h4 className='text-xl font-semibold'>Category</h4>
@@ -446,8 +446,8 @@ const Category = () => {
 
 
 
-        <div className='px-5 py-3 mt-10'> <Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3 mt-10'> <Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
 
         <BottomNav></BottomNav>
     </div>

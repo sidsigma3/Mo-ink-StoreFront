@@ -24,14 +24,14 @@ const AccountPage = () => {
   return (
     <div>
        
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-5 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
 
-        <div className='px-5 py-3 mt-10'>
+        <div className='px-6 md:px-14 py-3 mt-10'>
             <HeroSection productName={"Account"}></HeroSection>
         </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-5 py-3 mt-10'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6 md:px-14 py-3 mt-10'>
             <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/orders')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <FiShoppingBag size={40}/>
@@ -116,9 +116,9 @@ const AccountPage = () => {
         </div>
 
 
-        <div className='px-5 py-3 mt-10'><ProductList></ProductList></div>
-        <div className='px-5 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-5 py-3'> <Footer></Footer></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><ProductList></ProductList></div>
+        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav></BottomNav>
     </div>
   )

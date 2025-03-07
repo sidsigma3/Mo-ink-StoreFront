@@ -20,13 +20,13 @@ const LandingPage = () => {
   return (
     <div className='w-full'>
         {/* <div className='px-5 py-3'> <TopNavigation></TopNavigation></div> */}
-        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         <div className='px-6 md:px-14 py-3'> <Banner></Banner></div>
         <div className='py-3'><FeturedList></FeturedList></div>
         <div className='px-6 md:px-14 py-3 mt-10'> 
 
-          <h3 className='text-3xl font-medium'>Top Selling Product</h3>
+          <h3 className='text-2xl md:text-3xl font-medium'>Top Selling Product</h3>
                                                                         
           <ProductList></ProductList>
 

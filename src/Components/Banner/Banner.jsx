@@ -24,7 +24,7 @@ const Banner = () => {
                         <div className="mt-4 md:mt-8">
                             <a
                             href="#"
-                            className="inline-block rounded bg-white px-12 py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
+                            className="inline-block rounded bg-white px-4 md:px-12 py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
                             >
                             SHOP NOW
                             </a>
@@ -57,7 +57,7 @@ const Banner = () => {
                             <div className="mt-4 md:mt-8">
                                 <a
                                 href="#"
-                                className="inline-block rounded bg-white px-12 py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
+                                className="inline-block rounded bg-white  py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
                                 >
                                 SHOP NOW
                                 </a>
@@ -138,7 +138,7 @@ const Banner = () => {
                             <div className="mt-4 md:mt-8">
                                 <a
                                 href="#"
-                                className="inline-block rounded bg-white px-12 py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
+                                className="inline-block rounded bg-white px-4 md:px-12 py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
                                 >
                                 SHOP NOW
                                 </a>
@@ -170,7 +170,7 @@ const Banner = () => {
                             <div className="mt-4 md:mt-8">
                                 <a
                                 href="#"
-                                className="inline-block rounded bg-white px-12 py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
+                                className="inline-block rounded bg-white px-4 md:px-12 py-3 text-sm font-medium text-purple-700 transition hover:bg-emerald-700 focus:outline-none focus:ring focus:ring-yellow-400"
                                 >
                                 SHOP NOW
                                 </a>

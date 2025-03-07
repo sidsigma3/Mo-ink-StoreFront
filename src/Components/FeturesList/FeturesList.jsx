@@ -6,7 +6,7 @@ import { LuHeadphones } from "react-icons/lu";
 
 const FeturesList = () => {
   return (
-    <div className='grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 md:gap-2 gap-2'>
+    <div className='grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 md:gap-2 gap-4'>
         <div className='p-4 rounded-2xl md:rounded-r-[0] md:rounded-l-2xl bg-gray-200 d-flex align-items-center gap-3 justify-content-center'>
             <span className='text-violet-800'><RiTruckLine size={40}/></span>
             <div>

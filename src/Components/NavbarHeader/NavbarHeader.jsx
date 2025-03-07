@@ -78,7 +78,7 @@ const NavbarHeader = () => {
 
 
         <div>
-            <img src='/images/logo.png'></img>
+            <img className='h-12' src='/images/logo.png'></img>
         </div>
 
         <div className='hidden lg:block'>

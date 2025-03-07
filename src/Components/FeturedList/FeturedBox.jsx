@@ -4,7 +4,7 @@ const FeturedBox = ({productName,number}) => {
   return (
     <a href="#" className="relative block bg-white rounded-tr-3xl border border-gray-100" style={{width:'20rem'}}>
   <span
-    className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-4 font-medium uppercase tracking-widest text-black"
+    className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black"
   >
     Best Seller
   </span>

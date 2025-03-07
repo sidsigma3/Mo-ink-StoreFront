@@ -1,6 +1,8 @@
 import React from 'react'
 import { MdArrowForwardIos } from "react-icons/md";
 import { BiHomeAlt } from "react-icons/bi";
+import { PiSuitcaseSimpleBold } from "react-icons/pi";
+import { BiBuildingHouse } from "react-icons/bi";
 
 const AddressBox = ({address,name,company,phone}) => {
   return (
@@ -9,7 +11,13 @@ const AddressBox = ({address,name,company,phone}) => {
         <div className='flex gap-16'>
             <h3 className='text-xl font-bold'>{name}</h3>
             <div className='flex gap-2 items-center rounded-full border-1 border-violet-800 text-violet-800 px-3 font-semibold'>
-                <span><BiHomeAlt /></span>
+                {address.addressType === 'HOME' ? (
+                  <span><BiHomeAlt /></span>
+                ) : address.addressType === 'WORK' ? (
+                  <span><PiSuitcaseSimpleBold /></span>
+                ) : (
+                  <span><BiBuildingHouse /></span>
+                )}
                 <p>{address.addressType}</p>
             </div>
         </div>

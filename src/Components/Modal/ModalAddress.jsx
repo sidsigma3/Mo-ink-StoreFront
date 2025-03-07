@@ -6,10 +6,9 @@ import { BiBuildingHouse } from "react-icons/bi";
 import { updateCustomerDetails,getCustomerDetails } from '../../Services/CustomerService';
 
 
-const ModalAddress = ({show,handleClose,customer,id}) => {
+const ModalAddress = ({show,handleClose,customer}) => {
     const [formData, setFormData] = useState({
         customerAddress: "",
-        id,
         street: "",
         city: "",
         state: "",
@@ -37,7 +36,7 @@ const ModalAddress = ({show,handleClose,customer,id}) => {
 
         const updatedCustomer = {
             ...customer,
-            addresses: [...customer.addresses, formData], 
+            addresses: [formData], 
             segmentIds: customer.segments ? customer.segments.map(segment => segment.segmentId) : [],
         };
         
@@ -123,7 +122,7 @@ const ModalAddress = ({show,handleClose,customer,id}) => {
                         {[
                             { icon: <BiHomeAlt />, label: "HOME" },
                             { icon: <PiSuitcaseSimpleBold />, label: "WORK" },
-                            { icon: <BiBuildingHouse />, label: "OTHERS" },
+                            { icon: <BiBuildingHouse />, label: "OTHER" },
                         ].map(({ icon, label }) => (
                             <button
                                 key={label}

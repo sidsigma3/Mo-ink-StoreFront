@@ -16,15 +16,22 @@ import { Dropdown, DropdownHeader, DropdownToggle } from 'react-bootstrap'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { IoClose } from "react-icons/io5";
 import { getAllDiscounts } from '../../Services/DiscountService'
+import AddressBox from '../../Components/AddressBox/AddressBox'
+import { useNavigate } from 'react-router-dom'
+import { BiHomeAlt } from "react-icons/bi";
+import { PiSuitcaseSimpleBold } from "react-icons/pi";
+import { BiBuildingHouse } from "react-icons/bi";
 
 const CheckoutPage = () => {
 
+    const navigate = useNavigate()
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedPayment,setSelectedPayment] = useState('Select Payment type')
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [discounts, setDiscounts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedType,setSelectedType] = useState('HOME')
 
     useEffect(() => {
         if (isSidebarOpen) {
@@ -119,9 +126,13 @@ const CheckoutPage = () => {
         discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const selectedAddress = customer.addresses.find(
+        (addr) => addr.addressType === selectedType
+      ) || customer.addresses[0];
+
   return (
     <div>
-        <div className='px-5 py-3'> <NavbarHeader></NavbarHeader></div>
+        <div className=' py-3'> <NavbarHeader></NavbarHeader></div>
         <div className='px-5 py-3'> <Navbar></Navbar></div>
         
         <div className='px-5 py-3'>
@@ -160,10 +171,62 @@ const CheckoutPage = () => {
                 
                 <div className='flex justify-between'>
                     <h5 className='font-bold text-2xl'>Shipping Address</h5>
-                    <button className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-lg font-semibold'><span><FaPlus /></span> ADD NEW ADDRESS</button>
+                    <button onClick={()=>navigate('/address')} className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-lg font-semibold'><span><FaPlus /></span> ADD NEW ADDRESS</button>
                 </div>
 
-                <div className='mt-6 flex flex-col gap-1'>
+
+                {selectedAddress && (
+                <div className='flex justify-between mt-3 border p-3 rounded-md'>
+                <div>
+                    <h4>
+                    Deliver to: <span className='font-semibold'>{customer.customerName}</span>
+                    </h4>
+                    <p>{selectedAddress.customerAddress}</p>
+                    <p>{selectedAddress.street}, {selectedAddress.city}, {selectedAddress.state}</p>
+                    <p>{selectedAddress.zipcode}, {selectedAddress.country}</p>
+                </div>
+
+                {/* Address Selection Dropdown */}
+                <div>
+                    <Dropdown >
+                    <Dropdown.Toggle className='font-semibold bg-violet-200 flex items-center text-violet-800 w-36 justify-between' variant="light" id="dropdown-basic">
+                        {selectedType}
+                        {selectedType === 'HOME' ? (
+                            <span><BiHomeAlt size={20}/></span>
+                        ) : selectedType === 'WORK' ? (
+                            <span><PiSuitcaseSimpleBold size={20}/></span>
+                        ) : (
+                            <span><BiBuildingHouse size={20}/></span>
+                        )}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {["HOME", "WORK", "OTHER"].map((type) => (
+                        <Dropdown.Item
+                            key={type}
+                            onClick={() => setSelectedType(type)}
+                        >
+                            {type}
+                        </Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+                </div>
+            )}
+
+                {/* { <ul className='flex flex-col gap-3 mt-3'>
+                    {
+                        customer.addresses.map((item,index)=>(
+                            <li key={index}>
+                                <AddressBox address={item} name={customer.customerName} company={customer.company} phone={customer.phoneNumber}></AddressBox>
+                            </li>
+                        ))
+                    }
+                     </ul>
+                    } */}
+
+
+                {/* <div className='mt-6 flex flex-col gap-1'>
                     <label className='font-semibold text-lg'>Full name <span className='text-red-900'>*</span></label>
                     <input className='h-10 rounded-lg border-gray-300 ps-2 border-2' placeholder='Enter full name'></input>
                 </div>
@@ -209,7 +272,7 @@ const CheckoutPage = () => {
                     <div className='flex gap-2 mt-6'>
                         <input type='checkbox'></input>
                         <p>I have read and agree to the Terms and Conditions</p>
-                    </div>
+                    </div> */}
 
                     <div className='mt-5 grid grid-cols-1 md:grid-cols-2 gap-3'>
                         <div className=''>

@@ -26,7 +26,7 @@ const LandingPage = () => {
         <div className='py-3'><FeturedList></FeturedList></div>
         <div className='px-6 md:px-14 py-3 mt-10'> 
 
-          <h3 className='text-2xl md:text-3xl font-medium'>Top Selling Product</h3>
+          <h3 className='text-xl md:text-3xl font-medium'>Top Selling Product</h3>
                                                                         
           <ProductList></ProductList>
 

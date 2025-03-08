@@ -23,7 +23,7 @@ const FeturedList = () => {
   return (
     <div className='mt-2 bg-violet-100 px-6 md:px-14 pb-10'>
 
-        <h3 className='text-2xl md:text-3xl font-medium pt-14'>Featured Categories</h3>
+        <h3 className='text-xl md:text-3xl font-medium pt-14'>Featured Categories</h3>
 
         {/* <ul className='overflow-auto m-0 d-flex gap-3 justify-content-around mt-5'>
             <li><FeturedBox productName={'Cotton Yran'} number={2}></FeturedBox></li>

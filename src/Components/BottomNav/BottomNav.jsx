@@ -27,7 +27,7 @@ const BottomNav = () => {
         navigate("/")
         }} className={selected==='home'?"flex flex-col items-center hover:text-purple-700 text-yellow-300":"flex flex-col items-center text-white hover:text-purple-700"} >
       <FiHome size={23}/>
-        <span className="text-md font-semibold">Home</span>
+        <span className="text-sm font-semibold">Home</span>
       </button>
 
       {/* Search */}
@@ -37,7 +37,7 @@ const BottomNav = () => {
         navigate("/search")
        }} className="flex flex-col items-center text-white hover:text-purple-700">
          <IoSearchSharp size={23}/>
-        <span className="text-md font-semibold">Search</span>
+        <span className="text-sm font-semibold">Search</span>
       </button>
 
       {/* Wishlist */}
@@ -47,19 +47,19 @@ const BottomNav = () => {
       navigate("/account")}}
       className={selected==='profile'?"flex flex-col items-center hover:text-purple-700 text-yellow-300":"flex flex-col items-center text-white hover:text-purple-700"} >
       <GoPerson size={25}/>
-        <span className="text-md font-semibold">Profile</span>
+        <span className="text-sm font-semibold">Profile</span>
       </button>
 
       {/* Cart */}
       <button onClick={() => navigate("/wishlist")} className="flex flex-col items-center text-white hover:text-purple-700">
       <FiHeart size={23}/>
-        <span className="text-md font-semibold">Wishlist</span>
+        <span className="text-sm font-semibold">Wishlist</span>
       </button>
 
       {/* Profile */}
       <button onClick={() => navigate("/shoppingCart")} className="flex flex-col items-center text-white hover:text-purple-700">
       <BsCart3 size={23}/>
-        <span className="text-md font-semibold">Cart</span>
+        <span className="text-sm font-semibold">Cart</span>
       </button>
     </div>
   );

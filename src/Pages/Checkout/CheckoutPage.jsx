@@ -132,8 +132,8 @@ const CheckoutPage = () => {
 
   return (
     <div>
-        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
+         <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
+         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         
         <div className='px-6 md:px-14 py-3'>
             <HeroSection productName={"Check out"}></HeroSection>

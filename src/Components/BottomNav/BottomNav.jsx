@@ -3,8 +3,8 @@ import { IoSearchSharp } from "react-icons/io5";
 import { GoPerson } from "react-icons/go";
 import { FiHeart } from "react-icons/fi";
 import { BsCart3 } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate , useLocation } from "react-router-dom";
+import { useState , useEffect} from "react";
 import { RiHome9Fill } from "react-icons/ri";
 import { RiSearch2Fill } from "react-icons/ri";
 import { GiPlagueDoctorProfile } from "react-icons/gi";
@@ -15,56 +15,79 @@ import "./BottomNav.css"
 const BottomNav = () => {
   const navigate = useNavigate();
 
-  const [selected,setSelected] = useState()
+  const location = useLocation();
 
+  // Set default selected state based on URL
+  const [selected, setSelected] = useState("");
 
-  const handleClick = (value) =>{
-    setSelected(value)
-  }
+  useEffect(() => {
+    // Set selected tab based on current route
+    if (location.pathname === "/") setSelected("home");
+    else if (location.pathname === "/search") setSelected("search");
+    else if (location.pathname === "/account") setSelected("profile");
+    else if (location.pathname === "/wishlist") setSelected("wishlist");
+    else if (location.pathname === "/shoppingCart") setSelected("cart");
+  }, [location.pathname]);
 
-  console.log(selected)
+  const handleClick = (value, path) => {
+    setSelected(value);
+    navigate(path);
+  };
 
   return (
     <div className="bottom-nav bg-violet-700 fixed bottom-0 left-0 w-full shadow-lg border-t flex justify-around items-center py-2 md:hidden block z-40">
       {/* Home */}
       <button 
-        onClick={() => {
-        handleClick('home')
-        navigate("/")
-        }} className={selected==='home'?"flex flex-col items-center hover:text-purple-700 text-yellow-300":"flex flex-col items-center text-white hover:text-purple-700"} >
-      <RiHome9Fill size={18}/>
+        onClick={() => handleClick("home", "/")}
+        className={`flex flex-col items-center ${
+          selected === "home" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        }`}
+      >
+        <RiHome9Fill size={18} />
         <span className="text-sm font-semibold">Home</span>
       </button>
 
       {/* Search */}
-      <button 
-      onClick={() => {
-        handleClick('search')
-        navigate("/search")
-       }} className="flex flex-col items-center text-white hover:text-purple-700">
-        <RiSearch2Fill size={18}/>
+      <button
+        onClick={() => handleClick("search", "/search")}
+        className={`flex flex-col items-center ${
+          selected === "search" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        }`}
+      >
+        <RiSearch2Fill size={18} />
         <span className="text-sm font-semibold">Search</span>
       </button>
 
-      {/* Wishlist */}
-      <button 
-      onClick={() => {
-      handleClick('profile')
-      navigate("/account")}}
-      className={selected==='profile'?"flex flex-col items-center hover:text-purple-700 text-yellow-300":"flex flex-col items-center text-white hover:text-purple-700"} >
-      <GiPlagueDoctorProfile size={18}/>
+      {/* Profile */}
+      <button
+        onClick={() => handleClick("profile", "/account")}
+        className={`flex flex-col items-center ${
+          selected === "profile" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        }`}
+      >
+        <GiPlagueDoctorProfile size={18} />
         <span className="text-sm font-semibold">Profile</span>
       </button>
 
-      {/* Cart */}
-      <button onClick={() => navigate("/wishlist")} className="flex flex-col items-center text-white hover:text-purple-700">
-      <FaHeart size={18}/>
+      {/* Wishlist */}
+      <button
+        onClick={() => handleClick("wishlist", "/wishlist")}
+        className={`flex flex-col items-center ${
+          selected === "wishlist" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        }`}
+      >
+        <FaHeart size={18} />
         <span className="text-sm font-semibold">Wishlist</span>
       </button>
 
-      {/* Profile */}
-      <button onClick={() => navigate("/shoppingCart")} className="flex flex-col items-center text-white hover:text-purple-700">
-      <HiShoppingCart size={18}/>
+      {/* Cart */}
+      <button
+        onClick={() => handleClick("cart", "/shoppingCart")}
+        className={`flex flex-col items-center ${
+          selected === "cart" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        }`}
+      >
+        <HiShoppingCart size={18} />
         <span className="text-sm font-semibold">Cart</span>
       </button>
     </div>

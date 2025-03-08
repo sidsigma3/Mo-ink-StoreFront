@@ -89,9 +89,9 @@ const Category = () => {
   return (
     <div>
        
-        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-6 md:px-14 py-3'>   <Navbar></Navbar></div>
-        <div className='px-6 md:px-14 py-3 mt-10'>  <HeroSection productName={"Cotton"}></HeroSection></div>
+       <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
+       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
+        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>  <HeroSection productName={"Cotton"}></HeroSection></div>
 
         <div className='px-6 md:px-14 py-3 flex justify-between lg:justify-end'>
             <div className='flex gap-2 border rounded-md p-2 items-center cursor-pointer block lg:hidden' onClick={() => setIsOpen(true)}>
@@ -119,7 +119,7 @@ const Category = () => {
             >
            
               <div
-                className="bg-white w-2/5 h-full shadow-lg transform transition-transform"
+                className="bg-white w-2/3 md:w-2/5 h-full shadow-lg transform transition-transform"
                 onClick={(e) => e.stopPropagation()} 
               >
                 

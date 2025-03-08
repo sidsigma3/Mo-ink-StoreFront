@@ -26,7 +26,7 @@ const Cta = () => {
         <div className='flex justify-center'>
         <div className='mt-5 bg-white rounded-pill d-flex align-items-center justify-content-between w-full h-10 md:h-20 lg:w-1/2'>
             <h4 className='ps-3 text-md lg:text-xl font-medium d-flex gap-3 align-items-center col-7'><span><FaRegPaperPlane /></span>Your email</h4>
-            <button className='text-md lg:text-xl col-4 bg-violet-800 rounded-pill text-white font-medium h-100 w-2xl lg:w-md'>Subscribe</button>
+            <button className='text-sm lg:text-xl col-4 bg-violet-800 rounded-pill text-white font-medium h-100 w-2xl lg:w-md'>Subscribe</button>
         </div>
         </div>
 

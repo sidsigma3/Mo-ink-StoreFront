@@ -5,6 +5,11 @@ import { FiHeart } from "react-icons/fi";
 import { BsCart3 } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { RiHome9Fill } from "react-icons/ri";
+import { RiSearch2Fill } from "react-icons/ri";
+import { GiPlagueDoctorProfile } from "react-icons/gi";
+import { FaHeart } from "react-icons/fa";
+import { HiShoppingCart } from "react-icons/hi2";
 
 const BottomNav = () => {
   const navigate = useNavigate();
@@ -26,7 +31,7 @@ const BottomNav = () => {
         handleClick('home')
         navigate("/")
         }} className={selected==='home'?"flex flex-col items-center hover:text-purple-700 text-yellow-300":"flex flex-col items-center text-white hover:text-purple-700"} >
-      <FiHome size={23}/>
+      <RiHome9Fill size={15}/>
         <span className="text-sm font-semibold">Home</span>
       </button>
 
@@ -36,7 +41,7 @@ const BottomNav = () => {
         handleClick('search')
         navigate("/search")
        }} className="flex flex-col items-center text-white hover:text-purple-700">
-         <IoSearchSharp size={23}/>
+        <RiSearch2Fill size={15}/>
         <span className="text-sm font-semibold">Search</span>
       </button>
 
@@ -46,19 +51,19 @@ const BottomNav = () => {
       handleClick('profile')
       navigate("/account")}}
       className={selected==='profile'?"flex flex-col items-center hover:text-purple-700 text-yellow-300":"flex flex-col items-center text-white hover:text-purple-700"} >
-      <GoPerson size={25}/>
+      <GiPlagueDoctorProfile size={15}/>
         <span className="text-sm font-semibold">Profile</span>
       </button>
 
       {/* Cart */}
       <button onClick={() => navigate("/wishlist")} className="flex flex-col items-center text-white hover:text-purple-700">
-      <FiHeart size={23}/>
+      <FaHeart size={15}/>
         <span className="text-sm font-semibold">Wishlist</span>
       </button>
 
       {/* Profile */}
       <button onClick={() => navigate("/shoppingCart")} className="flex flex-col items-center text-white hover:text-purple-700">
-      <BsCart3 size={23}/>
+      <HiShoppingCart size={15}/>
         <span className="text-sm font-semibold">Cart</span>
       </button>
     </div>

@@ -384,7 +384,7 @@ const ProductDetailPage = () => {
                             </button>
                         </div>
                 
-                        <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 p-2 text-white font-medium rounded flex-1'>ADD TO CART <span><MdOutlineShoppingCart size={20}/></span></button>
+                        <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 p-2 text-white font-medium rounded flex-1 text-sm'>ADD TO CART <span><MdOutlineShoppingCart size={20}/></span></button>
 
                         <button className='bg-purple-100 p-2 purple-text rounded px-4'><span><FaRegHeart /></span></button>
 

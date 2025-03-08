@@ -144,7 +144,7 @@ const ModalAddress = ({show,handleClose,customer}) => {
                     CANCEL
                 </button>
                 <button className='bg-violet-800 text-white px-5 py-2' onClick={handleSave}>
-                    SAVE ADDRESS
+                    SAVE
                 </button>
             </ModalFooter>
         </Modal>

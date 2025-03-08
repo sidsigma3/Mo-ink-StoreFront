@@ -13,9 +13,9 @@ const HeroSection = ({productName}) => {
             backgroundRepeat: 'no-repeat',
         }}
         >
-            <h3 className='text-4xl text-white font-bold mb-8'>{productName}</h3>
+            <h3 className='text-4xl text-white font-bold mb-8 text-center'>{productName}</h3>
 
-            <nav aria-label="Breadcrumb">
+            <nav aria-label="Breadcrumb" className='flex justify-center'>
             <ol className="flex items-center gap-1 text-sm text-white">
                 <li>
                 <a href="#" className="block transition hover:text-gray-400">

@@ -28,9 +28,9 @@ const AddressPage = () => {
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>  <HeroSection productName={"Address"}></HeroSection></div>
 
-        <div className='px-6 md:px-14 py-3'>
+        <div className='px-6 md:px-14 py-4'>
 
-            <div className='flex justify-end'>
+            <div className='flex justify-center md:justify-end'>
                 <div className='flex font-semibold gap-2 bg-violet-100 text-violet-800 px-4 py-2 rounded cursor-pointer' onClick={handleClose}>
                     <span><RiAddLargeFill size={20}/></span>
                     <h4>ADD NEW ADDRESS</h4>
@@ -44,7 +44,7 @@ const AddressPage = () => {
             </div>
             ):(
 
-            <div className='mt-3'>
+            <div className='mt-7'>
                 <ul className='flex flex-col gap-3'>
                     {
                         customer.addresses.map((item,index)=>(

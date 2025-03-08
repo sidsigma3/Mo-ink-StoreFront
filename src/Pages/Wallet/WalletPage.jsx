@@ -51,13 +51,13 @@ const WalletPage = () => {
       </div>
 
       {/* Wallet Balance */}
-      <div className="bg-violet-100 mx-5 p-2">
+      <div className="bg-violet-100  p-2 text-center md:text-left mt-6">
         <h3 className="text-xl font-bold">Wallet Balance:</h3>
         <h3  className="text-xl font-bold text-green-500">₹{walletBalance.toFixed(2)}</h3>
       </div>
 
       {/* Transaction Table */}
-      <div className="px-6 md:px-14">
+      <div className="px-6 md:px-14 mt-6">
         {loading ? (
           <div className="py-5 text-gray-500 flex flex-col items-center">
             <span>Loading...</span>

@@ -10,7 +10,7 @@ import { RiSearch2Fill } from "react-icons/ri";
 import { GiPlagueDoctorProfile } from "react-icons/gi";
 import { FaHeart } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi2";
-import "./BottomNav.css"
+// import "./BottomNav.css"
 
 const BottomNav = () => {
   const navigate = useNavigate();
@@ -43,31 +43,20 @@ const BottomNav = () => {
           selected === "home" ? "text-yellow-300" : "text-white hover:text-purple-700"
         }`}
       >
-        <RiHome9Fill size={18} />
+        <RiHome9Fill size={20} />
         <span className="text-sm font-semibold">Home</span>
       </button>
 
       {/* Search */}
-      <button
+      {/* <button
         onClick={() => handleClick("search", "/search")}
         className={`flex flex-col items-center ${
           selected === "search" ? "text-yellow-300" : "text-white hover:text-purple-700"
         }`}
       >
-        <RiSearch2Fill size={18} />
+        <RiSearch2Fill size={20} />
         <span className="text-sm font-semibold">Search</span>
-      </button>
-
-      {/* Profile */}
-      <button
-        onClick={() => handleClick("profile", "/account")}
-        className={`flex flex-col items-center ${
-          selected === "profile" ? "text-yellow-300" : "text-white hover:text-purple-700"
-        }`}
-      >
-        <GiPlagueDoctorProfile size={18} />
-        <span className="text-sm font-semibold">Profile</span>
-      </button>
+      </button> */}   
 
       {/* Wishlist */}
       <button
@@ -76,7 +65,7 @@ const BottomNav = () => {
           selected === "wishlist" ? "text-yellow-300" : "text-white hover:text-purple-700"
         }`}
       >
-        <FaHeart size={18} />
+        <FaHeart size={20} />
         <span className="text-sm font-semibold">Wishlist</span>
       </button>
 
@@ -87,8 +76,19 @@ const BottomNav = () => {
           selected === "cart" ? "text-yellow-300" : "text-white hover:text-purple-700"
         }`}
       >
-        <HiShoppingCart size={18} />
+        <HiShoppingCart size={20} />
         <span className="text-sm font-semibold">Cart</span>
+      </button>
+
+
+      <button
+        onClick={() => handleClick("profile", "/account")}
+        className={`flex flex-col items-center ${
+          selected === "profile" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        }`}
+      >
+        <GiPlagueDoctorProfile size={20} />
+        <span className="text-sm font-semibold">Profile</span>
       </button>
     </div>
   );

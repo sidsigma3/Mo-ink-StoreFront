@@ -10,7 +10,7 @@ const AddressBox = ({address,name,company,phone}) => {
         <div className='col-span-5'>
         <div className='flex gap-16'>
             <h3 className='text-xl font-bold'>{name}</h3>
-            <div className='flex gap-2 items-center rounded-full border-1 border-violet-800 text-violet-800 px-3 font-semibold'>
+            <div className='flex gap-2 items-center rounded-full border-1 border-violet-800 text-violet-800 px-3 h-1/2 font-semibold '>
                 {address.addressType === 'HOME' ? (
                   <span><BiHomeAlt /></span>
                 ) : address.addressType === 'WORK' ? (
@@ -21,7 +21,7 @@ const AddressBox = ({address,name,company,phone}) => {
                 <p>{address.addressType}</p>
             </div>
         </div>
-
+        
         <h4 className='font-medium text-gray-500 mt-1'>{company}</h4>
 
         <h4 className='font-medium text-gray-500 mt-1'>{address.street}</h4>

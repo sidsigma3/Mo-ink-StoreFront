@@ -35,23 +35,23 @@ const BottomNav = () => {
   };
 
   return (
-    <div className="bottom-nav bg-violet-700 fixed bottom-0 left-0 w-full shadow-lg border-t flex justify-around items-center py-2 md:hidden block z-40">
+    <div className="bottom-nav bg-white fixed bottom-0 left-0 w-full shadow-lg border-t flex justify-around items-center py-2 md:hidden block z-40">
       {/* Home */}
       <button 
         onClick={() => handleClick("home", "/")}
-        className={`flex flex-col items-center ${
-          selected === "home" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        className={`flex flex-col items-center w-1/5 pt-2 ${
+          selected === "home" ? "text-violet-800 border-t-4 border-violet-800 bg-gradient-to-b from-violet-200 to-white rounded-md" : " hover:text-purple-700"
         }`}
       >
-        <RiHome9Fill size={20} />
+        <img src="/images/logo-icon.png"></img>
         <span className="text-sm font-semibold">Home</span>
       </button>
 
       {/* Search */}
       {/* <button
         onClick={() => handleClick("search", "/search")}
-        className={`flex flex-col items-center ${
-          selected === "search" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        className={`flex flex-col items-center w-1/5 pt-2 ${
+          selected === "search" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
         }`}
       >
         <RiSearch2Fill size={20} />
@@ -61,33 +61,36 @@ const BottomNav = () => {
       {/* Wishlist */}
       <button
         onClick={() => handleClick("wishlist", "/wishlist")}
-        className={`flex flex-col items-center ${
-          selected === "wishlist" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        className={`flex flex-col items-center w-1/5 pt-2 ${
+          selected === "wishlist" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
         }`}
       >
-        <FaHeart size={20} />
+        {/* <FaHeart size={20} /> */}
+        <FiHeart size={20}></FiHeart>
         <span className="text-sm font-semibold">Wishlist</span>
       </button>
 
       {/* Cart */}
       <button
         onClick={() => handleClick("cart", "/shoppingCart")}
-        className={`flex flex-col items-center ${
-          selected === "cart" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        className={`flex flex-col items-center w-1/5 pt-2 ${
+          selected === "cart" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
         }`}
       >
-        <HiShoppingCart size={20} />
+        {/* <HiShoppingCart size={20} /> */}
+        <BsCart3 size={20}></BsCart3>
         <span className="text-sm font-semibold">Cart</span>
       </button>
 
 
       <button
         onClick={() => handleClick("profile", "/account")}
-        className={`flex flex-col items-center ${
-          selected === "profile" ? "text-yellow-300" : "text-white hover:text-purple-700"
+        className={`flex flex-col items-center w-1/5 pt-2 ${
+          selected === "profile" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
         }`}
       >
-        <GiPlagueDoctorProfile size={20} />
+        {/* <GiPlagueDoctorProfile size={20} /> */}
+        <GoPerson size={20}></GoPerson>
         <span className="text-sm font-semibold">Profile</span>
       </button>
     </div>

@@ -20,6 +20,10 @@ const AccountPage = () => {
 
   const navigate = useNavigate()
 
+  const breadcrumbs = [
+    { label: "Home", link: "/" },
+    { label: "Account", link: "/account" },
+  ];
 
   return (
     <div>
@@ -28,7 +32,7 @@ const AccountPage = () => {
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
 
         <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>
-            <HeroSection productName={"Account"}></HeroSection>
+            <HeroSection productName={"Account"} breadcrumbs={breadcrumbs}></HeroSection>
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6 md:px-14 py-3 mt-10'>

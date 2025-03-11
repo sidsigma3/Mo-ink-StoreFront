@@ -92,7 +92,7 @@ const ProductDetailPage = () => {
 
                 <span class="inline-flex items-center rounded-md bg-pink-200 px-2 py-1 text-xs font-medium text-pink-600 ring-1 ring-inset ring-pink-700/10">Sale off</span>
                 <div className='flex gap-3 lg:block'>
-                <p className="text-gray-800 text-3xl font-bold mt-6">{product.productName} - {size}</p>
+                <p className="text-gray-800 text-2xl md:text-3xl font-bold mt-6">{product.productName} - {size}</p>
                 <div class="flex items-center space-x-1 gap-2 mt-6">
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                         <span className='text-yellow-300'><TiStarFullOutline /></span>
@@ -103,7 +103,7 @@ const ProductDetailPage = () => {
                 </div>
                 </div>
                 <div className='d-flex gap-2 align-items-center mt-3'>
-                <h4 className="purple-text font-bold text-4xl">₹{price}</h4>
+                <h4 className="purple-text font-bold text-3xl md:text-4xl">₹{price}</h4>
                 <div>
                 <p className='text-yellow-500 font-medium text-sm'>26% Off</p>
                 <p className="text-slate-400 font-medium"><s>₹{product.compareAtPrice}</s></p>
@@ -158,7 +158,7 @@ const ProductDetailPage = () => {
                 {/* More Colors Button */}
                 <div className="cursor-pointer flex flex-col items-center" onClick={() => setIsModalOpen(true)}>
                     <img src="/images/select-color.png" className="w-10 h-10" alt="More Colors" />
-                    <h4 className="text-blue-600 font-semibold">MORE COLORS</h4>
+                    <h4 className="text-sm text-center text-blue-600 font-semibold">MORE COLORS</h4>
                 </div>
 
                 <div
@@ -366,7 +366,7 @@ const ProductDetailPage = () => {
                 
                 </div>
 
-                   <div className='d-flex gap-2 mt-3'>
+                   <div className='d-flex gap-2 mt-8'>
                             <div className="flex justify-between rounded border border-gray-200">
                             <button type="button" className="size-7 leading-10 text-gray-600 transition hover:opacity-75">
                             &minus;
@@ -384,7 +384,7 @@ const ProductDetailPage = () => {
                             </button>
                         </div>
                 
-                        <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 p-2 text-white font-medium rounded flex-1 text-sm'>ADD TO CART <span><MdOutlineShoppingCart size={20}/></span></button>
+                        <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 p-2 text-white font-medium rounded flex-1 text-xs md:text-md'>ADD TO CART <span><MdOutlineShoppingCart size={20}/></span></button>
 
                         <button className='bg-purple-100 p-2 purple-text rounded px-4'><span><FaRegHeart /></span></button>
 
@@ -392,7 +392,7 @@ const ProductDetailPage = () => {
 
 
                    
-                            <div className='grid grid-cols-2 gap-3 mt-6'>
+                            <div className='grid grid-cols-2 gap-3 mt-8 text-sm md:text-md'>
                                 <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Organic</h5>
                                 <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>SKU:</span> FWM15VKT</h5>
                                 <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2022</h5>
@@ -414,27 +414,27 @@ const ProductDetailPage = () => {
                 </ul>
 
                 <div class="mt-8">
-                <h3 class="text-lg font-bold text-gray-800">Product Description</h3>
+                <h3 class="text-md md:text-lg font-bold text-gray-800">Product Description</h3>
                 <p class="text-sm text-gray-600 mt-4">Step up your footwear game with our premium men's shoes. Designed for comfort and crafted with a contemporary aesthetic, these versatile shoes are a must-have addition to your wardrobe. The supple and breathable materials ensure all-day comfort, making them perfect for everyday wear.</p>
                 </div>
 
                 <div class="mt-8">
-                <h3 class="text-lg font-bold text-gray-800">Packaging & Delivery</h3>
+                <h3 class="text-md md:text-lg font-bold text-gray-800">Packaging & Delivery</h3>
                 <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                 </div>
 
                 <div class="mt-8">
-                <h3 class="text-lg font-bold text-gray-800">Suggested Use</h3>
+                <h3 class="text-md md:text-lg font-bold text-gray-800">Suggested Use</h3>
                 <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                 </div>
 
                 <div class="mt-8">
-                <h3 class="text-lg font-bold text-gray-800">Other Ingrediets</h3>
+                <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingrediets</h3>
                 <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                 </div>
 
                 <div class="mt-8">
-                <h3 class="text-lg font-bold text-gray-800">Warnings</h3>
+                <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
                 <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                 </div>
 

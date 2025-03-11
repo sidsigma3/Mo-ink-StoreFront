@@ -42,12 +42,18 @@ const WalletPage = () => {
     }
   }, [customer]);
 
+  const breadcrumbs = [
+    { label: "Home", link: "/" },
+    { label: "Account", link: "/account" },
+    { label: "Wallet", link: "/wallet" },
+  ];
+
   return (
     <div>
        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'> 
-        <HeroSection productName={"Wallet"} />
+        <HeroSection productName={"Wallet"} breadcrumbs={breadcrumbs}/>
       </div>
 
       {/* Wallet Balance */}

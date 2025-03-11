@@ -84,6 +84,13 @@ const Category = () => {
         
         const finalData = aggregateProductData(products)
         console.log(finalData)
+
+        const breadcrumbs = [
+            { label: "Home", link: "/" },
+            { label: "Category", link: "/category" },
+           
+          ];
+          
        
 
   return (
@@ -91,7 +98,7 @@ const Category = () => {
        
        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
        <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
-        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>  <HeroSection productName={"Cotton"}></HeroSection></div>
+        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>  <HeroSection productName={"Cotton"} breadcrumbs={breadcrumbs}></HeroSection></div>
 
         <div className='px-6 md:px-14 py-3 flex justify-between lg:justify-end'>
             <div className='flex gap-2 border rounded-md p-2 items-center cursor-pointer block lg:hidden' onClick={() => setIsOpen(true)}>

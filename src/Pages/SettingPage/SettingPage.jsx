@@ -83,12 +83,18 @@ const SettingPage = () => {
     }
   };
 
+  const breadcrumbs = [
+    { label: "Home", link: "/" },
+    { label: "Account", link: "/account" },
+    { label: "Setting", link: "/setting" },
+  ];
+
   return (
     <div>
         <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'> 
-            <HeroSection productName={"General Settings"}></HeroSection>
+            <HeroSection productName={"General Settings"} breadcrumbs={breadcrumbs}></HeroSection>
         </div>
 
         <div className='px-6 md:px-14 py-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4'>

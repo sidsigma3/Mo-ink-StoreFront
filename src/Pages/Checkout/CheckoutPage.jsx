@@ -342,7 +342,7 @@ const CheckoutPage = () => {
                     </div>
 
                     <div
-                        className={`fixed top-0 right-0 w-84 h-full bg-white shadow-lg transform transition-transform ${
+                        className={`fixed top-0 right-0 w-2/3 md:w-2/5 lg:w-1/5 h-full bg-white shadow-lg transform transition-transform ${
                         isSidebarOpen ? "translate-x-0" : "translate-x-full"
                         } z-50 p-4`}
                     >
@@ -466,17 +466,7 @@ const CheckoutPage = () => {
 
                     </div> */}
 
-                    <div className='mt-6'>
-
-                        <button className='bg-violet-900 text-white p-3 rounded-md w-full'>PAY NOW</button>
-                    </div>
-
-
-                    <div className='mt-6'>
-                        <h4 className='font-semibold flex gap-2'><span className='text-violet-800'><RiLock2Line size={20}/></span>Ensure Checkout- SSL Encrypted</h4>
-                        
-                        <p className='text-slate-400 mt-2'>Ensuring your financial and personal details are secure during every transaction</p>
-                    </div>
+                    
 
 
             </div>
@@ -494,14 +484,14 @@ const CheckoutPage = () => {
                             
                             <tbody>
                                  <tr>
-                                    <td>Item Totol(+gst)</td>
+                                    <td>Totol Cost(Incl gst)</td>
                                     <td>9 items</td>
                                     <td style={{textAlign:'end'}}>₹3,07,458</td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div>
-                                            <p>Item Discount</p>
+                                            <p>Total Discount</p>
                                             <p className='text-gray-400 pl-12'>By payment Type</p>
                                             <p className='text-gray-400 pl-12'>By coupon Code</p>
                                         </div>
@@ -532,22 +522,22 @@ const CheckoutPage = () => {
                                 </tr>
 
                                 <tr>
-                                    <td>TO pay</td>
-                                    <td></td>
-                                    <td className='text-end'>₹3,20,470</td>
+                                    <td className='pt-2'>Net pay</td>
+                                    <td className='pt-2'></td>
+                                    <td className='text-end pt-2'>₹3,20,470</td>
                                 </tr>
 
                                 <tr className='border-b-2'>
-                                    <td>Wallet Ballance</td>
-                                    <td className='pb-4'>₹4116</td>
-                                    <td style={{textAlign:'end'}}>
-                                    <input placeholder='Enter amount' className='w-28 border-1 border-gray-300 rounded-md ps-2'></input>
+                                    <td className='pb-3'>Wallet Ballance</td>
+                                    <td className='pb-3'>₹4116</td>
+                                    <td style={{textAlign:'end'}} className='pb-3'>
+                                    <input placeholder='Amount' className='w-28 border-1 border-gray-300 rounded-md ps-2'></input>
                                     </td>
         
                                 </tr>
 
                                 <tr className='border-b-2'> 
-                                    <td className='pb-4'>Net pay</td>
+                                    <td className='pb-4'>To pay</td>
                                     <td></td>
                                     <td className='text-end'>₹3,20,470</td>
                                 </tr>
@@ -619,6 +609,22 @@ const CheckoutPage = () => {
                     </div>
 
             </div>
+            <div>
+
+            <div className='mt-6'>
+
+                <button className='bg-violet-900 text-white p-3 rounded-md w-full'>PAY NOW</button>
+                </div>
+
+
+                <div className='mt-6'>
+                <h4 className='font-semibold flex gap-2'><span className='text-violet-800'><RiLock2Line size={20}/></span>Ensure Checkout- SSL Encrypted</h4>
+
+                <p className='text-slate-400 mt-2'>Ensuring your financial and personal details are secure during every transaction</p>
+                </div>
+            </div>
+
+          
 
 
 

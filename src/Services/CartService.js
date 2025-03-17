@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/v1/api/cart";
+// const API_BASE_URL = "http://localhost:8080/v1/api/cart";
+const API_BASE_URL = 'http://82.25.105.65:8080/v1/api/cart';
 
 // Fetch Cart Items
 export const getCart = async (customerId) => {

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/v1/api/customer";
+// const API_BASE_URL = "http://localhost:8080/v1/api/customer";
+const API_BASE_URL = 'http://82.25.105.65:8080/v1/api/customer';
 
 export const getCustomerDetails = async (customerId) => {
   try {
@@ -24,7 +25,6 @@ export const updateCustomerDetails = async (customerId, updatedData) => {
   };
 
 
- 
 export const loginCustomer = async (customerEmailId, password) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, { customerEmailId, password });

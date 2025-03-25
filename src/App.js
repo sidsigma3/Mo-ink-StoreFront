@@ -1,7 +1,7 @@
+import { useState,useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter,Route,Routes,Navigate} from 'react-router-dom'
-
 import "bootstrap/dist/css/bootstrap.min.css"
 import "leaflet/dist/leaflet.css";
 import LandingPage from './Pages/LandingPage/LandingPage';
@@ -25,49 +25,68 @@ import AuthPage from './Pages/Authnticate/AuthPage';
 import VerifyCode from './Pages/Authnticate/Verify/VerifyCode';
 
 function App() {
+
+
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(localStorage.getItem("isAuthenticated") === "true");
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const ProtectedRoute = ({ children }) => {
+    return isAuthenticated ? children : <Navigate to="/login" />;
+  };
+
+
   return (
     <BrowserRouter>
-        <Routes>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
+      <Route path="/verifyCode" element={<VerifyCode />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/" element={<AuthPage setAuthStatus={setIsAuthenticated} />} />
 
-            <Route path='/' element={<LandingPage></LandingPage>}></Route>
-
-            <Route path='/category' element={<Category></Category>}></Route>
-
-            <Route path='/wishlist' element={<WishlistPage></WishlistPage>}></Route>
-
-            <Route path='/shoppingCart' element={<ShopingCartPage></ShopingCartPage>}></Route>
-
-            <Route path='/productDetails' element={<ProductDetailPage></ProductDetailPage>}></Route>
-
-            <Route path='/checkOut' element={<CheckoutPage></CheckoutPage>}></Route>
-
-            <Route path='/account' element={<AccountPage></AccountPage>}></Route>
-
-            <Route path='/setting' element={<SettingPage></SettingPage>}></Route>
-
-            <Route path='/wallet' element={<WalletPage></WalletPage>}></Route>
-
-            <Route path='/orders' element={<OrderPage></OrderPage>}></Route>
-
-            <Route path='/contact' element={<ContactPage></ContactPage>}></Route>
-
-            <Route path='/address' element={<AddressPage></AddressPage>}></Route>
-
-            <Route path='/orderDetails' element={<OrderDetails></OrderDetails>}></Route>
-
-
-
-
-            <Route path="/login" element={<LoginPage></LoginPage>} />
-            <Route path='/signup' element={<SignupPage></SignupPage>}></Route>
-            <Route path='/forgotPassword' element={<ForgotPassword></ForgotPassword>}></Route>
-            <Route path='/verifyCode' element={<VerifyCode></VerifyCode>}></Route>
-            <Route path='/resetPassword' element={<ResetPassword></ResetPassword>}></Route>
-            <Route path='/Authenticate' element={<AuthPage></AuthPage>}></Route>
-
-        </Routes>
-
-    </BrowserRouter>
+      {/* Protected Routes */}
+      <Route
+        path="*"
+        element={
+          <ProtectedRoute>
+              <div className="content w-100 p-3">
+                <Routes>
+                  <Route path="/home" element={<LandingPage></LandingPage>} /> 
+                  <Route path="/category" element={<Category />} />
+                  <Route path="/wishlist" element={<WishlistPage />} />
+                  <Route path="/shoppingCart" element={<ShopingCartPage />} />
+                  <Route path="/productDetails" element={<ProductDetailPage />} />
+                  <Route path="/checkOut" element={<CheckoutPage />} />
+                  <Route path="/account" element={<AccountPage />} />
+                  <Route path="/setting" element={<SettingPage />} />
+                  <Route path="/wallet" element={<WalletPage />} />
+                  <Route path="/orders" element={<OrderPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/address" element={<AddressPage />} />
+                  <Route path="/orderDetails" element={<OrderDetails />} />
+                </Routes>
+              </div>
+            
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  </BrowserRouter>
   );
 }
 

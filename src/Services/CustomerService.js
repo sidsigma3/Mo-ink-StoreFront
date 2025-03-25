@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const API_BASE_URL = "http://localhost:8080/v1/api/customer";
-const API_BASE_URL = 'http://82.25.105.65:8080/v1/api/customer';
+const URL = process.env.REACT_APP_BASE_URL
+const API_BASE_URL = URL + "/customer"
 
 export const getCustomerDetails = async (customerId) => {
   try {

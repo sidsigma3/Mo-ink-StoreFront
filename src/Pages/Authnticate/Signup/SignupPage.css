@@ -76,7 +76,7 @@
 
         .signup-page-ctn{
             position: relative;
-
+            overflow: auto;
             .left-ctn{
                 width: 100%;
                 position: absolute;
@@ -89,7 +89,7 @@
 
             .right-cover-pic{
                 width: 100%;
-            
+                height: 109%;
 
                 .right-cover-pic img {
                     width: 100%;
@@ -110,10 +110,12 @@
 
         .signup-page-ctn{
          
-          
+            .right-cover-pic{
+                height: 141%;
+            }
 
             .left-ctn{
-              
+                overflow: auto;
                 padding: 7rem !important;
 
 

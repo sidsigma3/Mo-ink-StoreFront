@@ -22,7 +22,7 @@ const BottomNav = () => {
 
   useEffect(() => {
     // Set selected tab based on current route
-    if (location.pathname === "/") setSelected("home");
+    if (location.pathname === "/home") setSelected("home");
     else if (location.pathname === "/search") setSelected("search");
     else if (location.pathname === "/account") setSelected("profile");
     else if (location.pathname === "/wishlist") setSelected("wishlist");
@@ -38,7 +38,7 @@ const BottomNav = () => {
     <div className="bottom-nav bg-white fixed bottom-0 left-0 w-full shadow-lg border-t flex justify-around items-center py-2 md:hidden block z-40">
       {/* Home */}
       <button 
-        onClick={() => handleClick("home", "/")}
+        onClick={() => handleClick("home", "/home")}
         className={`flex flex-col items-center w-1/5 pt-2 ${
           selected === "home" ? "text-violet-800 border-t-4 border-violet-800 bg-gradient-to-b from-violet-200 to-white rounded-md" : " hover:text-purple-700"
         }`}

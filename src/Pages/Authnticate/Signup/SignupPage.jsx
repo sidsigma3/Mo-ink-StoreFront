@@ -50,18 +50,31 @@ const SignupPage = ({ togglePage ,isLogin}) => {
           whatsappNumber: formData.whatsappNumber || null,
           email: formData.email,
           password: formData.password,
-        //   company: formData.company || null,
-        //   gstNumber: formData.gstNumber || null,
+          company: formData.company || null,
+          gstNumber: formData.gstNumber || null,
+          customerAddress:"",
+          addresses: [
+            {
+                customerAddress: "",
+                street: "",
+                city: "",
+                state: "",
+                country: "",
+                zipcode: "",
+                addressType: "HOME",
+            },
+        ],
+
         //   panNumber: formData.panNumber || null,
         //   cancelledCheque: formData.cancelledCheque || null,
           customerStatus: "ACTIVE",
-          customerTypes: "WEAVER",
         };
       
         try {
           const response = await createCustomer(customerData);
           alert("Account created successfully!");
           console.log("Customer Created:", response);
+          e.target.reset()
         } catch (error) {
           alert("Failed to create account!");
           console.error(error);
@@ -85,7 +98,7 @@ const SignupPage = ({ togglePage ,isLogin}) => {
         <h6 className="mt-3">Create your account to get started</h6>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex justify-between mt-4 gap-2">
+          <div className="flex flex-col md:flex-row justify-between mt-4 gap-2">
             <div className="d-flex flex-column gap-2 flex-1">
               <label>First Name</label>
               <input
@@ -110,7 +123,7 @@ const SignupPage = ({ togglePage ,isLogin}) => {
             </div>
           </div>
 
-          <div className="d-flex flex-column gap-2">
+          <div className="d-flex flex-column gap-2 mt-4">
             <label>Email</label>
             <input
               className="login-input rounded-pill"
@@ -135,7 +148,7 @@ const SignupPage = ({ togglePage ,isLogin}) => {
             />
           </div>
 
-          <div className="flex justify-between mt-4 gap-2">
+          <div className="flex flex-col md:flex-row justify-between mt-4 gap-2">
             <div className="d-flex flex-column gap-2 flex-1">
               <label>Phone</label>
               <input
@@ -154,6 +167,30 @@ const SignupPage = ({ togglePage ,isLogin}) => {
                 placeholder="Enter your WhatsApp number"
                 name="whatsappNumber"
                 value={formData.whatsappNumber}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between mt-4 gap-2">
+            <div className="d-flex flex-column gap-2 flex-1">
+              <label>Company</label>
+              <input
+                className="login-input rounded-pill"
+                placeholder="Enter your Comapnyr"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="d-flex flex-column gap-2 flex-1">
+              <label>GST Number</label>
+              <input
+                className="login-input rounded-pill"
+                placeholder="Enter your GST number"
+                name="gstNumber"
+                value={formData.gstNumber}
                 onChange={handleChange}
               />
             </div>

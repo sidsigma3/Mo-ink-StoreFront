@@ -16,7 +16,7 @@ const Navbar = () => {
       {/* Navigation Links */}
       <ul className="flex gap-6 font-medium">
         <li>
-          <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/")}>
+          <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/home")}>
             Home
           </a>
         </li>

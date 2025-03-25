@@ -59,6 +59,10 @@ const ProductDetailPage = () => {
         item.hexCode.toLowerCase().includes(searchColor)
       );
 
+
+    const visibleColors = color.slice(0, 4); // Only take the first 4 colors
+    const hasMore = color.length > 4;
+
   return (
     <div>
        
@@ -133,7 +137,7 @@ const ProductDetailPage = () => {
                 <h5 className='mt-3'>Colors :</h5>
                 <div className="flex gap-3 mt-1 items-center">
                 <div className="flex gap-3">
-                {color.map((item, index) => (
+                {visibleColors.map((item, index) => (
                 <div key={index} className="border-4 rounded-md border-gray-300">
                     <div className="relative w-20 h-20 overflow-hidden">
                   
@@ -307,10 +311,11 @@ const ProductDetailPage = () => {
 
                         {/* Present Catalogue */}
                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
+                        <div className='h-[28rem] md:h-[32rem] overflow-auto'>
                         <div className="grid grid-cols-3 gap-3 p-2">
                             {filteredColors.map((item, index) => (
                             <div key={index} className="border-4 rounded-md border-gray-300">
-                                <div className="relative w-20 h-20 overflow-hidden">
+                                <div className="relative h-20 overflow-hidden">
                                 <img src="/images/wool-item-1.png" className="w-full h-full object-cover" alt="Product" />
                                 <div className="absolute inset-0 opacity-50" style={{ backgroundColor: item.hexCode }}></div>
                                 </div>
@@ -322,10 +327,11 @@ const ProductDetailPage = () => {
                             ))}
                         </div>
                         </div>
+                        </div>
                     )}
 
                     {/* Footer Buttons */}
-                    <div className="flex justify-between mt-4 absolute bottom-0 w-full pr-8 py-3">
+                    <div className="flex justify-between mt-4 absolute bottom-16 md:bottom-0 w-full pr-8 py-3">
                        {isAddingColor ? (
                         <button
                         className="bg-gray-300 text-white p-2 rounded"

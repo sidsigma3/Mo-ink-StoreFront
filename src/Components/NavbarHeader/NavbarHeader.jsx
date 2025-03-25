@@ -58,7 +58,7 @@ const NavbarHeader = () => {
      
         <ul className="space-y-4 text-lg font-medium p-3">
           <li>
-            <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/")}>
+            <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/home")}>
               Home
             </a>
           </li>

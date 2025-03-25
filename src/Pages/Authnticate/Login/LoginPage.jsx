@@ -17,7 +17,7 @@ const LoginPage = ({ togglePage ,isLogin, setAuthStatus }) => {
           localStorage.setItem("isAuthenticated", "true");
           localStorage.setItem("userData", JSON.stringify(response.data));
         //   setAuthStatus(true);
-          navigate("/");
+          navigate("/home");
         } else {
           setError(response.message);
         }

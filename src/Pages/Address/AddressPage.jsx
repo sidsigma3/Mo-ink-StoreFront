@@ -13,16 +13,23 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 const AddressPage = () => {
 
     const [showModal,setShowModal] = useState(false)
-
+    const [selectedAddress, setSelectedAddress] = useState(null);
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
 
-    const handleClose = () =>{
-        setShowModal(!showModal)
-    }
+    const handleOpenModal = (address) => {
+        setSelectedAddress(address);  // Set selected address before opening modal
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+        setSelectedAddress(null); // Reset selection when closing
+    };
 
 
     const breadcrumbs = [
-        { label: "Home", link: "/" },
+        { label: "Home", link: "/home" },
+        { label: "Account", link: "/account" },
         { label: "Address", link: "/address" },
       ];
 
@@ -35,7 +42,7 @@ const AddressPage = () => {
         <div className='px-6 md:px-14 py-4'>
 
             <div className='flex justify-center md:justify-end'>
-                <div className='flex font-semibold gap-2 bg-violet-100 text-violet-800 px-4 py-2 rounded cursor-pointer' onClick={handleClose}>
+                <div className='flex font-semibold gap-2 bg-violet-100 text-violet-800 px-4 py-2 rounded cursor-pointer'  onClick={() => handleOpenModal(null)} >
                     <span><RiAddLargeFill size={20}/></span>
                     <h4>ADD NEW ADDRESS</h4>
                 </div>
@@ -52,7 +59,7 @@ const AddressPage = () => {
                 <ul className='flex flex-col gap-3'>
                     {
                         customer.addresses.map((item,index)=>(
-                            <li key={index}>
+                            <li key={index} onClick={() => handleOpenModal(item)} className="cursor-pointer">
                                 <AddressBox address={item} name={customer.customerName} company={customer.company} phone={customer.phoneNumber}></AddressBox>
                             </li>
                         ))
@@ -72,7 +79,7 @@ const AddressPage = () => {
          
         </div>
 
-        <ModalAddress show={showModal} handleClose={handleClose} customer={customer}></ModalAddress>
+        <ModalAddress show={showModal} handleClose={handleClose} customer={customer} selectedAddress={selectedAddress}></ModalAddress>
 
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>

@@ -23,11 +23,11 @@ const CategoryBox = ({ size, color, price , product}) => {
       </div>
 
       <div className="flex flex-col items-center gap-2"> 
-        <span className="text-violet-800"><LuPencilRuler size={50}/></span>
+        <span className="text-violet-800"><LuPencilRuler size={40}/></span>
         <h4 className="text-2xl font-bold">{size}</h4>
-        <h5 className="text-3xl font-bold text-violet-900">₹{price} <span>/KG</span></h5>
+        <h5 className="text-xl font-bold text-violet-900">₹{price} <span>/KG</span></h5>
 
-        <div className="d-flex gap-2 mt-3 w-full">
+        <div className="d-flex gap-2 mt-1 w-full">
           <button className="d-flex align-items-center justify-content-center gap-2 bg-white p-2 purple-text font-semibold rounded flex-1">
             VIEW PRODUCT
           </button>

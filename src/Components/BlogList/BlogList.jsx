@@ -1,32 +1,73 @@
-import React from 'react'
+import React ,{ useRef, useState, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import BlogBox from './BlogBox'
 
 const BlogList = () => {
+
+    const scrollRef = useRef(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+    // Check if scrolling is possible
+    useEffect(() => {
+        const checkScroll = () => {
+            if (scrollRef.current) {
+                setCanScrollLeft(scrollRef.current.scrollLeft > 0);
+                setCanScrollRight(scrollRef.current.scrollLeft < scrollRef.current.scrollWidth - scrollRef.current.clientWidth);
+            }
+        };
+
+        checkScroll(); // Ensure state updates on mount
+        window.addEventListener("resize", checkScroll);
+        scrollRef.current?.addEventListener("scroll", checkScroll);
+
+        return () => {
+            window.removeEventListener("resize", checkScroll);
+            scrollRef.current?.removeEventListener("scroll", checkScroll);
+        };
+    }, []);
+
+    // Scroll left & right
+    const scroll = (direction) => {
+        if (scrollRef.current) {
+            const scrollAmount = 300;
+            scrollRef.current.scrollBy({
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
+            });
+        }
+    };
+
   return (
-    <div className=''>
-         <h3 className='text-2xl md:text-3xl font-medium'>Read Article</h3>
+    <div className="relative flex items-center">
+            {canScrollLeft && (
+                <button
+                    className="absolute -left-10 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-lg hover:bg-gray-300 transition-all"
+                    onClick={() => scroll("left")}
+                >
+                    <FaChevronLeft size={20} />
+                </button>
+            )}
 
-        <ul className='d-flex overflow-auto gap-4 mt-3'>
-            <li>
-                <BlogBox></BlogBox>
-            </li>
+            <div className="w-full overflow-hidden">
+                <h3 className="text-2xl md:text-2xl font-medium">Read Article</h3>
+                <ul ref={scrollRef} className="flex overflow-x-auto gap-4 mt-3 scrollbar-hide">
+                    <li><BlogBox /></li>
+                    <li><BlogBox /></li>
+                    <li><BlogBox /></li>
+                    <li><BlogBox /></li>
+                </ul>
+            </div>
 
-            <li>
-                <BlogBox></BlogBox>
-            </li>
-
-            <li>
-                <BlogBox></BlogBox>
-            </li>
-
-            <li>
-                <BlogBox></BlogBox>
-            </li>
-
-
-        </ul>
-
-    </div>
+            {canScrollRight && (
+                <button
+                    className="absolute -right-10 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-lg hover:bg-gray-300 transition-all"
+                    onClick={() => scroll("right")}
+                >
+                    <FaChevronRight size={20} />
+                </button>
+            )}
+        </div>
   )
 }
 

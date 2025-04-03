@@ -3,7 +3,11 @@ import { TbFileInvoice } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
 import { MdArrowForwardIos } from "react-icons/md";
 
-const OrderBox = () => {
+const OrderBox = ({order}) => {
+
+
+
+
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
         <div className='col-span-3 md:col-span-2 lg:col-span-1'>

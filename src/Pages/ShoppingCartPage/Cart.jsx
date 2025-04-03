@@ -18,7 +18,9 @@ const Cart = () => {
     try {
       // Fetch cart items from API
       const cartResponse = await getCart(customer.customerId);
-      const cartData = cartResponse?.data?.cartItems || [];
+      const cartData = cartResponse?.cartItems || [];
+
+    
 
       // Fetch all products from local storage or API
       let allProducts = JSON.parse(localStorage.getItem("allProducts"));
@@ -39,8 +41,9 @@ const Cart = () => {
         return {
           productName: product?.productName || "Unknown Product",
           size: variant?.size || "Unknown",
-          colorName: variant?.color?.colorName || "Unknown",
+          colorName: variant?.color?.colorName,
           price: variant?.pricePerKg || 0,
+          hexCode:variant?.color?.hexCode,
           variantId: variant?.id || 0,
           quantity: item.quantity,
           productImage: product?.productImage?.[0] || "/images/default.png", // Default image
@@ -75,6 +78,8 @@ const Cart = () => {
   }
 
 
+ 
+
   return (
     <div>
       {loading ? (
@@ -95,6 +100,8 @@ const Cart = () => {
                 variantId={item.variantId}
                 itemQuantity={item.quantity} 
                 onCartToggle={fetchCartData}
+                showCart={false}
+                hexCode={item.hexCode}
               />
               </div>
             </li>

@@ -27,7 +27,7 @@ const OrderDetails = () => {
 
             <div className='flex justify-between border-bottom pb-6'>
                 <div>
-                    <h4 className='font-bold text-3xl'>Order ID:33657895</h4>
+                    <h4 className='font-bold text-2xl'>Order ID:33657895</h4>
                     <div className='flex divide-x-4 mt-6 gap-6'>
                         <h5>Order date:  <span className='font-semibold'>Feb 14, 2080</span></h5>
                         <h4 className='ps-6 text-violet-800 font-medium flex items-center gap-2'><span><HiOutlineTruck size={22}/></span>Estimated delivery May 16, 2022</h4>

@@ -18,18 +18,25 @@ const Category = () => {
     const [products, setProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
-        useEffect(() => {
-          const getProducts = async () => {
-            const response = await fetchProducts();
-            if (response.success) {
-              setProducts(response.data);
-            } else {
-              console.error(response.message);
+
+
+    useEffect(() => {
+        const getProducts = async () => {
+          const response = await fetchProducts();
+          if (response.success) {
+            setProducts(response.data);
+            
+            // ✅ Automatically select the first category when data is loaded
+            if (response.data.length > 0) {
+              setSelectedCategory(response.data[0].productName);
             }
-          };
+          } else {
+            console.error(response.message);
+          }
+        };
       
-          getProducts();
-        }, []);
+        getProducts();
+      }, []);
     
     
         const aggregateProductData = (productData) => {
@@ -83,12 +90,11 @@ const Category = () => {
         
         
         const finalData = aggregateProductData(products)
-        console.log(finalData)
-
+    
         const breadcrumbs = [
-            { label: "Home", link: "/" },
+            { label: "Home", link: "/home" },
             { label: "Category", link: "/category" },
-           
+            {label: selectedCategory}
           ];
           
        
@@ -98,7 +104,7 @@ const Category = () => {
        
        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
        <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
-        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>  <HeroSection productName={"Cotton"} breadcrumbs={breadcrumbs}></HeroSection></div>
+        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>  <HeroSection productName={selectedCategory} breadcrumbs={breadcrumbs}></HeroSection></div>
 
         <div className='px-6 md:px-14 py-3 flex justify-between lg:justify-end'>
             <div className='flex gap-2 border rounded-md p-2 items-center cursor-pointer block lg:hidden' onClick={() => setIsOpen(true)}>
@@ -106,7 +112,7 @@ const Category = () => {
                 <h4>Filters</h4>
             </div>
             
-            <div className='flex gap-2'>
+            {/* <div className='flex gap-2'>
             
             <div className='border rounded-md p-2'>
                 Show 50
@@ -114,7 +120,7 @@ const Category = () => {
             <div className='border rounded-md p-2'>
                 Sort by:Featured
             </div>
-            </div>
+            </div> */}
         </div>
 
            
@@ -390,7 +396,7 @@ const Category = () => {
 
             </div>
 
-            <div className='col-span-4 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 h-fit'>
+            <div className='col-span-4 lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-fit'>
 
             {selectedCategory &&
                 finalData

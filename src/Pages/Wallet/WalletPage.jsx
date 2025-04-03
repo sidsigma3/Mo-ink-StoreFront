@@ -43,7 +43,7 @@ const WalletPage = () => {
   }, [customer]);
 
   const breadcrumbs = [
-    { label: "Home", link: "/" },
+    { label: "Home", link: "/home" },
     { label: "Account", link: "/account" },
     { label: "Wallet", link: "/wallet" },
   ];
@@ -73,7 +73,7 @@ const WalletPage = () => {
             <h3 className="text-xl font-bold my-3">Last Transactions</h3>
             <table className="w-full border-collapse border border-gray-300">
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-gray-100 text-center">
                   <th className="border border-gray-300 p-2">Source</th>
                   <th className="border border-gray-300 p-2">Type</th>
                   <th className="border border-gray-300 p-2">Amount</th>
@@ -81,7 +81,7 @@ const WalletPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((item, index) => (
+                {transactions.slice().reverse().map((item, index) => (
                   <tr key={index} className="text-center">
                     <td className="border border-gray-300 p-2">{item.source}</td>
                     <td

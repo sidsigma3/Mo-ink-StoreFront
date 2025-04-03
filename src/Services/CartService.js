@@ -9,7 +9,7 @@ const API_BASE_URL = URL + "/cart"
 export const getCart = async (customerId) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/${customerId}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Error fetching cart:", error);
     throw error;

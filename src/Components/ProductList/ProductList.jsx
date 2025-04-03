@@ -1,6 +1,7 @@
-import React ,{useState,useEffect} from 'react'
+import React ,{useState,useEffect,useRef} from 'react'
 import ProductDetailBox from './ProductDetailBox'
 import { fetchProducts } from '../../Services/ProductService';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const ProductList = () => {
     
@@ -72,34 +73,59 @@ const ProductList = () => {
     
     const finalData = aggregateProductData(products)
 
-    console.log(finalData)
+    
+    const scrollRef = useRef(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+
+    // Check if scrolling is possible
+    useEffect(() => {
+      const checkScroll = () => {
+          if (scrollRef.current) {
+              setCanScrollLeft(scrollRef.current.scrollLeft > 0);
+              setCanScrollRight(
+                  scrollRef.current.scrollLeft < scrollRef.current.scrollWidth - scrollRef.current.clientWidth
+              );
+          }
+      };
+  
+      checkScroll(); // ✅ Ensure state is updated on mount
+      window.addEventListener("resize", checkScroll);
+      scrollRef.current?.addEventListener("scroll", checkScroll);
+  
+      return () => {
+          window.removeEventListener("resize", checkScroll);
+          scrollRef.current?.removeEventListener("scroll", checkScroll);
+      };
+  }, [products]); // ✅ Run again if products change
+  
+
+  // Scroll left & right
+  const scroll = (direction) => {
+      if (scrollRef.current) {
+          const scrollAmount = 300; // Adjust for smooth scrolling
+          scrollRef.current.scrollBy({
+              left: direction === "left" ? -scrollAmount : scrollAmount,
+              behavior: "smooth",
+          });
+      }
+  };
 
 
   return (
-    <div className=''>
+    <div className="relative flex items-center">
+ 
+       {canScrollLeft && (
+                <button
+                    className="absolute -left-10 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-lg hover:bg-gray-300 transition-all z-20"
+                    onClick={() => scroll("left")}
+                >
+                    <FaChevronLeft size={20} />
+                </button>
+            )}
 
-        <ul className='mt-4 overflow-auto d-flex gap-3'>
-            {/* <li>
-                <ProductDetailBox></ProductDetailBox>
-            </li>
-
-            <li>
-                <ProductDetailBox></ProductDetailBox>
-            </li>
-
-
-            <li>
-                <ProductDetailBox></ProductDetailBox>
-            </li>
-
-            <li>
-                <ProductDetailBox></ProductDetailBox>
-            </li>
-
-            <li>
-                <ProductDetailBox></ProductDetailBox>
-            </li> */}
-
+        <ul ref={scrollRef} className="mt-4 flex overflow-x-auto gap-3 scrollbar-hide">
+           
                 {products.length > 0 ? (
                 finalData.map((product, index) =>
                     product.groupedVariants.map((size, ix) =>
@@ -111,6 +137,8 @@ const ProductList = () => {
                             color={color.colorName}
                             price={color.price}
                             variantId={color.id}
+                            navigateCart={true}
+                            hexCode={color.hexCode}
                         />
                         </li>
                     ))
@@ -121,6 +149,15 @@ const ProductList = () => {
                 )}
 
         </ul>
+
+        {canScrollRight && (
+                <button
+                    className="absolute -right-10 top-1/2 transform -translate-y-1/2 bg-gray-200 p-2 rounded-full shadow-lg hover:bg-gray-300 transition-all"
+                    onClick={() => scroll("right")}
+                >
+                    <FaChevronRight size={20} />
+                </button>
+            )}
 
     </div>
   )

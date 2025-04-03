@@ -60,7 +60,7 @@ const CheckoutPage = () => {
         try {
           // Fetch cart items from API
           const cartResponse = await getCart(customer.customerId);
-          const cartData = cartResponse?.data?.cartItems || [];
+          const cartData = cartResponse?.cartItems || [];
       
           // Fetch all products from local storage or API
           let allProducts = JSON.parse(localStorage.getItem("allProducts"));
@@ -130,13 +130,21 @@ const CheckoutPage = () => {
         (addr) => addr.addressType === selectedType
       ) || customer.addresses[0];
 
+
+
+      const breadcrumbs = [
+        { label: "Home", link: "/home" },
+        { label: "Account", link: "/account" },
+        {label: "Check out" , link:"/checkOut"}
+      ];
+
   return (
     <div>
          <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
          <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         
         <div className='px-6 md:px-14 py-3'>
-            <HeroSection productName={"Check out"}></HeroSection>
+            <HeroSection productName={"Check out"} breadcrumbs={breadcrumbs}></HeroSection>
         </div>
 
         <div className='px-6 md:px-14 py-3 gap-5'>

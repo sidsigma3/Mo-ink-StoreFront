@@ -87,111 +87,119 @@ const SignupPage = ({ togglePage ,isLogin}) => {
   return (
     <div className="signup-page">
     <div className="signup-page-ctn">
-      <div className="logo-ctn">
+      <div className="logo-ctn p-3">
         <img src="/images/logo.png" alt="Logo" />
       </div>
 
       <div className="left-ctn">
-        <h6 className="welcome">Welcome to Moink & Dyes</h6>
+        <h6 className="welcome font-bold">Welcome to Moink & Dyes</h6>
         <ToggleBtn click={togglePage} status={!isLogin} />
 
-        <h6 className="mt-3">Create your account to get started</h6>
+        {/* <h6 className="mt-2 text-center font-semibold">Create your account to get started</h6> */}
 
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col md:flex-row justify-between mt-4 gap-2">
-            <div className="d-flex flex-column gap-2 flex-1">
-              <label>First Name</label>
+        <form onSubmit={handleSubmit} className='register-inputs'>
+          <div className="flex flex-col flex-row justify-between mt-4 gap-3">
+            <div className="d-flex flex-column flex-1">
+              <label className='font-semibold'>First Name</label>
               <input
                 className="login-input rounded-pill"
-                placeholder="Enter your first name"
+                placeholder="First name"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
+                style={{fontSize:"14px"}}
                 required
               />
             </div>
 
-            <div className="d-flex flex-column gap-2 flex-1">
-              <label>Last Name</label>
+            <div className="d-flex flex-column flex-1">
+              <label className='font-semibold'>Last Name</label>
               <input
                 className="login-input rounded-pill"
-                placeholder="Enter your last name"
+                placeholder="Last name"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
+                style={{fontSize:"14px"}}
               />
             </div>
           </div>
-
-          <div className="d-flex flex-column gap-2 mt-4">
-            <label>Email</label>
+          <div className="flex flex-col md:flex-row justify-between mt-3 gap-3">
+          <div className="d-flex flex-column flex-1">
+            <label className='font-semibold'>Email</label>
             <input
               className="login-input rounded-pill"
-              placeholder="Enter your email"
+              placeholder="Email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
+              style={{fontSize:"14px"}}
             />
           </div>
 
-          <div className="d-flex flex-column gap-2 mt-4">
-            <label>Password</label>
+          <div className="d-flex flex-column flex-1">
+            <label className='font-semibold'>Password</label>
             <input
               type="password"
               className="login-input"
-              placeholder="Enter your password"
+              placeholder="Password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               required
+              style={{fontSize:"14px"}}
             />
           </div>
-
-          <div className="flex flex-col md:flex-row justify-between mt-4 gap-2">
-            <div className="d-flex flex-column gap-2 flex-1">
-              <label>Phone</label>
+</div>
+          <div className="flex flex-col flex-row justify-between mt-3 gap-3">
+            <div className="d-flex flex-column flex-1">
+              <label className='font-semibold'>Phone</label>
               <input
                 className="login-input rounded-pill"
-                placeholder="Enter your phone number"
+                placeholder="Phone number"
                 name="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={handleChange}
+                style={{fontSize:"14px"}}
               />
             </div>
 
-            <div className="d-flex flex-column gap-2 flex-1">
-              <label>WhatsApp</label>
+            <div className="d-flex flex-column flex-1">
+              <label className='font-semibold'>WhatsApp</label>
               <input
                 className="login-input rounded-pill"
-                placeholder="Enter your WhatsApp number"
+                placeholder="WhatsApp number"
                 name="whatsappNumber"
                 value={formData.whatsappNumber}
                 onChange={handleChange}
+                style={{fontSize:"14px"}}
               />
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between mt-4 gap-2">
-            <div className="d-flex flex-column gap-2 flex-1">
-              <label>Company</label>
+          <div className="flex flex-col flex-row justify-between mt-3 gap-3">
+            <div className="d-flex flex-column flex-1">
+              <label className='font-semibold'>Company</label>
               <input
                 className="login-input rounded-pill"
-                placeholder="Enter your Comapnyr"
+                placeholder="Company"
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
+                style={{fontSize:"14px"}}
               />
             </div>
 
-            <div className="d-flex flex-column gap-2 flex-1">
-              <label>GST Number</label>
+            <div className="d-flex flex-column flex-1">
+              <label className='font-semibold'>GST Number</label>
               <input
                 className="login-input rounded-pill"
-                placeholder="Enter your GST number"
+                placeholder="GST number"
                 name="gstNumber"
                 value={formData.gstNumber}
                 onChange={handleChange}
+                style={{fontSize:"14px"}}
               />
             </div>
           </div>
@@ -200,7 +208,7 @@ const SignupPage = ({ togglePage ,isLogin}) => {
             <label>Address</label>
             <input
               className="login-input rounded-pill"
-              placeholder="Enter your address"
+              placeholder=" address"
               name="customerAddress"
               value={formData.customerAddress}
               onChange={handleChange}
@@ -211,7 +219,7 @@ const SignupPage = ({ togglePage ,isLogin}) => {
             <label>City</label>
             <input
               className="login-input rounded-pill"
-              placeholder="Enter your city"
+              placeholder=" city"
               name="city"
               value={formData.city}
               onChange={handleChange}
@@ -222,7 +230,7 @@ const SignupPage = ({ togglePage ,isLogin}) => {
             <label>State</label>
             <input
               className="login-input rounded-pill"
-              placeholder="Enter your state"
+              placeholder=" state"
               name="state"
               value={formData.state}
               onChange={handleChange}
@@ -233,7 +241,7 @@ const SignupPage = ({ togglePage ,isLogin}) => {
             <label>Country</label>
             <input
               className="login-input rounded-pill"
-              placeholder="Enter your country"
+              placeholder=" country"
               name="country"
               value={formData.country}
               onChange={handleChange}
@@ -244,37 +252,39 @@ const SignupPage = ({ togglePage ,isLogin}) => {
             <label>Zip Code</label>
             <input
               className="login-input rounded-pill"
-              placeholder="Enter your zip code"
+              placeholder=" zip code"
               name="zipcode"
               value={formData.zipcode}
               onChange={handleChange}
             />
           </div> */}
 
-          <div className="d-flex justify-content-between mt-3">
-            <div className="d-flex gap-2">
+          {/* <div className="d-flex justify-content-between mt-1">
+            <div className="d-flex gap-1">
               <input type="checkbox" />
-              <label> Remember me</label>
+              <label className='font-semibold'>Remember me?</label>
             </div>
-            <a href="#">Forgot password?</a>
-          </div>
+            <a href="#" className='font-semibold forgot'>Forgot password?</a>
+          </div> */}
 
+          <div className='d-flex justify-center items-center'>
           <button
             type="submit"
-            className="btn bg-violet-800 text-white rounded-pill w-100 mt-4"
+            className="btn bg-violet-800 rounded-pill mt-5 font-bold register"
             disabled={loading}
           >
             {loading ? "Creating Account..." : "Sign Up"}
           </button>
+          </div>
         </form>
 
-        <h6 className="mt-3 text-center text-body-tertiary">Or sign up with</h6>
+        {/* <h6 className="mt-3 text-center text-body-tertiary">Or sign up with</h6> */}
       </div>
 
-      <div className="right-cover-pic">
-        <img src="/images/signup-cover.png" alt="Signup Cover" />
-        <h4>Discover amazing products</h4>
-        <h5>Sign up to explore more</h5>
+      <div className="right-cover-pic hidden md:block">
+        {/* <img src="/images/signup-cover.png" alt="Signup Cover" /> */}
+        {/* <h4>Discover amazing products</h4>
+        <h5>Sign up to explore more</h5> */}
       </div>
     </div>
   </div>

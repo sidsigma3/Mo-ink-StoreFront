@@ -1,4 +1,4 @@
-import React , {useState}from 'react'
+import React , {useState , useEffect}from 'react'
 import { Modal, ModalBody, ModalFooter, ModalHeader, ModalTitle } from 'react-bootstrap'
 import { BiHomeAlt } from "react-icons/bi";
 import { PiSuitcaseSimpleBold } from "react-icons/pi";
@@ -6,7 +6,7 @@ import { BiBuildingHouse } from "react-icons/bi";
 import { updateCustomerDetails,getCustomerDetails } from '../../Services/CustomerService';
 
 
-const ModalAddress = ({show,handleClose,customer}) => {
+const ModalAddress = ({show,handleClose,customer,selectedAddress }) => {
     const [formData, setFormData] = useState({
         customerAddress: "",
         street: "",
@@ -16,6 +16,30 @@ const ModalAddress = ({show,handleClose,customer}) => {
         zipcode: "",
         addressType: "HOME",
     });
+
+    useEffect(() => {
+        if (selectedAddress) {
+            setFormData({
+                customerAddress: selectedAddress.customerAddress || "",
+                street: selectedAddress.street || "",
+                city: selectedAddress.city || "",
+                state: selectedAddress.state || "",
+                country: selectedAddress.country || "",
+                zipcode: selectedAddress.zipcode || "",
+                addressType: selectedAddress.addressType || "HOME",
+            });
+        } else {
+            setFormData({
+                customerAddress: "",
+                street: "",
+                city: "",
+                state: "",
+                country: "",
+                zipcode: "",
+                addressType: "HOME",
+            });
+        }
+    }, [selectedAddress]);
 
   
     const handleChange = (e) => {

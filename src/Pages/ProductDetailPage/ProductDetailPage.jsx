@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React , {useState , useRef , useEffect} from 'react'
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -24,6 +24,26 @@ const ProductDetailPage = () => {
     const [newColor, setNewColor] = useState({ colorName: "", hexCode: "" });
     const [tempCustomColors, setTempCustomColors] = useState([]); // Temporary added colors before finalizing
     const [customColors, setCustomColors] = useState([]); // Final custom colors added to catalog
+    const [selectedColors, setSelectedColors] = useState([]);
+    
+    const modalRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setIsModalOpen(false);
+                setIsAddingColor(false);
+                setNewColor({});
+            }
+        };
+
+        if (isModalOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isModalOpen]);
 
     // Handle input change
     const handleInputChange = (e) => {
@@ -41,10 +61,29 @@ const ProductDetailPage = () => {
 
     // Add colors from temporary list to the catalog & switch view
     const handleAddColor = () => {
-        setCustomColors((prev) => [...prev, ...tempCustomColors]);
+        setCustomColors((prev) => {
+            const uniqueNewColors = tempCustomColors.filter(
+                (newColor) =>
+                    !prev.some(
+                        (existingColor) =>
+                            existingColor.colorName === newColor.colorName ||
+                            existingColor.hexCode === newColor.hexCode
+                    )
+            );
+    
+            if (uniqueNewColors.length === 0) {
+                alert("Color already added!"); // Show alert if all colors are duplicates
+                return prev; // No update to state
+            }
+    
+            return [...prev, ...uniqueNewColors]; // Add only unique colors
+        });
+    
         setTempCustomColors([]); // Clear temporary colors
         setIsAddingColor(false); // Switch back to catalog view
     };
+    
+    
   
     if (!product) return <p>No product details available</p>;
 
@@ -62,6 +101,21 @@ const ProductDetailPage = () => {
 
     const visibleColors = color.slice(0, 4); // Only take the first 4 colors
     const hasMore = color.length > 4;
+
+
+    const handleSelectColor = (color) => {
+        setSelectedColors((prev) => {
+            const isAlreadySelected = prev.some((c) => c.hexCode === color.hexCode);
+            if (isAlreadySelected) {
+                return prev.filter((c) => c.hexCode !== color.hexCode); // Remove if already selected
+            } else {
+                return [...prev, color]; // Add if not selected
+            }
+        });
+    };
+    
+
+  
 
   return (
     <div>
@@ -96,7 +150,7 @@ const ProductDetailPage = () => {
 
                 <span class="inline-flex items-center rounded-md bg-pink-200 px-2 py-1 text-xs font-medium text-pink-600 ring-1 ring-inset ring-pink-700/10">Sale off</span>
                 <div className='flex gap-3 lg:block'>
-                <p className="text-gray-800 text-2xl md:text-3xl font-bold mt-6">{product.productName} - {size}</p>
+                <p className="text-gray-800 text-2xl md:2xl font-bold mt-6">{product.productName} - {size}</p>
                 <div class="flex items-center space-x-1 gap-2 mt-6">
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                         <span className='text-yellow-300'><TiStarFullOutline /></span>
@@ -107,7 +161,7 @@ const ProductDetailPage = () => {
                 </div>
                 </div>
                 <div className='d-flex gap-2 align-items-center mt-3'>
-                <h4 className="purple-text font-bold text-3xl md:text-4xl">₹{price}</h4>
+                <h4 className="purple-text font-bold text-2xl md:text-4xl">₹{price}</h4>
                 <div>
                 <p className='text-yellow-500 font-medium text-sm'>26% Off</p>
                 <p className="text-slate-400 font-medium"><s>₹{product.compareAtPrice}</s></p>
@@ -122,21 +176,21 @@ const ProductDetailPage = () => {
                 </div>
 
                
-                <div className='flex mt-6 text-gray-500 gap-2 items-center'>
+                {/* <div className='flex mt-6 text-gray-500 gap-2 items-center'>
                     <h5>Size/Weight:</h5>
                     <ul className='flex gap-3'>
-                        {/* <li>50Kg</li>
+                        <li>50Kg</li>
                         <li>100Kg</li>
                         <li>150Kg</li>
                         <li>200Kg</li>   
-                        <li>250Kg</li> */}
+                        <li>250Kg</li>
                          <li>{size} Kg</li>
                     </ul>
-                </div>
+                </div> */}
                 
-                <h5 className='mt-3'>Colors :</h5>
+                {/* <h5 className='mt-3'>Colors :</h5> */}
                 <div className="flex gap-3 mt-1 items-center">
-                <div className="flex gap-3">
+                {/* <div className="flex gap-3">
                 {visibleColors.map((item, index) => (
                 <div key={index} className="border-4 rounded-md border-gray-300">
                     <div className="relative w-20 h-20 overflow-hidden">
@@ -157,15 +211,16 @@ const ProductDetailPage = () => {
                     </div>
                 </div>
                 ))}
-            </div>
+            </div> */}
 
                 {/* More Colors Button */}
-                <div className="cursor-pointer flex flex-col items-center" onClick={() => setIsModalOpen(true)}>
+                <div className="cursor-pointer flex gap-2 items-center mt-3" onClick={() => setIsModalOpen(true)}>
                     <img src="/images/select-color.png" className="w-10 h-10" alt="More Colors" />
-                    <h4 className="text-sm text-center text-blue-600 font-semibold">MORE COLORS</h4>
+                    <h4 className="text-sm text-center text-blue-600 font-semibold">Click here for color catalogue</h4>
                 </div>
 
                 <div
+                    ref={modalRef}
                     className={`fixed top-0 right-0 w-96 h-full bg-white shadow-lg transform z-40 ${
                         isModalOpen ? "translate-x-0" : "translate-x-full"
                     } transition-transform duration-300 ease-in-out p-4`}
@@ -206,6 +261,7 @@ const ProductDetailPage = () => {
                             value={newColor.hexCode}
                             onChange={handleInputChange}
                             className="border p-2 rounded"
+                            placeholder='e.g. #fff000'
                             />
 
                             {/* Color Preview */}
@@ -219,7 +275,7 @@ const ProductDetailPage = () => {
                             {/* Save Button */}
                             <button
                             onClick={handleSaveColor}
-                            className="bg-violet-600 text-white p-2 rounded mt-3"
+                            className="bg-violet-600 text-white p-1 rounded mt-3"
                             >
                             SAVE COLOR
                             </button>
@@ -231,7 +287,7 @@ const ProductDetailPage = () => {
                                 <div className="grid grid-cols-3 gap-3 p-2">
                                 {tempCustomColors.map((item, index) => (
                                     <div key={index} className="border-4 rounded-md border-gray-300">
-                                    <div className="relative w-16 h-16 overflow-hidden">
+                                    <div className="relative h-16 overflow-hidden">
                                         <div
                                         className="absolute inset-0 opacity-50"
                                         style={{ backgroundColor: item.hexCode }}
@@ -258,7 +314,7 @@ const ProductDetailPage = () => {
                             
                                 {customColors.length > 0 && (
                                     <div
-                                    className="flex  items-center gap-3 bg-violet-800 text-white rounded-md p-3 cursor-pointer"
+                                    className="flex  items-center gap-3 bg-violet-800 text-white rounded-md p-2 cursor-pointer"
                                     onClick={() => setIsAddingColor(true)}
                                 >
                                     <span>
@@ -273,7 +329,7 @@ const ProductDetailPage = () => {
                         <div className="grid grid-cols-3 gap-3 p-2">
                         {customColors.map((item, index) => (
                             <div key={index} className="border-4 rounded-md border-gray-300">
-                            <div className="relative w-20 h-20 overflow-hidden">
+                            <div className="relative h-20 overflow-hidden">
                                 {/* Product Image */}
                                 <img
                                 src="/images/wool-item-1.png"
@@ -314,7 +370,13 @@ const ProductDetailPage = () => {
                         <div className='h-[28rem] md:h-[32rem] overflow-auto'>
                         <div className="grid grid-cols-3 gap-3 p-2">
                             {filteredColors.map((item, index) => (
-                            <div key={index} className="border-4 rounded-md border-gray-300">
+                            <div
+                            key={index}
+                            className={`border-4 rounded-md cursor-pointer ${
+                                selectedColors.some((c) => c.hexCode === item.hexCode) ? "border-blue-500" : "border-gray-300"
+                            }`}
+                            onClick={() => handleSelectColor(item)}
+                            >
                                 <div className="relative h-20 overflow-hidden">
                                 <img src="/images/wool-item-1.png" className="w-full h-full object-cover" alt="Product" />
                                 <div className="absolute inset-0 opacity-50" style={{ backgroundColor: item.hexCode }}></div>
@@ -334,15 +396,15 @@ const ProductDetailPage = () => {
                     <div className="flex justify-between mt-4 absolute bottom-16 md:bottom-0 w-full pr-8 py-3">
                        {isAddingColor ? (
                         <button
-                        className="bg-gray-300 text-white p-2 rounded"
+                        className="bg-gray-300 text-white p-1 px-3 rounded text-md"
                         onClick={() => setIsAddingColor(false)}
                         >
-                        VIEW CATALOUGE
+                        Back
                         </button>
                         ) : (
                         
                         <button
-                        className="bg-gray-300 text-white p-2 rounded"
+                        className="bg-gray-300 text-white p-1 rounded"
                         onClick={() => setIsModalOpen(false)}
                         >
                         CANCEL

@@ -35,7 +35,7 @@ const Inqueries = ({show}) => {
            
             {show &&(
                 <>
-                 <h4 className='font-semibold text-3xl'>Any Inquries</h4>
+                 <h4 className='font-semibold text-2xl'>Any Enquiries</h4>
 
                  <p className='text-lg font-medium mt-3'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque delectus ipsum qui molestiae neque alias error quis praesentium quidem, totam exercitationem recusandae unde.</p>
                  </>

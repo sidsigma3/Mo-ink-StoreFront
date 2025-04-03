@@ -136,9 +136,9 @@ const Footer = () => {
             <p className="font-medium text-gray-900">Policy</p>
   
             <ul className="mt-6 space-y-4 text-sm">
-              <li>
+              {/* <li>
                 <a href="#" className="text-gray-700 transition hover:opacity-75"> Accessibility </a>
-              </li>
+              </li> */}
   
               <li>
                 <a href="#" className="text-gray-700 transition hover:opacity-75"> Returns Policy </a>
@@ -147,10 +147,10 @@ const Footer = () => {
               <li>
                 <a href="#" className="text-gray-700 transition hover:opacity-75"> Refund Policy </a>
               </li>
-  
+{/*   
               <li>
                 <a href="#" className="text-gray-700 transition hover:opacity-75"> Hiring Statistics </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

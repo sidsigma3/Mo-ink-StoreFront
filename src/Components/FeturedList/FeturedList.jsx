@@ -1,10 +1,12 @@
 import React , {useState,useEffect} from 'react'
 import FeturedBox from './FeturedBox'
 import { fetchProducts } from '../../Services/ProductService';
+import { useNavigate } from 'react-router-dom';
 
 const FeturedList = () => {
 
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getProducts = async () => {
@@ -20,10 +22,15 @@ const FeturedList = () => {
   }, []);
 
 
+  const handleNavigation = () =>{
+      navigate("/category")
+  }
+
+
   return (
     <div className='mt-2 bg-violet-100 px-6 md:px-14 pb-10'>
 
-        <h3 className='text-xl md:text-3xl font-medium pt-14'>Featured Categories</h3>
+        <h3 className='text-xl md:2xl font-medium pt-14'>Featured Categories</h3>
 
         {/* <ul className='overflow-auto m-0 d-flex gap-3 justify-content-around mt-5'>
             <li><FeturedBox productName={'Cotton Yran'} number={2}></FeturedBox></li>
@@ -37,8 +44,8 @@ const FeturedList = () => {
       <ul className="overflow-auto m-0 d-flex gap-3 justify-content-around mt-5">
         {products.length > 0 ? (
           products.map((product, index) => (
-            <li key={index}>
-              <FeturedBox productName={product.productName} number={10 || 0} />
+            <li key={index} onClick={handleNavigation}>
+              <FeturedBox productName={product.productName}   number={new Set(product.variants.map(variant => variant.size)).size}  />
             </li>
           ))
         ) : (

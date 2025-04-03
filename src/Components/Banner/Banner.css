@@ -1,0 +1,17 @@
+.banner-header {
+    
+    height: calc(100vh - 200px);
+
+}
+
+@media(max-width:768px){
+    .row .banner{
+        padding: 0% !important;
+        margin: 0% !important;
+    }
+    .banner-header {
+    
+        height: calc(100vh - 150px);
+    
+    }
+}

@@ -43,16 +43,17 @@ function App() {
     };
   }, []);
 
-  const ProtectedRoute = ({ children }) => {
-    return isAuthenticated ? children : <Navigate to="/login" />;
-  };
+ const ProtectedRoute = ({ children }) => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    return isAuthenticated ? children : <Navigate to="/" />;
+};
 
 
   return (
     <BrowserRouter>
     <Routes>
       {/* Public Routes */}
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage setAuthStatus={setIsAuthenticated}/>} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/verifyCode" element={<VerifyCode />} />

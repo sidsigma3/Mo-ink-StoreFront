@@ -7,55 +7,48 @@ const Testimonial = () => {
   const keenSliderInstance = useRef(null);
 
   useEffect(() => {
-    // Initialize KeenSlider
     if (sliderRef.current) {
-      keenSliderInstance.current = new KeenSlider(
-        sliderRef.current,
-        {
-          loop: true,
-          slides: {
-            origin: "center",
-            perView: 1.25,
-            spacing: 16,
-          },
-          breakpoints: {
-            "(min-width: 1024px)": {
-              slides: {
-                origin: "auto",
-                perView: 2.5,
-                spacing: 32,
-              },
+      keenSliderInstance.current = new KeenSlider(sliderRef.current, {
+        loop: true,
+        slides: {
+          origin: "center",
+          perView: 1.25,
+          spacing: 16,
+        },
+        breakpoints: {
+          "(min-width: 1024px)": {
+            slides: {
+              origin: "auto",
+              perView: 2.5,
+              spacing: 32,
             },
           },
-        }
-      );
-    }
+        },
+      });
 
-    // Cleanup function
-    return () => {
-      if (keenSliderInstance.current) {
-        keenSliderInstance.current.destroy();
-      }
-    };
+      // 🔹 Auto-slide every 3 seconds
+      const interval = setInterval(() => {
+        keenSliderInstance.current.next();
+      }, 1500);
+
+      // Cleanup function to destroy slider and clear interval
+      return () => {
+        if (keenSliderInstance.current) {
+          keenSliderInstance.current.destroy();
+        }
+        clearInterval(interval);
+      };
+    }
   }, []);
 
-  const handlePrevious = () => {
-    if (keenSliderInstance.current) {
-      keenSliderInstance.current.prev();
-    }
-  };
-
-  const handleNext = () => {
-    if (keenSliderInstance.current) {
-      keenSliderInstance.current.next();
-    }
-  };
+  const handlePrevious = () => keenSliderInstance.current?.prev();
+  const handleNext = () => keenSliderInstance.current?.next();
 
   return (
     <section className="bg-gray-200">
       <div className="w-100  px-16 py-12 sm:px-6 lg:me-0 lg:py-16 lg:pe-12 lg:ps-12 xl:py-24" style={{width:'100%'}}>
         <div className="max-w-7xl items-end justify-between sm:flex sm:pe-6 lg:pe-8">
-          <h2 className="text-2xl md:text-4xl font-bold tracking-tight text-gray-900">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
             Read trusted reviews from our customers
           </h2>
           <div className="mt-8 flex gap-4 lg:mt-0">
@@ -163,7 +156,7 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-2xl font-bold text-rose-600 sm:text-3xl">Stayin' Alive</p>
+                        <p className="text-2xl font-bold text-rose-600 sm:text-2xl">Stayin' Alive</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         No, Rose, they are not breathing. And they have no arms or legs … Where are they?
@@ -241,7 +234,7 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-2xl font-bold text-rose-600 sm:text-3xl">Stayin' Alive</p>
+                        <p className="text-2xl font-bold text-rose-600 sm:text-2xl">Stayin' Alive</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         No, Rose, they are not breathing. And they have no arms or legs … Where are they?
@@ -319,7 +312,7 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-2xl font-bold text-rose-600 sm:text-3xl">Stayin' Alive</p>
+                        <p className="text-2xl font-bold text-rose-600 sm:text-2xl">Stayin' Alive</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         No, Rose, they are not breathing. And they have no arms or legs … Where are they?

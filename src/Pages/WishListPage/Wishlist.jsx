@@ -42,6 +42,7 @@ const Wishlist = () => {
                       colorName: variant.color.colorName,
                       price: variant.pricePerKg,
                       variantId: variant.id,
+                      hexCode:variant.color.hexCode,
                       productImage: product.productImage[0],
                       wishlistId,
                   }))
@@ -63,8 +64,8 @@ const Wishlist = () => {
     fetchWishlistData();
 }, []);
 
-  console.log(wishlistItems)
 
+console.log(wishlistItems)
   return (
     <div className="">
       {loading ? (
@@ -81,7 +82,7 @@ const Wishlist = () => {
                 variantId={item.variantId}
                 isWishlist={wishlistIds.has(item.variantId)}
                 onWishlistToggle={fetchWishlistData}
-               
+                hexCode={item.hexCode}
               />
             </li>
           ))}

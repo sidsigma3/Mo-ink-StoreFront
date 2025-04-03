@@ -21,7 +21,7 @@ const AccountPage = () => {
   const navigate = useNavigate()
 
   const breadcrumbs = [
-    { label: "Home", link: "/" },
+    { label: "Home", link: "/home" },
     { label: "Account", link: "/account" },
   ];
 
@@ -31,30 +31,18 @@ const AccountPage = () => {
        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
 
-        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>
+        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10 md:text-md'>
             <HeroSection productName={"Account"} breadcrumbs={breadcrumbs}></HeroSection>
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6 md:px-14 py-3 mt-10'>
-            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/orders')}>
-                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
-                <FiShoppingBag size={25}/>
-                </div>
-                <div className='flex-1'>
-                    <h4 className='font-semibold text-xl md:text-2xl'>Your Orders</h4>
-                    <div className='flex justify-between items-center gap-2'>
-                        <p>View or buy products again</p>
-                        <span className='rounded-full bg-gray-200 p-2'><IoArrowForward /></span>
-                    </div>
-                </div>
-            </div>
 
-            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/setting')}>
+        <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/setting')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <RiSettingsLine size={25}/>
                 </div>
                 <div className='flex-1'>
-                    <h4 className='font-semibold text-xl md:text-2xl'>General Setting</h4>
+                    <h4 className='font-semibold text-md md:text-md'>Profile </h4>
                     <div className='flex justify-between items-center gap-2'>
                         <p>Edit log in name, password and address</p>
                         <span className='rounded-full bg-gray-200 p-2'><IoArrowForward /></span>
@@ -62,12 +50,28 @@ const AccountPage = () => {
                 </div>
             </div>
 
+
+            <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/orders')}>
+                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
+                <FiShoppingBag size={25}/>
+                </div>
+                <div className='flex-1'>
+                    <h4 className='font-semibold text-md md:text-md'>Your Orders</h4>
+                    <div className='flex justify-between items-center gap-2'>
+                        <p>View or buy products again</p>
+                        <span className='rounded-full bg-gray-200 p-2'><IoArrowForward /></span>
+                    </div>
+                </div>
+            </div>
+
+            
+
             <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer pointer' onClick={()=>navigate('/wallet')}>
                 <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
                 <LuWalletMinimal size={25}/>
                 </div>
                 <div className='flex-1'>
-                    <h4 className='font-semibold text-xl md:text-2xl'>Wallet</h4>
+                    <h4 className='font-semibold text-md md:text-md'>Wallet</h4>
                     <div className='flex justify-between items-center gap-2'>
                         <p>Add money to your wallet and use</p>
                         <span className='rounded-full bg-gray-200 p-2'><IoArrowForward /></span>
@@ -81,7 +85,7 @@ const AccountPage = () => {
                 <BsCart2  size={25}/>
                 </div>
                 <div className='flex-1'>
-                    <h4 className='font-semibold text-xl md:text-2xl'>Shopping Cart</h4>
+                    <h4 className='font-semibold text-md md:text-md'>Shopping Cart</h4>
                     <div className='flex justify-between items-center gap-2'>
                         <p>View your cart and proceed check out</p>
                         <span className='rounded-full bg-gray-200 p-2'><IoArrowForward /></span>
@@ -95,7 +99,7 @@ const AccountPage = () => {
                 <FaRegHeart size={25}/>
                 </div>
                 <div className='flex-1'>
-                    <h4 className='font-semibold text-xl md:text-2xl'>Wishlist</h4>
+                    <h4 className='font-semibold text-md md:text-md'>Wishlist</h4>
                     <div className='flex justify-between items-center gap-2'>
                         <p>Explore your wishlist and shop</p>
                         <span className='rounded-full bg-gray-200 p-2'><IoArrowForward /></span>
@@ -109,7 +113,7 @@ const AccountPage = () => {
                 <SlLocationPin size={25}/>
                 </div>
                 <div className='flex-1'>
-                    <h4 className='font-semibold text-xl md:text-2xl'>Saved Address</h4>
+                    <h4 className='font-semibold text-md md:text-md'>Saved Address</h4>
                     <div className='flex justify-between items-center gap-2'>
                         <p>Add or update your addresses</p>
                         <span className='rounded-full bg-gray-200 p-2'><IoArrowForward /></span>

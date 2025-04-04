@@ -309,7 +309,7 @@ const CheckoutPage = () => {
                                         </div>
                                     </Dropdown.Item>
 
-                                    <Dropdown.Item eventKey={"50%"}>
+                                    <Dropdown.Item eventKey={"50% online and 50% Cash on Delivery"}>
                                         <div className='p-2 border-bottom'>
                                             <h4 className='text-xl font-medium'>Pay <span className='text-violet-800'>50%</span> in Online & <span className='text-violet-800'>50%</span>Cash on delivery</h4>
                                             <h5>Flat 0.50% discount is applied to your order total.</h5>
@@ -351,7 +351,7 @@ const CheckoutPage = () => {
                     <div
                         className={`fixed top-0 right-0 w-2/3 md:w-2/4 lg:w-2/4 h-full bg-white shadow-lg transform transition-transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"
                             } z-50 p-4`}
-                            style={{overflowY:"scroll"}}
+                            style={{overflowY:"auto"}}
                     >
                         {/* Close Button */}
                         <button

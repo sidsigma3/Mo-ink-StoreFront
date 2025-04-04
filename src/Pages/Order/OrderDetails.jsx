@@ -169,7 +169,7 @@ const OrderDetails = () => {
                                </tr>
        
                                <tr>
-                                   <td>Shipping or delivery</td>
+                                   <td>Handling Charges</td>
                                    <td></td>
                                    <td style={{textAlign:'end'}}>₹2,156</td>
                                    

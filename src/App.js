@@ -64,13 +64,13 @@ function App() {
       <Route
         path="*"
         element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
               <div className="content w-100 p-3">
                 <Routes>
                   <Route path="/home" element={<LandingPage></LandingPage>} /> 
                   <Route path="/category" element={<Category />} />
                   <Route path="/wishlist" element={<WishlistPage />} />
-                  <Route path="/shoppingCart" element={<ShopingCartPage />} />
+                  <Route path="/shoppingCart" element={<CheckoutPage />} />
                   <Route path="/productDetails" element={<ProductDetailPage />} />
                   <Route path="/checkOut" element={<CheckoutPage />} />
                   <Route path="/account" element={<AccountPage />} />
@@ -83,7 +83,7 @@ function App() {
                 </Routes>
               </div>
             
-          </ProtectedRoute>
+          // </ProtectedRoute>
         }
       />
     </Routes>

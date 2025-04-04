@@ -139,11 +139,11 @@ const ProductDetailBox = ({productName,price,size,color,itemQuantity,variantId,i
                   <div className='col-4'>
                     <label htmlFor="Quantity" className="sr-only"> Quantity </label>
 
-                    <div className="flex justify-between rounded border border-gray-200">
+                    <div className="flex justify-between items-center rounded border border-gray-200 w-100">
                       <button 
                         type="button" 
                         onClick={handleDecrease}
-                        className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
+                        className="leading-9 text-gray-600 transition hover:opacity-75 w-25"
                       >
                         &minus;
                       </button>
@@ -153,13 +153,13 @@ const ProductDetailBox = ({productName,price,size,color,itemQuantity,variantId,i
                         id="Quantity"
                         value={quantity}
                         readOnly
-                        className="h-10 w-10 border-transparent text-center sm:text-sm"
+                        className="border-transparent text-center sm:text-sm w-25" 
                       />
 
                       <button 
                         type="button" 
                         onClick={handleIncrease}
-                        className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
+                        className="leading-9 text-gray-600 transition hover:opacity-75 w-25"
                       >
                         +
                       </button>

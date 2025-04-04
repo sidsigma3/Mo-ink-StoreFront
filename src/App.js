@@ -64,7 +64,7 @@ function App() {
       <Route
         path="*"
         element={
-          // <ProtectedRoute>
+          <ProtectedRoute>
               <div className="content w-100 p-3">
                 <Routes>
                   <Route path="/home" element={<LandingPage></LandingPage>} /> 
@@ -83,7 +83,7 @@ function App() {
                 </Routes>
               </div>
             
-          // </ProtectedRoute>
+          </ProtectedRoute>
         }
       />
     </Routes>

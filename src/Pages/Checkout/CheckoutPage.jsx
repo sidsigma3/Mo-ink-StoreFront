@@ -21,6 +21,10 @@ import { useNavigate } from 'react-router-dom'
 import { BiHomeAlt } from "react-icons/bi";
 import { PiSuitcaseSimpleBold } from "react-icons/pi";
 import { BiBuildingHouse } from "react-icons/bi";
+import { useRef } from "react";
+import { Button } from 'react-bootstrap';
+
+
 
 const CheckoutPage = () => {
 
@@ -32,6 +36,96 @@ const CheckoutPage = () => {
     const [discounts, setDiscounts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedType, setSelectedType] = useState('HOME');
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const lastTapRef = useRef(0);
+    const singleClickTimeoutRef = useRef(null);
+    const selectedCartItems = cartItems.filter(item =>
+        selectedItems.includes(item.variantId)
+    );
+    const [walletUsed, setWalletUsed] = useState(0);
+    const [walletError, setWalletError] = useState('');
+
+    const walletBalance = 1000;
+
+    const paymentDiscountMap = {
+        "100% Online and 0% COD": 1.5,
+        "75% Online and 25% COD": 0.75,
+        "50% Online and 50% COD": 0.5,
+        "25% Online and 75% COD": 0.5,
+        "0% Online and 100% COD": 0,
+    };
+
+
+    const handlingChargesMap = {
+        "100% Online and 0% COD": 0,
+        "75% Online and 25% COD": 25,
+        "50% Online and 50% COD": 50,
+        "25% Online and 75% COD": 75,
+        "0% Online and 100% COD": 100,
+    };
+
+    const totalProductCost = selectedCartItems.reduce((total, item) => {
+        return total + item.price * item.quantity;
+    }, 0);
+    const discountByPayment = (totalProductCost * (paymentDiscountMap[selectedPayment] || 0)) / 100;
+
+    let discountByCoupon = 0;
+    if (appliedCoupon) {
+        if (appliedCoupon.discountType === 'Percentage') {
+            discountByCoupon = (totalProductCost * appliedCoupon.discountValue) / 100;
+        } else {
+            discountByCoupon = appliedCoupon.discountValue;
+        }
+    }
+    const totalDiscount = discountByCoupon + discountByPayment;
+    const handlingCharges = handlingChargesMap[selectedPayment] || 0;
+    const netPayable = totalProductCost - (totalDiscount + handlingCharges);
+    const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
+
+    const handleWalletChange = (e) => {
+        const value = e.target.value;
+
+        if (value === '') {
+            setWalletUsed(0);
+            setWalletError('');
+            return;
+        }
+
+        if (/^\d+$/.test(value)) {
+            const numericValue = Number(value);
+
+            if (numericValue > walletBalance) {
+                setWalletError('Please enter value less than wallet balance');
+            } else {
+                setWalletError('');
+                setWalletUsed(numericValue);
+            }
+        }
+    };
+
+
+    const getPaymentSplit = (paymentOption) => {
+        const regex = /(\d+)% Online and (\d+)% COD/;
+        const match = paymentOption.match(regex);
+        if (match) {
+            return {
+                online: parseInt(match[1], 10),
+                cod: parseInt(match[2], 10),
+            };
+        } else {
+            return {
+                online: 0,
+                cod: 100,
+            };
+        }
+    };
+
+    const { online, cod } = getPaymentSplit(selectedPayment);
+
+    const onlinePay = (online / 100) * totalProductCost;
+    const codPay = (cod / 100) * totalProductCost;
+
 
     useEffect(() => {
         if (isSidebarOpen) {
@@ -39,6 +133,13 @@ const CheckoutPage = () => {
         }
     }, [isSidebarOpen]);
 
+    const handleCheckboxChange = (variantId) => {
+        setSelectedItems(prev =>
+            prev.includes(variantId)
+                ? prev.filter(id => id !== variantId)
+                : [...prev, variantId]
+        );
+    };
     const fetchDiscounts = async () => {
         try {
             setLoading(true);
@@ -58,44 +159,43 @@ const CheckoutPage = () => {
 
         setLoading(true);
         try {
-            // Fetch cart items from API
             const cartResponse = await getCart(customer.customerId);
             const cartData = cartResponse?.cartItems || [];
 
-            // Fetch all products from local storage or API
             let allProducts = JSON.parse(localStorage.getItem("allProducts"));
-
             if (!allProducts) {
                 const productResponse = await fetchProducts();
                 allProducts = productResponse?.data || [];
-                localStorage.setItem("allProducts", JSON.stringify(allProducts)); // Cache products
+                localStorage.setItem("allProducts", JSON.stringify(allProducts));
             }
 
-            // Map the cart items with product details
             const cartProducts = cartData.map((item) => {
                 const product = allProducts.find((p) =>
                     p.variants.some((v) => v.id === item.variantId)
                 );
                 const variant = product?.variants.find((v) => v.id === item.variantId);
 
-                return {
-                    productName: product?.productName || "Unknown Product",
-                    size: variant?.size || "Unknown",
-                    colorName: variant?.color?.colorName || "Unknown",
-                    price: variant?.pricePerKg || 0,
-                    variantId: variant?.id || 0,
-                    quantity: item.quantity,
-                    productImage: product?.productImage?.[0] || "/images/default.png", // Default image
-                };
-            });
+                if (!product || !variant) return null;
 
-            setCartItems(cartProducts);
+                return {
+                    productName: product.productName,
+                    size: variant.size,
+                    colorName: variant.color?.colorName,
+                    price: variant.pricePerKg,
+                    variantId: variant.id,
+                    quantity: item.quantity,
+                    productImage: product.productImage?.[0] || "/images/default.png",
+                };
+            }).filter(Boolean);
+
+            setCartItems(cartProducts); // ✅ updates context
         } catch (error) {
             console.error("Failed to fetch orders:", error);
         } finally {
             setLoading(false);
         }
-    }, [customer.customerId]);
+    }, [customer?.customerId, setCartItems]);
+
 
     useEffect(() => {
         fetchOrders();
@@ -111,11 +211,12 @@ const CheckoutPage = () => {
         try {
             await removeFromCart(customer.customerId, variantId);
             fetchOrders()
-            alert("Item removed from cart successfully!"); // Success message
+            alert("Item removed from cart successfully!");
         } catch (error) {
             alert("Failed to remove item from cart!");
         }
     }
+
 
 
     const handleSelectPayment = (type) => {
@@ -136,36 +237,84 @@ const CheckoutPage = () => {
         { label: "Account", link: "/account" },
         { label: "Shopping Cart", link: "/shoppingCart" }
     ];
+    const handleCouponClick = (discount) => {
+        const now = Date.now();
+        const DOUBLE_TAP_DELAY = 300;
+        if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+            clearTimeout(singleClickTimeoutRef.current);
+            setAppliedCoupon(discount);
+        } else {
 
+            singleClickTimeoutRef.current = setTimeout(() => {
+                let savings = 0;
+
+                if (discount.discountType === 'Percentage') {
+                    savings = (totalProductCost * discount.discountValue) / 100;
+                } else {
+                    savings = discount.discountValue;
+                }
+
+                setAppliedCoupon(discount);
+                alert(`You have saved Rs ${savings.toFixed(2)}/- amount on your order`);
+            }, DOUBLE_TAP_DELAY);
+        }
+
+        lastTapRef.current = now;
+    };
+
+
+    useEffect(() => {
+        if (cartItems.length > 0) {
+            const allVariantIds = cartItems.map(item => item.variantId);
+            setSelectedItems(allVariantIds);
+        }
+    }, [cartItems]);
     return (
         <div>
-            <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
-            <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
+            <div className='px-6 lg:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
+            <div className='px-6 lg:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
 
-            <div className='px-6 md:px-14 py-3'>
+            <div className='px-6 lg:px-14 py-3'>
                 <HeroSection productName={"Shopping Cart"} breadcrumbs={breadcrumbs}></HeroSection>
             </div>
 
-            <div className='px-6 md:px-14 py-3 gap-5'>
+            <div className='md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
                 <h5 className='font-bold text-2xl'>Review your cart</h5>
                 {cartItems.length > 0 ? (
-                    <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'>
-                        {cartItems.map((item, index) => (
-                            <li key={index} className='border rounded-lg'>
-                                <div className="position-relative">
-                                    <button onClick={() => handleRemoveFromCart(item.variantId)} className="rounded-full border-2 position-absolute -top-2 -right-2 z-20 border-violet-800 text-violet-800 font-bold">
-                                        <RxCross2 size={20} />
-                                    </button>
-                                    <ProductDetailBoxMini
-                                        productName={item.productName}
-                                        price={item.price}
-                                        size={item.size}
-                                        color={item.colorName}
-                                        itemQuantity={item.quantity}
-                                    ></ProductDetailBoxMini>
-                                </div>
-                            </li>
-                        ))}
+                    <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 '>
+                        {cartItems.map((item, index) => {
+                            const itemCost = item.price * item.quantity;
+                            const gstRate = 12;
+                            const gstAmount = (itemCost * gstRate) / 100;
+                            const totalItemCostWithGst = itemCost + gstAmount;
+                            return (
+                                <li key={index} className={`border rounded-lg ${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
+
+
+                                    {item && item.productName ? (
+                                        <div className="position-relative">
+                                            <button
+                                                onClick={() => handleRemoveFromCart(item.variantId)}
+                                                className="rounded-full border-2 position-absolute -top-2 -right-2 z-20 border-violet-800 text-violet-800 font-bold"
+                                            >
+                                                <RxCross2 size={20} />
+                                            </button>
+                                            <ProductDetailBoxMini
+                                                productName={item.productName}
+                                                price={item.price}
+                                                size={item.size}
+                                                color={item.colorName}
+                                                itemQuantity={item.quantity}
+                                                variantId={item.variantId}
+                                                isSelected={selectedItems.includes(item.variantId)}
+                                                onSelectChange={handleCheckboxChange}
+                                            />
+                                        </div>
+                                    ) : null}
+
+                                </li>
+                            );
+                        })}
                     </ul>
                 ) : (
                     <div className='py-5'>
@@ -178,7 +327,7 @@ const CheckoutPage = () => {
 
                     <div className='flex justify-between'>
                         <h5 className='font-bold text-2xl'>Shipping Address</h5>
-                        <button onClick={() => navigate('/address')} className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-lg font-semibold'>ADD NEW ADDRESS</button>
+                        <button onClick={() => navigate('/address')} className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-sm font-semibold'>ADD NEW ADDRESS</button>
                     </div>
 
 
@@ -284,49 +433,49 @@ const CheckoutPage = () => {
                     <div className='mt-5 grid grid-cols-1 md:grid-cols-2 gap-3'>
                         <div className=''>
                             <h5 className='font-bold text-2xl'>Payment</h5>
-                            <Dropdown onSelect={handleSelectPayment} size="sm" className='mt-2'>
+                            <Dropdown onSelect={handleSelectPayment} size="sm" className='mt-2 md:text-sm'>
                                 <Dropdown.Toggle variant="light" id="dropdown-basic" className="d-flex align-items-center justify-content-between gap-2 w-100">
                                     <p className="m-0">{selectedPayment}</p>
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu className='w-full'>
-                                    <Dropdown.Item eventKey={"100%"}>
+                                    <Dropdown.Item eventKey={"100% Online and 0% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='text-xl font-medium'>Pay <span className='text-violet-800'>100%</span> in Online & <span className='text-violet-800'>0%</span> Cash on delivery</h4>
-                                            <h5>Flat 1.50% discount is applied to your order total.</h5>
+                                            <h4 className='lg:lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>100%</span> in Online & <span className='text-violet-800'>0%</span> COD</h4>
+                                            <h5 className='md:text-sm'>1.50% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item>
-                                    <Dropdown.Item eventKey={"75%"}>
+                                    <Dropdown.Item eventKey={"75% Online and 25% COD"}>
                                         <div className='p-2 border-bottom'>
                                             <div>
-                                                <h4 className='text-xl font-medium'>Pay <span className='text-violet-800'>75%</span> in Online & <span className='text-violet-800'>25%</span> Cash on delivery</h4>
-                                                <h5>Flat 0.75% discount is applied to your order total.</h5>
+                                                <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>75%</span> in Online & <span className='text-violet-800'>25%</span> COD</h4>
+                                                <h5 className='md:text-sm'>0.75% discount applied.</h5>
                                             </div>
 
-                                            <div className=''>
+                                            <div className='lg:text-xl md:text-sm'>
                                                 Recommended
                                             </div>
 
                                         </div>
                                     </Dropdown.Item>
 
-                                    <Dropdown.Item eventKey={"50% online and 50% Cash on Delivery"}>
+                                    <Dropdown.Item eventKey={"50% Online and 50% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='text-xl font-medium'>Pay <span className='text-violet-800'>50%</span> in Online & <span className='text-violet-800'>50%</span>Cash on delivery</h4>
-                                            <h5>Flat 0.50% discount is applied to your order total.</h5>
+                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>50%</span> in Online & <span className='text-violet-800'>50%</span> COD</h4>
+                                            <h5 className='md:text-sm'>0.50% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item>
 
-                                    <Dropdown.Item eventKey={"25%"}>
+                                    <Dropdown.Item eventKey={"25% Online and 75% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='text-xl font-medium'>Pay <span className='text-violet-800'>25%</span>in Online & <span className='text-violet-800'>75%</span> Cash on delivery</h4>
-                                            <h5>Flat 0.50% discount is applied to your order total.</h5>
+                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>25%</span>in Online & <span className='text-violet-800'>75%</span> COD</h4>
+                                            <h5 className='md:text-sm'>0.50% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item>
 
-                                    <Dropdown.Item eventKey={"0%"}>
+                                    <Dropdown.Item eventKey={"0% Online and 100% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='text-xl font-medium'>Pay <span className='text-violet-800'>0%</span> in Online & <span className='text-violet-800'>100%</span> Cash on delivery</h4>
-                                            <h5>No discount is avilable for only cash on delivery payment.</h5>
+                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>0%</span> in Online & <span className='text-violet-800'>100%</span> COD</h4>
+                                            <h5 className='md:text-sm'>No discount on COD.</h5>
                                         </div>
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
@@ -335,23 +484,20 @@ const CheckoutPage = () => {
 
                         <div className="">
                             <h5 className="font-bold text-2xl">Discounts</h5>
-                            <Dropdown className='mt-2'>
-                                <Dropdown.Toggle
-                                    variant="light"
-                                    id="dropdown-basic"
-                                    className="d-flex align-items-center justify-content-between gap-2 w-100"
-                                    onClick={() => setIsSidebarOpen(true)} // Open sidebar on click
-                                >
-                                    Select Discount
-                                </Dropdown.Toggle>
-                            </Dropdown>
+                            <Button
+                                variant="light"
+                                className="d-flex align-items-center justify-content-between gap-2 w-23 mt-2"
+                                onClick={() => setIsSidebarOpen(true)} // Open sidebar on click
+                            >
+                                Select Discount
+                            </Button>
                         </div>
                     </div>
 
                     <div
-                        className={`fixed top-0 right-0 w-2/3 md:w-2/4 lg:w-2/4 h-full bg-white shadow-lg transform transition-transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"
+                        className={`fixed top-0 right-0 w-2/4 md:w-2/5 lg:w-1/3 h-full bg-white shadow-lg transform transition-transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"
                             } z-50 p-4`}
-                            style={{overflowY:"auto"}}
+                        style={{ overflowY: "auto" }}
                     >
                         {/* Close Button */}
                         <button
@@ -384,7 +530,11 @@ const CheckoutPage = () => {
                                     {filteredDiscounts.map((discount) => (
                                         <li key={discount.discountId} className="border rounded-xl flex">
                                             <div className='bg-violet-800 w-10  relative rounded-l-xl'>
-                                                <h4 className="-rotate-90 text-sm font-bold text-white -translate-x-4 translate-y-12 w-20"> {discount.discountValue}{discount.discountType === 'Percentage' ? '%' : '₹'} OFF</h4>
+                                                <h4 className="-rotate-90 text-sm font-bold text-white -translate-x-4 translate-y-12 w-20 cursor-pointer select-none"
+                                                    onClick={() => handleCouponClick(discount)}>
+                                                    {discount.discountValue}{discount.discountType === 'Percentage' ? '%' : '₹'}
+                                                    OFF
+                                                </h4>
                                                 <div className="absolute top-4 -left-2 w-3 h-3 bg-white rounded-full"></div>
                                                 <div className="absolute top-8 -left-2 w-3 h-3 bg-white rounded-full"></div>
                                                 <div className="absolute top-12 -left-2 w-3 h-3 bg-white rounded-full"></div>
@@ -393,10 +543,11 @@ const CheckoutPage = () => {
                                                 <div className="absolute top-24 -left-2 w-3 h-3 bg-white rounded-full"></div>
                                                 <div className="absolute top-28 -left-2 w-3 h-3 bg-white rounded-full"></div>
                                             </div>
-                                            <div className='flex-1 p-2'>
-                                                <div className='flex justify-between'>
+                                            <div className='flex-1 p-2 hover:border-blue-800 hover:border-2 hover:rounded-tr-md hover:rounded-br-md'>
+                                                <div className='flex justify-between '>
                                                     <h3 className="font-semibold text-xl">{discount.discountCode}</h3>
-                                                    <h5 className='text-violet-800 font-bold text-md'>APPLY</h5>
+                                                    <h5 className='text-violet-800 font-bold text-md'
+                                                        onClick={() => handleCouponClick(discount)}>APPLY</h5>
                                                 </div>
                                                 <h4 className='text-green-600 font-semibold mt-2 border-b-2 border-dotted pb-2'>Save ₹{2103} on this order!</h4>
                                                 <h4 className='mt-4 font-medium'>Use Code {discount.discountCode} Get {discount.discountValue} {discount.discountType === 'Percentage' ? '%' : '₹'} off as <br></br>discount bonus</h4>
@@ -472,28 +623,16 @@ const CheckoutPage = () => {
                         </div>
 
                     </div> */}
-
-
-
-
                 </div>
-
-
-
-
                 <div className='p-2 flex-1'>
-
-
                     <div className='border-1 rounded-md p-3 mt-10'>
-
-
                         <table className='w-100 rounded mt-2 font-semibold'>
-
-                            <tbody>
+                            <tbody className='leading-8'>
                                 <tr className=''>
-                                    <td>Totol Cost(Incl gst)</td>
-                                    <td>9 items</td>
-                                    <td style={{ textAlign: 'end' }}>₹3,07,458</td>
+                                    <td>Total Cost(Incl GST)</td>
+                                    <td></td>
+                                    <td style={{ textAlign: 'end' }}>₹{totalProductCost.toLocaleString()}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -503,66 +642,78 @@ const CheckoutPage = () => {
                                             <p className='text-gray-400 pl-12'>By coupon Code</p>
                                         </div>
                                     </td>
-
                                     <td>
                                         <div>
-                                            <p>10.75%</p>
-                                            <p className='text-gray-400'>0.75%</p>
-                                            <p className='text-gray-400'>10%</p>
+                                            <p>{((totalDiscount / totalProductCost) * 100).toFixed(2)}%</p>
+                                            <p className="text-gray-400">
+                                                {paymentDiscountMap[selectedPayment] !== undefined
+                                                    ? `${paymentDiscountMap[selectedPayment]}%`
+                                                    : '0.00%'}
+                                            </p>
+                                            <p className='text-gray-400'>
+                                                {appliedCoupon
+                                                    ? `${appliedCoupon.discountValue}${appliedCoupon.discountType === 'Percentage' ? '%' : '₹'}`
+                                                    : '0%'}
+                                            </p>
                                         </div>
                                     </td>
-
                                     <td>
                                         <div>
-                                            <p className='text-end'>₹1856</p>
-                                            <p className='text-gray-400 text-end'>₹856</p>
-                                            <p className='text-gray-400 text-end'>₹1000</p>
+                                            <p className='text-end'>₹{totalDiscount.toFixed(0)}</p>
+                                            <p className='text-gray-400 text-end'>₹{discountByPayment.toFixed(0)}</p>
+                                            <p className='text-gray-400 text-end'>₹{discountByCoupon.toFixed(0)}</p>
                                         </div>
                                     </td>
-
                                 </tr>
-
                                 <tr className='border-b-2'>
-                                    <td className=''>Handling Charges</td>
-                                    <td></td>
-                                    <td className='text-end'>₹3542</td>
+                                    <td className='pb-2'>Handling Charges</td>
+                                    <td className='pb-2'></td>
+                                    <td className='text-end pb-2'>₹{handlingCharges}</td>
                                 </tr>
-
                                 <tr>
                                     <td className='pt-2'>Net pay</td>
                                     <td className='pt-2'></td>
-                                    <td className='text-end pt-2'>₹3,20,470</td>
-                                </tr>
-
-                                <tr className='border-b-2'>
-                                    <td className='pb-3'>Wallet Balance</td>
-                                    <td className='pb-3 text-right w-75'>₹4116</td>
-                                    <td style={{ textAlign: 'end' }} className='pb-3'>
-                                        <input placeholder='Amount' className='w-28 border-1 border-gray-300 rounded-md ps-2'></input>
+                                    <td className='text-end pt-2'>
+                                        ₹{Math.round(netPayable).toLocaleString()}
                                     </td>
-
                                 </tr>
-
                                 <tr className='border-b-2'>
-                                    <td className='pb-4'>To pay</td>
-                                    <td></td>
-                                    <td className='text-end'>₹3,20,470</td>
+                                    <td className='pb-2'>Wallet Balance</td>
+                                    <td className='pb-2'>₹{walletBalance}</td>
+                                    <td style={{ textAlign: 'end' }} className='pb-2'>
+                                        <div className="text-right">
+                                            <input
+                                                type="text"
+                                                placeholder="Amount"
+                                                className={`w-24 border rounded-md text-right px-1 ${walletError ? 'border-red-500' : 'border-gray-300'
+                                                    }`}
+                                                value={walletUsed === 0 ? '' : walletUsed}
+                                                onChange={handleWalletChange}
+                                            />
+                                            {walletError && (
+                                                <p className="text-red-500 text-xs mt-1">{walletError}</p>
+                                            )}
+                                        </div>
+                                    </td>
                                 </tr>
-
-                                <tr>
-                                    <td>COD (After delivery)</td>
-                                    <td className=''>25%</td>
-                                    <td className='text-end'>₹80,170</td>
+                                <tr className='border-b-2'>
+                                    <td className='pt-2 pb-2'>To pay</td>
+                                    <td className='pt-2'></td>
+                                    <td className='text-end pt-2 pb-2'>
+                                        ₹{Math.round(adjustedNetPay).toLocaleString()}
+                                    </td>
                                 </tr>
-
+                                <tr className=''>
+                                    <td className='pt-2'>COD (After delivery)</td>
+                                    <td className='pt-2'>{cod}%</td>
+                                    <td className='text-end pt-2'>₹{codPay.toLocaleString("en-IN")}</td>
+                                </tr>
                                 <tr>
                                     <td>Online Payment (Now)</td>
-                                    <td className=''>75%</td>
-                                    <td className='text-end'>₹2,40,353</td>
+                                    <td className=''>{online}%</td>
+                                    <td className='text-end'>₹{onlinePay.toLocaleString("en-IN")}
+                                    </td>
                                 </tr>
-
-
-
                                 {/* <tr>
                                     <td>Discounts by payment</td>
                                     <td>5%</td>
@@ -604,50 +755,22 @@ const CheckoutPage = () => {
                                     <td style={{textAlign:'end'}}>₹2,121,156</td>
                                     
                                 </tr> */}
-
-
-
-
                             </tbody>
                         </table>
-
-
-
                     </div>
-
                 </div>
                 <div>
-
                     <div className='mt-6'>
-
                         <button className='bg-violet-900 text-white p-3 rounded-md w-full'>PAY NOW</button>
                     </div>
-
-
                     <div className='mt-6'>
                         <h4 className='font-semibold flex gap-2'><span className='text-violet-800'><RiLock2Line size={20} /></span>Ensure Checkout- SSL Encrypted</h4>
-
                         <p className='text-slate-400 mt-2'>Ensuring your financial and personal details are secure during every transaction</p>
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
-
-
-
-
-
-
-
-
-            <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
-            <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
-
+            <div className='px-6 lg:px-14 py-3 mt-10'><Cta></Cta></div>
+            <div className='px-6 lg:px-14 py-3'> <Footer></Footer></div>
             <BottomNav></BottomNav>
         </div>
     )

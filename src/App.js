@@ -70,7 +70,7 @@ function App() {
                   <Route path="/home" element={<LandingPage></LandingPage>} /> 
                   <Route path="/category" element={<Category />} />
                   <Route path="/wishlist" element={<WishlistPage />} />
-                  <Route path="/shoppingCart" element={<ShopingCartPage />} />
+                  <Route path="/shoppingCart" element={<CheckoutPage />} />
                   <Route path="/productDetails" element={<ProductDetailPage />} />
                   <Route path="/checkOut" element={<CheckoutPage />} />
                   <Route path="/account" element={<AccountPage />} />

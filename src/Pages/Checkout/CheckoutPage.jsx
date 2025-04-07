@@ -486,7 +486,7 @@ const CheckoutPage = () => {
                             <h5 className="font-bold text-2xl">Discounts</h5>
                             <Button
                                 variant="light"
-                                className="d-flex align-items-center justify-content-between gap-2 w-23 mt-2"
+                                className="d-flex align-items-center justify-content-between gap-2 w-100 mt-2"
                                 onClick={() => setIsSidebarOpen(true)} // Open sidebar on click
                             >
                                 Select Discount
@@ -644,7 +644,8 @@ const CheckoutPage = () => {
                                     </td>
                                     <td>
                                         <div>
-                                            <p>{((totalDiscount / totalProductCost) * 100).toFixed(2)}%</p>
+                                            <p>{totalProductCost ? ((totalDiscount / totalProductCost) * 100).toFixed(2) : "0.00"}%
+                                            </p>
                                             <p className="text-gray-400">
                                                 {paymentDiscountMap[selectedPayment] !== undefined
                                                     ? `${paymentDiscountMap[selectedPayment]}%`

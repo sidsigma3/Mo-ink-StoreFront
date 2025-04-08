@@ -489,7 +489,6 @@ const CheckoutPage = () => {
 
                                 className="d-flex align-items-center justify-content-between gap-2 w-100 mt-2"
 
-                                className="d-flex align-items-center justify-content-between gap-2 w-23 mt-2 w-full"
 
                                 onClick={() => setIsSidebarOpen(true)} // Open sidebar on click
                             >

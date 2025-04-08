@@ -127,7 +127,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
         <div className="relative">
           {/* Image */}
           <img
-            src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="/images/Picture1.png"
             alt=""
             className="h-80 w-full rounded-tr-3xl object-cover"
             style={{ height: '10rem' }}

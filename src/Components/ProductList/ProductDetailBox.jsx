@@ -27,69 +27,91 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
 
 
   const handleWishlistClick = async () => {
-    if (!customer?.customerId) return;
-
-
-    console.log("Clicked Wishlist for Variant ID:", variantId);
+    if (!customer?.customerId) {
+      alert("Please log in to use the wishlist.");
+      return;
+    }
+  
     try {
-
-      const wishlistItems = await getWishlist(customer.customerId);
-      const alreadyInWishlist = wishlistItems.some(item => item.variantId === variantId);
-
+      let wishlistItems = [];
+  
+      // 🛠 Try to fetch wishlist items
+      try {
+        const response = await getWishlist(customer.customerId);
+        wishlistItems = Array.isArray(response) ? response : [];
+      } catch (error) {
+        if (error.response?.status === 404) {
+          // 🎯 No wishlist exists yet, treat as empty
+          wishlistItems = [];
+        } else {
+          throw error; // re-throw real errors
+        }
+      }
+  
+      // 🔎 Safety check + fallback
+      const alreadyInWishlist = Array.isArray(wishlistItems)
+        ? wishlistItems.some(item => item?.variantId === variantId)
+        : false;
+  
       if (alreadyInWishlist) {
-
-        setIsWishlisted(false);
         await removeFromWishlist(customer.customerId, variantId);
+        setIsWishlisted(false);
         alert("Item removed from Wishlist");
       } else {
-
-        setIsWishlisted(true);
         await addToWishlist(customer.customerId, variantId);
+        setIsWishlisted(true);
         alert("Item added to Wishlist");
       }
-
-      onWishlistToggle();
+  
+      onWishlistToggle?.(); // safe optional call
     } catch (error) {
       console.error("Error updating wishlist:", error);
-      setIsWishlisted(!isWishlisted);
+      alert("Something went wrong while updating the wishlist.");
     }
   };
-
+  
 
 
   const handleAddToCart = async () => {
-
     if (!customer?.customerId) {
       alert("Please log in to add items to your cart.");
       return;
     }
-
+  
     try {
-
-      const cart = await getCart(customer.customerId);
-
-      const alreadyInCart = cart.cartItems.some(item => item.variantId === variantId);
-
-      if (alreadyInCart) {
-        alert("Item is already in your Cart!");
-        return;
+      let cart;
+      let alreadyInCart = false;
+  
+      try {
+    
+        cart = await getCart(customer.customerId);
+        alreadyInCart = cart.cartItems.some(item => item.variantId === variantId);
+  
+        if (alreadyInCart) {
+          alert("Item is already in your Cart!");
+          return;
+        }
+      } catch (error) {
+     
+        if (error.response?.status !== 404) {
+          throw error; 
+        }
       }
-
+  
       await addToCart(customer.customerId, variantId, quantity);
       alert("Item added to cart successfully!");
-
-      const updatedCart = await getCart(customer.customerId);
+  
+      const updatedCart = await getCart(customer.customerId); 
       if (navigateCart) {
-        navigate("/shoppingCart")
+        navigate("/shoppingCart");
       }
-
+  
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Failed to add item to cart!");
     }
   };
-
-
+  
 
 
 

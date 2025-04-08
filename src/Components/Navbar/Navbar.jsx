@@ -5,13 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 
-  const navigate = useNavigate()
-  
-
-
+  const navigate = useNavigate();
   return (
-  
-   
     <nav className="hidden md:flex justify-between items-center border-b px-6 py-3 bg-white">
       {/* Navigation Links */}
       <ul className="flex gap-6 font-medium">
@@ -21,13 +16,13 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a className="hover:text-purple-600 cursor-pointer">About</a>
+          <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/about")}>About</a>
         </li>
         <li>
-          <a className="hover:text-purple-600 cursor-pointer">Blog</a>
+          <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/blogs")}>Blog</a>
         </li>
         <li>
-          <a className="hover:text-purple-600 cursor-pointer">Contact</a>
+          <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/contact")}>Contact</a>
         </li>
       </ul>
 

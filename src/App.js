@@ -23,6 +23,12 @@ import ForgotPassword from './Pages/Authnticate/ForgotPassword/ForgotPassword';
 import ResetPassword from './Pages/Authnticate/ResetPassword/ResetPassword';
 import AuthPage from './Pages/Authnticate/AuthPage';
 import VerifyCode from './Pages/Authnticate/Verify/VerifyCode';
+import AboutPage from "./Pages/About/About";
+import FAQs from './Pages/FAQs/FAQs';
+import ReturnPolicy from "./Pages/Return Policy/ReturnPolicy";
+import RefundPolicy from "./Pages/Refund Policy/RefundPolicy";
+import ErrorPage from './Pages/Error Page/ErrorPage';
+
 
 function App() {
 
@@ -68,6 +74,7 @@ function App() {
               <div className="content w-100 p-3">
                 <Routes>
                   <Route path="/home" element={<LandingPage></LandingPage>} /> 
+                  <Route path="/about" element={<AboutPage></AboutPage>} />
                   <Route path="/category" element={<Category />} />
                   <Route path="/wishlist" element={<WishlistPage />} />
                   <Route path="/shoppingCart" element={<CheckoutPage />} />
@@ -78,8 +85,12 @@ function App() {
                   <Route path="/wallet" element={<WalletPage />} />
                   <Route path="/orders" element={<OrderPage />} />
                   <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/FAQs" element={<FAQs/>}/>
                   <Route path="/address" element={<AddressPage />} />
                   <Route path="/orderDetails" element={<OrderDetails />} />
+                  <Route path="/returnPolicy" element={<ReturnPolicy/>}/>
+                  <Route path="/refundPolicy" element={<RefundPolicy/>}/>
+                  <Route path="*" element={<ErrorPage />} />
                 </Routes>
               </div>
             

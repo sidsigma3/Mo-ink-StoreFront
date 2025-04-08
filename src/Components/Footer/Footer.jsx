@@ -1,6 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
+
+  const navigate=useNavigate();
   return (
     <footer className="bg-white">
     <div className="mx-auto  space-y-8 py-8 sm:px-6 lg:space-y-16 lg:px-8">
@@ -119,11 +122,11 @@ const Footer = () => {
   
             <ul className="mt-6 space-y-4 text-sm">
               <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75"> Contact </a>
+                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/contact")}> Contact </a>
               </li>
   
               <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75"> FAQs </a>
+                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/FAQs")}> FAQs </a>
               </li>
   
               <li>
@@ -141,11 +144,11 @@ const Footer = () => {
               </li> */}
   
               <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75"> Returns Policy </a>
+                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/returnPolicy")}> Return Policy </a>
               </li>
   
               <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75"> Refund Policy </a>
+                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/refundPolicy")}> Refund Policy </a>
               </li>
 {/*   
               <li>

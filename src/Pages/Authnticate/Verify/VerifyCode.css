@@ -1,4 +1,4 @@
-.verify-page{
+/* .verify-page{
     padding: 2rem;
     height: 100vh;
 }
@@ -101,11 +101,18 @@
                 .right-cover-pic img {
                     width: 100%;
                     display: none !important; /* Prevents spacing issues */
-                }
+                /* }
 
             }                                   
         }
 
     }
 
-}
+} */ */
+
+
+/* .verify-box {
+    padding: 2px;
+    border-radius: 1.5rem; /* matches rounded-3xl */
+    background: linear-gradient(90deg, #9333ea, #ec4899, #9333ea);
+  } */

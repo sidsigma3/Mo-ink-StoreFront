@@ -12,6 +12,7 @@
     "cra-template": "1.2.0",
     "keen-slider": "^6.8.6",
     "leaflet": "^1.9.4",
+    "lucide-react": "^0.487.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^19.0.0",

@@ -32,9 +32,7 @@ const NavbarHeader = () => {
 
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated"); 
-    localStorage.removeItem("userData"); 
-    // sessionStorage.removeItem("authToken");
+    localStorage.clear();
     navigate("/"); 
   };
   

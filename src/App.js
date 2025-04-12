@@ -28,6 +28,7 @@ import FAQs from './Pages/FAQs/FAQs';
 import ReturnPolicy from "./Pages/Return Policy/ReturnPolicy";
 import RefundPolicy from "./Pages/Refund Policy/RefundPolicy";
 import ErrorPage from './Pages/Error Page/ErrorPage';
+import Blogs from './Pages/Blogs/Blogs';
 
 
 function App() {
@@ -90,6 +91,8 @@ function App() {
                   <Route path="/orderDetails" element={<OrderDetails />} />
                   <Route path="/returnPolicy" element={<ReturnPolicy/>}/>
                   <Route path="/refundPolicy" element={<RefundPolicy/>}/>
+                  <Route path="/product/:id" element={<ProductDetailPage />} />
+                  <Route path="/blogs" element={<Blogs/>}/>
                   <Route path="*" element={<ErrorPage />} />
                 </Routes>
               </div>

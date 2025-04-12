@@ -11,6 +11,7 @@ import { fetchProducts } from '../../Services/ProductService'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { IoFilterSharp } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom'
 
 
 const Category = () => {
@@ -18,7 +19,7 @@ const Category = () => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate=useNavigate();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -169,7 +170,7 @@ const Category = () => {
             </div>
 
 
-            <div className='border rounded p-3 shadow-md mt-3'>
+            {/* <div className='border rounded p-3 shadow-md mt-3'>
               <h4 className='text-xl font-semibold'>New Stock</h4>
               <ul className='divide-y-2 divide-dotted'>
                 <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
@@ -236,7 +237,7 @@ const Category = () => {
                 </li>
               </ul>
 
-            </div>
+            </div> */}
 
 
 
@@ -322,7 +323,7 @@ const Category = () => {
 
           <div className='border rounded p-3 shadow-md mt-3'>
             <h4 className='text-xl font-semibold'>New Stock</h4>
-            <ul className='divide-y-2 divide-dotted'>
+            <ul className='divide-y-2 divide-dotted' onClick={()=>navigate("/shoppingCart")}>
               <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
                 <div className=''>
                   <img src='/images/wool-item.png'></img>

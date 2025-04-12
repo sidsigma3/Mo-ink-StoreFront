@@ -529,7 +529,7 @@ const CheckoutPage = () => {
 
                                 <h4 className='font-semibold text-lg mt-3'>Best Coupon</h4>
 
-                                <ul className="space-y-2 mt-3">
+                                <ul className="space-y-2 mt-3 cursor-pointer">
                                     {filteredDiscounts.map((discount) => (
                                         <li key={discount.discountId} className="border rounded-xl flex">
                                             <div className='bg-violet-800 w-10  relative rounded-l-xl'>

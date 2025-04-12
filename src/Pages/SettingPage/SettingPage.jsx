@@ -1,4 +1,4 @@
-import React , {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -6,7 +6,7 @@ import Cta from '../../Components/CTA/Cta'
 import Footer from '../../Components/Footer/Footer'
 import HeroSection from '../../Components/HeroSection/HeroSection'
 import { RxExit } from "react-icons/rx";
-import { getCustomerDetails , updateCustomerDetails } from '../../Services/CustomerService'
+import { getCustomerDetails, updateCustomerDetails } from '../../Services/CustomerService'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,7 +15,8 @@ const SettingPage = () => {
   const navigate = useNavigate()
   const [customerDetails, setCustomerDetails] = useState({});
   const [customer, setCustomer] = useState({});
-  const customerData = JSON.parse(localStorage.getItem('userData') || '{}'); 
+  const customerData = JSON.parse(localStorage.getItem('userData') || '{}');
+  const [originalCustomer, setOriginalCustomer] = useState({});
 
 
   useEffect(() => {
@@ -29,19 +30,19 @@ const SettingPage = () => {
     };
     fetchCustomerData();
   }, []);
-  
+
   useEffect(() => {
-    if (!customerDetails || Object.keys(customerDetails).length === 0) return; // Ensure data exists
-  
-    const firstAddress = customerDetails.addresses && customerDetails.addresses.length > 0 
-      ? customerDetails.addresses[0] 
-      : {}; // Default to empty object if no addresses
-  
-    setCustomer({
+    if (!customerDetails || Object.keys(customerDetails).length === 0) return;
+
+    const firstAddress = (customerDetails.addresses && customerDetails.addresses.length > 0)
+      ? customerDetails.addresses[0]
+      : {};
+
+    const formattedCustomer = {
       fullName: customerDetails.customerName || "",
       password: customerDetails.password || "",
       gender: customerDetails.gender || "",
-      country: firstAddress.country || "",  // Safe access
+      country: firstAddress.country || "",
       email: customerDetails.email || "",
       language: customerDetails.language || "",
       mobile: customerDetails.phoneNumber || "",
@@ -50,8 +51,12 @@ const SettingPage = () => {
       state: firstAddress.state || "",
       city: firstAddress.city || "",
       landmark: firstAddress.street || "",
-    });
-  }, [customerDetails]); 
+    };
+
+    setCustomer(formattedCustomer);
+    setOriginalCustomer(formattedCustomer);
+  }, [customerDetails]);
+
   // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -75,25 +80,25 @@ const SettingPage = () => {
       state: customer.state,
       country: customer.country,
       zipcode: customer.pincode,
-    //   addressType: "WORK", // Hardcoded value (Change if dynamic)
-    //   customerStatus: "ACTIVE", // Hardcoded value (Change if dynamic)
-    //   customerTypes: "WEAVER", // Hardcoded value (Change if dynamic)
-    //   segmentIds: [1, 2, 3], // Hardcoded array (Change if dynamic)
+      //   addressType: "WORK", // Hardcoded value (Change if dynamic)
+      //   customerStatus: "ACTIVE", // Hardcoded value (Change if dynamic)
+      //   customerTypes: "WEAVER", // Hardcoded value (Change if dynamic)
+      //   segmentIds: [1, 2, 3], // Hardcoded array (Change if dynamic)
     };
-  
+
     try {
-      await updateCustomerDetails(customerData.customerId , updatedCustomerData);
+      await updateCustomerDetails(customerData.customerId, updatedCustomerData);
       alert("Changes saved successfully!");
     } catch (error) {
       console.error("Failed to save changes:", error);
     }
   };
 
-  const handleLogout = () =>{
-    localStorage.removeItem("isAuthenticated"); 
-    localStorage.removeItem("userData"); 
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userData");
     // sessionStorage.removeItem("authToken");
-    navigate("/"); 
+    navigate("/");
   }
 
   const breadcrumbs = [
@@ -101,19 +106,20 @@ const SettingPage = () => {
     { label: "Account", link: "/account" },
     { label: "Profile", link: "/setting" },
   ];
+  const isModified = JSON.stringify(customer) !== JSON.stringify(originalCustomer);
 
   return (
     <div>
-        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
-        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'> 
-            <HeroSection productName={"Profile"} breadcrumbs={breadcrumbs}></HeroSection>
-        </div>
+      <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
+      <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
+      <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>
+        <HeroSection productName={"Profile"} breadcrumbs={breadcrumbs}></HeroSection>
+      </div>
 
-        <div className='px-6 md:px-14 py-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4'>
+      <div className='px-6 md:px-14 py-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4'>
 
-       
-                {/* {Object.keys(customer).map((key) => (
+
+        {/* {Object.keys(customer).map((key) => (
                 <div className="flex flex-col" key={key}>
                     <label className="font-medium">{key.replace(/([A-Z])/g, " $1")}</label>
                     <input
@@ -125,9 +131,9 @@ const SettingPage = () => {
                     />
                 </div>
                 ))} */}
-      
 
-      <div className="flex flex-col">
+
+        <div className="flex flex-col">
           <label className="font-medium">Full Name</label>
           <input className="border-1 p-1 rounded mt-2" name="fullName" value={customer.fullName} onChange={handleInputChange} />
         </div>
@@ -188,20 +194,29 @@ const SettingPage = () => {
         </div>
 
 
-        </div>
+      </div>
 
-        <div className='px-6 md:px-14 py-3 flex justify-between'>
-            <button onClick={handleLogout} className='bg-red-100 text-red-500 rounded p-1 w-40 font-bold flex items-center justify-center gap-2'><span><RxExit size={20}/></span>LOG OUT</button>
+      <div className='px-6 md:px-14 py-3 flex justify-between'>
+        <button onClick={handleLogout} className='bg-red-100 text-red-500 rounded p-1 w-40 font-bold flex items-center justify-center gap-2'><span><RxExit size={20} /></span>LOG OUT</button>
 
-            <button onClick={handleSaveChanges} className='bg-violet-100 text-violet-700 rounded p-1 w-40 font-bold'>SAVE CHANGES</button>
+        <button
+          onClick={handleSaveChanges}
+          disabled={!isModified}
+          className={`rounded p-1 w-40 font-bold transition-all ${isModified
+              ? 'bg-violet-100 text-violet-700 cursor-pointer'
+              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            }`}
+        >
+          SAVE CHANGES
+        </button>
 
-        </div>
+      </div>
 
-        
-      
-        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
-        <BottomNav></BottomNav>
+
+
+      <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
+      <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
+      <BottomNav></BottomNav>
 
     </div>
   )

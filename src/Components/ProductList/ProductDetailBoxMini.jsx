@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { TiStarFullOutline } from "react-icons/ti";
+import { FaHeart } from "react-icons/fa";
+import { addToWishlist, removeFromWishlist} from "../../Services/WishlistService";
+import {getCart, removeFromCart} from "../../Services/CartService"
 
 
 
 const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle,
   isSelected = false,
-  onSelectChange = () => {}
- }) => {
+  onSelectChange = () => { }
+}) => {
 
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [isWishlisted, setIsWishlisted] = useState(isWishlist || false);
+const [isInCart, setIsInCart] = useState(true); 
+const [justRemoved, setJustRemoved] = useState(false);
+
 
   const handleIncrease = () => {
     setQuantity(prev => prev + 1);
@@ -21,17 +28,55 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
       setQuantity(prev => prev - 1);
     }
   };
-const handleCheckboxChange = (variantId) => {
-  setSelectedItems(prev =>
-    prev.includes(variantId)
-      ? prev.filter(id => id !== variantId)
-      : [...prev, variantId]
-  );
-};
+  const handleCheckboxChange = (variantId) => {
+    setSelectedItems(prev =>
+      prev.includes(variantId)
+        ? prev.filter(id => id !== variantId)
+        : [...prev, variantId]
+    );
+  };
 
+
+  const handleWishlistClick = async () => {
+    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
+    if (!customer?.customerId) return;
+  
+    try {
+      if (isWishlisted) {
+        await removeFromWishlist(customer.customerId, variantId);
+        setIsWishlisted(false);
+        setJustRemoved(true);
+        alert("Item is removed from wishlist");
+      } else {
+        const cart = await getCart(customer.customerId);
+        const inCart = cart?.cartItems?.some(item => item.variantId === variantId);
+  
+        if (inCart) {
+          console.log("Removing from cart:", variantId);
+          await removeFromCart(customer.customerId, variantId);
+          setIsInCart(false);
+
+        } else {
+          console.log("Item not found in cart");
+        }
+  
+        await addToWishlist(customer.customerId, variantId);
+        setIsWishlisted(true);
+        setJustRemoved(false);
+        alert("Item is added back to wishlist");
+      }
+      window.location.reload();
+      onWishlistToggle?.(); 
+      onCartToggle?.();     
+    } catch (err) {
+      console.error("Error toggling wishlist:", err);
+    }
+  };
+  
+  
   return (
     <div className='relative'>
-       <input
+      <input
         type="checkbox"
         className="absolute top-2 left-2 z-20 w-4 h-4 accent-violet-800"
         checked={isSelected}
@@ -98,7 +143,13 @@ const handleCheckboxChange = (variantId) => {
             </div>
           </div>
 
-
+          <button
+            onClick={handleWishlistClick}
+            className="absolute bottom-2 right-2 text-red-500 hover:text-red-600"
+            title="Move to Wishlist"
+          >
+            <FaHeart size={22} />
+          </button>
 
 
 

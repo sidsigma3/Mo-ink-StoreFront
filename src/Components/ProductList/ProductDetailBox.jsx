@@ -1,17 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TiStarFullOutline } from "react-icons/ti";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { addToWishlist, removeFromWishlist, getWishlist } from '../../Services/WishlistService';
 import { addToCart, removeFromCart, getCart } from '../../Services/CartService';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-const ProductDetailBox = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode, showCart = true }) => {
+
+const ProductDetailBox = ({ productName, price, size, color, itemQuantity, variantId, 
+  isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,
+  isWishlistPage = false,
+   showCart = true,
+   
+    }) => {
 
   const navigate = useNavigate()
-
-  const [isWishlisted, setIsWishlisted] = useState(isWishlist || false);
+  const location = useLocation();
+  const [isWishlisted, setIsWishlisted] = useState(isWishlist);
+  const [isInCart, setIsInCart] = useState(false);
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
+  const [justRemoved, setJustRemoved] = useState(false);
+  
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
 
@@ -25,52 +35,41 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
     }
   };
 
-
   const handleWishlistClick = async () => {
-    if (!customer?.customerId) {
-      alert("Please log in to use the wishlist.");
-      return;
-    }
+    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
+    if (!customer?.customerId) return;
   
     try {
-      let wishlistItems = [];
-  
-      // 🛠 Try to fetch wishlist items
-      try {
-        const response = await getWishlist(customer.customerId);
-        wishlistItems = Array.isArray(response) ? response : [];
-      } catch (error) {
-        if (error.response?.status === 404) {
-          // 🎯 No wishlist exists yet, treat as empty
-          wishlistItems = [];
-        } else {
-          throw error; // re-throw real errors
-        }
-      }
-  
-      // 🔎 Safety check + fallback
-      const alreadyInWishlist = Array.isArray(wishlistItems)
-        ? wishlistItems.some(item => item?.variantId === variantId)
-        : false;
-  
-      if (alreadyInWishlist) {
+      if (isWishlisted) {
+        // Remove from wishlist
         await removeFromWishlist(customer.customerId, variantId);
         setIsWishlisted(false);
-        alert("Item removed from Wishlist");
+        setJustRemoved(true);
+        alert("Item is removed from wishlist");
       } else {
+        // Remove from cart if present
+        const cart = await getCart(customer.customerId);
+        const inCart = cart?.cartItems?.some(item => item.variantId === variantId);
+  
+        if (inCart) {
+          await removeFromCart(customer.customerId, variantId);
+          setIsInCart(false);
+        }
+  
+        // Add to wishlist
         await addToWishlist(customer.customerId, variantId);
         setIsWishlisted(true);
-        alert("Item added to Wishlist");
+        setJustRemoved(false);
+        alert("Item is added to wishlist");
       }
   
-      onWishlistToggle?.(); // safe optional call
-    } catch (error) {
-      console.error("Error updating wishlist:", error);
-      alert("Something went wrong while updating the wishlist.");
+      onWishlistToggle?.(); // Refresh wishlist
+      onCartToggle?.(); // Refresh cart
+    } catch (err) {
+      console.error("Error toggling wishlist:", err);
     }
   };
   
-
 
   const handleAddToCart = async () => {
     if (!customer?.customerId) {
@@ -79,33 +78,23 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
     }
   
     try {
-      let cart;
-      let alreadyInCart = false;
+      const cart = await getCart(customer.customerId);
+      const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
   
-      try {
-    
-        cart = await getCart(customer.customerId);
-        alreadyInCart = cart.cartItems.some(item => item.variantId === variantId);
-  
-        if (alreadyInCart) {
-          alert("Item is already in your Cart!");
-          return;
-        }
-      } catch (error) {
-     
-        if (error.response?.status !== 404) {
-          throw error; 
-        }
+      if (alreadyInCart) {
+        alert("Item is already in your Cart!");
+        return;
       }
+  
+      // Remove from wishlist before adding to cart
+      await removeFromWishlist(customer.customerId, variantId);
+      setIsWishlisted(false);
+      setJustRemoved(true);
+      onWishlistToggle?.(); // to sync the wishlist UI
   
       await addToCart(customer.customerId, variantId, quantity);
-      alert("Item added to cart successfully!");
-  
-      const updatedCart = await getCart(customer.customerId); 
-      if (navigateCart) {
-        navigate("/shoppingCart");
-      }
-  
+      alert("Item is moved to cart!");
+      setIsInCart(true);
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Failed to add item to cart!");
@@ -114,6 +103,19 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
   
 
 
+
+  const handleCartButtonClick = () => {
+    if (isInCart) {
+      navigate("/shoppingCart");
+    } else {
+      handleAddToCart();
+    }
+  };
+
+  
+  useEffect(() => {
+    setIsWishlisted(isWishlist);
+  }, [isWishlist]);
 
   return (
     <div>
@@ -206,15 +208,25 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
 
           <div className='d-flex gap-2 mt-3 justify-between'>
 
-            {showCart && (
-              <button onClick={handleAddToCart} className='d-flex align-items-center justify-content-center gap-2 bg-purple-100 p-1 purple-text font-medium rounded flex-1 text-md'>ADD TO CART
+            {showCart && location.pathname !== "/shoppingCart" && (
+              <button
+                onClick={handleCartButtonClick}
+                className='d-flex align-items-center justify-content-center gap-2 bg-purple-100 p-1 purple-text font-medium rounded flex-1 text-md'
+              >
+                {isInCart ? "Go to Cart" : "ADD TO CART"}
                 <span><MdOutlineShoppingCart size={20} /></span>
               </button>
             )}
 
 
             <button className="bg-purple-100 p-2 purple-text rounded px-3" onClick={handleWishlistClick}>
-              <span>{isWishlisted ? <FaHeart color="red" /> : <FaRegHeart />}</span>
+              {isWishlistPage && justRemoved ? (
+                <FaHeart color="white" />
+              ) : isWishlisted ? (
+                <FaHeart color="red" />
+              ) : (
+                <FaRegHeart />
+              )}
             </button>
 
             {/* <button className="bg-purple-100 purple-text rounded p-2 font-medium" onClick={()=>navigate("/checkOut")}>BUY NOW</button> */}

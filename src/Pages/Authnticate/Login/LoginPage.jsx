@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../Services/CustomerService";
 
 const LoginPage = ({ togglePage, setAuthStatus }) => {
+    const [showWelcome, setShowWelcome] = useState(false);
+    const [customerName, setCustomerName] = useState("");
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -14,13 +17,23 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
         e.preventDefault();
         const response = await loginCustomer(username, password);
         if (response.success) {
+            const name = response.data?.customerName || "Customer";
+
             localStorage.setItem("isAuthenticated", "true");
             localStorage.setItem("userData", JSON.stringify(response.data));
-            navigate("/home");
+
+            setCustomerName(name);
+            setShowWelcome(true); // Show welcome popup
+
+            // Delay navigation by a few seconds (optional)
+            setTimeout(() => {
+                navigate("/home");
+            }, 2000);
         } else {
             setError(response.message);
         }
     };
+
 
     return (
         <div
@@ -57,7 +70,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                 </p>
 
                 <form onSubmit={handleLogin}>
-                    <label className="block text-l mb-1">Username</label>
+                    <label className="block text-l mb-1">Email id or Phone no</label>
                     <input
                         type="text"
                         placeholder="Enter your username"
@@ -122,6 +135,14 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                     </div>
                 </form>
             </div>
+            {showWelcome && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white text-black rounded-xl shadow-lg p-6 w-full max-w-md text-center">
+                        <h2 className="text-2xl font-bold mb-2">Welcome {customerName}!</h2>
+                        <p className="text-lg">Please Enjoy Shopping 🛍️</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

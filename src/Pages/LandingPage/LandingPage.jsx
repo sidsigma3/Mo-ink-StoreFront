@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -16,7 +16,25 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 
 const LandingPage = () => {
   
+  const [showWelcome, setShowWelcome] = useState(false)
+  const [customerName, setCustomerName] = useState("")
 
+  useEffect(() => {
+    const justLoggedIn = localStorage.getItem("justLoggedIn") === "true";
+    if (justLoggedIn) {
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      const name = userData?.customerName || "Customer";
+
+      setCustomerName(name);
+      setShowWelcome(true);
+
+      localStorage.removeItem("justLoggedIn");
+
+      setTimeout(() => {
+        setShowWelcome(false);
+      }, 2000);
+    }
+  }, []);
   return (
     <div className='w-full'>
         {/* <div className='px-5 py-3'> <TopNavigation></TopNavigation></div> */}
@@ -24,12 +42,8 @@ const LandingPage = () => {
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         <div className='md:px-14 py-3'> <Banner></Banner></div>
         <div className='py-3'><FeturedList></FeturedList></div>
-        <div className='px-6 md:px-14 py-3 mt-10'> 
-
-          <h3 className='text-xl md:2xl font-medium'>Top Selling Product</h3>
-                                                                        
+        <div className='px-3 mt-5'>                                                                     
           <ProductList></ProductList>
-
         </div>
         <div className='px-6 md:px-14 py-3 mt-10 overflow-auto'> <CtaCard></CtaCard></div>
         <div className='mt-10'>  <Testimonial></Testimonial></div>
@@ -39,7 +53,14 @@ const LandingPage = () => {
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav />
-       
+        {showWelcome && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50">
+                <div className="bg-white text-black rounded-md shadow-lg p-2 w-full max-w-md text-center">
+                    <h2 className="text-md font-bold mb-2">Welcome {customerName}!</h2>
+                    <p className="text-xs">Please Enjoy Shopping 🛍️</p>
+                </div>
+            </div>
+        )}
     </div>
   )
 }

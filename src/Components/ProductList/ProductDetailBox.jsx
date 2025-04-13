@@ -8,12 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 
-const ProductDetailBox = ({ productName, price, size, color, itemQuantity, variantId, 
+const ProductDetailBox = ({ productName, price, size, color, itemQuantity, variantId,
   isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,
   isWishlistPage = false,
-   showCart = true,
-   
-    }) => {
+  showCart = true,
+
+}) => {
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -21,7 +21,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
   const [isInCart, setIsInCart] = useState(false);
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
   const [justRemoved, setJustRemoved] = useState(false);
-  
+
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
 
@@ -38,7 +38,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
   const handleWishlistClick = async () => {
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     if (!customer?.customerId) return;
-  
+
     try {
       if (isWishlisted) {
         // Remove from wishlist
@@ -50,48 +50,47 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
         // Remove from cart if present
         const cart = await getCart(customer.customerId);
         const inCart = cart?.cartItems?.some(item => item.variantId === variantId);
-  
+
         if (inCart) {
           await removeFromCart(customer.customerId, variantId);
           setIsInCart(false);
         }
-  
+
         // Add to wishlist
         await addToWishlist(customer.customerId, variantId);
         setIsWishlisted(true);
         setJustRemoved(false);
         alert("Item is added to wishlist");
       }
-  
+
       onWishlistToggle?.(); // Refresh wishlist
       onCartToggle?.(); // Refresh cart
     } catch (err) {
       console.error("Error toggling wishlist:", err);
     }
   };
-  
+
 
   const handleAddToCart = async () => {
     if (!customer?.customerId) {
       alert("Please log in to add items to your cart.");
       return;
     }
-  
+
     try {
       const cart = await getCart(customer.customerId);
       const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
-  
+
       if (alreadyInCart) {
         alert("Item is already in your Cart!");
         return;
       }
-  
-      // Remove from wishlist before adding to cart
+
       await removeFromWishlist(customer.customerId, variantId);
       setIsWishlisted(false);
       setJustRemoved(true);
-      onWishlistToggle?.(); // to sync the wishlist UI
-  
+      onWishlistToggle?.();
+
       await addToCart(customer.customerId, variantId, quantity);
       alert("Item is moved to cart!");
       setIsInCart(true);
@@ -100,9 +99,6 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
       alert("Failed to add item to cart!");
     }
   };
-  
-
-
 
   const handleCartButtonClick = () => {
     if (isInCart) {
@@ -112,7 +108,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
     }
   };
 
-  
+
   useEffect(() => {
     setIsWishlisted(isWishlist);
   }, [isWishlist]);
@@ -211,12 +207,14 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
             {showCart && location.pathname !== "/shoppingCart" && (
               <button
                 onClick={handleCartButtonClick}
-                className='d-flex align-items-center justify-content-center gap-2 bg-purple-100 p-1 purple-text font-medium rounded flex-1 text-md'
+                className={`d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md ${isInCart ? 'bg-green-500 text-white' : 'bg-purple-100 purple-text'
+                  }`}
               >
-                {isInCart ? "Go to Cart" : "ADD TO CART"}
+                {isInCart ? "GO TO CART" : "ADD TO CART"}
                 <span><MdOutlineShoppingCart size={20} /></span>
               </button>
             )}
+
 
 
             <button className="bg-purple-100 p-2 purple-text rounded px-3" onClick={handleWishlistClick}>

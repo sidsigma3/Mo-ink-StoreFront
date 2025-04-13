@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
-import ToggleBtn from "../../../Components/Buttons/ToggleButton/ToggleBtn";
 import { useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../Services/CustomerService";
 
@@ -18,22 +17,17 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
         const response = await loginCustomer(username, password);
         if (response.success) {
             const name = response.data?.customerName || "Customer";
-
+    
             localStorage.setItem("isAuthenticated", "true");
             localStorage.setItem("userData", JSON.stringify(response.data));
-
-            setCustomerName(name);
-            setShowWelcome(true); // Show welcome popup
-
-            // Delay navigation by a few seconds (optional)
-            setTimeout(() => {
-                navigate("/home");
-            }, 2000);
+            localStorage.setItem("justLoggedIn", "true"); 
+    
+            navigate("/home"); 
         } else {
             setError(response.message);
         }
     };
-
+    
 
     return (
         <div

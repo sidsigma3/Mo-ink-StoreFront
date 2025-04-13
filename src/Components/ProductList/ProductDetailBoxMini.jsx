@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { TiStarFullOutline } from "react-icons/ti";
 import { FaHeart } from "react-icons/fa";
-import { addToWishlist, removeFromWishlist} from "../../Services/WishlistService";
-import {getCart, removeFromCart} from "../../Services/CartService"
+import { addToWishlist, removeFromWishlist } from "../../Services/WishlistService";
+import { getCart, removeFromCart } from "../../Services/CartService"
 
 
 
@@ -15,8 +15,8 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
   const [quantity, setQuantity] = useState(itemQuantity || 1);
   const [selectedItems, setSelectedItems] = useState([]);
   const [isWishlisted, setIsWishlisted] = useState(isWishlist || false);
-const [isInCart, setIsInCart] = useState(true); 
-const [justRemoved, setJustRemoved] = useState(false);
+  const [isInCart, setIsInCart] = useState(true);
+  const [justRemoved, setJustRemoved] = useState(false);
 
 
   const handleIncrease = () => {
@@ -40,7 +40,7 @@ const [justRemoved, setJustRemoved] = useState(false);
   const handleWishlistClick = async () => {
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     if (!customer?.customerId) return;
-  
+
     try {
       if (isWishlisted) {
         await removeFromWishlist(customer.customerId, variantId);
@@ -50,7 +50,7 @@ const [justRemoved, setJustRemoved] = useState(false);
       } else {
         const cart = await getCart(customer.customerId);
         const inCart = cart?.cartItems?.some(item => item.variantId === variantId);
-  
+
         if (inCart) {
           console.log("Removing from cart:", variantId);
           await removeFromCart(customer.customerId, variantId);
@@ -59,21 +59,21 @@ const [justRemoved, setJustRemoved] = useState(false);
         } else {
           console.log("Item not found in cart");
         }
-  
+
         await addToWishlist(customer.customerId, variantId);
         setIsWishlisted(true);
         setJustRemoved(false);
         alert("Item is added back to wishlist");
       }
       window.location.reload();
-      onWishlistToggle?.(); 
-      onCartToggle?.();     
+      onWishlistToggle?.();
+      onCartToggle?.();
     } catch (err) {
       console.error("Error toggling wishlist:", err);
     }
   };
-  
-  
+
+
   return (
     <div className='relative'>
       <input
@@ -143,19 +143,17 @@ const [justRemoved, setJustRemoved] = useState(false);
             </div>
           </div>
 
+          <div className='mt-2 float-end'>
           <button
             onClick={handleWishlistClick}
-            className="absolute bottom-2 right-2 text-red-500 hover:text-red-600"
+            className={`bg-purple-100 p-2 rounded px-3 ${isInCart ? "text-white" : isWishlisted ? "text-white" : "text-red-700"
+              }`}
             title="Move to Wishlist"
           >
-            <FaHeart size={22} />
+            <FaHeart size={18} />
           </button>
-
-
-
+          </div>
         </div>
-
-
       </a>
     </div>
   )

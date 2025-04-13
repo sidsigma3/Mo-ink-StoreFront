@@ -47,6 +47,7 @@ const CheckoutPage = () => {
     const [walletError, setWalletError] = useState('');
 
     const walletBalance = 1000;
+    const platformFees = 49;
 
     const paymentDiscountMap = {
         "100% Online and 0% COD": 1.5,
@@ -80,7 +81,7 @@ const CheckoutPage = () => {
     }
     const totalDiscount = discountByCoupon + discountByPayment;
     const handlingCharges = handlingChargesMap[selectedPayment] || 0;
-    const netPayable = totalProductCost - (totalDiscount + handlingCharges);
+    const netPayable = totalProductCost - (totalDiscount + handlingCharges + platformFees);
     const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
 
     const handleWalletChange = (e) => {
@@ -669,10 +670,15 @@ const CheckoutPage = () => {
                                         </div>
                                     </td>
                                 </tr>
-                                <tr className='border-b-2'>
+                                <tr className=''>
                                     <td className='pb-2'>Handling Charges</td>
                                     <td className='pb-2'></td>
                                     <td className='text-end pb-2'>₹{handlingCharges}</td>
+                                </tr>
+                                <tr className='border-b-2'>
+                                    <td className='pb-2'>Platform Fees</td>
+                                    <td className='pb-2'></td>
+                                    <td className='text-end pb-2'>₹{platformFees}</td>
                                 </tr>
                                 <tr>
                                     <td className='pt-2'>Net pay</td>
@@ -765,7 +771,11 @@ const CheckoutPage = () => {
                 </div>
                 <div>
                     <div className='mt-6'>
-                        <button className='bg-violet-900 text-white p-3 rounded-md w-full'>PAY NOW</button>
+                        {selectedPayment === "0% Online and 100% COD" ? (
+                            <button className='bg-orange-500 text-white p-3 rounded-md w-full'>CREATE ORDER</button>
+                        ) : (
+                            <button className='bg-violet-900 text-white p-3 rounded-md w-full'>PAY NOW</button>
+                        )}
                     </div>
                     <div className='mt-6'>
                         <h4 className='font-semibold flex gap-2'><span className='text-violet-800'><RiLock2Line size={20} /></span>Ensure Checkout- SSL Encrypted</h4>

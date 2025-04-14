@@ -12,6 +12,7 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 import { IoFilterSharp } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
+import { MdOutlineShoppingCart } from 'react-icons/md'
 
 
 const Category = () => {
@@ -323,7 +324,7 @@ const Category = () => {
 
           <div className='border rounded p-3 shadow-md mt-3'>
             <h4 className='text-xl font-semibold'>New Stock</h4>
-            <ul className='divide-y-2 divide-dotted' onClick={()=>navigate("/shoppingCart")}>
+            <ul className='divide-y-2 divide-dotted'>
               <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
                 <div className=''>
                   <img src='/images/wool-item.png'></img>
@@ -335,7 +336,10 @@ const Category = () => {
                     (Pink)
                   </h4>
                   <p className='text-lg font-medium mt-2'>₹328.85</p>
-                  <div className='flex justify-end'>
+                  <div className='flex justify-end gap-3'>
+                  <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
+                  onClick={()=>navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                       <span className='text-yellow-300'><TiStarFullOutline /></span>
                       <p>4.5</p>
@@ -356,7 +360,10 @@ const Category = () => {
                     (Pink)
                   </h4>
                   <p className='text-lg font-medium mt-2'>₹328.85</p>
-                  <div className='flex justify-end'>
+                  <div className='flex justify-end gap-3'>
+                  <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
+                  onClick={()=>navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                       <span className='text-yellow-300'><TiStarFullOutline /></span>
                       <p>4.5</p>
@@ -377,7 +384,10 @@ const Category = () => {
                     (Pink)
                   </h4>
                   <p className='text-lg font-medium mt-2'>₹328.85</p>
-                  <div className='flex justify-end'>
+                  <div className='flex justify-end gap-3'>
+                  <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
+                  onClick={()=>navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                       <span className='text-yellow-300'><TiStarFullOutline /></span>
                       <p>4.5</p>

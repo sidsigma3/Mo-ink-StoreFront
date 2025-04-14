@@ -33,7 +33,7 @@ const ProductList = () => {
       finalData.forEach((_, index) => {
         if (sliderRefs.current[index]) {
           const instance = new KeenSlider(sliderRefs.current[index], {
-            loop: true,
+            loop: false,
             slides: {
               origin: 'center',
               perView: 4,
@@ -109,12 +109,12 @@ const ProductList = () => {
   return (
     <div className="space-y-12">
       {finalData.map((product, idx) => (
-        <div key={product.productId} className="relative flex flex-col bg-gray-200 p-2 rounded-md">
-          <h2 className="text-xl font-bold text-black">
+        <div key={product.productId} className="relative flex flex-col bg-gray-100 p-4">
+          <h2 className="text-xl text-black p-4">
             Top Selling {product.productName}
           </h2>
 
-          <div className="flex justify-end items-end">
+          <div className="flex justify-end items-end mr-10">
             <div className="mb-2 flex gap-4">
               <button
                 onClick={() => sliderRefs.current[idx]?.keenSlider?.prev()}
@@ -155,7 +155,7 @@ const ProductList = () => {
 
           <ul
             ref={(ref) => (sliderRefs.current[idx] = ref)}
-            className="keen-slider mt-2"
+            className="keen-slider mt-2 px-6"
           >
             {product.groupedVariants.map((size, ix) =>
               size.variants.map((color, i) => (

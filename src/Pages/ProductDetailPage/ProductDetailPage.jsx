@@ -10,13 +10,18 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
-import BottomNav from '../../Components/BottomNav/BottomNav'
+import BottomNav from '../../Components/BottomNav/BottomNav';
+import { addToWishlist, removeFromWishlist } from "../../Services/WishlistService";
+import { getCart, removeFromCart, addToCart } from "../../Services/CartService"
 
 
-const ProductDetailPage = () => {
+const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
     const location = useLocation();
     const navigate = useNavigate();
+    const [isInCart, setIsInCart] = useState();
+    const [isWishlisted, setIsWishlisted] = useState();
+    const [justRemoved, setJustRemoved] = useState();
     const { product, size, color, price } = location.state || {};
     const [filteredColors, setFilteredColors] = useState([]);
     const [moreColors, setMoreColors] = useState([]);
@@ -30,6 +35,7 @@ const ProductDetailPage = () => {
     const [isColorSelected, setIsColorSelected] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [presetColors, setPresetColors] = useState([]);
+    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
 
     const handleColorSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
@@ -99,8 +105,50 @@ const ProductDetailPage = () => {
     };
 
     const handleCartButtonClick = () => {
-        navigate("/shoppingCart");
-    }
+        if (isInCart) {
+            navigate("/shoppingCart");
+        } else {
+            handleAddToCart();
+        }
+    };
+
+    const handleAddToCart = async () => {
+        if (!customer?.customerId) {
+            alert("Please log in to add items to your cart.");
+            return;
+        }
+
+        if (selectedColors.length === 0) {
+            alert("Please select a color before adding to cart.");
+            return;
+        }
+
+        try {
+            const cart = await getCart(customer.customerId);
+            const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
+
+            if (alreadyInCart) {
+                alert("Item is already in your Cart!");
+                return;
+            }
+
+            await removeFromWishlist(customer.customerId, variantId);
+            setIsWishlisted(false);
+            setJustRemoved(true);
+            onWishlistToggle?.();
+
+            await addToCart(customer.customerId, variantId, quantity);
+            alert("Item is added to cart");
+            // ✅ show popup + change button text
+            // setShowPopup(true);
+            setIsInCart(true);
+        } catch (error) {
+            console.error("Error adding to cart:", error);
+            alert("Failed to add item to cart!");
+        }
+    };
+
+
     const handleAddColor = () => {
         const uniqueNewColors = tempCustomColors.filter(
             (newColor) =>
@@ -607,7 +655,7 @@ const ProductDetailPage = () => {
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
                         <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                     </div>
-
+                    
 
                 </div>
             </div>
@@ -617,6 +665,7 @@ const ProductDetailPage = () => {
             <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
             <BottomNav></BottomNav>
         </div>
+
     )
 }
 

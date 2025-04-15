@@ -42,7 +42,7 @@ const LandingPage = () => {
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
         <div className='md:px-14 py-3'> <Banner></Banner></div>
         <div className='py-3'><FeturedList></FeturedList></div>
-        <div className='px-3 mt-5'>                                                                     
+        <div className='mt-5'>                                                                     
           <ProductList></ProductList>
         </div>
         <div className='px-6 md:px-14 py-3 mt-10 overflow-auto'> <CtaCard></CtaCard></div>

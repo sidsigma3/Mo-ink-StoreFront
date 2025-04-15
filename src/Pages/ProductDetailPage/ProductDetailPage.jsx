@@ -8,7 +8,7 @@ import Footer from '../../Components/Footer/Footer'
 import { TiStarFullOutline } from "react-icons/ti";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import BottomNav from '../../Components/BottomNav/BottomNav'
 
@@ -16,18 +16,20 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 const ProductDetailPage = () => {
 
     const location = useLocation();
+    const navigate = useNavigate();
     const { product, size, color, price } = location.state || {};
     const [filteredColors, setFilteredColors] = useState([]);
-
+    const [moreColors, setMoreColors] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchColor, setSearchColor] = useState('')
     const [isAddingColor, setIsAddingColor] = useState(false);
     const [newColor, setNewColor] = useState({ colorName: "", hexCode: "" });
-    const [tempCustomColors, setTempCustomColors] = useState([]); 
+    const [tempCustomColors, setTempCustomColors] = useState([]);
     const [customColors, setCustomColors] = useState([]);
     const [selectedColors, setSelectedColors] = useState([]);
     const [isColorSelected, setIsColorSelected] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [presetColors, setPresetColors] = useState([]);
 
     const handleColorSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
@@ -45,15 +47,21 @@ const ProductDetailPage = () => {
     useEffect(() => {
         setFilteredColors(customColors);
     }, [customColors]);
+
     const handleSubmitSelectedColor = () => {
-        // Merge selected colors with customColors (avoid duplicates)
         const newColors = selectedColors.filter(
-            (color) => !customColors.some((c) => c.hexCode === color.hexCode)
+            (color) =>
+                (color.source === 'preset' || color.source === 'custom') &&
+                !moreColors.some((c) => c.hexCode === color.hexCode)
         );
 
-        setCustomColors((prev) => [...prev, ...newColors]);
+        if (newColors.length === 0) {
+            alert("Selected color already exists in More Colors or nothing selected.");
+            return;
+        }
 
-        // Reset states
+        setMoreColors((prev) => [...prev, ...newColors]);
+
         setSelectedColors([]);
         setIsColorSelected(false);
         setIsModalOpen(false);
@@ -78,7 +86,6 @@ const ProductDetailPage = () => {
         };
     }, [isModalOpen]);
 
-    // Handle input change
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewColor((prev) => ({ ...prev, [name]: value }));
@@ -87,34 +94,34 @@ const ProductDetailPage = () => {
     const handleSaveColor = () => {
         if (newColor.colorName && newColor.hexCode) {
             setTempCustomColors((prev) => [...prev, newColor]);
-            setNewColor({ colorName: "", hexCode: "" }); 
+            setNewColor({ colorName: "", hexCode: "" });
         }
     };
 
+    const handleCartButtonClick = () => {
+        navigate("/shoppingCart");
+    }
     const handleAddColor = () => {
-        setCustomColors((prev) => {
-            const uniqueNewColors = tempCustomColors.filter(
-                (newColor) =>
-                    !prev.some(
-                        (existingColor) =>
-                            existingColor.colorName === newColor.colorName ||
-                            existingColor.hexCode === newColor.hexCode
-                    )
-            );
+        const uniqueNewColors = tempCustomColors.filter(
+            (newColor) =>
+                !customColors.some(
+                    (existingColor) =>
+                        existingColor.colorName === newColor.colorName ||
+                        existingColor.hexCode === newColor.hexCode
+                )
+        );
 
-            if (uniqueNewColors.length === 0) {
-                alert("Color already added!"); 
-                return prev; 
-            }
+        if (uniqueNewColors.length === 0) {
+            alert("Color already added!");
+            return;
+        }
 
-            return [...prev, ...uniqueNewColors]; 
-        });
+        setCustomColors((prev) => [...prev, ...uniqueNewColors]);
 
-        setTempCustomColors([]); 
+        setPresetColors((prev) => [...prev, ...uniqueNewColors]);
+        setTempCustomColors([]);
         setIsAddingColor(false);
     };
-
-
 
     if (!product) return <p>No product details available</p>;
 
@@ -134,17 +141,26 @@ const ProductDetailPage = () => {
     const hasMore = color.length > 4;
 
 
-    const handleSelectColor = (color) => {
-        setSelectedColors((prev) => {
-            const isAlreadySelected = prev.some((c) => c.hexCode === color.hexCode);
-            const updated = isAlreadySelected
-                ? prev.filter((c) => c.hexCode !== color.hexCode)
-                : [...prev, color];
+    const handleSelectColor = (color, source) => {
+        const alreadySelected = selectedColors.some(
+            (c) => c.hexCode === color.hexCode && c.source === source
+        );
 
-            setIsColorSelected(updated.length > 0); 
-            return updated;
-        });
+        if (alreadySelected) {
+            // Remove if already selected
+            setSelectedColors((prev) =>
+                prev.filter(
+                    (c) => !(c.hexCode === color.hexCode && c.source === source)
+                )
+            );
+        } else {
+            // Add to selection
+            setSelectedColors((prev) => [...prev, { ...color, source }]);
+        }
+
+        setIsColorSelected(true);
     };
+
 
     // const handleColorSearch = (e) => {
     //     const searchText = e.target.value.toLowerCase();
@@ -210,25 +226,22 @@ const ProductDetailPage = () => {
 
 
                         <div className='mt-6'>
-                            {/* <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod quia odio repellat fugit illum voluptatem accusantium excepturi vero expedita similique modi quasi dolore voluptate fugiat sed minus, nemo in facilis. Magni qui nam perspiciatis iure temporibus? Officiis expedita necessitatibus ad, magni amet, sunt ipsam debitis velit tempore veniam id mollitia!</p> */}
                             <p>{product.productDescription}</p>
                         </div>
-                        <div className='mt-6'>
-                           <div className='flex items-center gap-5'>
-                            <button
-                            href="#"
-                            className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-700 transition hover:bg-purple-700 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white "
-                            style={{width:"max-content"}}
-                            >Corn</button>
-                            <button
-                            href="#"
-                            className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-700 transition hover:bg-purple-700 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white"
-                            style={{width:"max-content"}}
-                            >Hank</button>
-                           </div>
+                        <div className='mt-3'>
+                            <div className='flex items-center gap-2'>
+                                <button
+                                    href="#"
+                                    className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-700 transition hover:bg-purple-700 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white "
+                                    style={{ width: "max-content" }}
+                                >Corn</button>
+                                <button
+                                    href="#"
+                                    className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-700 transition hover:bg-purple-700 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white"
+                                    style={{ width: "max-content" }}
+                                >Hank</button>
+                            </div>
                         </div>
-
-
                         {/* <div className='flex mt-6 text-gray-500 gap-2 items-center'>
                     <h5>Size/Weight:</h5>
                     <ul className='flex gap-3'>
@@ -266,7 +279,6 @@ const ProductDetailPage = () => {
                 ))}
             </div> */}
 
-                            {/* More Colors Button */}
                             <div className="cursor-pointer flex gap-2 items-center mt-3" onClick={() => setIsModalOpen(true)}>
                                 <img src="/images/select-color.png" className="w-10 h-10" alt="More Colors" />
                                 <h4 className="text-sm text-center text-blue-600 font-semibold">Click here for color catalogue</h4>
@@ -277,7 +289,6 @@ const ProductDetailPage = () => {
                                 className={`fixed top-0 right-0 w-96 h-full bg-white shadow-lg transform z-40 ${isModalOpen ? "translate-x-0" : "translate-x-full"
                                     } transition-transform duration-300 ease-in-out p-4`}
                             >
-                                {/* Close Button */}
                                 <button
                                     className="absolute top-3 right-3 text-xl font-bold"
                                     onClick={() => {
@@ -290,10 +301,8 @@ const ProductDetailPage = () => {
                                     &times;
                                 </button>
 
-                                {/* Modal Header */}
                                 <h2 className="text-lg font-semibold">{isAddingColor ? "Add New Color" : "Add Colors"}</h2>
 
-                                {/* Add Color View */}
                                 {isAddingColor ? (
                                     <div className="mt-4">
                                         <div className="flex flex-col gap-3">
@@ -316,7 +325,6 @@ const ProductDetailPage = () => {
                                                 placeholder='e.g. #fff000'
                                             />
 
-                                            {/* Color Preview */}
                                             {newColor.hexCode && (
                                                 <div
                                                     className="w-16 h-16 border rounded mt-2"
@@ -324,7 +332,6 @@ const ProductDetailPage = () => {
                                                 ></div>
                                             )}
 
-                                            {/* Save Button */}
                                             <button
                                                 onClick={handleSaveColor}
                                                 className="bg-violet-600 text-white p-1 rounded mt-3"
@@ -332,7 +339,6 @@ const ProductDetailPage = () => {
                                                 SAVE COLOR
                                             </button>
 
-                                            {/* List of Temporarily Added Colors */}
                                             {tempCustomColors.length > 0 && (
                                                 <div className="mt-4">
                                                     <h4 className="font-semibold">Added Colors:</h4>
@@ -355,7 +361,6 @@ const ProductDetailPage = () => {
                                         </div>
                                     </div>
                                 ) : (
-                                    // Catalogue View
                                     <div>
                                         <div>
                                             <input onChange={(e) => handleColorSearch(e)} className='border w-full rounded-md p-2 mt-2' placeholder='Search by name or hexcode'></input>
@@ -366,7 +371,7 @@ const ProductDetailPage = () => {
 
                                             {customColors.length > 0 && (
                                                 <div
-                                                    className="flex  items-center gap-3 bg-violet-800 text-white rounded-md p-2 cursor-pointer"
+                                                    className="flex  items-center gap-1 bg-violet-800 text-white rounded-md p-2 cursor-pointer"
                                                     onClick={() => setIsAddingColor(true)}
                                                 >
                                                     <span>
@@ -377,18 +382,21 @@ const ProductDetailPage = () => {
                                             )}
                                         </div>
 
-                                        {/* Custom Colors List */}
                                         <div className="grid grid-cols-3 gap-3 p-2">
                                             {customColors.map((item, index) => (
-                                                <div key={index} className="border-4 rounded-md border-gray-300">
+                                                <div key={index}
+                                                    onClick={() => handleSelectColor(item, 'custom')}
+                                                    className={`border-4 rounded-md cursor-pointer ${selectedColors.some((c) => c.hexCode === item.hexCode && c.source === 'custom')
+                                                        ? 'border-blue-500'
+                                                        : 'border-gray-300'
+                                                        }`}
+                                                >
                                                     <div className="relative h-20 overflow-hidden">
-                                                        {/* Product Image */}
                                                         <img
                                                             src="/images/wool-item-1.png"
                                                             className="w-full h-full object-cover"
                                                             alt="Product"
                                                         />
-                                                        {/* Color Overlay */}
                                                         <div
                                                             className="absolute inset-0 opacity-50 mix-blend-multiply"
                                                             style={{ backgroundColor: item.hexCode }}
@@ -402,7 +410,6 @@ const ProductDetailPage = () => {
                                             ))}
                                         </div>
 
-                                        {/* Add New Color Button */}
                                         {customColors.length === 0 && (
                                             <div
                                                 className="flex flex-col items-center justify-center bg-gray-100 p-3 cursor-pointer"
@@ -417,16 +424,17 @@ const ProductDetailPage = () => {
 
 
 
-                                        {/* Present Catalogue */}
                                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
                                         <div className='h-[28rem] md:h-[32rem] overflow-auto'>
                                             <div className="grid grid-cols-3 gap-3 p-2">
                                                 {filteredColors.map((item, index) => (
                                                     <div
                                                         key={index}
-                                                        className={`border-4 rounded-md cursor-pointer ${selectedColors.some((c) => c.hexCode === item.hexCode) ? "border-blue-500" : "border-gray-300"
+                                                        onClick={() => handleSelectColor(item, 'preset')}
+                                                        className={`border-4 rounded-md cursor-pointer ${selectedColors.some((c) => c.hexCode === item.hexCode && c.source === 'preset')
+                                                            ? 'border-blue-500'
+                                                            : 'border-gray-300'
                                                             }`}
-                                                        onClick={() => handleSelectColor(item)}
                                                     >
                                                         <div className="relative h-20 overflow-hidden">
                                                             <img src="/images/wool-item-1.png" className="w-full h-full object-cover" alt="Product" />
@@ -443,10 +451,9 @@ const ProductDetailPage = () => {
                                     </div>
                                 )}
 
-                                {/* Footer Buttons */}
                                 <div className="flex justify-between mt-4 absolute bottom-16 md:bottom-0 w-full pr-8 py-3">
                                     <button
-                                        className="bg-gray-300 text-white p-1 rounded"
+                                        className="bg-gray-400 hover:bg-gray-500 text-white px-4 rounded"
                                         onClick={() => {
                                             setIsModalOpen(false);
                                             setIsAddingColor(false);
@@ -460,7 +467,7 @@ const ProductDetailPage = () => {
                                     {isAddingColor ? (
                                         tempCustomColors.length > 0 ? (
                                             <button
-                                                className="bg-violet-600 text-white p-2 rounded"
+                                                className="bg-violet-600 text-white px-4 py-2 rounded"
                                                 onClick={handleAddColor}
                                             >
                                                 SUBMIT
@@ -468,14 +475,14 @@ const ProductDetailPage = () => {
                                         ) : (
                                             <button
                                                 className="bg-violet-200 text-violet-800 p-2 rounded"
-                                                onClick={handleAddColor}
+                                                onClick={handleSubmitSelectedColor}
                                             >
                                                 ADD COLOR
                                             </button>
                                         )
                                     ) : isColorSelected ? (
                                         <button
-                                            className="bg-violet-600 text-white p-2 rounded"
+                                            className="bg-violet-600 text-white px-4 py-2 rounded"
                                             onClick={handleSubmitSelectedColor}
                                         >
                                             SUBMIT
@@ -483,22 +490,47 @@ const ProductDetailPage = () => {
                                     ) : (
                                         <button
                                             className="bg-violet-200 text-violet-800 p-2 rounded"
-                                            onClick={() => setIsAddingColor(true)}
+                                            onClick={handleAddColor}
                                         >
                                             ADD COLOR
                                         </button>
                                     )}
+
                                 </div>
-
-
-
                             </div>
-
-
-
                         </div>
+                        <div className='mt-6'>
+                            <div className='overflow-auto'>
+                                <div className="grid grid-cols-6 gap-3 p-2">
+                                    {moreColors.map((item, index) => (
+                                        <div
+                                            key={index}
+                                            onClick={() => handleSelectColor(item, 'more')}
+                                            className={`border-2 cursor-pointer ${selectedColors.some(
+                                                (c) => c.hexCode === item.hexCode && c.source === 'more'
+                                            )
+                                                ? 'border-blue-500'
+                                                : 'border-gray-300'
+                                                }`}
+                                        >
+                                            <div className="relative h-15 overflow-hidden">
+                                                <img
+                                                    src="/images/wool-item-1.png"
+                                                    className="w-full h-full object-cover"
+                                                    alt="Product"
+                                                />
+                                                <div
+                                                    className="absolute inset-0 opacity-50"
+                                                    style={{ backgroundColor: item.hexCode }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    ))}
 
-                        <div className='d-flex gap-2 mt-8'>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='d-flex gap-2 mt-4'>
                             <div className="flex justify-between rounded border border-gray-200">
                                 <button type="button" className="size-7 leading-10 text-gray-600 transition hover:opacity-75">
                                     &minus;
@@ -516,7 +548,13 @@ const ProductDetailPage = () => {
                                 </button>
                             </div>
 
-                            <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 p-2 text-white font-medium rounded flex-1 text-xs md:text-md'>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+
+                            <button
+                                onClick={handleCartButtonClick}
+                                className="d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md bg-purple-100 purple-text">
+                                ADD TO CART
+                                <span><MdOutlineShoppingCart size={20} /></span>
+                            </button>
 
                             <button className='bg-purple-100 p-2 purple-text rounded px-4'><span><FaRegHeart /></span></button>
 

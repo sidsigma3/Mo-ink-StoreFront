@@ -59,9 +59,8 @@ const NavbarHeader = () => {
 
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userData");
-    navigate("/");
+    localStorage.clear();
+    navigate("/"); 
   };
 
   useEffect(() => {

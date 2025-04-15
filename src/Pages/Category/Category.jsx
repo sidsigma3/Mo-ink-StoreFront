@@ -20,7 +20,7 @@ const Category = () => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -320,78 +320,6 @@ const Category = () => {
                          </li> */}
             </ul>
           </div>
-
-          <div className='border rounded p-3 shadow-md mt-3'>
-            <h4 className='text-xl font-semibold'>Color</h4>
-            <ul>
-
-              {/* {products.length > 0 ? (
-                finalData.map((product, index) => (
-                  <li
-                    key={index}
-                    className={`p-2 border border-1 rounded mt-2 cursor-pointer ${selectedCategory === product.productName ? "bg-violet-200" : ""
-                      }`}
-                    onClick={() => setSelectedCategory(product.productName)}
-                  >
-                    <div className="flex justify-between font-medium">
-                      <h5 className="text-base">{product.productName}</h5>
-                      <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-                        <h6 className="text-sm">{product.groupedVariants.length}</h6>
-                      </div>
-                    </div>
-                  </li>
-                ))
-              ) : (
-                <p>No products available</p>
-              )} */}
-
-
-              {/* <li className='p-2 border border-1 rounded mt-2'>
-                             <div className='flex justify-content-between font-medium'>
-                                 <h5 className='text-base'>Silk Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                     <h6 className='text-sm'>11</h6>
-                                 </div>
-                             </div>
-                         </li>
-
-                         <li className='p-2 border border-1 rounded mt-2'>
-                             <div className='flex justify-content-between font-medium'>
-                                 <h5 className='text-base'>Jute Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                     <h6 className='text-sm'>11</h6>
-                                 </div>
-                             </div>
-                         </li>
-
-                         <li className='p-2 border border-1 rounded mt-2'>
-                             <div className='flex justify-content-between font-medium'>
-                                 <h5 className='text-base'>Nylon Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                     <h6 className='text-sm'>11</h6>
-                                 </div>
-                             </div>
-                         </li>
-
-                         <li className='p-2 border border-1 rounded mt-2'>
-                             <div className='flex justify-content-between font-medium'>
-                                 <h5 className='text-base'>Wool Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                     <h6 className='text-sm'>11</h6>
-                                 </div>
-                             </div>
-                         </li>
-
-                         <li className='p-2 border border-1 rounded mt-2'>
-                             <div className='flex justify-content-between font-medium'>
-                                 <h5 className='text-base'>Polyster Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
-                                     <h6 className='text-sm'>11</h6>
-                                 </div>
-                             </div>
-                         </li> */}
-            </ul>
-          </div>
           <div className='border rounded p-3 shadow-md mt-3'>
             <h4 className='text-xl font-semibold'>New Stock</h4>
             <ul className='divide-y-2 divide-dotted'>
@@ -407,8 +335,8 @@ const Category = () => {
                   </h4>
                   <p className='text-lg font-medium mt-2'>₹328.85</p>
                   <div className='flex justify-end gap-3'>
-                  <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
-                  onClick={()=>navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+                    <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
+                      onClick={() => navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
 
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                       <span className='text-yellow-300'><TiStarFullOutline /></span>
@@ -431,8 +359,8 @@ const Category = () => {
                   </h4>
                   <p className='text-lg font-medium mt-2'>₹328.85</p>
                   <div className='flex justify-end gap-3'>
-                  <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
-                  onClick={()=>navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+                    <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
+                      onClick={() => navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
 
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                       <span className='text-yellow-300'><TiStarFullOutline /></span>
@@ -455,8 +383,8 @@ const Category = () => {
                   </h4>
                   <p className='text-lg font-medium mt-2'>₹328.85</p>
                   <div className='flex justify-end gap-3'>
-                  <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
-                  onClick={()=>navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+                    <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
+                      onClick={() => navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
 
                     <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                       <span className='text-yellow-300'><TiStarFullOutline /></span>

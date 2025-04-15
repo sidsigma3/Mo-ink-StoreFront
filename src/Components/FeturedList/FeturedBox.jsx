@@ -13,7 +13,7 @@ const FeturedBox = ({productName,number,color}) => {
     <strong className="text-xl font-medium text-gray-900"> {productName} </strong>
 
     <p className="mt-2 text-pretty text-gray-700">
-      {number} Counters
+      {number} SKU
     </p>
 
     <p className="mt-2 text-pretty text-gray-700">

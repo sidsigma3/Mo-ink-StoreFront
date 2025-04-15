@@ -15,7 +15,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
   showCart = true,
 
 }) => {
-  const { cartCount, setCartCount , wishlistCount, setWishlistCount, updateCartAndWishlistCounts} = useAppContext();
+  const { cartCount, setCartCount, wishlistCount, setWishlistCount, updateCartAndWishlistCounts } = useAppContext();
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -23,7 +23,6 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
   const [isInCart, setIsInCart] = useState(false);
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
   const [justRemoved, setJustRemoved] = useState(false);
-
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
 
@@ -83,9 +82,10 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
     try {
       const cart = await getCart(customer.customerId);
       const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
-
+      
       if (alreadyInCart) {
         alert("Item is already in your Cart!");
+        setIsInCart(true);
         return;
       }
 
@@ -112,7 +112,18 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
       handleAddToCart();
     }
   };
-
+  useEffect(() => {
+    const checkCartStatus = async () => {
+      if (customer?.customerId) {
+        const cart = await getCart(customer.customerId);
+        const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
+        setIsInCart(alreadyInCart);
+      }
+    };
+  
+    checkCartStatus();
+  }, [customer, variantId]);
+  
 
   useEffect(() => {
     setIsWishlisted(isWishlist);
@@ -219,9 +230,6 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
                 <span><MdOutlineShoppingCart size={20} /></span>
               </button>
             )}
-
-
-
             <button className="bg-purple-100 p-2 purple-text rounded px-3" onClick={handleWishlistClick}>
               {isWishlistPage && justRemoved ? (
                 <FaHeart color="white" />

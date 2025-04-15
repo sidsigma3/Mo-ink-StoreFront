@@ -317,6 +317,7 @@ const CheckoutPage = ({productId,customerId}) => {
                                             </button>
                                             <ProductDetailBoxMini
                                                 productName={item.productName}
+                                                productImage={item.productImage}
                                                 price={item.price}
                                                 size={item.size}
                                                 color={item.colorName}

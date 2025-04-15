@@ -276,20 +276,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         <div className='mt-6'>
                             <p>{product.productDescription}</p>
                         </div>
-                        <div className='mt-3'>
-                            <div className='flex items-center gap-2'>
-                                <button
-                                    href="#"
-                                    className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-700 transition hover:bg-purple-700 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white "
-                                    style={{ width: "max-content" }}
-                                >Corn</button>
-                                <button
-                                    href="#"
-                                    className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-700 transition hover:bg-purple-700 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white"
-                                    style={{ width: "max-content" }}
-                                >Hank</button>
-                            </div>
-                        </div>
+
                         {/* <div className='flex mt-6 text-gray-500 gap-2 items-center'>
                     <h5>Size/Weight:</h5>
                     <ul className='flex gap-3'>
@@ -571,6 +558,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                     className="absolute inset-0 opacity-50"
                                                     style={{ backgroundColor: item.hexCode }}
                                                 ></div>
+                                                <div className="flex flex-col items-center">
+                                                    <p className="text-black text-sm">{item.colorName}</p>
+                                                    <p className="text-gray-600 text-xs">{item.hexCode}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
@@ -578,43 +569,18 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='d-flex gap-2 mt-4'>
-                            <div className="flex justify-between rounded border border-gray-200">
-                                <button type="button" className="size-7 leading-10 text-gray-600 transition hover:opacity-75">
-                                    &minus;
-                                </button>
-
-                                <input
-                                    type="number"
-                                    id="Quantity"
-                                    value="1"
-                                    className="h-10 w-10 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                                />
-
-                                <button type="button" className="size-7 leading-10 text-gray-600 transition hover:opacity-75">
-                                    +
-                                </button>
-                            </div>
-
-
+                        <div className='d-flex gap-2 mt-2'>
                             <button
                                 onClick={handleCartButtonClick}
                                 className="d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md bg-purple-100 purple-text">
                                 ADD TO CART
                                 <span><MdOutlineShoppingCart size={20} /></span>
                             </button>
-
-                            <button className='bg-purple-100 p-2 purple-text rounded px-4'><span><FaRegHeart /></span></button>
-
                         </div>
-
-
-
                         <div className='grid grid-cols-2 gap-3 mt-8 text-sm md:text-md'>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Organic</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>SKU:</span> FWM15VKT</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2022</h5>
-
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Stocks:</span> 8 Items in stock</h5>
                         </div>
 
@@ -655,7 +621,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
                         <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                     </div>
-                    
+
 
                 </div>
             </div>

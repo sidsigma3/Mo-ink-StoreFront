@@ -11,7 +11,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
   isSelected = false,
   onSelectChange = () => { }
 }) => {
-  const {updateCartAndWishlistCounts } = useAppContext();
+  const { updateCartAndWishlistCounts } = useAppContext();
 
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
@@ -90,10 +90,10 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
 
       <a className="flex relative block bg-white divide-y divide-dotted w-full">
         <img
-          src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="/images/Picture1.png"
           alt=""
-          className="h-30 w-1/3 rounded-tr-3xl object-cover"
-          style={{ height: '11rem' }}
+          className="h-30 w-1/3 object-cover p-1"
+          style={{ height: '12rem'}}
         />
 
         <div className="p-4 w-4/5">
@@ -148,15 +148,30 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
             </div>
           </div>
 
-          <div className='mt-2 float-end'>
-          <button
-            onClick={handleWishlistClick}
-            className={`bg-purple-100 p-2 rounded px-3 ${isInCart ? "text-white" : isWishlisted ? "text-white" : "text-red-700"
-              }`}
-            title="Move to Wishlist"
-          >
-            <FaHeart size={18} />
-          </button>
+          <div className='mt-2 float-start'>
+            <div className='mt-3'>
+              <div className='flex items-center gap-2'>
+                <button
+                  href="#"
+                  className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-500 transition hover:bg-purple-400 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white "
+                  style={{ width: "max-content" }}
+                >Cone</button>
+                <button
+                  href="#"
+                  className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-500 transition hover:bg-purple-400 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white"
+                  style={{ width: "max-content" }}
+                >Hank</button>
+                <button
+                  onClick={handleWishlistClick}
+                  className={`bg-purple-100 p-2 rounded px-4 ${isInCart ? "text-white" : isWishlisted ? "text-white" : "text-red-700"
+                    }`}
+                  title="Move to Wishlist"
+                >
+                  <FaHeart size={18} />
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </a>

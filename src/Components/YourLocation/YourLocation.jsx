@@ -30,11 +30,10 @@ const YourLocation = () => {
   }, []);
 
   return (
-    <div className='d-flex align-items-center justify-content-between shadow-sm bg-white p-2 rounded' style={{ width: '12rem' }}>
-      <span className='text-secondary-subtle'><SlLocationPin /></span>
-      <div className="ms-2 flex">
-        <h6 className='purple-text m-0'>Your Location</h6>
-        <small className='text-muted font-bold px-1'> {pincode}</small>
+    <div className='d-flex align-items-center justify-content-between shadow-sm bg-white p-2 rounded' style={{ width: '7rem' }}>
+      <span className=''><SlLocationPin size={20}/></span>
+      <div className="flex">
+        <h4 className='text-muted font-bold'> {pincode}</h4>
       </div>
     </div>
   );

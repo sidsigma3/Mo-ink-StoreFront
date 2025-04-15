@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import "./LoginPage.css";
+import ToggleBtn from "../../../Components/Buttons/ToggleButton/ToggleBtn";
 import { useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../Services/CustomerService";
 
 const LoginPage = ({ togglePage, setAuthStatus }) => {
-    const [showWelcome, setShowWelcome] = useState(false);
-    const [customerName, setCustomerName] = useState("");
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -16,24 +14,23 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
         e.preventDefault();
         const response = await loginCustomer(username, password);
         if (response.success) {
-            const name = response.data?.customerName || "Customer";
-    
             localStorage.setItem("isAuthenticated", "true");
             localStorage.setItem("userData", JSON.stringify(response.data));
-            localStorage.setItem("justLoggedIn", "true"); 
-    
-            navigate("/home"); 
+            navigate("/home");
         } else {
             setError(response.message);
         }
     };
-    
 
     return (
         <div
-            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative"
-            style={{ backgroundImage: "url('/images/New_BG.png')" }}
-        >
+            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative">
+            <div
+        className="absolute inset-0 bg-center bg-cover  filter blur-sm z-0"
+        style={{
+          backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+        }}
+      ></div>
             {/* Logo */}
             <div className="absolute top-4 left-4 lg:left-8 lg:top-8 flex justify-center lg:justify-start w-full lg:w-auto pr-4">
                 <img
@@ -64,7 +61,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                 </p>
 
                 <form onSubmit={handleLogin}>
-                    <label className="block text-l mb-1">Email id or Phone no</label>
+                    <label className="block text-l mb-1">Username</label>
                     <input
                         type="text"
                         placeholder="Enter your username"
@@ -129,14 +126,6 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                     </div>
                 </form>
             </div>
-            {showWelcome && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white text-black rounded-xl shadow-lg p-6 w-full max-w-md text-center">
-                        <h2 className="text-2xl font-bold mb-2">Welcome {customerName}!</h2>
-                        <p className="text-lg">Please Enjoy Shopping 🛍️</p>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

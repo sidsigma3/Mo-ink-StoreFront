@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './SignupPage.css';
+import { useNavigate } from "react-router-dom";
 import ToggleBtn from '../../../Components/Buttons/ToggleButton/ToggleBtn';
 import { createCustomer } from '../../../Services/CustomerService';
 
 const SignupPage = ({ togglePage, isLogin }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -78,9 +80,13 @@ const SignupPage = ({ togglePage, isLogin }) => {
 
   return (
     <div
-      className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative"
-      style={{ backgroundImage: "url('/images/New_BG.png')" }}
-    >
+            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
+            <div
+        className="absolute inset-0 bg-center bg-cover filter blur-sm z-0"
+        style={{
+          backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+        }}
+      ></div>
       {/* Logo */}
       <div className="absolute top-4 left-4 lg:left-8 lg:top-8 flex justify-center lg:justify-start w-full lg:w-auto pr-4">
         <img
@@ -211,13 +217,14 @@ const SignupPage = ({ togglePage, isLogin }) => {
             </div>
           </div>
 
+          
           <button
-            type="submit"
-            className="w-full bg-purple-800 text-white rounded-full py-2 font-medium mt-4"
-            disabled={loading}
-          >
-            {loading ? 'Creating Account...' : 'Sign Up'}
-          </button>
+                        type="submit"
+                        className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
+                        onClick={() => navigate("/otp")}
+                    >
+                        Get OTP
+                    </button>
         </form>
       </div>
     </div>

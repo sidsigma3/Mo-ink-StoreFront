@@ -772,9 +772,11 @@ const CheckoutPage = () => {
                 <div>
                     <div className='mt-6'>
                         {selectedPayment === "0% Online and 100% COD" ? (
-                            <button className='bg-orange-500 text-white p-3 rounded-md w-full'>CREATE ORDER</button>
+                            <button className='bg-orange-500 text-white p-3 rounded-md w-full'
+                            onClick={()=>navigate("/orders")}>CREATE ORDER</button>
                         ) : (
-                            <button className='bg-violet-900 text-white p-3 rounded-md w-full'>PAY NOW</button>
+                            <button className='bg-violet-900 text-white p-3 rounded-md w-full'
+                            onClick={()=>navigate("/orders")}>PAY NOW</button>
                         )}
                     </div>
                     <div className='mt-6'>

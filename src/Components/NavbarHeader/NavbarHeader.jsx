@@ -1,4 +1,4 @@
-import React, { useState , useEffect , useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ProductSearch from '../ProductSearch/ProductSearch'
 import { FaRegHeart } from "react-icons/fa";
 import { PiShoppingCart } from "react-icons/pi";
@@ -10,12 +10,17 @@ import { useNavigate } from 'react-router-dom';
 import { FiMenu } from "react-icons/fi"; // Hamburger Icon
 import { IoClose } from "react-icons/io5"; // Close Icon
 import UserDropdown from '../Buttons/UserDropdown/UserDropdown';
+import { addToWishlist, getWishlist, removeFromWishlist } from "../../Services/WishlistService"
+import { getCart } from "../../Services/CartService"
+import { useAppContext } from '../../Utils/commoncontext';
+
 
 const NavbarHeader = () => {
-
+  const { cartCount , wishlistCount, updateCartAndWishlistCounts} = useAppContext();
+   
   const navigate = useNavigate()
   const dropdownRef = useRef(null);
-
+  const customerId = JSON.parse(localStorage.getItem("userData"))?.customerId;
   const purpuleColor = deepPurple[500]
 
   const [accountOpen, setAccountOpen] = useState(false);
@@ -31,13 +36,34 @@ const NavbarHeader = () => {
   }
 
 
-  const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated"); 
-    localStorage.removeItem("userData"); 
-    // sessionStorage.removeItem("authToken");
-    navigate("/"); 
+  const handleAddToWishlist = async (variantId) => {
+    try {
+      await addToWishlist(customerId, variantId);
+      const updatedWishlist = await getWishlist(customerId);
+      updateCartAndWishlistCounts()
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
   };
-  
+
+  const handleRemoveFromWishlist = async (variantId) => {
+    try {
+      await removeFromWishlist(customerId, variantId);
+      const updatedWishlist = await getWishlist(customerId);
+      updateCartAndWishlistCounts()
+
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
+  };
+
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userData");
+    navigate("/");
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -103,7 +129,7 @@ const NavbarHeader = () => {
 
 
       <div>
-        <img className='h-12 cursor-pointer' src='/images/logo.png' onClick={()=>navigate("/home")}></img>
+        <img className='h-12 cursor-pointer' src='/images/logo.png' onClick={() => navigate("/home")}></img>
       </div>
 
       {/* <div className='hidden lg:block'>
@@ -117,7 +143,8 @@ const NavbarHeader = () => {
 
       <div className='d-flex gap-3'>
         <div onClick={handleWishlist} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}>
-          <Badge badgeContent={4}
+          <Badge badgeContent={wishlistCount}
+          //display context value here
             sx={{
               '& .MuiBadge-badge': {
                 backgroundColor: purpuleColor,
@@ -132,11 +159,11 @@ const NavbarHeader = () => {
         </div>
 
         <div onClick={handleCart} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}>
-          <Badge badgeContent={5}
+          <Badge badgeContent={cartCount}
             sx={{
               '& .MuiBadge-badge': {
                 backgroundColor: purpuleColor,
-                color: '#fff', // Text color
+                color: '#fff',
                 top: '-4px',
                 right: '-4px'
               },
@@ -146,7 +173,7 @@ const NavbarHeader = () => {
           </Badge>
         </div>
 
-        <div  ref={dropdownRef} onClick={() => setAccountOpen((prev) => !prev)} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg relative' style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}>
+        <div ref={dropdownRef} onClick={() => setAccountOpen((prev) => !prev)} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg relative' style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}>
 
           <span><GoPerson size={20} /></span>
           {accountOpen && (
@@ -155,14 +182,14 @@ const NavbarHeader = () => {
               style={{ top: "100%", right: "12", minWidth: "150px", zIndex: 10 }}
             >
               <ul className="list-unstyled m-0">
-                <li className="p-2 cursor-pointer hover:bg-gray-200 rounded" onClick={()=>navigate("/account")}>Account</li>
+                <li className="p-2 cursor-pointer hover:bg-gray-200 rounded" onClick={() => navigate("/account")}>Account</li>
                 <li className="p-2 cursor-pointer hover:bg-gray-200 rounded" onClick={handleLogout}>Logout</li>
               </ul>
             </div>
           )}
         </div>
 
-       
+
       </div>
 
     </div>

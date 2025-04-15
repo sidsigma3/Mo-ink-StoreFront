@@ -3,28 +3,26 @@ import React from 'react'
 const BlogBox = () => {
   return (
     <div>
-        <article className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm" style={{width:'30rem'}}>
+       <a href="/Blog1" className="block">
+        <article className= "bg-white border border-grey-100 rounded-2xl overflow-hidden transition-transform transform hover:scale-95">
             <img
-                alt=""
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-                className="h-56 w-full object-cover"
+                alt="Blog Image"
+                src="https://images.pexels.com/photos/4219611/pexels-photo-4219611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                className="w-full h-48 object-cover"
             />
 
-            <div className="p-4 sm:p-6">
+            <div className="p-3">
                 <a href="#">
                 <h3 className="text-lg font-medium text-gray-900">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                The Journey of Yarn: From Raw Fiber to High-Quality Thread.
                 </h3>
                 </a>
 
                 <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
-                pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis quidem,
-                mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius atque
-                dignissimos. Molestias explicabo corporis voluptatem?
+                A behind-the-scenes look at how raw materials like cotton, silk, and polyester are transformed into premium yarns. Highlight the production process, quality control, and sustainability efforts.
                 </p>
 
-                <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue-600">
+                <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more
 
                 <span aria-hidden="true" className="block transition-all group-hover:ms-0.5 rtl:rotate-180">
@@ -33,6 +31,7 @@ const BlogBox = () => {
                 </a>
             </div>
             </article>
+            </a>
     </div>
   )
 }

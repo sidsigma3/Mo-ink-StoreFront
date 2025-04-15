@@ -28,7 +28,11 @@ import FAQs from './Pages/FAQs/FAQs';
 import ReturnPolicy from "./Pages/Return Policy/ReturnPolicy";
 import RefundPolicy from "./Pages/Refund Policy/RefundPolicy";
 import ErrorPage from './Pages/Error Page/ErrorPage';
+import MainHomepage from './Pages/Main Homepage/MainHomepage';
+import BlogList from './Components/BlogList/BlogList';
 import Blogs from './Pages/Blogs/Blogs';
+import BlogBox from './Components/BlogList/BlogBox';
+import OTP from './Pages/Authnticate/OTP/OTP';
 
 
 function App() {
@@ -60,19 +64,20 @@ function App() {
     <BrowserRouter>
     <Routes>
       {/* Public Routes */}
-      <Route path="/login" element={<LoginPage setAuthStatus={setIsAuthenticated}/>} />
-      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/login" element={<AuthPage setAuthStatus={setIsAuthenticated} />} />
+      <Route path="/signup" element={<AuthPage setAuthStatus={setIsAuthenticated} />} />
+      <Route path="/OTP" element={<OTP />} />
       <Route path="/forgotPassword" element={<ForgotPassword />} />
       <Route path="/verifyCode" element={<VerifyCode />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
-      <Route path="/" element={<AuthPage setAuthStatus={setIsAuthenticated} />} />
+      <Route path="/" element={<MainHomepage/>} />
 
       {/* Protected Routes */}
       <Route
         path="*"
         element={
           <ProtectedRoute>
-              <div className="content w-100 p-3">
+              <div className="content w-100 py-3">
                 <Routes>
                   <Route path="/home" element={<LandingPage></LandingPage>} /> 
                   <Route path="/about" element={<AboutPage></AboutPage>} />
@@ -88,6 +93,7 @@ function App() {
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/FAQs" element={<FAQs/>}/>
                   <Route path="/address" element={<AddressPage />} />
+                  <Route path="/blogbox" element={<BlogBox />} />
                   <Route path="/orderDetails" element={<OrderDetails />} />
                   <Route path="/returnPolicy" element={<ReturnPolicy/>}/>
                   <Route path="/refundPolicy" element={<RefundPolicy/>}/>

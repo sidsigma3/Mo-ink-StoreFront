@@ -2,10 +2,10 @@ import React from 'react';
 
 const MainHero = () => {
   return (
-    <section id="home-section" className="relative w-full h-1/2 lg:h-screen overflow-hidden">
+    <section id="home-section" className="relative w-full h-1/2 lg:h-screen overflow-hidden  ">
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-0 rounded-3xl mt-10 max-h-screen"
+        className="absolute inset-0 bg-cover bg-center z-0 rounded-3xl mt-10 max-h-screen px-3"
         style={{ backgroundImage: "url('/images/MainHero_Banner.png')" }}
       ></div>
 
@@ -24,7 +24,7 @@ const MainHero = () => {
               href="/login"
               className="text-base sm:text-lg font-medium rounded-full text-white py-2 px-10 bg-purple-800 border border-purple-600 hover:text-purple-600 hover:bg-transparent transition"
             >
-              Explore Yarn Types
+              Explore Yarns
             </a>
             {/* <a
               href="#about-section"

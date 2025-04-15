@@ -10,8 +10,8 @@ const FeturesList = () => {
         <div className='p-4 rounded-2xl md:rounded-r-[0] md:rounded-l-2xl bg-gray-200 d-flex align-items-center gap-3 justify-content-center'>
             <span className='text-violet-800'><RiTruckLine size={40}/></span>
             <div>
-                <h4 className='text-lg font-semibold'>Free Delivery</h4>
-                <p className='font-medium text-base'>Orders from all item</p>
+                <h4 className='text-lg font-semibold'>Pan-India Delivery</h4>
+                <p className='font-medium text-base'>We’ve got every pin code covered.</p>
             </div>
         </div>
 

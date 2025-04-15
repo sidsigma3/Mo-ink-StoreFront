@@ -14,8 +14,7 @@ const Footer = () => {
           </div>
   
           <p className="mt-4 sm:text-center md:text-left text-gray-500">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse non cupiditate quae nam
-            molestias.
+          Spinning Quality, Weaving Trust – Delivering Premium Yarns for a Sustainable Future.
           </p>
   
           <ul className="mt-8 flex gap-6 justify-center md:justify-start">
@@ -159,7 +158,15 @@ const Footer = () => {
         </div>
       </div>
   
-      <p className="text-xs text-gray-500">&copy; 2022. Company Name. All rights reserved.</p>
+      <div className="text-start mt-8">
+  <p className="text-lg text-gray-700">
+    Made with ❤️ in India by <a href="https://www.aivorntech.com" target="_blank" rel="noopener noreferrer" className="text-black hover:underline font-semibold">Aivorn Tech</a>
+  </p>
+  <p className="text-sm text-gray-500 mt-1">
+    &copy; 2022. Mo Ink n Dyes. All rights reserved.
+  </p>
+</div>
+
     </div>
   </footer>
   )

@@ -14,9 +14,13 @@ const ForgotPasswordPage = () => {
 
     return (
         <div
-            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative"
-            style={{ backgroundImage: "url('/images/New_BG.png')" }}
-        >
+            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative">
+            <div
+        className="absolute inset-0 bg-center bg-cover filter blur-sm z-0"
+        style={{
+          backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+        }}
+      ></div>
             {/* Logo */}
             <div className="absolute top-4 left-4 lg:left-8 lg:top-8 flex justify-center lg:justify-start w-full lg:w-auto pr-4">
                 <img

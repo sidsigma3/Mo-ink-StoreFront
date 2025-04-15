@@ -4,15 +4,19 @@ import { Image } from 'react-bootstrap';
 
 const MainWhyUs = () => {
     return (
-      <section className="bg-[#21133a] text-white py-10">
-        <div className="container mx-auto lg:max-w-screen-xl px-4">
+      <section className="bg-[#21133a] text-white py-28 bg-cover bg-center relative"
+      style={{
+    backgroundImage: `url('/images/Pattern.png')`,
+  }}
+      >
+        <div className="container mx-auto lg:max-w-screen-xl px-6 md:px-14 ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             
             {/* Left Column - Image */}
             <div className="w-full flex justify-center ">
-              <div className="max-w-[500px] w-full">
+              <div className="max-w-auto w-full">
                 <Image
-                  src="https://images.pexels.com/photos/6634268/pexels-photo-6634268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  src="https://themetechmount.com/html/fablio/demo5/images/bg-image/col-bgimage-1.jpg"
                   alt="Chef"
                   width={600}
                   height={800}
@@ -23,7 +27,7 @@ const MainWhyUs = () => {
   
             {/* Right Column - Text */}
             <div>
-              <p className="text-[#ffffff] tracking-widest uppercase mb-2">Why us</p>
+              <p className="text-[#FFEE9A] tracking-widest uppercase font-bold mb-2">Why us</p>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-snug">
               Engineered Yarns for Industrial Excellence
               </h2>

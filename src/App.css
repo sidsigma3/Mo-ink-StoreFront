@@ -63,3 +63,11 @@ body{font-family:"Open Sans , sans-serif" ; background-color: #ffffff !important
 .yellow-light-bg{
   background-color: #ffee9a;
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;   
+}

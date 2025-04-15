@@ -6,6 +6,7 @@ import { addToWishlist, removeFromWishlist, getWishlist } from '../../Services/W
 import { addToCart, removeFromCart, getCart } from '../../Services/CartService';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useAppContext } from '../../Utils/commoncontext';
 
 
 const ProductDetailBox = ({ productName, price, size, color, itemQuantity, variantId,
@@ -14,6 +15,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
   showCart = true,
 
 }) => {
+  const { cartCount, setCartCount , wishlistCount, setWishlistCount, updateCartAndWishlistCounts} = useAppContext();
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -65,6 +67,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
 
       onWishlistToggle?.(); // Refresh wishlist
       onCartToggle?.(); // Refresh cart
+      updateCartAndWishlistCounts()
     } catch (err) {
       console.error("Error toggling wishlist:", err);
     }
@@ -94,6 +97,8 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
       await addToCart(customer.customerId, variantId, quantity);
       alert("Item is moved to cart!");
       setIsInCart(true);
+      updateCartAndWishlistCounts()
+
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Failed to add item to cart!");

@@ -23,12 +23,16 @@ import { PiSuitcaseSimpleBold } from "react-icons/pi";
 import { BiBuildingHouse } from "react-icons/bi";
 import { useRef } from "react";
 import { Button } from 'react-bootstrap';
+import { useAppContext } from '../../Utils/commoncontext'
 
 
 
-const CheckoutPage = () => {
+const CheckoutPage = ({productId,customerId}) => {
 
     const navigate = useNavigate()
+
+    const {  updateCartAndWishlistCounts} = useAppContext();
+    
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState('Select Payment type')
@@ -152,7 +156,17 @@ const CheckoutPage = () => {
             setLoading(false);
         }
     };
-
+    const eligibleDiscounts = discounts.filter(discount => {
+        const isProductEligible = discount.applicableProductIds?.includes(productId); 
+        const isCustomerEligible = discount.eligibleCustomerIds?.includes(customerId);
+        const isActive = discount.isActive;
+        return isProductEligible && isCustomerEligible && isActive;
+    });
+    
+    const filteredDiscounts = eligibleDiscounts.filter(discount =>
+        discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
 
     const fetchOrders = useCallback(async () => {
@@ -189,7 +203,7 @@ const CheckoutPage = () => {
                 };
             }).filter(Boolean);
 
-            setCartItems(cartProducts); // ✅ updates context
+            setCartItems(cartProducts); 
         } catch (error) {
             console.error("Failed to fetch orders:", error);
         } finally {
@@ -212,6 +226,7 @@ const CheckoutPage = () => {
         try {
             await removeFromCart(customer.customerId, variantId);
             fetchOrders()
+            updateCartAndWishlistCounts()
             alert("Item removed from cart successfully!");
         } catch (error) {
             alert("Failed to remove item from cart!");
@@ -224,9 +239,9 @@ const CheckoutPage = () => {
         setSelectedPayment(type)
     }
 
-    const filteredDiscounts = discounts.filter((discount) =>
-        discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // const filteredDiscounts = discounts.filter((discount) =>
+    //     discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
 
     const selectedAddress =
         (customer?.addresses || []).find((addr) => addr.addressType === selectedType) ||
@@ -319,7 +334,7 @@ const CheckoutPage = () => {
                     </ul>
                 ) : (
                     <div className='py-5'>
-                        <p className='text-center text-xl font-medium'>No cart items found.</p>
+                        <p className='text-center text-xl font-medium'>No cart items found</p>
                     </div>
                 )}
 

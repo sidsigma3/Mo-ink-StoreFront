@@ -108,7 +108,7 @@ const Cart = () => {
           ))}
         </ul>
       ) : (
-        <p>No cart items found.</p>
+        <p>No cart items found</p>
       )}
     </div>
   );

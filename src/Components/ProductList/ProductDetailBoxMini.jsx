@@ -3,6 +3,7 @@ import { TiStarFullOutline } from "react-icons/ti";
 import { FaHeart } from "react-icons/fa";
 import { addToWishlist, removeFromWishlist } from "../../Services/WishlistService";
 import { getCart, removeFromCart } from "../../Services/CartService"
+import { useAppContext } from '../../Utils/commoncontext';
 
 
 
@@ -10,6 +11,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
   isSelected = false,
   onSelectChange = () => { }
 }) => {
+  const {updateCartAndWishlistCounts } = useAppContext();
 
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
@@ -46,21 +48,24 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
         await removeFromWishlist(customer.customerId, variantId);
         setIsWishlisted(false);
         setJustRemoved(true);
+        updateCartAndWishlistCounts();
         alert("Item is removed from wishlist");
       } else {
         const cart = await getCart(customer.customerId);
+
         const inCart = cart?.cartItems?.some(item => item.variantId === variantId);
 
         if (inCart) {
           console.log("Removing from cart:", variantId);
           await removeFromCart(customer.customerId, variantId);
+          updateCartAndWishlistCounts();
           setIsInCart(false);
-
         } else {
           console.log("Item not found in cart");
         }
 
         await addToWishlist(customer.customerId, variantId);
+        updateCartAndWishlistCounts();
         setIsWishlisted(true);
         setJustRemoved(false);
         alert("Item is added back to wishlist");

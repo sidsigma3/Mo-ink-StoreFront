@@ -5,12 +5,18 @@ import { Menu, X } from "lucide-react";
 const MainHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const menuItems = ["Home", "Features", "Why us", "Products", "FAQs"];
-
+  const menuItems = [
+    { name: "Home", path: "#home" },
+    { name: "Features", path: "#features" },
+    { name: "Why us", path: "#why-us" },
+    { name: "Products", path: "#products" },
+    { name: "FAQs", path: "#faqs" }
+  ];
+  
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) { 
+      if (window.innerWidth >= 1024) {
         setIsOpen(false);
       }
     };
@@ -33,19 +39,23 @@ const MainHeader = () => {
       <nav className="hidden lg:flex items-center space-x-6 text-lg font-semibold text-gray-800">
         {menuItems.map((item) => (
           <a
-            key={item}
-            href="#"
+            key={item.name}
+            onClick={() => {
+              setIsOpen(false); // Close the mobile menu on navigation
+            }}
+            href={item.path}
             className="hover:text-purple-800 hover:underline transition-colors"
           >
-            {item}
+            {item.name}
           </a>
         ))}
+
       </nav>
 
       {/* Desktop Login Button */}
       <div className="hidden lg:block">
         <button
-        onClick={() => navigate("/login")}
+          onClick={() => navigate("/login")}
           type="button"
           className="text-base sm:text-lg font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
         >
@@ -75,7 +85,7 @@ const MainHeader = () => {
             ))}
 
             <button
-            onClick={() => navigate("/login")}
+              onClick={() => navigate("/login")}
               type="button"
               className="text-base font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
             >

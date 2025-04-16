@@ -4,7 +4,7 @@ import { Image } from 'react-bootstrap';
 
 const MainFeatures = () => {
   return (
-    <section>
+    <section id="features">
       <div
         className="container mx-auto lg:max-w-screen-xl md:max-w-screen-md px-4"
         id="about-section"

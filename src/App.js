@@ -33,6 +33,12 @@ import BlogList from './Components/BlogList/BlogList';
 import Blogs from './Pages/Blogs/Blogs';
 import BlogBox from './Components/BlogList/BlogBox';
 import OTP from './Pages/Authnticate/OTP/OTP';
+import MainFeatures from './Components/MainFeatures/MainFeatures';
+import MainWhyUs from './Components/MainWhyUs/MainWhyUs';
+import ProductList from './Components/ProductList/ProductList';
+import MainFAQ from './Components/MainFAQ/MainFAQ';
+import MainProcess from './Components/MainProcess/MainProcess';
+import Blog1 from './Pages/Blogs/Blog1';
 
 
 function App() {
@@ -98,7 +104,7 @@ function App() {
                   <Route path="/returnPolicy" element={<ReturnPolicy/>}/>
                   <Route path="/refundPolicy" element={<RefundPolicy/>}/>
                   <Route path="/product/:id" element={<ProductDetailPage />} />
-                  <Route path="/blogs" element={<Blogs/>}/>
+                  <Route path="/blogs" element={<Blog1/>}/>
                   <Route path="*" element={<ErrorPage />} />
                 </Routes>
               </div>

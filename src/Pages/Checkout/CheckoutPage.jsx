@@ -27,19 +27,19 @@ import { useAppContext } from '../../Utils/commoncontext'
 
 
 
-const CheckoutPage = ({productId,customerId}) => {
+const CheckoutPage = () => {
 
     const navigate = useNavigate()
 
-    const {  updateCartAndWishlistCounts} = useAppContext();
-    
+    const { updateCartAndWishlistCounts } = useAppContext();
+
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState('Select Payment type')
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [discounts, setDiscounts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedType, setSelectedType] = useState('HOME');
+    const [selectedType, setSelectedType] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [appliedCoupon, setAppliedCoupon] = useState(null);
     const lastTapRef = useRef(0);
@@ -60,6 +60,7 @@ const CheckoutPage = ({productId,customerId}) => {
         "25% Online and 75% COD": 0.5,
         "0% Online and 100% COD": 0,
     };
+    const customerId = JSON.parse(localStorage.getItem("userData"))?.customerId;
 
 
     const handlingChargesMap = {
@@ -157,16 +158,17 @@ const CheckoutPage = ({productId,customerId}) => {
         }
     };
     const eligibleDiscounts = discounts.filter(discount => {
-        const isProductEligible = discount.applicableProductIds?.includes(productId); 
-        const isCustomerEligible = discount.eligibleCustomerIds?.includes(customerId);
-        const isActive = discount.isActive;
-        return isProductEligible && isCustomerEligible && isActive;
+        // const isProductEligible = discount.applicableProducts.map((item) => item.id).includes(productId);
+        const isCustomerEligible = discount.eligibleCustomers.map((item) => item.customerId).includes(customerId);
+        const isActive = discount.discountStatus == "Active";
+        return  isCustomerEligible && isActive;
     });
-    
+
     const filteredDiscounts = eligibleDiscounts.filter(discount =>
         discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
     );
     
+
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
 
     const fetchOrders = useCallback(async () => {
@@ -203,7 +205,7 @@ const CheckoutPage = ({productId,customerId}) => {
                 };
             }).filter(Boolean);
 
-            setCartItems(cartProducts); 
+            setCartItems(cartProducts);
         } catch (error) {
             console.error("Failed to fetch orders:", error);
         } finally {
@@ -276,8 +278,15 @@ const CheckoutPage = ({productId,customerId}) => {
         }
 
         lastTapRef.current = now;
+        setIsSidebarOpen(false);
     };
 
+    const handleQuantityUpdate = (variantId, newQty) => {
+        const updatedCart = cartItems.map(item =>
+            item.variantId === variantId ? { ...item, quantity: newQty } : item
+        );
+        setCartItems(updatedCart); // 👈 Your local state that controls the cart
+    };
 
     useEffect(() => {
         if (cartItems.length > 0) {
@@ -299,10 +308,12 @@ const CheckoutPage = ({productId,customerId}) => {
                 {cartItems.length > 0 ? (
                     <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 '>
                         {cartItems.map((item, index) => {
-                            const itemCost = item.price * item.quantity;
-                            const gstRate = 12;
-                            const gstAmount = (itemCost * gstRate) / 100;
-                            const totalItemCostWithGst = itemCost + gstAmount;
+                            const totalAmount = cartItems.reduce((acc, item) => {
+                                const itemCost = item.price * item.quantity;
+                                const gstAmount = (itemCost * 12) / 100;
+                                return acc + itemCost + gstAmount;
+                            }, 0);
+
                             return (
                                 <li key={index} className={`border rounded-lg ${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
 
@@ -325,6 +336,7 @@ const CheckoutPage = ({productId,customerId}) => {
                                                 variantId={item.variantId}
                                                 isSelected={selectedItems.includes(item.variantId)}
                                                 onSelectChange={handleCheckboxChange}
+                                                onQuantityChange={(variantId, newQty) => handleQuantityUpdate(variantId, newQty)}
                                             />
                                         </div>
                                     ) : null}
@@ -359,33 +371,45 @@ const CheckoutPage = ({productId,customerId}) => {
                                 <p>{selectedAddress.zipcode}, {selectedAddress.country}</p>
                             </div>
 
-                            {/* Address Selection Dropdown */}
+                            {/* Address Type Selection Dropdown */}
                             <div>
-                                <Dropdown >
+                                <Dropdown>
                                     <Dropdown.Toggle className='font-semibold bg-violet-200 flex items-center text-violet-800 w-36 justify-between' variant="light" id="dropdown-basic">
-                                        {selectedType}
-                                        {selectedType === 'HOME' ? (
-                                            <span><BiHomeAlt size={20} /></span>
-                                        ) : selectedType === 'WORK' ? (
-                                            <span><PiSuitcaseSimpleBold size={20} /></span>
+                                        {selectedType ? (
+                                            <>
+                                                <span>{selectedType}</span>
+                                                {selectedType === 'HOME' ? (
+                                                    <BiHomeAlt size={20} />
+                                                ) : selectedType === 'WORK' ? (
+                                                    <PiSuitcaseSimpleBold size={20} />
+                                                ) : (
+                                                    <BiBuildingHouse size={20} />
+                                                )}
+                                            </>
                                         ) : (
-                                            <span><BiBuildingHouse size={20} /></span>
+                                            <span className=''>Select type</span>
                                         )}
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        {["HOME", "WORK", "OTHER"].map((type) => (
-                                            <Dropdown.Item
-                                                key={type}
-                                                onClick={() => setSelectedType(type)}
-                                            >
-                                                {type}
-                                            </Dropdown.Item>
-                                        ))}
+                                        {["HOME", "WORK", "OTHER"]
+                                            .filter(type =>
+                                                customer.addresses?.some(addr => addr.addressType === type)
+                                            )
+                                            .map((type) => (
+                                                <Dropdown.Item
+                                                    key={type}
+                                                    onClick={() => setSelectedType(type)}
+                                                >
+                                                    {type}
+                                                </Dropdown.Item>
+                                            ))}
                                     </Dropdown.Menu>
+
                                 </Dropdown>
                             </div>
                         </div>
                     )}
+
 
                     {/* { <ul className='flex flex-col gap-3 mt-3'>
                     {
@@ -509,7 +533,7 @@ const CheckoutPage = ({productId,customerId}) => {
 
                                 onClick={() => setIsSidebarOpen(true)} // Open sidebar on click
                             >
-                                Select Discount
+                                { appliedCoupon ? appliedCoupon.discountCode : "Select Discount"}
                             </Button>
                         </div>
                     </div>
@@ -548,6 +572,7 @@ const CheckoutPage = ({productId,customerId}) => {
 
                                 <ul className="space-y-2 mt-3 cursor-pointer">
                                     {filteredDiscounts.map((discount) => (
+
                                         <li key={discount.discountId} className="border rounded-xl flex">
                                             <div className='bg-violet-800 w-10  relative rounded-l-xl'>
                                                 <h4 className="-rotate-90 text-sm font-bold text-white -translate-x-4 translate-y-12 w-20 cursor-pointer select-none"
@@ -563,7 +588,7 @@ const CheckoutPage = ({productId,customerId}) => {
                                                 <div className="absolute top-24 -left-2 w-3 h-3 bg-white rounded-full"></div>
                                                 <div className="absolute top-28 -left-2 w-3 h-3 bg-white rounded-full"></div>
                                             </div>
-                                            <div className='flex-1 p-2 hover:border-blue-800 hover:border-2 hover:rounded-tr-md hover:rounded-br-md'>
+                                            <div className={`flex-1 p-2 hover:border-blue-800 hover:border-2 hover:rounded-tr-md hover:rounded-br-md ${appliedCoupon?.discountId == discount.discountId ? "border-blue-800 border-2 rounded-tr-md rounded-br-md": ""}`}>
                                                 <div className='flex justify-between '>
                                                     <h3 className="font-semibold text-xl">{discount.discountCode}</h3>
                                                     <h5 className='text-violet-800 font-bold text-md'
@@ -789,10 +814,10 @@ const CheckoutPage = ({productId,customerId}) => {
                     <div className='mt-6'>
                         {selectedPayment === "0% Online and 100% COD" ? (
                             <button className='bg-orange-500 text-white p-3 rounded-md w-full'
-                            onClick={()=>navigate("/orders")}>CREATE ORDER</button>
+                                onClick={() => navigate("/orders")}>CREATE ORDER</button>
                         ) : (
                             <button className='bg-violet-900 text-white p-3 rounded-md w-full'
-                            onClick={()=>navigate("/orders")}>PAY NOW</button>
+                                onClick={() => navigate("/orders")}>PAY NOW</button>
                         )}
                     </div>
                     <div className='mt-6'>

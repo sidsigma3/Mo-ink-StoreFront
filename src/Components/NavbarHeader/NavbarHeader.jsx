@@ -25,6 +25,9 @@ const NavbarHeader = () => {
 
   const [accountOpen, setAccountOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(()=> {
+    updateCartAndWishlistCounts()
+  },[])
 
   const handleWishlist = () => {
     navigate("/wishlist")

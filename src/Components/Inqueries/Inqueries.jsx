@@ -77,8 +77,6 @@ return (
       {show && (
         <>
           <h4 className='font-semibold text-2xl'>Any Enquiries</h4>
-
-          <p className='text-lg font-medium mt-3'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque delectus ipsum qui molestiae neque alias error quis praesentium quidem, totam exercitationem recusandae unde.</p>
         </>
       )}
 
@@ -86,7 +84,6 @@ return (
         <>
           <h4 className='font-bold text-4xl'>Get in <span className='text-violet-800 font-bold'>Touch</span></h4>
 
-          <p className='text-lg font-medium mt-3'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque delectus ipsum qui molestiae neque alias error quis praesentium quidem, totam exercitationem recusandae unde.</p>
         </>
       )}
 

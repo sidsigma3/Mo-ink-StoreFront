@@ -1,13 +1,18 @@
 import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import "./LoginPage.css";
 import ToggleBtn from "../../../Components/Buttons/ToggleButton/ToggleBtn";
 import { useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../Services/CustomerService";
+import { useAppContext } from "../../../Utils/commoncontext";
 
 const LoginPage = ({ togglePage, setAuthStatus }) => {
+    const { updateCartAndWishlistCounts} = useAppContext();
+    
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -16,6 +21,8 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
         if (response.success) {
             localStorage.setItem("isAuthenticated", "true");
             localStorage.setItem("userData", JSON.stringify(response.data));
+            updateCartAndWishlistCounts();
+            localStorage.setItem("justLoggedIn", "true"); 
             navigate("/home");
         } else {
             setError(response.message);
@@ -26,11 +33,11 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
         <div
             className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative">
             <div
-        className="absolute inset-0 bg-center bg-cover  filter blur-sm z-0"
-        style={{
-          backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
-        }}
-      ></div>
+                className="absolute inset-0 bg-center bg-cover  filter blur-sm z-0"
+                style={{
+                    backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+                }}
+            ></div>
             {/* Logo */}
             <div className="absolute top-4 left-4 lg:left-8 lg:top-8 flex justify-center lg:justify-start w-full lg:w-auto pr-4">
                 <img
@@ -42,6 +49,12 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
             {/* Auth Box */}
             <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 w-full max-w-md sm:max-w-lg md:max-w-xl text-white backdrop-blur-md">
+                <button
+                    className="text-sm text-white mb-4 hover:underline"
+                    onClick={() => navigate("/")}
+                >
+                    &larr; Back to HomePage
+                </button>
                 <h3 className="text-center text-2xl font-bold mb-4">Welcome to Mo Ink N Dyes!</h3>
 
                 <div className="flex justify-center mb-4 bg-white rounded-full overflow-hidden w-full max-w-xs mx-auto">
@@ -61,7 +74,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                 </p>
 
                 <form onSubmit={handleLogin}>
-                    <label className="block text-l mb-1">Username</label>
+                    <label className="block text-l mb-1">Email id or Phone no</label>
                     <input
                         type="text"
                         placeholder="Enter your username"
@@ -71,13 +84,22 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                     />
 
                     <label className="block text-l mb-1">Password</label>
-                    <input
-                        type="password"
-                        placeholder="Enter your password"
-                        className="w-full px-4 py-2 rounded-full mb-3 text-black focus:outline-none"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter your password"
+                            className="w-full px-4 py-2 rounded-full mb-3 text-black focus:outline-none pr-10"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-3 top-2.5 text-gray-500"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
+                    </div>
 
                     {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
 

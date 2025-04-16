@@ -9,7 +9,8 @@ import { useAppContext } from '../../Utils/commoncontext';
 
 const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle,
   isSelected = false,
-  onSelectChange = () => { }
+  onSelectChange = () => { },
+  onQuantityChange = () => {},
 }) => {
   const { updateCartAndWishlistCounts } = useAppContext();
 
@@ -19,17 +20,23 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
   const [isWishlisted, setIsWishlisted] = useState(isWishlist || false);
   const [isInCart, setIsInCart] = useState(true);
   const [justRemoved, setJustRemoved] = useState(false);
-
+  const [selectedOption, setSelectedOption] = useState();
 
   const handleIncrease = () => {
-    setQuantity(prev => prev + 1);
+    const newQty = quantity + 1;
+    setQuantity(newQty);
+    onQuantityChange(variantId, newQty);
   };
-
+  
   const handleDecrease = () => {
     if (quantity > 1) {
-      setQuantity(prev => prev - 1);
+      const newQty = quantity - 1;
+      setQuantity(newQty);
+      onQuantityChange(variantId, newQty);
     }
   };
+  
+  
   const handleCheckboxChange = (variantId) => {
     setSelectedItems(prev =>
       prev.includes(variantId)
@@ -77,7 +84,23 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
       console.error("Error toggling wishlist:", err);
     }
   };
+  useEffect(() => {
+    const stored = localStorage.getItem(`selectedOption_${variantId}`);
+    if (stored) {
+      setSelectedOption(stored);
+    }
+  }, [variantId]);
 
+  const handleOptionClick = (option) => {
+    if (selectedOption === option) {
+      setSelectedOption('');
+      localStorage.removeItem(`selectedOption_${variantId}`);
+    } else {
+      setSelectedOption(option);
+      localStorage.setItem(`selectedOption_${variantId}`, option);
+    }
+  };
+  
 
   return (
     <div className='relative'>
@@ -93,7 +116,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
           src="/images/Picture1.png"
           alt=""
           className="h-30 w-1/3 object-cover p-1"
-          style={{ height: '12rem'}}
+          style={{ height: '12rem' }}
         />
 
         <div className="p-4 w-4/5">
@@ -149,21 +172,30 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
           </div>
 
           <div className='mt-2 float-start'>
-            <div className='mt-3'>
-              <div className='flex items-center gap-2'>
-                <button
-                  href="#"
-                  className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-500 transition hover:bg-purple-400 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white "
-                  style={{ width: "max-content" }}
-                >Cone</button>
-                <button
-                  href="#"
-                  className="inline-block rounded bg-purple-100 px-4 md:px-12 p-2 text-sm font-medium text-purple-500 transition hover:bg-purple-400 focus:outline-none focus:ring focus:ring-yellow-400 hover:text-white"
-                  style={{ width: "max-content" }}
-                >Hank</button>
+            <div className="mt-3">
+              <div className="flex items-center gap-2">
+                {['Cone', 'Hank'].map((form) => (
+                  <button
+                    key={form}
+                    onClick={() => handleOptionClick(form)}
+                    className={`inline-block rounded p-2 px-4 text-sm font-medium transition 
+            ${selectedOption === form
+                        ? "bg-purple-500 text-white"
+                        : "bg-purple-100 text-purple-500 hover:bg-purple-400 hover:text-white"}
+            `}
+                    style={{ width: "max-content" }}
+                  >
+                    {form}
+                  </button>
+                ))}
+
                 <button
                   onClick={handleWishlistClick}
-                  className={`bg-purple-100 p-2 rounded px-4 ${isInCart ? "text-white" : isWishlisted ? "text-white" : "text-red-700"
+                  className={`bg-purple-100 p-2 rounded px-4 ${isInCart
+                    ? "text-white"
+                    : isWishlisted
+                      ? "text-white"
+                      : "text-red-700"
                     }`}
                   title="Move to Wishlist"
                 >
@@ -171,8 +203,9 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
                 </button>
               </div>
             </div>
-
           </div>
+
+
         </div>
       </a>
     </div>

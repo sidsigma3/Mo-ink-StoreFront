@@ -14,7 +14,32 @@ import BottomNav from '../../Components/BottomNav/BottomNav';
 import { addToWishlist, removeFromWishlist } from "../../Services/WishlistService";
 import { getCart, removeFromCart, addToCart } from "../../Services/CartService"
 
+const ColorCard = ({item , onSelect, selected = false}) => {
 
+    return <div 
+    onClick={() => onSelect(item, 'custom')}
+    className={`border-4 rounded-md cursor-pointer ${selected
+        ? 'border-blue-500'
+        : 'border-gray-300'
+        }`}
+>
+    <div className="relative h-20 overflow-hidden">
+        <img
+            src="/images/wool-item-1.png"
+            className="w-full h-full object-cover"
+            alt="Product"
+        />
+        <div
+            className="absolute inset-0 opacity-50 mix-blend-multiply"
+            style={{ backgroundColor: item.hexCode }}
+        ></div>
+    </div>
+    <div className="flex flex-col items-center mt-2">
+        <h5 className="text-black font-bold">{item.colorName}</h5>
+        <h5 className="text-gray-600">{item.hexCode}</h5>
+    </div>
+</div>
+}
 const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
     const location = useLocation();
@@ -124,24 +149,23 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
         }
 
         try {
-            const cart = await getCart(customer.customerId);
-            const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
+       
 
-            if (alreadyInCart) {
-                alert("Item is already in your Cart!");
-                return;
-            }
+            moreColors.forEach(async (color)=> {
+                const cart = await getCart(customer.customerId);
+                const alreadyInCart = cart?.cartItems?.some(item => item.variantId === color.id);
+    
+                if (alreadyInCart) {
+                    return;
+                } else {
 
-            await removeFromWishlist(customer.customerId, variantId);
-            setIsWishlisted(false);
-            setJustRemoved(true);
-            onWishlistToggle?.();
-
-            await addToCart(customer.customerId, variantId, quantity);
-            alert("Item is added to cart");
-            // ✅ show popup + change button text
-            // setShowPopup(true);
+                    await addToCart(customer.customerId, color.id, 1);
+                }
+            })
+            
+            alert("Items added to cart");
             setIsInCart(true);
+            setMoreColors([])
         } catch (error) {
             console.error("Error adding to cart:", error);
             alert("Failed to add item to cart!");
@@ -190,6 +214,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
     const handleSelectColor = (color, source) => {
+
+        
         const alreadySelected = selectedColors.some(
             (c) => c.hexCode === color.hexCode && c.source === source
         );
@@ -219,6 +245,17 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     //     );
     //     setFilteredColors(filtered);
     // };
+
+    let filteredColorsTemp = [];
+    product.groupedVariants.forEach(aVarient => {
+        if (aVarient.id == product.productId) {
+            filteredColorsTemp.push(...aVarient.variants);
+        }
+        
+    });
+    filteredColorsTemp = filteredColorsTemp.filter ((aColor)=> {
+        return  !!!(moreColors.find((tempColor) =>tempColor.id ==  aColor.id )) 
+    }) 
 
     return (
         <div>
@@ -417,35 +454,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                             )}
                                         </div>
 
-                                        <div className="grid grid-cols-3 gap-3 p-2">
-                                            {customColors.map((item, index) => (
-                                                <div key={index}
-                                                    onClick={() => handleSelectColor(item, 'custom')}
-                                                    className={`border-4 rounded-md cursor-pointer ${selectedColors.some((c) => c.hexCode === item.hexCode && c.source === 'custom')
-                                                        ? 'border-blue-500'
-                                                        : 'border-gray-300'
-                                                        }`}
-                                                >
-                                                    <div className="relative h-20 overflow-hidden">
-                                                        <img
-                                                            src="/images/wool-item-1.png"
-                                                            className="w-full h-full object-cover"
-                                                            alt="Product"
-                                                        />
-                                                        <div
-                                                            className="absolute inset-0 opacity-50 mix-blend-multiply"
-                                                            style={{ backgroundColor: item.hexCode }}
-                                                        ></div>
-                                                    </div>
-                                                    <div className="flex flex-col items-center mt-2">
-                                                        <h5 className="text-black font-bold">{item.colorName}</h5>
-                                                        <h5 className="text-gray-600">{item.hexCode}</h5>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
+                              
 
-                                        {customColors.length === 0 && (
+                                        {customColors.length === 0 ?  (
                                             <div
                                                 className="flex flex-col items-center justify-center bg-gray-100 p-3 cursor-pointer"
                                                 onClick={() => setIsAddingColor(true)}
@@ -455,11 +466,24 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                 </span>
                                                 <h4>Add new color</h4>
                                             </div>
-                                        )}
+                                        ) : <div className="grid grid-cols-3 gap-3 p-2">
+                                        {customColors.map((item, index) => (
+                                            <ColorCard  onSelect={handleSelectColor} item={item}></ColorCard>
+                                        ))}
+                                    </div>}
 
 
 
                                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
+                                         <div className="grid grid-cols-3 gap-3 p-2">
+                                        {filteredColorsTemp.map((aVariant)=> {
+                                                     return <ColorCard selected={selectedColors.find((color)=> color.id == aVariant.id ) ? true : false} onSelect={handleSelectColor} item={aVariant}></ColorCard>
+                                                     
+                                                    })
+                                                }
+                                                </div>
+                                        
+
                                         {/* <div className='h-[28rem] md:h-[32rem] overflow-auto'>
                                             <div className="grid grid-cols-3 gap-3 p-2">
                                                 {filteredColors.map((item, index) => (

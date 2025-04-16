@@ -85,7 +85,7 @@ const OTP = () => {
                     <button
                         type="submit"
                         className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
-                        onClick={() => navigate("/home")}
+                        onClick={() => navigate("/")}
                     >
                         Verify
                     </button>

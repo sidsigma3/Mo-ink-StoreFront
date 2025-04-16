@@ -1,6 +1,6 @@
 import React from 'react'
  
-const FeturedBox = ({productName,number,color}) => {
+const FeturedBox = ({productName,number,color = 1}) => {
   return (
     <a href="#" className="relative block bg-white rounded-tr-3xl border border-gray-100" style={{width:'20rem'}}>
   <span
@@ -17,7 +17,7 @@ const FeturedBox = ({productName,number,color}) => {
     </p>
 
     <p className="mt-2 text-pretty text-gray-700">
-    {Array.isArray(color) ? color.length : 1} Color
+    {color} Color
     </p>
 
     {/* <span

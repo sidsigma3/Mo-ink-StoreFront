@@ -9,7 +9,7 @@ const Testimonial = () => {
   useEffect(() => {
     if (sliderRef.current) {
       keenSliderInstance.current = new KeenSlider(sliderRef.current, {
-        loop: true,
+        loop: false,
         slides: {
           origin: "center",
           perView: 1.25,

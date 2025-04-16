@@ -4,10 +4,89 @@ import { fetchProducts } from '../../Services/ProductService';
 import KeenSlider from 'keen-slider';
 import 'keen-slider/keen-slider.min.css';
 
+
+const SlilderCard = ({title, children}) => {
+  const sliderRef = useRef(null);
+  const instance = useRef(null)
+  useEffect(() => {
+    if (sliderRef.current) {
+      instance.current = new KeenSlider(sliderRef.current, {
+              loop: false,
+              slides: {
+                origin: 'center',
+                perView: 4,
+                spacing: 8,
+              },
+              breakpoints: {
+                '(min-width: 1024px)': {
+                  slides: {
+                    origin: 'auto',
+                    perView: 4,
+                    spacing: 16,
+                  },
+                },
+              },
+            });
+    }
+       
+  }, []);
+  const handlePrevious = () => instance.current?.prev();
+  const handleNext = () => instance.current?.next();
+  return <>
+  
+  <div className="flex justify-between items-end mr-10">
+  <h2 className="text-xl text-black p-4">
+            Top Selling {title}
+          </h2>
+            <div className="mb-2 flex gap-4">
+              <button
+                onClick={handlePrevious}
+                className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+              >
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-5 rtl:rotate-180"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+              </button>
+              <button
+                onClick={handleNext}
+                className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+              >
+                <svg
+                className="size-5 rtl:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                />
+              </svg>
+              </button>
+            </div>
+          </div>
+  
+  <ul
+            ref={sliderRef}
+            className="keen-slider mt-2 px-6"
+          >
+            {children}
+          </ul></>
+
+}
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [finalData, setFinalData] = useState([]);
-  const sliderRefs = useRef([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -28,40 +107,7 @@ const ProductList = () => {
     }
   }, [products]);
 
-  useEffect(() => {
-    if (finalData.length > 0) {
-      finalData.forEach((_, index) => {
-        if (sliderRefs.current[index]) {
-          const instance = new KeenSlider(sliderRefs.current[index], {
-            loop: false,
-            slides: {
-              origin: 'center',
-              perView: 4,
-              spacing: 8,
-            },
-            breakpoints: {
-              '(min-width: 1024px)': {
-                slides: {
-                  origin: 'auto',
-                  perView: 4,
-                  spacing: 16,
-                },
-              },
-            },
-          });
-
-          const interval = setInterval(() => {
-            instance?.next();
-          }, 6000);
-
-          return () => {
-            instance.destroy();
-            clearInterval(interval);
-          };
-        }
-      });
-    }
-  }, [finalData]);
+  
 
   const aggregateProductData = (productData) => {
     return productData.map((product) => {
@@ -110,54 +156,11 @@ const ProductList = () => {
     <div className="space-y-12">
       {finalData.map((product, idx) => (
         <div key={product.productId} className="relative flex flex-col bg-gray-100 p-4">
-          <h2 className="text-xl text-black p-4">
-            Top Selling {product.productName}
-          </h2>
 
-          <div className="flex justify-end items-end mr-10">
-            <div className="mb-2 flex gap-4">
-              <button
-                onClick={() => sliderRefs.current[idx]?.keenSlider?.prev()}
-                className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
-              >
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-5 rtl:rotate-180"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-              </svg>
-              </button>
-              <button
-                onClick={() => sliderRefs.current[idx]?.keenSlider?.next()}
-                className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
-              >
-                <svg
-                className="size-5 rtl:rotate-180"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 5l7 7-7 7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                />
-              </svg>
-              </button>
-            </div>
-          </div>
 
-          <ul
-            ref={(ref) => (sliderRefs.current[idx] = ref)}
-            className="keen-slider mt-2 px-6"
-          >
-            {product.groupedVariants.map((size, ix) =>
+          
+          <SlilderCard title={product.productName}>
+          {product.groupedVariants.map((size, ix) =>
               size.variants.map((color, i) => (
                 <li key={`${idx}-${ix}-${i}`} className="keen-slider__slide">
                   <ProductDetailBox
@@ -172,7 +175,9 @@ const ProductList = () => {
                 </li>
               ))
             )}
-          </ul>
+          </SlilderCard>
+
+          
         </div>
       ))}
     </div>

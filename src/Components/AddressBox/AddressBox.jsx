@@ -1,10 +1,7 @@
 import React from 'react'
-import { MdArrowForwardIos } from "react-icons/md";
-import { BiHomeAlt } from "react-icons/bi";
+import { MdArrowForwardIos, MdDeleteOutline } from "react-icons/md";
+import { BiHomeAlt, BiBuildingHouse } from "react-icons/bi";
 import { PiSuitcaseSimpleBold } from "react-icons/pi";
-import { BiBuildingHouse } from "react-icons/bi";
-import { MdDeleteOutline } from "react-icons/md";
-
 
 const AddressBox = ({ address, name, company, phone, onDelete }) => {
   return (
@@ -12,13 +9,13 @@ const AddressBox = ({ address, name, company, phone, onDelete }) => {
       <div className='col-span-5'>
         <div className='flex gap-16'>
           <h3 className='text-xl font-bold'>{name}</h3>
-          <div className='flex gap-2 items-center rounded-full border-1 border-violet-800 text-violet-800 px-3 h-1/2 font-semibold '>
+          <div className='flex gap-2 items-center rounded-full border-1 border-violet-800 text-violet-800 px-3 h-1/2 font-semibold'>
             {address.addressType === 'HOME' ? (
-              <span><BiHomeAlt /></span>
+              <span><BiHomeAlt size={20} /></span>
             ) : address.addressType === 'WORK' ? (
-              <span><PiSuitcaseSimpleBold /></span>
+              <span><PiSuitcaseSimpleBold size={20} /></span>
             ) : (
-              <span><BiBuildingHouse /></span>
+              <span><BiBuildingHouse size={20} /></span>
             )}
             <p>{address.addressType}</p>
           </div>
@@ -38,7 +35,7 @@ const AddressBox = ({ address, name, company, phone, onDelete }) => {
           </button>
         </div>
 
-        <h4 className='font-medium text-gray-500 mt-1'>{company}</h4>
+        <h4 className='font-medium text-gray-500 mt-1'>{company && <span>{company}</span>}</h4>
 
         <h4 className='font-medium text-gray-500 mt-1'>{address.street}</h4>
 
@@ -47,7 +44,6 @@ const AddressBox = ({ address, name, company, phone, onDelete }) => {
         <h4 className='font-medium text-gray-500 mt-1'>{address.state}</h4>
 
         <h4 className='font-medium text-gray-500 mt-1'>Mobile: {phone}</h4>
-
       </div>
 
       <div className='flex items-center justify-end'>
@@ -57,4 +53,4 @@ const AddressBox = ({ address, name, company, phone, onDelete }) => {
   )
 }
 
-export default AddressBox
+export default AddressBox;

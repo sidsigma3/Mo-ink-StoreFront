@@ -460,7 +460,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
                                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
-                                        <div className='h-[28rem] md:h-[32rem] overflow-auto'>
+                                        {/* <div className='h-[28rem] md:h-[32rem] overflow-auto'>
                                             <div className="grid grid-cols-3 gap-3 p-2">
                                                 {filteredColors.map((item, index) => (
                                                     <div
@@ -482,7 +482,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                     </div>
                                                 ))}
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 )}
 

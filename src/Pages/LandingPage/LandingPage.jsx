@@ -37,6 +37,14 @@ const LandingPage = () => {
   }, []);
   return (
     <div className='w-full'>
+              {showWelcome && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50">
+                <div className="bg-white text-black rounded-md shadow-lg p-2 w-full max-w-md text-center">
+                    <h2 className="text-md font-bold mb-2">Welcome {customerName}!</h2>
+                    <p className="text-xs">Please Enjoy Shopping 🛍️</p>
+                </div>
+            </div>
+        )}
         {/* <div className='px-5 py-3'> <TopNavigation></TopNavigation></div> */}
         <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
@@ -53,14 +61,7 @@ const LandingPage = () => {
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav />
-        {showWelcome && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50">
-                <div className="bg-white text-black rounded-md shadow-lg p-2 w-full max-w-md text-center">
-                    <h2 className="text-md font-bold mb-2">Welcome {customerName}!</h2>
-                    <p className="text-xs">Please Enjoy Shopping 🛍️</p>
-                </div>
-            </div>
-        )}
+
     </div>
   )
 }

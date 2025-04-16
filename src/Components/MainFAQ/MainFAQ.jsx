@@ -31,7 +31,7 @@ const MainFAQ = () => {
     };
   
     return (
-        <section className=" max-w-screen-xl mx-auto grid md:grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <section id="faqs" className=" max-w-screen-xl mx-auto grid md:grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Side - Accordion */}
           <div className="flex flex-col px-6 md:px-14 gap-6">
             {faqs.map((faq, index) => {

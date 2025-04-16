@@ -14,7 +14,7 @@ const MainBestsellers = () => {
   ];
 
   return (
-    <section className="relative px-4 bg-white py-20 overflow-hidden">
+    <section id="products" className="relative px-4 bg-white py-20 overflow-hidden">
       {/* Section Header */}
       <div className="text-center mb-14 relative z-10">
         <p className="text-purple-800 text-lg font-bold mb-3 tracking-widest uppercase">

@@ -4,7 +4,7 @@ import { Image } from 'react-bootstrap';
 
 const MainWhyUs = () => {
     return (
-      <section className="bg-[#21133a] text-white py-28 bg-cover bg-center relative"
+      <section id="why-us" className="bg-[#21133a] text-white py-28 bg-cover bg-center relative"
       style={{
     backgroundImage: `url('/images/Pattern.png')`,
   }}

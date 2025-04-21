@@ -24,7 +24,8 @@ import { BiBuildingHouse } from "react-icons/bi";
 import { useRef } from "react";
 import { Button } from 'react-bootstrap';
 import { useAppContext } from '../../Utils/commoncontext'
-
+import { getWalletTransactions } from '../../Services/CustomerService'
+import { createOrder } from '../../Services/OrderService'
 
 
 const CheckoutPage = () => {
@@ -50,7 +51,7 @@ const CheckoutPage = () => {
     const [walletUsed, setWalletUsed] = useState(0);
     const [walletError, setWalletError] = useState('');
 
-    const walletBalance = 1000;
+    const [walletBalance, setWalletBalance] = useState(0);
     const platformFees = 49;
 
     const paymentDiscountMap = {
@@ -60,34 +61,138 @@ const CheckoutPage = () => {
         "25% Online and 75% COD": 0.5,
         "0% Online and 100% COD": 0,
     };
+
+    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     const customerId = JSON.parse(localStorage.getItem("userData"))?.customerId;
 
+    const selectedAddress =
+    (customer?.addresses || []).find((addr) => addr.addressType === selectedType) ||
+    customer?.addresses?.[0] ||
+    null;
 
-    const handlingChargesMap = {
-        "100% Online and 0% COD": 0,
-        "75% Online and 25% COD": 25,
-        "50% Online and 50% COD": 50,
-        "25% Online and 75% COD": 75,
-        "0% Online and 100% COD": 100,
+    useEffect(() => {
+        const fetchWalletBalance = async () => {
+            try {
+              const transactions = await getWalletTransactions(customer.customerId);
+              if (transactions && transactions.length > 0) {
+                const latest = transactions[transactions.length - 1]; // Get the last one
+                setWalletBalance(latest.totalAmount || 0);
+              }
+            } catch (error) {
+              console.error("Failed to fetch wallet balance", error);
+            }
+          };
+      
+        if (customer?.customerId) {
+          fetchWalletBalance();
+        }
+      }, [customer?.customerId]);
+      
+
+    const calculateHandlingCharges = (cartItems, selectedAddress) => {
+        if (!selectedAddress?.state) return 0;
+      
+        const customerState = selectedAddress.state.toLowerCase();
+        const ratePerKg = customerState === "odisha" ? 5 : 12;
+      
+        // Sum total weight from cart items
+        const totalWeight = cartItems.reduce((acc, item) => {
+          const weight = Number(item.quantity) || 0; // assuming 1 quantity = 1kg
+          return acc + weight;
+        }, 0);
+      
+        return Number((totalWeight * ratePerKg).toFixed(2));
+      };
+      
+
+    const getPaymentSplit = (paymentOption) => {
+        const regex = /(\d+)% Online and (\d+)% COD/;
+        const match = paymentOption.match(regex);
+        if (match) {
+            return {
+                online: parseInt(match[1], 10),
+                cod: parseInt(match[2], 10),
+            };
+        } else {
+            return {
+                online: 0,
+                cod: 100,
+            };
+        }
     };
 
-    const totalProductCost = selectedCartItems.reduce((total, item) => {
-        return total + item.price * item.quantity;
-    }, 0);
-    const discountByPayment = (totalProductCost * (paymentDiscountMap[selectedPayment] || 0)) / 100;
+    const { online, cod } = getPaymentSplit(selectedPayment);
 
+    // const totalProductCost = selectedCartItems.reduce((total, item) => {
+    //     return total + item.price * item.quantity;
+    // }, 0);
+    // const discountByPayment = (totalProductCost * (paymentDiscountMap[selectedPayment] || 0)) / 100;
+
+    // let discountByCoupon = 0;
+    // if (appliedCoupon) {
+    //     if (appliedCoupon.discountType === 'Percentage') {
+    //         discountByCoupon = (totalProductCost * appliedCoupon.discountValue) / 100;
+    //     } else {
+    //         discountByCoupon = appliedCoupon.discountValue;
+    //     }
+    // }
+    // const totalDiscount = discountByCoupon + discountByPayment;
+    // const handlingCharges = handlingChargesMap[selectedPayment] || 0;
+    // const netPayable = totalProductCost - (totalDiscount + handlingCharges + platformFees);
+    // const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
+
+    let totalProductCost = 0;
+    let discountByPayment = 0;
     let discountByCoupon = 0;
+    let gstAmount = 0;
+    const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
+
+    selectedCartItems.forEach(item => {
+    const itemTotal = item.price * item.quantity;
+    const gstRate = item.gstRate || 0;
+
+    totalProductCost += itemTotal;
+
+    // Determine if coupon is applicable
+    let productDiscount = 0;
     if (appliedCoupon) {
-        if (appliedCoupon.discountType === 'Percentage') {
-            discountByCoupon = (totalProductCost * appliedCoupon.discountValue) / 100;
-        } else {
-            discountByCoupon = appliedCoupon.discountValue;
+        const isProductEligible = appliedCoupon.applicableProducts?.some(p => p.id === item.productId);
+        if (isProductEligible) {
+        productDiscount = Number(appliedCoupon.discountValue) || 0;
         }
     }
+
+    // Combined discount: A + B - AB/100
+    const combinedDiscountPercent = productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
+    const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
+    const discountedTotal = itemTotal - itemDiscount;
+
+    // GST should be on discounted total
+    const gstForItem = (discountedTotal * gstRate) / 100;
+    gstAmount += gstForItem;
+
+    // Optional: Separate out coupon vs payment discounts
+    discountByCoupon += (itemTotal * productDiscount) / 100;
+    discountByPayment += (itemTotal * paymentDiscount) / 100;
+    });
+
+    const handlingCharges = calculateHandlingCharges(selectedCartItems, selectedAddress);
+
+    const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
+
+    const totalDiscountPercentage =
+      productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
+
     const totalDiscount = discountByCoupon + discountByPayment;
-    const handlingCharges = handlingChargesMap[selectedPayment] || 0;
-    const netPayable = totalProductCost - (totalDiscount + handlingCharges + platformFees);
+    const finalTotal = totalProductCost - totalDiscount;
+    const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
     const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
+
+    const onlinePay = (online / 100) * adjustedNetPay;
+    const codPay = (cod / 100) * adjustedNetPay;
+
+
+
 
     const handleWalletChange = (e) => {
         const value = e.target.value;
@@ -111,26 +216,10 @@ const CheckoutPage = () => {
     };
 
 
-    const getPaymentSplit = (paymentOption) => {
-        const regex = /(\d+)% Online and (\d+)% COD/;
-        const match = paymentOption.match(regex);
-        if (match) {
-            return {
-                online: parseInt(match[1], 10),
-                cod: parseInt(match[2], 10),
-            };
-        } else {
-            return {
-                online: 0,
-                cod: 100,
-            };
-        }
-    };
+  
 
-    const { online, cod } = getPaymentSplit(selectedPayment);
-
-    const onlinePay = (online / 100) * totalProductCost;
-    const codPay = (cod / 100) * totalProductCost;
+    // const onlinePay = (online / 100) * totalProductCost;
+    // const codPay = (cod / 100) * totalProductCost;
 
 
     useEffect(() => {
@@ -157,44 +246,46 @@ const CheckoutPage = () => {
             setLoading(false);
         }
     };
-    const eligibleDiscounts = discounts.filter(discount => {
-        // const isProductEligible = discount.applicableProducts.map((item) => item.id).includes(productId);
-        const isCustomerEligible = discount.eligibleCustomers.map((item) => item.customerId).includes(customerId);
-        const isActive = discount.discountStatus == "Active";
-        return  isCustomerEligible && isActive;
-    });
 
+    const eligibleDiscounts = discounts.filter(discount => {
+        const isCustomerEligible = discount.eligibleCustomers?.some(c => c.customerId === customerId);
+        const isActive = discount.discountStatus === "Active";
+        return isCustomerEligible && isActive;
+    });
+    
     const filteredDiscounts = eligibleDiscounts.filter(discount =>
         discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
     );
     
+    
 
-    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
+   
 
     const fetchOrders = useCallback(async () => {
         if (!customer?.customerId) return;
-
+    
         setLoading(true);
         try {
             const cartResponse = await getCart(customer.customerId);
             const cartData = cartResponse?.cartItems || [];
-
+    
             let allProducts = JSON.parse(localStorage.getItem("allProducts"));
             if (!allProducts) {
                 const productResponse = await fetchProducts();
                 allProducts = productResponse?.data || [];
                 localStorage.setItem("allProducts", JSON.stringify(allProducts));
             }
-
+    
             const cartProducts = cartData.map((item) => {
                 const product = allProducts.find((p) =>
                     p.variants.some((v) => v.id === item.variantId)
                 );
                 const variant = product?.variants.find((v) => v.id === item.variantId);
-
+    
                 if (!product || !variant) return null;
-
+    
                 return {
+                    productId: product.id, // ✅ added productId
                     productName: product.productName,
                     size: variant.size,
                     colorName: variant.color?.colorName,
@@ -202,9 +293,10 @@ const CheckoutPage = () => {
                     variantId: variant.id,
                     quantity: item.quantity,
                     productImage: product.productImage?.[0] || "/images/default.png",
+                    gstRate: product.gstOnProduct || 0, // ✅ added GST rate
                 };
             }).filter(Boolean);
-
+    
             setCartItems(cartProducts);
         } catch (error) {
             console.error("Failed to fetch orders:", error);
@@ -212,6 +304,7 @@ const CheckoutPage = () => {
             setLoading(false);
         }
     }, [customer?.customerId, setCartItems]);
+    
 
 
     useEffect(() => {
@@ -245,10 +338,7 @@ const CheckoutPage = () => {
     //     discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
     // );
 
-    const selectedAddress =
-        (customer?.addresses || []).find((addr) => addr.addressType === selectedType) ||
-        customer?.addresses?.[0] ||
-        null;
+   
 
     const breadcrumbs = [
         { label: "Home", link: "/home" },
@@ -294,6 +384,82 @@ const CheckoutPage = () => {
             setSelectedItems(allVariantIds);
         }
     }, [cartItems]);
+
+    const extractPaymentTypeDiscount = (paymentTypeLabel) => {
+        return paymentTypeLabel?.split(" ")[0] || "";
+      };
+      
+
+    const handleCreateOrder = async () => {
+        try {
+          if (!customerId) {
+            alert("Customer info missing!");
+            return;
+          }
+      
+          if (selectedCartItems.length === 0) {
+            alert("Cart is empty!");
+            return;
+          }
+      
+          const orderVariants = selectedCartItems
+            .filter(item => item.variantId && item.quantity > 0)
+            .map(item => ({
+              variantId: item.variantId,
+              orderWeight: Number(item.quantity),
+              variantType: item.variantType || "Cone"
+            }));
+      
+          const totalQuantity = orderVariants.reduce((sum, item) => sum + item.orderWeight, 0);
+          const totalAmount = Number(adjustedNetPay).toFixed(0);
+      
+          if (orderVariants.length === 0 || totalQuantity === 0) {
+            alert("No valid items or weight!");
+            return;
+          }
+      
+          const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
+      
+          const orderData = {
+            customer: {
+                customerId:customerId
+            },
+            status: "New Order",
+            totalAmount:Number(totalAmount),
+            discountId: appliedCoupon?.discountId || null,
+            walletAmount: walletUsedAmount,
+            quantity: totalQuantity,
+            paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
+            payment: {
+              paymentId: Date.now(),
+              totalAmount:Number(totalAmount),
+              codAmount: codPay,
+              onlineAmount: onlinePay,
+              transactionId: "COD" + Date.now(),
+              paidAmount: onlinePay,
+              pendingAmount: codPay,
+              paymentStatus: "PENDING"
+            },
+            orderVariants
+          };
+
+          console.log(orderData)
+      
+          const response = await createOrder(orderData);
+        //   console.log("Customer Order Created:", response);
+      
+          alert("Order placed successfully!");
+        //   navigate("/orders");
+        } catch (error) {
+          console.error("Order creation failed:", error);
+          alert("Failed to place order.");
+        }
+      };
+      
+
+    console.log(cartItems)
+
+
     return (
         <div>
             <div className='px-6 lg:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
@@ -679,7 +845,7 @@ const CheckoutPage = () => {
                                     <td style={{ textAlign: 'end' }}>₹{totalProductCost.toLocaleString()}
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr className='border-b-2'>
                                     <td>
                                         <div>
                                             <p>Total Discount</p>
@@ -689,7 +855,7 @@ const CheckoutPage = () => {
                                     </td>
                                     <td>
                                         <div>
-                                            <p>{totalProductCost ? ((totalDiscount / totalProductCost) * 100).toFixed(2) : "0.00"}%
+                                            <p>{(totalDiscountPercentage).toFixed(2) || "0.00"}%
                                             </p>
                                             <p className="text-gray-400">
                                                 {paymentDiscountMap[selectedPayment] !== undefined
@@ -711,6 +877,26 @@ const CheckoutPage = () => {
                                         </div>
                                     </td>
                                 </tr>
+                                
+                                <tr className=''>
+                                    <td className='pb-2'>Final Cost</td>
+                                    <td className='pb-2'></td>
+                                    <td className='text-end pb-2'>₹{finalTotal.toFixed(0)}</td>
+                                </tr>
+
+                                <tr className=''>
+                                    <td className='pb-2'>CGST</td>
+                                    <td className='pb-2'></td>
+                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(1)}</td>
+                                </tr>
+
+                                <tr className=''>
+                                    <td className='pb-2'>SGST</td>
+                                    <td className='pb-2'></td>
+                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(1)}</td>
+                                </tr>
+                                
+
                                 <tr className=''>
                                     <td className='pb-2'>Handling Charges</td>
                                     <td className='pb-2'></td>
@@ -729,7 +915,7 @@ const CheckoutPage = () => {
                                     </td>
                                 </tr>
                                 <tr className='border-b-2'>
-                                    <td className='pb-2'>Wallet Balance</td>
+                                    <td className='pb-2'>Wallet</td>
                                     <td className='pb-2'>₹{walletBalance}</td>
                                     <td style={{ textAlign: 'end' }} className='pb-2'>
                                         <div className="text-right">
@@ -754,17 +940,20 @@ const CheckoutPage = () => {
                                         ₹{Math.round(adjustedNetPay).toLocaleString()}
                                     </td>
                                 </tr>
-                                <tr className=''>
-                                    <td className='pt-2'>COD (After delivery)</td>
-                                    <td className='pt-2'>{cod}%</td>
-                                    <td className='text-end pt-2'>₹{codPay.toLocaleString("en-IN")}</td>
-                                </tr>
+                               
                                 <tr>
-                                    <td>Online Payment (Now)</td>
+                                    <td>Advance Paid</td>
                                     <td className=''>{online}%</td>
-                                    <td className='text-end'>₹{onlinePay.toLocaleString("en-IN")}
+                                    <td className='text-end'>₹{onlinePay.toFixed(0)}
                                     </td>
                                 </tr>
+
+                                <tr className=''>
+                                    <td className='pt-2'>Balance Due</td>
+                                    <td className='pt-2'>{cod}%</td>
+                                    <td className='text-end pt-2'>₹{codPay.toFixed(0)}</td>
+                                </tr>
+
                                 {/* <tr>
                                     <td>Discounts by payment</td>
                                     <td>5%</td>
@@ -814,7 +1003,7 @@ const CheckoutPage = () => {
                     <div className='mt-6'>
                         {selectedPayment === "0% Online and 100% COD" ? (
                             <button className='bg-orange-500 text-white p-3 rounded-md w-full'
-                                onClick={() => navigate("/orders")}>CREATE ORDER</button>
+                            onClick={handleCreateOrder}>CREATE ORDER</button>
                         ) : (
                             <button className='bg-violet-900 text-white p-3 rounded-md w-full'
                                 onClick={() => navigate("/orders")}>PAY NOW</button>

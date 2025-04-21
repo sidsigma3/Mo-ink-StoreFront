@@ -39,6 +39,9 @@ import ProductList from './Components/ProductList/ProductList';
 import MainFAQ from './Components/MainFAQ/MainFAQ';
 import MainProcess from './Components/MainProcess/MainProcess';
 import Blog1 from './Pages/Blogs/Blog1';
+import PrivacyPolicy from './Pages/Privacy Policy/PrivacyPolicy';
+import TermOfUse from './Pages/Term Of Use/TermOfUse';
+import ShippingPolicy from './Pages/Shipping Policy/ShippingPolicy';
 
 
 function App() {
@@ -106,6 +109,9 @@ function App() {
                   <Route path="/product/:id" element={<ProductDetailPage />} />
                   <Route path="/blogs" element={<Blog1/>}/>
                   <Route path="*" element={<ErrorPage />} />
+                  <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+                  <Route path="/termsofuse" element={<TermOfUse />} />
+                  <Route path="/shippingpolicy" element={<ShippingPolicy />} />
                 </Routes>
               </div>
             

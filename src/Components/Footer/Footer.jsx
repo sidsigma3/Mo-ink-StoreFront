@@ -127,7 +127,11 @@ const Footer = () => {
               <li>
                 <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/FAQs")}> FAQs </a>
               </li>
-  
+
+              <li>
+                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/termsofuse")}> Terms of Use </a>
+              </li>
+
               <li>
                 <a href="#" className="text-gray-700 transition hover:opacity-75"> Live Chat </a>
               </li>
@@ -148,6 +152,14 @@ const Footer = () => {
   
               <li>
                 <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/refundPolicy")}> Refund Policy </a>
+              </li>
+
+              <li>
+                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/shippingPolicy")}> Shipping Policy </a>
+              </li>
+
+              <li>
+                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/privacyPolicy")}> Privacy Policy </a>
               </li>
 {/*   
               <li>

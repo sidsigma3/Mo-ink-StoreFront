@@ -10,6 +10,9 @@ export const AppProvider = ({ children }) => {
   const [wishlistCount, setWishlistCount] = useState(null);
 
       const updateCartAndWishlistCounts = async () => {
+          setWishlistCount(0)
+          setCartCount(0)
+
           const customerId = JSON.parse(localStorage.getItem("userData"))?.customerId;
 
         if (!customerId) return;

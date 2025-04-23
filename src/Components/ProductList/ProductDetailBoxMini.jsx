@@ -7,10 +7,11 @@ import { useAppContext } from '../../Utils/commoncontext';
 
 
 
-const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle,
+const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle,selectedOption,
   isSelected = false,
   onSelectChange = () => { },
   onQuantityChange = () => {},
+  onVariantTypeChange = () => {},
 }) => {
   const { updateCartAndWishlistCounts } = useAppContext();
 
@@ -20,7 +21,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
   const [isWishlisted, setIsWishlisted] = useState(isWishlist || false);
   const [isInCart, setIsInCart] = useState(true);
   const [justRemoved, setJustRemoved] = useState(false);
-  const [selectedOption, setSelectedOption] = useState();
+  
 
   const handleIncrease = () => {
     const newQty = quantity + 1;
@@ -84,23 +85,14 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
       console.error("Error toggling wishlist:", err);
     }
   };
-  useEffect(() => {
-    const stored = localStorage.getItem(`selectedOption_${variantId}`);
-    if (stored) {
-      setSelectedOption(stored);
-    }
-  }, [variantId]);
 
   const handleOptionClick = (option) => {
     if (selectedOption === option) {
-      setSelectedOption('');
-      localStorage.removeItem(`selectedOption_${variantId}`);
+      onVariantTypeChange(variantId, ''); // deselect
     } else {
-      setSelectedOption(option);
-      localStorage.setItem(`selectedOption_${variantId}`, option);
+      onVariantTypeChange(variantId, option); // select
     }
   };
-  
 
   return (
     <div className='relative'>
@@ -136,7 +128,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
 
           <div className='flex justify-between items-center mt-3'>
             <div className='border py-2 rounded col-5 sm:text-sm md:text-sm w-20 sm:w-20 md:w-20 h-9 text-center'>
-              <p>100 Kg</p>
+              <p>50 Kg</p>
             </div>
 
             <div className='col-4'>

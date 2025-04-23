@@ -2,10 +2,18 @@ import React from 'react'
 import { TbFileInvoice } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
 import { MdArrowForwardIos } from "react-icons/md";
+import { downloadInvoice } from '../../Services/InvoiceService';
 
 const OrderBox = ({order}) => {
 
-
+    const handleDownloadInvoice = async(orderId) => {
+        const result = await downloadInvoice(orderId);
+        if (!result.success) {
+          alert("Failed to download invoice.");
+        }
+      };
+    
+      const totalWeight = order.orderVariantResponse?.reduce((sum, item) => sum + Number(item.orderWeight), 0) || 0;
 
 
   return (
@@ -17,12 +25,12 @@ const OrderBox = ({order}) => {
         <div className='col-span-6 md:col-span-3 lg:col-span-4 text-gray-500 font-medium'>
 
         <div className='flex justify-between'>
-            <h5>Order ID: <span className='text-black font-bold'>33546</span></h5>
+            <h5>Order ID: <span className='text-black font-bold'>{order.orderId}</span></h5>
         </div>
 
-        <h5 className='mt-2'>Total: ₹328.78</h5>
+        <h5 className='mt-2'>Total: ₹{order.totalAmount.toFixed(0)}</h5>
 
-        <h5 className='mt-2'>Weight: 178Kg</h5>
+        <h5 className='mt-2'>Weight: {totalWeight}Kg</h5>
 
         <h4 className='mt-2'>Your order <span className='text-green-600'>Delivered</span> on Sunday, 05 February</h4>
 
@@ -45,10 +53,15 @@ const OrderBox = ({order}) => {
         </div>
 
         <div className='col-span-9 md:col-span-1 flex items-center justify-content-end'>
-        <div className='flex gap-2 bg-violet-100 text-violet-800 md:px-6 lg:px-8 py-1 rounded items-center'>
+        <button 
+        onClick={(e)=>{
+          e.stopPropagation()
+          handleDownloadInvoice(order.orderId)
+        }}
+        className='flex gap-2 bg-violet-100 text-violet-800 md:px-6 lg:px-8 py-1 rounded items-center'>
             <span><TbFileInvoice size={20}/></span>
             <h5 className='text-sm md:text-md'>INVOICE</h5>
-        </div>
+        </button>
         </div>
 
         <div className='flex items-center justify-end hidden md:flex'>

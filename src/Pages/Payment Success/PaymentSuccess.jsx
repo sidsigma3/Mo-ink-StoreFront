@@ -7,8 +7,12 @@ import Footer from '../../Components/Footer/Footer';
 import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentSuccess = () => {
+  
+  const navigate = useNavigate()
+  
   const breadcrumbs = [
     { label: "Home", link: "/home" },
     { label: "Checkout", link: "/CheckoutPage" },
@@ -55,7 +59,7 @@ const PaymentSuccess = () => {
   
               <button
                 className="w-full px-4 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-500 transition-colors font-medium flex items-center justify-center gap-2"
-                onClick={() => console.log('Retrying payment...')}
+                onClick={() => navigate('/orders')}
               >
                 <ShoppingBag size={20} />
                 Go To Orders

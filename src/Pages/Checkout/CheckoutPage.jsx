@@ -26,7 +26,7 @@ import { Button } from 'react-bootstrap';
 import { useAppContext } from '../../Utils/commoncontext'
 import { getWalletTransactions } from '../../Services/CustomerService'
 import { createOrder } from '../../Services/OrderService'
-
+import { initiatePayment } from '../../Services/PaymentService'
 
 const CheckoutPage = () => {
 
@@ -40,9 +40,11 @@ const CheckoutPage = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [discounts, setDiscounts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedType, setSelectedType] = useState("");
+    const [selectedType, setSelectedType] = useState("HOME");
     const [selectedItems, setSelectedItems] = useState([]);
     const [appliedCoupon, setAppliedCoupon] = useState(null);
+    const [variantTypes, setVariantTypes] = useState({});
+    const [quantities, setQuantities] = useState({});
     const lastTapRef = useRef(0);
     const singleClickTimeoutRef = useRef(null);
     const selectedCartItems = cartItems.filter(item =>
@@ -56,8 +58,8 @@ const CheckoutPage = () => {
 
     const paymentDiscountMap = {
         "100% Online and 0% COD": 1.5,
-        "75% Online and 25% COD": 0.75,
         "50% Online and 50% COD": 0.5,
+        "30% Online and 70% COD": 0.3,
         "25% Online and 75% COD": 0.5,
         "0% Online and 100% COD": 0,
     };
@@ -69,6 +71,26 @@ const CheckoutPage = () => {
     (customer?.addresses || []).find((addr) => addr.addressType === selectedType) ||
     customer?.addresses?.[0] ||
     null;
+
+
+    const handleVariantTypeChange = (variantId, type) => {
+        console.log(type)
+        setVariantTypes((prev) => ({
+          ...prev,
+          [variantId]: type,
+        }));
+      };
+
+     
+     
+
+    const handleQuantityChange = (variantId, newQty) => {
+        console.log(newQty)
+    setQuantities((prev) => ({
+        ...prev,
+        [variantId]: newQty
+    }));
+    };
 
     useEffect(() => {
         const fetchWalletBalance = async () => {
@@ -93,11 +115,11 @@ const CheckoutPage = () => {
         if (!selectedAddress?.state) return 0;
       
         const customerState = selectedAddress.state.toLowerCase();
-        const ratePerKg = customerState === "odisha" ? 5 : 12;
+        const ratePerKg = customerState === "odisha" ? 3 : 5;
       
         // Sum total weight from cart items
         const totalWeight = cartItems.reduce((acc, item) => {
-          const weight = Number(item.quantity) || 0; // assuming 1 quantity = 1kg
+          const weight = Number(item.quantity) * 50 || 0; // assuming 1 quantity = 1kg
           return acc + weight;
         }, 0);
       
@@ -148,8 +170,10 @@ const CheckoutPage = () => {
     const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
 
     selectedCartItems.forEach(item => {
-    const itemTotal = item.price * item.quantity;
+    const itemTotal = item.price * item.quantity * 50;
     const gstRate = item.gstRate || 0;
+
+    console.log(itemTotal)
 
     totalProductCost += itemTotal;
 
@@ -256,11 +280,10 @@ const CheckoutPage = () => {
     const filteredDiscounts = eligibleDiscounts.filter(discount =>
         discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
     
     
-
-   
-
+    
     const fetchOrders = useCallback(async () => {
         if (!customer?.customerId) return;
     
@@ -285,15 +308,16 @@ const CheckoutPage = () => {
                 if (!product || !variant) return null;
     
                 return {
-                    productId: product.id, // ✅ added productId
+                    productId: product.id,
                     productName: product.productName,
                     size: variant.size,
                     colorName: variant.color?.colorName,
                     price: variant.pricePerKg,
                     variantId: variant.id,
-                    quantity: item.quantity,
+                    quantity:  quantities[item.variantId] || 1,
                     productImage: product.productImage?.[0] || "/images/default.png",
-                    gstRate: product.gstOnProduct || 0, // ✅ added GST rate
+                    gstRate: product.gstOnProduct || 0,
+                    variantType: variantTypes[item.variantId] || "regular", // ✅ added variantType
                 };
             }).filter(Boolean);
     
@@ -303,7 +327,8 @@ const CheckoutPage = () => {
         } finally {
             setLoading(false);
         }
-    }, [customer?.customerId, setCartItems]);
+    }, [customer?.customerId, setCartItems , variantTypes]);
+    
     
 
 
@@ -390,6 +415,7 @@ const CheckoutPage = () => {
       };
       
 
+
     const handleCreateOrder = async () => {
         try {
           if (!customerId) {
@@ -406,7 +432,7 @@ const CheckoutPage = () => {
             .filter(item => item.variantId && item.quantity > 0)
             .map(item => ({
               variantId: item.variantId,
-              orderWeight: Number(item.quantity),
+              orderWeight: Number(item.quantity)* 50,
               variantType: item.variantType || "Cone"
             }));
       
@@ -422,7 +448,8 @@ const CheckoutPage = () => {
       
           const orderData = {
             customer: {
-                customerId:customerId
+              customerId: customerId,
+              addressId: selectedAddress.id
             },
             status: "New Order",
             totalAmount:Number(totalAmount),
@@ -438,26 +465,155 @@ const CheckoutPage = () => {
               transactionId: "COD" + Date.now(),
               paidAmount: onlinePay,
               pendingAmount: codPay,
-              paymentStatus: "PENDING"
+              paymentStatus: "PENDING",
+              totalDiscount:totalDiscount,
+              totalSgst:(gstAmount/2).toFixed(2),
+              totalCgst:(gstAmount/2).toFixed(2)
             },
             orderVariants
           };
 
+         
           console.log(orderData)
-      
           const response = await createOrder(orderData);
         //   console.log("Customer Order Created:", response);
       
           alert("Order placed successfully!");
-        //   navigate("/orders");
+          navigate("/home");
         } catch (error) {
           console.error("Order creation failed:", error);
           alert("Failed to place order.");
         }
       };
+
+
+      const handleOnlinePaymentFlow = async () => {
+        try {
+          if (!customerId) {
+            alert("Customer info missing!");
+            return;
+          }
+      
+          if (selectedCartItems.length === 0) {
+            alert("Cart is empty!");
+            return;
+          }
+      
+          const orderVariants = selectedCartItems
+            .filter(item => item.variantId && item.quantity > 0)
+            .map(item => ({
+              variantId: item.variantId,
+              orderWeight: Number(item.quantity) * 50,
+              variantType: item.variantType || "Cone",
+            }));
+      
+          const totalQuantity = orderVariants.reduce((sum, item) => sum + item.orderWeight, 0);
+          const totalAmount = Number(adjustedNetPay).toFixed(0);
+      
+          if (orderVariants.length === 0 || totalQuantity === 0) {
+            alert("No valid items or weight!");
+            return;
+          }
+      
+          const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
+      
+          const orderData = {
+            customer: {
+              customerId,
+              addressId: selectedAddress.id,
+            },
+            status: "New Order",
+            totalAmount: Number(totalAmount),
+            discountId: appliedCoupon?.discountId || null,
+            walletAmount: walletUsedAmount,
+            quantity: totalQuantity,
+            paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
+            payment: {
+              totalAmount: Number(totalAmount),
+              codAmount: codPay,
+              onlineAmount: onlinePay,
+              transactionId: "COD" + Date.now(),
+              paidAmount: onlinePay,
+              pendingAmount: codPay,
+              paymentStatus: "PENDING",
+              totalDiscount:totalDiscount,
+              totalSgst:(gstAmount/2).toFixed(2),
+              totalCgst:(gstAmount/2).toFixed(2)
+            },
+            orderVariants,
+          };
+      
+          // Create order on your backend
+          const createdOrder = await createOrder(orderData);
+          const orderId = createdOrder.data?.orderId;
+      
+          // Initiate Razorpay order
+          const paymentData = await initiatePayment(orderId);
+          const { razorpayOrderId, razorpayOrderstatus } = paymentData.data;
+      
+          if (!razorpayOrderId || paymentData.status !== "SUCCESS") {
+            throw new Error("Failed to get valid Razorpay order");
+          }
+      
+          // Dynamically load Razorpay script
+          const loadScript = (src) => {
+            return new Promise((resolve) => {
+              const script = document.createElement("script");
+              script.src = src;
+              script.onload = () => resolve(true);
+              script.onerror = () => resolve(false);
+              document.body.appendChild(script);
+            });
+          };
+      
+          const razorpayLoaded = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+      
+          if (!razorpayLoaded) {
+            alert("Razorpay script failed to load. Check your internet connection.");
+            return;
+          }
+
+
+      
+          const options = {
+            key: "rzp_test_oqL33XMoXAV4ym", // Replace with your test key
+            amount: Number(onlinePay) * 100,
+            currency: "INR",
+            name: "Mo ink and Dye",
+            description: `Payment for Order #${razorpayOrderId}`,
+            order_id: razorpayOrderId,
+            handler: function (response) {
+              console.log("Payment Success", response);
+              alert("Payment Successful!");
+              // Optionally verify payment on backend here
+            },
+            prefill: {
+              name: customer.customerName || "",
+              email: customer.email || "",
+              contact: customer.phoneNumber || "",
+            },
+            notes: {
+              orderId,
+            },
+            theme: {
+              color: "#3399cc",
+            },
+          };
+
+          console.log(options)
+      
+          const rzp = new window.Razorpay(options);
+          rzp.open();
+          navigate('/paymentSuccess')
+      
+        } catch (err) {
+          console.error("Payment initiation failed:", err);
+          alert("Something went wrong. Please try again.");
+          navigate('/paymentFail')
+        }
+      };
       
 
-    console.log(cartItems)
 
 
     return (
@@ -498,11 +654,15 @@ const CheckoutPage = () => {
                                                 price={item.price}
                                                 size={item.size}
                                                 color={item.colorName}
-                                                itemQuantity={item.quantity}
+                                                // itemQuantity={item.quantity}
                                                 variantId={item.variantId}
                                                 isSelected={selectedItems.includes(item.variantId)}
                                                 onSelectChange={handleCheckboxChange}
-                                                onQuantityChange={(variantId, newQty) => handleQuantityUpdate(variantId, newQty)}
+                                                // onQuantityChange={(variantId, newQty) => handleQuantityUpdate(variantId, newQty)}
+                                                onVariantTypeChange={handleVariantTypeChange}
+                                                selectedOption={variantTypes[item.variantId] || ""}
+                                                itemQuantity={quantities[item.variantId] || 1} // ✅ use internal state first
+                                                onQuantityChange={handleQuantityChange}
                                             />
                                         </div>
                                     ) : null}
@@ -651,11 +811,11 @@ const CheckoutPage = () => {
                                             <h5 className='md:text-sm'>1.50% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item>
-                                    <Dropdown.Item eventKey={"75% Online and 25% COD"}>
+                                    <Dropdown.Item eventKey={"50% Online and 50% COD"}>
                                         <div className='p-2 border-bottom'>
                                             <div>
-                                                <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>75%</span> in Online & <span className='text-violet-800'>25%</span> COD</h4>
-                                                <h5 className='md:text-sm'>0.75% discount applied.</h5>
+                                                <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>50%</span> in Online & <span className='text-violet-800'>50%</span> COD</h4>
+                                                <h5 className='md:text-sm'>0.50% discount applied.</h5>
                                             </div>
 
                                             <div className='lg:text-xl md:text-sm'>
@@ -665,10 +825,10 @@ const CheckoutPage = () => {
                                         </div>
                                     </Dropdown.Item>
 
-                                    <Dropdown.Item eventKey={"50% Online and 50% COD"}>
+                                    <Dropdown.Item eventKey={"30% Online and 70% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>50%</span> in Online & <span className='text-violet-800'>50%</span> COD</h4>
-                                            <h5 className='md:text-sm'>0.50% discount applied.</h5>
+                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>30%</span> in Online & <span className='text-violet-800'>70%</span> COD</h4>
+                                            <h5 className='md:text-sm'>0.30% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item>
 
@@ -887,13 +1047,13 @@ const CheckoutPage = () => {
                                 <tr className=''>
                                     <td className='pb-2'>CGST</td>
                                     <td className='pb-2'></td>
-                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(1)}</td>
+                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
                                 </tr>
 
                                 <tr className=''>
                                     <td className='pb-2'>SGST</td>
                                     <td className='pb-2'></td>
-                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(1)}</td>
+                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
                                 </tr>
                                 
 
@@ -1006,7 +1166,7 @@ const CheckoutPage = () => {
                             onClick={handleCreateOrder}>CREATE ORDER</button>
                         ) : (
                             <button className='bg-violet-900 text-white p-3 rounded-md w-full'
-                                onClick={() => navigate("/orders")}>PAY NOW</button>
+                            onClick={handleOnlinePaymentFlow}>PAY NOW</button>
                         )}
                     </div>
                     <div className='mt-6'>

@@ -42,6 +42,8 @@ import Blog1 from './Pages/Blogs/Blog1';
 import PrivacyPolicy from './Pages/Privacy Policy/PrivacyPolicy';
 import TermOfUse from './Pages/Term Of Use/TermOfUse';
 import ShippingPolicy from './Pages/Shipping Policy/ShippingPolicy';
+import PaymentSuccess from './Pages/Payment Success/PaymentSuccess';
+import PaymentFailure from './Pages/Payment Failure/PaymentFailure';
 
 
 function App() {
@@ -112,6 +114,8 @@ function App() {
                   <Route path="/privacypolicy" element={<PrivacyPolicy />} />
                   <Route path="/termsofuse" element={<TermOfUse />} />
                   <Route path="/shippingpolicy" element={<ShippingPolicy />} />
+                  <Route path="/paymentSuccess" element={<PaymentSuccess/>} />
+                  <Route path="/paymentFail" element={<PaymentFailure/>} />
                 </Routes>
               </div>
             

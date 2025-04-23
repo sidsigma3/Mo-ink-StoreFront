@@ -13,3 +13,15 @@ export const getAllDiscounts = async () => {
     throw error;
   }
 };
+
+
+
+export const getDiscountById = async (discountId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/${discountId}`);
+    return response.data; 
+  } catch (error) {
+    console.error("Error fetching discounts:", error);
+    throw error;
+  }
+};

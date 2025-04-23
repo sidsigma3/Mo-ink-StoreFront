@@ -169,7 +169,7 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
 
           <div className='d-flex align-items-center justify-content-between mt-3'>
             <div className='border px-3 py-2 rounded col-4'>
-              <h5>100 Kg</h5>
+              <h5>50 Kg</h5>
             </div>
 
             <div className='col-4'>

@@ -6,9 +6,12 @@ import Cta from '../../Components/CTA/Cta'
 import Footer from '../../Components/Footer/Footer'
 import OrderBox from '../../Components/OrderBox/OrderBox'
 import BottomNav from '../../Components/BottomNav/BottomNav'
-import { getOrderDetails } from '../../Services/OrderService'
+import { getCustomerOrderDetails, getOrderDetails } from '../../Services/OrderService'
+import { useNavigate } from 'react-router-dom'
 
 const OrderPage = () => {
+
+  const navigate = useNavigate();
 
 
   const [orders, setOrders] = useState([]);
@@ -18,7 +21,7 @@ const OrderPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await getOrderDetails(user.customerId);
+        const data = await getCustomerOrderDetails(user.customerId);
         setOrders(data); 
       } catch (error) {
         console.error("Failed to fetch orders:", error);
@@ -27,6 +30,11 @@ const OrderPage = () => {
 
     fetchOrders();
   }, []);
+
+  const handleOrderClick = (order) => {
+    navigate(`/orderDetails`, { state: { order } });
+  };
+  
 
 
  
@@ -47,9 +55,9 @@ const OrderPage = () => {
         <div className="px-6 md:px-14 py-3">
         <ul className="flex flex-col gap-3">
           {orders.length > 0 ? (
-            orders.variants.map((variant,index) => (
-              <li key={index}>
-                <OrderBox order={orders} variants={variant}/>
+            [...orders].reverse().map((order, index) => (
+              <li key={index} onClick={() => handleOrderClick(order)} className='cursor-pointer'>
+                <OrderBox order={order}/>
               </li>
             ))
           ) : (

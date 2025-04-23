@@ -53,7 +53,7 @@ const OrderPage = () => {
               </li>
             ))
           ) : (
-            <p>No orders found.</p>
+            <p>No orders found</p>
           )}
         </ul>
       </div>

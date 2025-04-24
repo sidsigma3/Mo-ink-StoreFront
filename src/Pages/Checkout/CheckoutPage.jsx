@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback , useMemo} from 'react'
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -85,7 +85,6 @@ const CheckoutPage = () => {
      
 
     const handleQuantityChange = (variantId, newQty) => {
-        console.log(newQty)
     setQuantities((prev) => ({
         ...prev,
         [variantId]: newQty
@@ -163,59 +162,79 @@ const CheckoutPage = () => {
     // const netPayable = totalProductCost - (totalDiscount + handlingCharges + platformFees);
     // const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
 
-    let totalProductCost = 0;
-    let discountByPayment = 0;
-    let discountByCoupon = 0;
-    let gstAmount = 0;
-    const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
-
-    selectedCartItems.forEach(item => {
-    const itemTotal = item.price * item.quantity * 50;
-    const gstRate = item.gstRate || 0;
-
-    console.log(itemTotal)
-
-    totalProductCost += itemTotal;
-
-    // Determine if coupon is applicable
-    let productDiscount = 0;
-    if (appliedCoupon) {
-        const isProductEligible = appliedCoupon.applicableProducts?.some(p => p.id === item.productId);
-        if (isProductEligible) {
-        productDiscount = Number(appliedCoupon.discountValue) || 0;
-        }
-    }
-
-    // Combined discount: A + B - AB/100
-    const combinedDiscountPercent = productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
-    const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
-    const discountedTotal = itemTotal - itemDiscount;
-
-    // GST should be on discounted total
-    const gstForItem = (discountedTotal * gstRate) / 100;
-    gstAmount += gstForItem;
-
-    // Optional: Separate out coupon vs payment discounts
-    discountByCoupon += (itemTotal * productDiscount) / 100;
-    discountByPayment += (itemTotal * paymentDiscount) / 100;
-    });
-
-    const handlingCharges = calculateHandlingCharges(selectedCartItems, selectedAddress);
-
-    const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
-
-    const totalDiscountPercentage =
-      productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
-
-    const totalDiscount = discountByCoupon + discountByPayment;
-    const finalTotal = totalProductCost - totalDiscount;
-    const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
-    const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
-
-    const onlinePay = (online / 100) * adjustedNetPay;
-    const codPay = (cod / 100) * adjustedNetPay;
-
-
+    const {
+        totalProductCost,
+        totalDiscount,
+        discountByPayment,
+        discountByCoupon,
+        finalTotal,
+        gstAmount,
+        netPayable,
+        adjustedNetPay,
+        onlinePay,
+        codPay,
+        totalDiscountPercentage,
+        handlingCharges
+      } = useMemo(() => {
+        const unitWeight = 50;
+        let totalProductCost = 0;
+        let discountByPayment = 0;
+        let discountByCoupon = 0;
+        let gstAmount = 0;
+        const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
+      
+        selectedCartItems.forEach(item => {
+          const itemTotal = item.price * item.quantity * unitWeight;
+          const gstRate = item.gstRate || 0;
+          totalProductCost += itemTotal;
+      
+          let productDiscount = 0;
+          if (appliedCoupon) {
+            const isEligible = appliedCoupon.applicableProducts?.some(p => p.id === item.productId);
+            if (isEligible) {
+              productDiscount = Number(appliedCoupon.discountValue) || 0;
+            }
+          }
+      
+          const combinedDiscountPercent =
+            productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
+      
+          const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
+          const discountedTotal = itemTotal - itemDiscount;
+          const gstForItem = (discountedTotal * gstRate) / 100;
+      
+          gstAmount += gstForItem;
+          discountByCoupon += (itemTotal * productDiscount) / 100;
+          discountByPayment += (itemTotal * paymentDiscount) / 100;
+        });
+      
+        const handlingCharges = calculateHandlingCharges(selectedCartItems, selectedAddress);
+        const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
+        const totalDiscountPercentage =
+          productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
+      
+        const totalDiscount = discountByCoupon + discountByPayment;
+        const finalTotal = totalProductCost - totalDiscount;
+        const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
+        const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
+        const onlinePay = (online / 100) * adjustedNetPay;
+        const codPay = (cod / 100) * adjustedNetPay;
+      
+        return {
+          totalProductCost,
+          discountByPayment,
+          discountByCoupon,
+          totalDiscount,
+          finalTotal,
+          gstAmount,
+          netPayable,
+          adjustedNetPay,
+          onlinePay,
+          codPay,
+          totalDiscountPercentage,
+          handlingCharges
+        };
+      }, [selectedCartItems, selectedPayment, appliedCoupon, walletUsed, platformFees, online, cod, selectedAddress]);
 
 
     const handleWalletChange = (e) => {
@@ -327,7 +346,7 @@ const CheckoutPage = () => {
         } finally {
             setLoading(false);
         }
-    }, [customer?.customerId, setCartItems , variantTypes]);
+    }, [customer?.customerId, setCartItems , variantTypes,quantities]);
     
     
 
@@ -660,7 +679,7 @@ const CheckoutPage = () => {
                                                 onSelectChange={handleCheckboxChange}
                                                 // onQuantityChange={(variantId, newQty) => handleQuantityUpdate(variantId, newQty)}
                                                 onVariantTypeChange={handleVariantTypeChange}
-                                                selectedOption={variantTypes[item.variantId] || ""}
+                                                selectedOption={variantTypes[item.variantId] || "Cone"}
                                                 itemQuantity={quantities[item.variantId] || 1} // ✅ use internal state first
                                                 onQuantityChange={handleQuantityChange}
                                             />

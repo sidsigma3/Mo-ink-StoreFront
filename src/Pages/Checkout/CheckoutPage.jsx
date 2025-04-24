@@ -64,8 +64,15 @@ const CheckoutPage = () => {
         "0% Online and 100% COD": 0,
     };
 
+ 
+
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
-    const customerId = JSON.parse(localStorage.getItem("userData"))?.customerId;
+    const customerId = customer?.customerId;
+    
+  
+    const billingAddress = customer?.addresses?.find(
+      (addr) => addr.addressType === "HOME"
+    );
 
     const selectedAddress =
     (customer?.addresses || []).find((addr) => addr.addressType === selectedType) ||
@@ -82,7 +89,7 @@ const CheckoutPage = () => {
       };
 
      
-     
+    
 
     const handleQuantityChange = (variantId, newQty) => {
     setQuantities((prev) => ({
@@ -182,6 +189,8 @@ const CheckoutPage = () => {
         let discountByCoupon = 0;
         let gstAmount = 0;
         const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
+
+        
       
         selectedCartItems.forEach(item => {
           const itemTotal = item.price * item.quantity * unitWeight;
@@ -467,8 +476,9 @@ const CheckoutPage = () => {
       
           const orderData = {
             customer: {
-              customerId: customerId,
-              addressId: selectedAddress.id
+                customerId,
+                billingAddressId: billingAddress?.id || null,
+                shippingAddressId: selectedAddress?.id || null
             },
             status: "New Order",
             totalAmount:Number(totalAmount),
@@ -496,9 +506,16 @@ const CheckoutPage = () => {
           console.log(orderData)
           const response = await createOrder(orderData);
         //   console.log("Customer Order Created:", response);
+
+       
+        await Promise.all(
+            selectedCartItems.map(item =>
+            removeFromCart(customerId, item.variantId)
+            )
+        );
       
           alert("Order placed successfully!");
-          navigate("/home");
+          navigate("/orders");
         } catch (error) {
           console.error("Order creation failed:", error);
           alert("Failed to place order.");
@@ -538,9 +555,10 @@ const CheckoutPage = () => {
       
           const orderData = {
             customer: {
-              customerId,
-              addressId: selectedAddress.id,
-            },
+                customerId,
+                billingAddressId: billingAddress?.id || null,
+                shippingAddressId: selectedAddress?.id || null
+              },
             status: "New Order",
             totalAmount: Number(totalAmount),
             discountId: appliedCoupon?.discountId || null,
@@ -623,6 +641,14 @@ const CheckoutPage = () => {
       
           const rzp = new window.Razorpay(options);
           rzp.open();
+
+          
+            await Promise.all(
+                selectedCartItems.map(item =>
+                removeFromCart(customerId, item.variantId)
+                )
+            );
+
           navigate('/paymentSuccess')
       
         } catch (err) {

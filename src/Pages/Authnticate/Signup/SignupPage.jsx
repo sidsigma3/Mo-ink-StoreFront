@@ -70,6 +70,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
       alert('Account created successfully!');
       console.log('Customer Created:', response);
       e.target.reset();
+      navigate("/otp")
     } catch (error) {
       alert('Failed to create account!');
       console.error(error);
@@ -221,7 +222,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
           <button
                         type="submit"
                         className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
-                        onClick={() => navigate("/otp")}
+                        onClick={() => handleSubmit }
                     >
                         Get OTP
                     </button>

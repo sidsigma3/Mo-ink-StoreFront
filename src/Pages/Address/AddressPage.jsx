@@ -9,7 +9,7 @@ import { MdOutlineWrongLocation } from "react-icons/md";
 import AddressBox from '../../Components/AddressBox/AddressBox'
 import ModalAddress from '../../Components/Modal/ModalAddress'
 import BottomNav from '../../Components/BottomNav/BottomNav'
-import { getCustomerDetails , updateCustomerDetails } from '../../Services/CustomerService'
+import { getCustomerDetails , deleteCustomerAddress } from '../../Services/CustomerService'
 
 const AddressPage = () => {
 
@@ -19,10 +19,9 @@ const AddressPage = () => {
     const [loading, setLoading] = useState(true); // To track loading state
     const [customer,setCustomer] =  useState()
 
-    useEffect(() => {
-        // Get customer data from localStorage
-        const customer = JSON.parse(localStorage.getItem("userData") || "{}");
-        const customerId = customer.customerId;
+    const fetchCustomerData = async () => {
+        const storedCustomer = JSON.parse(localStorage.getItem("userData") || "{}");
+        const customerId = storedCustomer.customerId;
 
         if (!customerId) {
             console.error("Customer ID not found in localStorage");
@@ -30,23 +29,22 @@ const AddressPage = () => {
             return;
         }
 
-        // Fetch customer details from API using the customerId
-        const fetchCustomerData = async () => {
-            try {
-                const customerData = await getCustomerDetails(customerId); // Replace with your actual API call
-              
-                console.log(customerData)
-                setAddresses(customerData.data?.addresses || []); // Set addresses from customer data
-                setLoading(false); // Finished loading
-                setCustomer(customerData.data)
-            } catch (error) {
-                console.error("Failed to fetch customer data", error);
-                setLoading(false);
-            }
-        };
+        try {
+            const customerData = await getCustomerDetails(customerId);
+            setAddresses(customerData.data?.addresses || []);
+            setCustomer(customerData.data);
+            localStorage.setItem("userData", JSON.stringify(customerData.data));
+        } catch (error) {
+            console.error("Failed to fetch customer data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchCustomerData();
-    }, []); // This effect runs once when the component mounts
+    }, []);
+    
     const addressTypesPresent = new Set(addresses?.map(addr => addr.addressType));
 
     const handleOpenModal = (address) => {
@@ -65,6 +63,7 @@ const AddressPage = () => {
     const handleClose = () => {
         setShowModal(false);
         setSelectedAddress(null); 
+        fetchCustomerData();
     };
 
 
@@ -73,39 +72,33 @@ const AddressPage = () => {
         { label: "Account", link: "/account" },
         { label: "Address", link: "/address" },
     ];
+    
     const isAddDisabled = addressTypesPresent.has('HOME') &&
         addressTypesPresent.has('WORK') &&
         addressTypesPresent.has('OTHER');
 
-        const handleDeleteAddress = async (typeToDelete) => {
-            const updatedAddresses = customer.addresses.filter(
-                (address) => address.addressType !== typeToDelete
+    const handleDeleteAddress = async (typeToDelete) => {
+        try {
+            const addressToDelete = customer.addresses.find(
+            (address) => address.addressType === typeToDelete
             );
-        
-            const payload = {
-                customerName: customer.customerName,
-                phoneNumber: customer.phoneNumber,
-                whatsappNumber: customer.whatsappNumber,
-                gstNumber: customer.gstNumber,
-                email: customer.email,
-                company: customer.company,
-                cancelledCheque: customer.cancelledCheque || "",
-                customerStatus: customer.customerStatus || "Active",
-                segmentIds: customer.segments?.map(seg => seg.segmentId) || [],
-                addresses: updatedAddresses,
-                customerAddress: updatedAddresses[0]?.customerAddress || "",
-                zipcode: updatedAddresses[0]?.zipcode || "",
-            };
-        
-            try {
-                await updateCustomerDetails(customer.customerId, payload);
-                const updatedCustomer = await getCustomerDetails(customer.customerId);
-                setCustomer(updatedCustomer); // refresh UI
-            } catch (error) {
-                console.error("Failed to delete address:", error);
-                alert("Something went wrong while deleting address.");
+
+            if (!addressToDelete) {
+            alert("Address not found!");
+            return;
             }
+
+            await deleteCustomerAddress(customer.customerId, addressToDelete.id);
+
+            await fetchCustomerData();
+
+            alert("Address deleted successfully!");
+        } catch (error) {
+            console.error("Failed to delete address:", error);
+            alert("Something went wrong while deleting the address.");
+        }
         };
+
         
         
     return (

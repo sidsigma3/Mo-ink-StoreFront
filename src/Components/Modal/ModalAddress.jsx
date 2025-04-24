@@ -103,7 +103,6 @@ const ModalAddress = ({
             phoneNumber: customer.phoneNumber,
             whatsappNumber: customer.whatsappNumber,
             email: customer.email,
-            password: customer.password,
             company: customer.company,
             gstNumber: customer.gstNumber,
             cancelledCheque: customer.cancelledCheque,
@@ -126,8 +125,6 @@ const ModalAddress = ({
     };
     
     
-
-
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>

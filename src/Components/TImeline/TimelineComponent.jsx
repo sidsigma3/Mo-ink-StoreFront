@@ -14,9 +14,11 @@ const TimelineComponent = ({ orderStatus }) => {
 
   const statusOptions = [
     "New Order",
-    "Shipped",
-    "Manufacture",
+    "Confirmed",
+    "Manufactured",
+    "shipped",
     "Delivered",
+    // "Returned",
     // "Partial return",
     // "Full return", 
     // "Partial cancel",

@@ -3,14 +3,14 @@ import { Image } from 'react-bootstrap';
 
 const MainBestsellers = () => {
   const products = [
-    { title: "Bamboo Yarn", price: "₹142.00/kg", img: "/images/Yarn1.jpg", count: "2/80", type: "Cone" },
-    { title: "Modal Yarn", price: "₹256.00/kg", img: "/images/Yarn2.jpg", count: "2/100", type: "Hank" },
-    { title: "Cotton Yarn", price: "₹327.00/kg", img: "/images/Yarn3.jpg", count: "1/40", type: "Cone" },
-    { title: "Excel Yarn", price: "₹169.00/kg", img: "/images/Yarn4.jpg", count: "2/60", type: "Hank" },
-    { title: "Viscose Yarn", price: "₹142.00/kg", img: "/images/Yarn5.jpg", count: "2/90", type: "Cone" },
-    { title: "Spandex Yarn", price: "₹256.00/kg", img: "/images/Yarn6.jpg", count: "1/60", type: "Cone" },
-    { title: "Linen Yarn", price: "₹327.00/kg", img: "/images/Yarn7.jpg", count: "1/92", type: "Hank" },
-    { title: "Silk Yarn", price: "₹169.00/kg", img: "/images/Yarn8.jpg", count: "2/80", type: "Cone" },
+    { title: "Bamboo Yarn", price: "₹142.00/kg", img: "/images/Yarn1.jpg", count: "2/80", type: "Cone/Hank" },
+    { title: "Modal Yarn", price: "₹256.00/kg", img: "/images/Yarn2.jpg", count: "2/100", type: "Cone/Hank" },
+    { title: "Cotton Yarn", price: "₹327.00/kg", img: "/images/Yarn3.jpg", count: "1/40", type: "Cone/Hank" },
+    { title: "Excel Yarn", price: "₹169.00/kg", img: "/images/Yarn4.jpg", count: "2/60", type: "Cone/Hank" },
+    { title: "Viscose Yarn", price: "₹142.00/kg", img: "/images/Yarn5.jpg", count: "2/90", type: "Cone/Hank" },
+    { title: "Spandex Yarn", price: "₹256.00/kg", img: "/images/Yarn6.jpg", count: "1/60", type: "Cone/Hank" },
+    { title: "Linen Yarn", price: "₹327.00/kg", img: "/images/Yarn7.jpg", count: "1/92", type: "Cone/Hank" },
+    { title: "Silk Yarn", price: "₹169.00/kg", img: "/images/Yarn8.jpg", count: "2/80", type: "Cone/Hank" },
   ];
 
   return (
@@ -45,16 +45,14 @@ const MainBestsellers = () => {
 
             {/* Counter + Type Row */}
             <div className="flex items-center justify-center gap-2 mt-2">
-              <span className="text-sm text-gray-500">{item.count}</span>
+              {/* <span className="text-sm text-gray-500">{item.count}</span> */}
               <span className="text-sm font-medium rounded-full bg-[#FFEE9A] text-purple-800 px-3 py-1">
                 {item.type}
               </span>
             </div>
-
-            <p className="text-gray-900 mt-2">{item.price}</p>
             <a
               href="#"
-              className="text-purple-800 text-lg font-bold mt-2 hover:underline"
+              className="text-purple-800 text-lg font-bold mt-3 hover:underline"
             >
               View
             </a>

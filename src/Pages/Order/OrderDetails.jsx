@@ -29,12 +29,16 @@ const OrderDetails = () => {
 
     const [appliedCoupon, setAppliedCoupon] = useState(null);
 
+    const [summary, setSummary] = useState(null);
+
+   
+
     useEffect(() => {
         const fetchDiscount = async () => {
             if (order?.discountId) {
             try {
                 const coupon = await getDiscountById(order.discountId);
-                setAppliedCoupon(coupon);
+                setAppliedCoupon(coupon.data);
             } catch (err) {
                 console.error("Failed to fetch coupon:", err);
             }
@@ -43,6 +47,8 @@ const OrderDetails = () => {
 
     fetchDiscount();
     }, [order?.discountId]);
+
+    console.log(appliedCoupon)
 
     const orderDate = new Date(order.createdAt).toLocaleDateString("en-IN", {
         timeZone: "Asia/Kolkata",
@@ -72,15 +78,20 @@ const OrderDetails = () => {
 
       const calculateHandlingCharges = (cartItems, selectedAddress) => {
         if (!selectedAddress?.state) return 0;
+
+        console.log(selectedAddress)
+        console.log(cartItems)
       
         const customerState = selectedAddress.state.toLowerCase();
         const ratePerKg = customerState === "odisha" ? 3 : 5;
       
         // Sum total weight from cart items
         const totalWeight = cartItems.reduce((acc, item) => {
-          const weight = Number(item.quantity) * 50 || 0; // assuming 1 quantity = 1kg
+          const weight = Number(item.orderWeight) * 50 || 0; // assuming 1 quantity = 1kg
           return acc + weight;
         }, 0);
+
+        console.log(ratePerKg*totalWeight)
       
         return Number((totalWeight * ratePerKg).toFixed(2));
       };
@@ -89,62 +100,102 @@ const OrderDetails = () => {
 
       const handlingCharges = calculateHandlingCharges(order.orderVariantResponse, order.address);
 
+      console.log(handlingCharges)
 
-
-      const calculateOrderSummary = (order, appliedCoupon = null, handlingCharges = 0, platformFees = 0) => {
-        const gstRate = 5; // Assuming 5% GST on all items
+      const calculateOrderSummary = async (
+        order,
+        appliedCoupon = null,
+        handlingCharges = 0,
+        platformFees = 0
+      ) => {
         const orderVariants = order.orderVariantResponse || [];
         let baseTotal = 0;
-        let gstAmount = 0;
         let discountByCoupon = 0;
         let discountByPayment = 0;
+        let gstAmount = 0;
       
-        orderVariants.forEach(variant => {
-          const weight = Number(variant.orderWeight);
-          const price = Number(variant.pricePerKg);
+        const productGstMap = new Map();
+      
+        // Step 1: Calculate baseTotal
+        for (const variant of orderVariants) {
+          const weight = Number(variant.orderWeight) || 0;
+          const price = Number(variant.pricePerKg) || 0;
           baseTotal += weight * price;
-        });
+        }
       
-        const totalCost = baseTotal;
-        gstAmount = (totalCost * gstRate) / 100;
-      
-        // Discounts
+        // Step 2: Apply discounts on totalCost
         const couponDiscountPercent = appliedCoupon?.discountValue || 0;
         const couponDiscountType = appliedCoupon?.discountType || "Percentage";
+      
         discountByCoupon = couponDiscountType === "Percentage"
-          ? (totalCost * couponDiscountPercent) / 100
+          ? (baseTotal * couponDiscountPercent) / 100
           : couponDiscountPercent;
       
-        const paymentDiscountPercent = parseFloat(order.paymentTypeDiscount.replace("%", "") || 0);
-        discountByPayment = (totalCost * paymentDiscountPercent) / 100;
-      
-        // Combined discount
-        const combinedDiscountPercent =
-          couponDiscountPercent + paymentDiscountPercent -
-          (couponDiscountPercent * paymentDiscountPercent) / 100;
+        const paymentDiscountPercent = parseFloat(order.paymentTypeDiscount?.replace("%", "") || 0);
+        discountByPayment = (baseTotal * paymentDiscountPercent) / 100;
       
         const totalDiscount = discountByCoupon + discountByPayment;
+        const discountedTotal = baseTotal - totalDiscount;
       
-        const finalTotal = totalCost - totalDiscount;
+        // Step 3: Calculate GST on discountedTotal (per variant using productId)
+        for (const variant of orderVariants) {
+          const weight = Number(variant.orderWeight) || 0;
+          const price = Number(variant.pricePerKg) || 0;
+          const cost = weight * price;
+          const productId = variant.productId;
       
+          let gstRate = 0;
+      
+          if (productGstMap.has(productId)) {
+            gstRate = productGstMap.get(productId);
+          } else {
+            const res = await fetchProductsById(productId);
+            if (res.success) {
+              gstRate = Number(res.data.gstOnProduct || 0);
+              productGstMap.set(productId, gstRate);
+            }
+          }
+      
+          // Proportional GST on discounted cost
+          const costAfterDiscount = (cost / baseTotal) * discountedTotal;
+          gstAmount += (costAfterDiscount * gstRate) / 100;
+        }
+      
+        // Step 4: Add other charges
+        const finalTotal = discountedTotal;
         const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
-      
         const walletUsed = Number(order.walletAmount) || 0;
         const adjustedNetPay = netPayable - walletUsed;
       
-        const online = parseFloat(order.paymentTypeDiscount) || 0;
+        const online = paymentDiscountPercent;
         const cod = 100 - online;
       
         const onlinePay = (adjustedNetPay * online) / 100;
         const codPay = adjustedNetPay - onlinePay;
       
+        const combinedDiscountPercent =
+          couponDiscountPercent + paymentDiscountPercent -
+          (couponDiscountPercent * paymentDiscountPercent) / 100;
+
+          console.log(baseTotal)
+          console.log(discountByCoupon)
+          console.log(discountByPayment)
+          console.log(totalDiscount)
+          console.log(finalTotal)
+          console.log(gstAmount)
+          console.log(netPayable)
+          console.log(adjustedNetPay)
+          console.log(walletUsed)
+          console.log(online,cod,onlinePay,codPay)
+          console.log(combinedDiscountPercent)
+      
         return {
-          totalCost,
-          gstAmount,
+          totalCost: baseTotal,
           discountByCoupon,
           discountByPayment,
           totalDiscount,
           finalTotal,
+          gstAmount,
           netPayable,
           adjustedNetPay,
           walletUsed,
@@ -156,8 +207,17 @@ const OrderDetails = () => {
         };
       };
       
+      
+      useEffect(() => {
+        const fetchSummary = async () => {
+          const summaryData = await calculateOrderSummary(order, appliedCoupon, handlingCharges, 49);
+          setSummary(summaryData);
+        };
+        fetchSummary();
+      }, [order, appliedCoupon, handlingCharges]);
     
-
+      if (!summary) return <div>Loading...</div>;
+    
       const {
         totalCost,
         gstAmount,
@@ -173,10 +233,7 @@ const OrderDetails = () => {
         onlinePay,
         codPay,
         combinedDiscountPercent
-      } = calculateOrderSummary(order, appliedCoupon, handlingCharges, 49);
-
-
-
+      } = summary;
 
 
   const breadcrumbs = [
@@ -311,7 +368,7 @@ const OrderDetails = () => {
                         <tr>
                         <td>Total Cost (Incl GST)</td>
                         <td></td>
-                        <td className='text-end'>₹{(totalCost + gstAmount).toLocaleString()}</td>
+                        <td className='text-end'>₹{(totalCost + gstAmount).toFixed(0)}</td>
                         </tr>
 
                         <tr className='border-b-2'>
@@ -324,7 +381,7 @@ const OrderDetails = () => {
                         </td>
                         <td>
                             <div>
-                            <p>{combinedDiscountPercent.toFixed(2)}%</p>
+                            <p>{combinedDiscountPercent}%</p>
                             <p className="text-gray-400">{order.paymentTypeDiscount}</p>
                             <p className='text-gray-400'>
                                 {appliedCoupon
@@ -351,12 +408,12 @@ const OrderDetails = () => {
                         <tr>
                         <td className='pb-2'>CGST</td>
                         <td></td>
-                        <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(1)}</td>
+                        <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(0)}</td>
                         </tr>
                         <tr>
                         <td className='pb-2'>SGST</td>
                         <td></td>
-                        <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(1)}</td>
+                        <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(0)}</td>
                         </tr>
 
                         <tr>
@@ -378,18 +435,11 @@ const OrderDetails = () => {
                         </tr>
 
                         <tr className='border-b-2'>
-                        <td className='pb-2'>Wallet</td>
-                        <td className='pb-2'>₹{walletUsed}</td>
-                        <td className='text-end pb-2'>
-                            <input
-                            type="text"
-                            placeholder="Amount"
-                            className="w-24 border rounded-md text-right px-1"
-                            value={walletUsed || ''}
-                            readOnly
-                            />
-                        </td>
+                            <td className='pb-2'>Wallet</td>
+                            <td></td>
+                            <td className='text-end pb-2'>₹{order.walletAmount || 0}</td>
                         </tr>
+
 
                         <tr className='border-b-2'>
                         <td className='pt-2 pb-2'>To pay</td>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
 import HeroSection from '../../Components/HeroSection/HeroSection'
@@ -9,19 +9,58 @@ import { MdOutlineWrongLocation } from "react-icons/md";
 import AddressBox from '../../Components/AddressBox/AddressBox'
 import ModalAddress from '../../Components/Modal/ModalAddress'
 import BottomNav from '../../Components/BottomNav/BottomNav'
+import { getCustomerDetails , updateCustomerDetails } from '../../Services/CustomerService'
 
 const AddressPage = () => {
 
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(null);
-    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
-    const [addresses, setAddresses] = useState(customer.addresses || []);
+    const [addresses, setAddresses] = useState([]); // Start with empty addresses
+    const [loading, setLoading] = useState(true); // To track loading state
+    const [customer,setCustomer] =  useState()
+
+    useEffect(() => {
+        // Get customer data from localStorage
+        const customer = JSON.parse(localStorage.getItem("userData") || "{}");
+        const customerId = customer.customerId;
+
+        if (!customerId) {
+            console.error("Customer ID not found in localStorage");
+            setLoading(false);
+            return;
+        }
+
+        // Fetch customer details from API using the customerId
+        const fetchCustomerData = async () => {
+            try {
+                const customerData = await getCustomerDetails(customerId); // Replace with your actual API call
+              
+                console.log(customerData)
+                setAddresses(customerData.data?.addresses || []); // Set addresses from customer data
+                setLoading(false); // Finished loading
+                setCustomer(customerData.data)
+            } catch (error) {
+                console.error("Failed to fetch customer data", error);
+                setLoading(false);
+            }
+        };
+
+        fetchCustomerData();
+    }, []); // This effect runs once when the component mounts
     const addressTypesPresent = new Set(addresses?.map(addr => addr.addressType));
 
     const handleOpenModal = (address) => {
-        setSelectedAddress(address);  
+        if (address) {
+            // Edit mode
+            setSelectedAddress(address);
+        } else {
+            // Add mode: just clear selectedAddress
+            setSelectedAddress(null);
+        }
         setShowModal(true);
     };
+    
+    
 
     const handleClose = () => {
         setShowModal(false);
@@ -38,19 +77,37 @@ const AddressPage = () => {
         addressTypesPresent.has('WORK') &&
         addressTypesPresent.has('OTHER');
 
-
-    const handleDeleteAddress = (typeToDelete) => {
-        const updatedAddresses = customer.addresses.filter(
-            (address) => address.addressType !== typeToDelete
-        );
-
-        const updatedCustomer = {
-            ...customer,
-            addresses: updatedAddresses
+        const handleDeleteAddress = async (typeToDelete) => {
+            const updatedAddresses = customer.addresses.filter(
+                (address) => address.addressType !== typeToDelete
+            );
+        
+            const payload = {
+                customerName: customer.customerName,
+                phoneNumber: customer.phoneNumber,
+                whatsappNumber: customer.whatsappNumber,
+                gstNumber: customer.gstNumber,
+                email: customer.email,
+                company: customer.company,
+                cancelledCheque: customer.cancelledCheque || "",
+                customerStatus: customer.customerStatus || "Active",
+                segmentIds: customer.segments?.map(seg => seg.segmentId) || [],
+                addresses: updatedAddresses,
+                customerAddress: updatedAddresses[0]?.customerAddress || "",
+                zipcode: updatedAddresses[0]?.zipcode || "",
+            };
+        
+            try {
+                await updateCustomerDetails(customer.customerId, payload);
+                const updatedCustomer = await getCustomerDetails(customer.customerId);
+                setCustomer(updatedCustomer); // refresh UI
+            } catch (error) {
+                console.error("Failed to delete address:", error);
+                alert("Something went wrong while deleting address.");
+            }
         };
-        localStorage.setItem("userData", JSON.stringify(updatedCustomer));
-        window.location.reload(); 
-    };  
+        
+        
     return (
         <div>
             <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
@@ -99,11 +156,16 @@ const AddressPage = () => {
                 }
             </div>
 
-            <ModalAddress show={showModal} handleClose={handleClose}
-                customer={customer} selectedAddress={selectedAddress}
-                usedAddressTypes={addressTypesPresent}>
+            {customer && (
+                <ModalAddress
+                    show={showModal}
+                    handleClose={handleClose}
+                    customer={customer}
+                    selectedAddress={selectedAddress}
+                    usedAddressTypes={addressTypesPresent}
+                />
+            )}
 
-            </ModalAddress>
 
             <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
             <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>

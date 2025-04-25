@@ -22,27 +22,24 @@ const ModalAddress = ({
 
     useEffect(() => {
         if (selectedAddress) {
-            setFormData({
-                customerAddress: selectedAddress.customerAddress || "",
-                street: selectedAddress.street || "",
-                city: selectedAddress.city || "",
-                state: selectedAddress.state || "",
-                country: selectedAddress.country || "",
-                zipcode: selectedAddress.zipcode || "",
-                addressType: selectedAddress.addressType || "HOME",
-            });
+            setFormData(selectedAddress);
         } else {
+            // Add mode: initialize new address with available type
+            const allTypes = ['HOME', 'WORK', 'OTHER'];
+            const usedTypes = new Set(usedAddressTypes || []);
+            const availableType = allTypes.find(type => !usedTypes.has(type)) || 'OTHER';
+    
             setFormData({
-                customerAddress: "",
-                street: "",
-                city: "",
-                state: "",
-                country: "",
-                zipcode: "",
-                addressType: "HOME",
+                addressType: availableType,
+                street: '',
+                city: '',
+                state: '',
+                zipcode: '',
+                country: 'India',
+                customerAddress: '',
             });
         }
-    }, [selectedAddress]);
+    }, [selectedAddress, usedAddressTypes]);
 
     const isDisabled = (type) => usedAddressTypes?.has(type) && !selectedAddress;
 
@@ -56,7 +53,7 @@ const ModalAddress = ({
     };
 
     
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!formData.addressType) {
             alert("Please select address type");
             return;
@@ -64,7 +61,6 @@ const ModalAddress = ({
     
         const existingAddresses = customer.addresses || [];
     
-        // Check if this *exact* address already exists under any label
         const exactMatch = existingAddresses.find((addr) =>
             addr.customerAddress === formData.customerAddress &&
             addr.street === formData.street &&
@@ -72,15 +68,14 @@ const ModalAddress = ({
             addr.state === formData.state &&
             addr.country === formData.country &&
             addr.zipcode === formData.zipcode &&
-            addr.addressType !== formData.addressType // Ensure it's not the same type
+            addr.addressType !== formData.addressType
         );
     
         if (exactMatch && !selectedAddress) {
-            alert(`This address is existing under "${exactMatch.addressType}" label, Please add a different address.`);
+            alert(`This address is already used under "${exactMatch.addressType}". Please add a different address.`);
             return;
         }
     
-        // Check if addressType already exists (only for new addresses)
         const alreadyExists = existingAddresses.some(
             (addr) => addr.addressType === formData.addressType
         );
@@ -93,24 +88,43 @@ const ModalAddress = ({
         let updatedAddresses;
     
         if (selectedAddress) {
+            // Edit mode: keep ID and update address
             updatedAddresses = existingAddresses.map((addr) =>
-                addr.addressType === selectedAddress.addressType ? formData : addr
+                addr.addressType === selectedAddress.addressType ? { ...addr, ...formData } : addr
             );
         } else {
-            updatedAddresses = [...existingAddresses, formData];
+            // Add mode: push new address
+            updatedAddresses = [...existingAddresses, { ...formData }];
         }
     
-        const updatedCustomer = {
-            ...customer,
+        const payload = {
+            customerId: customer.customerId,
+            customerName: customer.customerName,
+            phoneNumber: customer.phoneNumber,
+            whatsappNumber: customer.whatsappNumber,
+            email: customer.email,
+            company: customer.company,
+            gstNumber: customer.gstNumber,
+            cancelledCheque: customer.cancelledCheque,
+            customerStatus: customer.customerStatus,
+            segmentIds: customer.segments?.map((s) => s.segmentId) || [],
             addresses: updatedAddresses,
+    
+            // Important for new addresses
+            customerAddress: formData.customerAddress,
+            zipcode: formData.zipcode,
         };
     
-        localStorage.setItem("userData", JSON.stringify(updatedCustomer));
-        window.location.reload();
+        try {
+            await updateCustomerDetails(customer.customerId, payload);
+            handleClose();
+        } catch (error) {
+            console.error("Failed to update customer address:", error);
+            alert("Something went wrong while saving address.");
+        }
     };
     
-
-
+    
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered>
@@ -144,6 +158,18 @@ const ModalAddress = ({
                             <label className='font-semibold'>Company name</label>
                             <input className='border-1 rounded p-1' value={customer.company} onChange={handleChange}></input>
                         </div>
+
+                        <div className='flex flex-col gap-2'>
+                            <label className='font-semibold'>Address</label>
+                            <input
+                                className='border-1 rounded p-1'
+                                name="customerAddress"
+                                value={formData.customerAddress}
+                                onChange={handleChange}
+                            
+                            />
+                        </div>
+
 
                         <div className='flex flex-col gap-2'>
                             <label className='font-semibold'>Apartment, suite, etc</label>

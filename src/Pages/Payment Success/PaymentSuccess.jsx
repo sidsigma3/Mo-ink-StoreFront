@@ -53,6 +53,7 @@ const PaymentSuccess = () => {
             <div className=" flex flex-col sm:flex-row gap-3 w-full lg:w-1/2">
               <button
                 className="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                onClick={()=>navigate('/home')}
               >
                 Explore More
               </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
 import HeroSection from '../../Components/HeroSection/HeroSection'
@@ -9,23 +9,61 @@ import { MdOutlineWrongLocation } from "react-icons/md";
 import AddressBox from '../../Components/AddressBox/AddressBox'
 import ModalAddress from '../../Components/Modal/ModalAddress'
 import BottomNav from '../../Components/BottomNav/BottomNav'
+import { getCustomerDetails , deleteCustomerAddress } from '../../Services/CustomerService'
 
 const AddressPage = () => {
 
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(null);
-    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
-    const [addresses, setAddresses] = useState(customer.addresses || []);
+    const [addresses, setAddresses] = useState([]); // Start with empty addresses
+    const [loading, setLoading] = useState(true); // To track loading state
+    const [customer,setCustomer] =  useState()
+
+    const fetchCustomerData = async () => {
+        const storedCustomer = JSON.parse(localStorage.getItem("userData") || "{}");
+        const customerId = storedCustomer.customerId;
+
+        if (!customerId) {
+            console.error("Customer ID not found in localStorage");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const customerData = await getCustomerDetails(customerId);
+            setAddresses(customerData.data?.addresses || []);
+            setCustomer(customerData.data);
+            localStorage.setItem("userData", JSON.stringify(customerData.data));
+        } catch (error) {
+            console.error("Failed to fetch customer data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchCustomerData();
+    }, []);
+    
     const addressTypesPresent = new Set(addresses?.map(addr => addr.addressType));
 
     const handleOpenModal = (address) => {
-        setSelectedAddress(address);  
+        if (address) {
+            // Edit mode
+            setSelectedAddress(address);
+        } else {
+            // Add mode: just clear selectedAddress
+            setSelectedAddress(null);
+        }
         setShowModal(true);
     };
+    
+    
 
     const handleClose = () => {
         setShowModal(false);
         setSelectedAddress(null); 
+        fetchCustomerData();
     };
 
 
@@ -34,23 +72,35 @@ const AddressPage = () => {
         { label: "Account", link: "/account" },
         { label: "Address", link: "/address" },
     ];
+    
     const isAddDisabled = addressTypesPresent.has('HOME') &&
         addressTypesPresent.has('WORK') &&
         addressTypesPresent.has('OTHER');
 
+    const handleDeleteAddress = async (typeToDelete) => {
+        try {
+            const addressToDelete = customer.addresses.find(
+            (address) => address.addressType === typeToDelete
+            );
 
-    const handleDeleteAddress = (typeToDelete) => {
-        const updatedAddresses = customer.addresses.filter(
-            (address) => address.addressType !== typeToDelete
-        );
+            if (!addressToDelete) {
+            alert("Address not found!");
+            return;
+            }
 
-        const updatedCustomer = {
-            ...customer,
-            addresses: updatedAddresses
+            await deleteCustomerAddress(customer.customerId, addressToDelete.id);
+
+            await fetchCustomerData();
+
+            alert("Address deleted successfully!");
+        } catch (error) {
+            console.error("Failed to delete address:", error);
+            alert("Something went wrong while deleting the address.");
+        }
         };
-        localStorage.setItem("userData", JSON.stringify(updatedCustomer));
-        window.location.reload(); 
-    };  
+
+        
+        
     return (
         <div>
             <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
@@ -99,11 +149,16 @@ const AddressPage = () => {
                 }
             </div>
 
-            <ModalAddress show={showModal} handleClose={handleClose}
-                customer={customer} selectedAddress={selectedAddress}
-                usedAddressTypes={addressTypesPresent}>
+            {customer && (
+                <ModalAddress
+                    show={showModal}
+                    handleClose={handleClose}
+                    customer={customer}
+                    selectedAddress={selectedAddress}
+                    usedAddressTypes={addressTypesPresent}
+                />
+            )}
 
-            </ModalAddress>
 
             <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
             <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>

@@ -49,14 +49,14 @@ const ForgotPasswordPage = () => {
                     <input
                         type="email"
                         placeholder="Enter your Email Address"
-                        className="w-full px-4 py-2 rounded-full mb-4 text-black focus:outline-none"
+                        className="w-full px-4 py-1 rounded-full mb-4 text-black focus:outline-none"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
                     <button
                         type="submit"
-                        className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
+                        className="w-full bg-purple-700 text-white rounded-full py-1 font-medium"
                         onClick={() => navigate("/verifycode")}
                     >
                         Get Code
@@ -65,7 +65,7 @@ const ForgotPasswordPage = () => {
                     {message && <p className="text-green-400 text-sm mt-4">{message}</p>}
                 </form>
 
-                <div className="text-center text-xs my-4 text-gray-300">Or login with</div>
+                <div className="text-center text-xs my-2 text-gray-300">Or login with</div>
 
                 <div className="flex flex-row justify-center items-center gap-2">
                     <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm">

@@ -70,7 +70,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                 </div>
 
                 <p className="text-center text-gray-300 text-l sm:text-l mb-6 px-2">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Log in to continue your yarn journey, explore colors & continue shopping.
                 </p>
 
                 <form onSubmit={handleLogin}>
@@ -78,32 +78,34 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                     <input
                         type="text"
                         placeholder="Enter your username"
-                        className="w-full px-4 py-2 rounded-full mb-4 text-black focus:outline-none"
+                        className="w-full px-4 py-1 mb-2 text-left align-center rounded-full text-black focus:outline-none"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
 
                     <label className="block text-l mb-1">Password</label>
                     <div className="relative">
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Enter your password"
-                            className="w-full px-4 py-2 rounded-full mb-3 text-black focus:outline-none pr-10"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <button
-                            type="button"
-                            className="absolute right-3 top-2.5 text-gray-500"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                        </button>
+                    <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Enter your password"
+    className="w-full px-4 py-1 rounded-full mb-2 text-left text-black focus:outline-none pr-10"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+  <button
+    type="button"
+    className="absolute right-3 top-[45%] -translate-y-1/2 text-gray-500"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    <div className="flex items-center justify-center h-5 w-5">
+      {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+    </div>
+  </button>
                     </div>
 
                     {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
 
-                    <div className="flex flex-row justify-between items-center text-sm text-gray-300 mb-6">
+                    <div className="flex flex-row justify-between items-center text-sm text-gray-300 mb-4">
                         <label className="flex items-center">
                             <input type="checkbox" className="mr-2" />
                             Remember me
@@ -115,12 +117,12 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
                     <button
                         type="submit"
-                        className="w-full bg-purple-800 text-white rounded-full py-2 font-medium"
+                        className="w-full bg-purple-800 text-white rounded-full py-1 font-medium"
                     >
                         Login
                     </button>
 
-                    <div className="text-center text-xs my-4 text-gray-300">Or login with</div>
+                    <div className="text-center text-xs my-2 text-gray-300">Or login with</div>
 
                     <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
                         <button className="flex items-center gap-2 bg-white text-black px-2 lg:px-4 py-2 rounded-full text-sm w-3/5 justify-center">

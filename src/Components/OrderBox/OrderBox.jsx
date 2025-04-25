@@ -52,17 +52,27 @@ const OrderBox = ({order}) => {
 
         </div>
 
-        <div className='col-span-9 md:col-span-1 flex items-center justify-content-end'>
-        <button 
-        onClick={(e)=>{
-          e.stopPropagation()
-          handleDownloadInvoice(order.orderId)
-        }}
-        className='flex gap-2 bg-violet-100 text-violet-800 md:px-6 lg:px-8 py-1 rounded items-center'>
-            <span><TbFileInvoice size={20}/></span>
-            <h5 className='text-sm md:text-md'>INVOICE</h5>
-        </button>
-        </div>
+        <div className='col-span-9 md:col-span-1 flex flex-col items-end justify-center gap-1'>
+  <button 
+    onClick={(e) => {
+      e.stopPropagation()
+      handleDownloadInvoice(order.orderId)
+    }}
+    className='flex gap-2 bg-violet-100 text-violet-800 md:px-6 lg:px-8 py-1 rounded items-center'
+  >
+    <span><TbFileInvoice size={20}/></span>
+    <h5 className='text-sm md:text-md'>INVOICE</h5>
+  </button>
+
+  {/* Return Status Tag */}
+  {order.isReturned && (
+    <span className="mt-1 inline-flex items-center gap-2 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
+      <span className="w-2 h-2 bg-yellow-700 rounded-full"></span>
+      Return Requested ({order.totalReturnItems} items)
+    </span>
+  )}
+</div>
+
 
         <div className='flex items-center justify-end hidden md:flex'>
             <span className='text-gray-400'><MdArrowForwardIos size={20}/></span>

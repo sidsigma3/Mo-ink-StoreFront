@@ -117,12 +117,12 @@ const SignupPage = ({ togglePage, isLogin }) => {
           Create your account to get started
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-2">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex flex-col w-full">
               <label className="">First Name</label>
               <input
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="First name"
                 name="firstName"
                 value={formData.firstName}
@@ -134,7 +134,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
             <div className="flex flex-col w-full">
               <label className="">Last Name</label>
               <input
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="Last name"
                 name="lastName"
                 value={formData.lastName}
@@ -147,7 +147,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
             <div className="flex flex-col w-full">
               <label className="">Email</label>
               <input
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="Email"
                 name="email"
                 value={formData.email}
@@ -160,7 +160,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
               <label className="">Password</label>
               <input
                 type="password"
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="Password"
                 name="password"
                 value={formData.password}
@@ -174,7 +174,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
             <div className="flex flex-col w-full">
               <label className="">Phone</label>
               <input
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="Phone number"
                 name="phoneNumber"
                 value={formData.phoneNumber}
@@ -185,7 +185,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
             <div className="flex flex-col w-full">
               <label className="">WhatsApp</label>
               <input
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="WhatsApp number"
                 name="whatsappNumber"
                 value={formData.whatsappNumber}
@@ -198,7 +198,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
             <div className="flex flex-col w-full">
               <label className="">Company</label>
               <input
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="Company"
                 name="company"
                 value={formData.company}
@@ -209,7 +209,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
             <div className="flex flex-col w-full">
               <label className="">GST Number</label>
               <input
-                className="login-input rounded-full text-black px-4 py-2"
+                className="login-input rounded-full text-black px-4 py-1"
                 placeholder="GST number"
                 name="gstNumber"
                 value={formData.gstNumber}
@@ -221,8 +221,10 @@ const SignupPage = ({ togglePage, isLogin }) => {
           
           <button
                         type="submit"
+
                         className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
                         onClick={() => handleSubmit }
+
                     >
                         Get OTP
                     </button>

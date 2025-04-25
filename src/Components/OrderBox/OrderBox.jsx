@@ -65,12 +65,16 @@ const OrderBox = ({order}) => {
   </button>
 
   {/* Return Status Tag */}
-  {order.isReturned && (
-    <span className="mt-1 inline-flex items-center gap-2 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
-      <span className="w-2 h-2 bg-yellow-700 rounded-full"></span>
-      Return Requested ({order.totalReturnItems} items)
+  {/* {order.isReturned && ( */}
+    <span className="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
+      <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
+      Returned ({order.totalReturnItems}2 items)
     </span>
-  )}
+  {/* )} */}
+  <span className="mt-1 inline-flex items-center gap-1 bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded">
+      <span className="w-2 h-2 me-2 rounded-full bg-red-600"></span>
+      Cancelled ({order.totalCancelledItems}2 items)
+    </span>
 </div>
 
 

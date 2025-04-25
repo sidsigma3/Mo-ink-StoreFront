@@ -25,6 +25,17 @@ export const updateCustomerDetails = async (customerId, updatedData) => {
   };
 
 
+  export const deleteCustomerAddress = async (customerId, addressId) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/${customerId}/address/${addressId}`);
+      return true;
+    } catch (error) {
+      console.error("Error deleting customer address:", error);
+      throw error;
+    }
+  };
+
+
 export const loginCustomer = async (customerEmailId, password) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, { customerEmailId, password });

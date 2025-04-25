@@ -70,6 +70,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
       alert('Account created successfully!');
       console.log('Customer Created:', response);
       e.target.reset();
+      navigate("/otp")
     } catch (error) {
       alert('Failed to create account!');
       console.error(error);

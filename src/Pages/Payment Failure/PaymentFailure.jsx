@@ -7,8 +7,12 @@ import Footer from '../../Components/Footer/Footer';
 import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { CreditCard, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentFailure = () => {
+
+  const navigate = useNavigate()
+
   const breadcrumbs = [
     { label: "Home", link: "/home" },
     { label: "Checkout", link: "/CheckoutPage" },
@@ -53,13 +57,14 @@ const PaymentFailure = () => {
             <div className=" flex flex-col sm:flex-row gap-3 w-full lg:w-1/2">
               <button
                 className="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                onClick={()=>navigate('/home')}
               >
                 Close
               </button>
   
               <button
                 className="w-full px-4 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-500 transition-colors font-medium flex items-center justify-center gap-2"
-                onClick={() => console.log('Retrying payment...')}
+                onClick={() => navigate('/checkOut')}
               >
                 <CreditCard size={20} />
                 Try Again

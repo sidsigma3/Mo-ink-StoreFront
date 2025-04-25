@@ -345,7 +345,7 @@ const CheckoutPage = () => {
                     quantity:  quantities[item.variantId] || 1,
                     productImage: product.productImage?.[0] || "/images/default.png",
                     gstRate: product.gstOnProduct || 0,
-                    variantType: variantTypes[item.variantId] || "regular", // ✅ added variantType
+                    variantType: variantTypes[item.variantId] || "Cone", 
                 };
             }).filter(Boolean);
     
@@ -659,7 +659,7 @@ const CheckoutPage = () => {
       };
       
 
-
+      console.log(selectedCartItems)
 
     return (
         <div>

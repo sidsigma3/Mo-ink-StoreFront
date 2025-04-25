@@ -19,20 +19,23 @@ const AddressBox = ({ address, name, company, phone, onDelete }) => {
             )}
             <p>{address.addressType}</p>
           </div>
-          <button
-            onClick={(e) => {
-              e.stopPropagation(); // ✅ Prevent opening modal
-              const confirmed = window.confirm("Do you really want to delete this address?");
-              if (confirmed) {
-                onDelete();
-              }
-            }}
-            className='flex items-center gap-1 text-red-700 border-1 border-red-700 px-3 py-1 rounded-full hover:bg-red-50 transition-all'
-            title='Delete address'
-          >
-            <MdDeleteOutline size={18} />
-            <span className='text-sm font-semibold'>DELETE</span>
-          </button>
+          {address?.addressType !== 'HOME' && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const confirmed = window.confirm("Do you really want to delete this address?");
+                  if (confirmed) {
+                    onDelete();
+                  }
+                }}
+                className='flex items-center gap-1 text-red-700 border-1 border-red-700 px-3 py-1 rounded-full hover:bg-red-50 transition-all'
+                title='Delete address'
+              >
+                <MdDeleteOutline size={18} />
+                <span className='text-sm font-semibold'>DELETE</span>
+              </button>
+            )}
+
         </div>
 
         <h4 className='font-medium text-gray-500 mt-1'>{company && <span>{company}</span>}</h4>

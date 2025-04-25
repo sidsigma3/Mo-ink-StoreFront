@@ -13,11 +13,13 @@ import { FaPlus } from "react-icons/fa6";
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { addToWishlist, removeFromWishlist } from "../../Services/WishlistService";
 import { getCart, removeFromCart, addToCart } from "../../Services/CartService"
+import { RxCross2 } from "react-icons/rx";
 
-const ColorCard = ({item , onSelect, selected = false}) => {
+
+const ColorCard = ({item , onSelect, selected = false,disabled}) => {
 
     return <div 
-    onClick={() => onSelect(item, 'custom')}
+    onClick={() => !disabled && onSelect(item)}
     className={`border-4 rounded-md cursor-pointer ${selected
         ? 'border-blue-500'
         : 'border-gray-300'
@@ -40,6 +42,8 @@ const ColorCard = ({item , onSelect, selected = false}) => {
     </div>
 </div>
 }
+
+
 const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
     const location = useLocation();
@@ -61,7 +65,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [presetColors, setPresetColors] = useState([]);
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
+    const [modalSelectedColors, setModalSelectedColors] = useState([]);
 
+    
     const handleColorSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
         setSearchTerm(searchText);
@@ -80,23 +86,12 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     }, [customColors]);
 
     const handleSubmitSelectedColor = () => {
-        const newColors = selectedColors.filter(
-            (color) =>
-                (color.source === 'preset' || color.source === 'custom') &&
-                !moreColors.some((c) => c.hexCode === color.hexCode)
-        );
-
-        if (newColors.length === 0) {
-            alert("Selected color already exists in More Colors or nothing selected.");
-            return;
-        }
-
-        setMoreColors((prev) => [...prev, ...newColors]);
-
-        setSelectedColors([]);
-        setIsColorSelected(false);
+        setSelectedColors(modalSelectedColors); // FULLY REPLACE
+        setModalSelectedColors([]);
         setIsModalOpen(false);
-    };
+        setIsInCart(false); // Reset "Add to Cart" status if new colors submitted
+      };
+      
 
     const modalRef = useRef(null);
     useEffect(() => {
@@ -139,38 +134,34 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
     const handleAddToCart = async () => {
         if (!customer?.customerId) {
-            alert("Please log in to add items to your cart.");
-            return;
+          alert("Please log in to add items to your cart.");
+          return;
         }
-
+      
         if (selectedColors.length === 0) {
-            alert("Please select a color before adding to cart.");
-            return;
+          alert("Please select a color before adding to cart.");
+          return;
         }
-
+      
         try {
-       
-
-            moreColors.forEach(async (color)=> {
-                const cart = await getCart(customer.customerId);
-                const alreadyInCart = cart?.cartItems?.some(item => item.variantId === color.id);
-    
-                if (alreadyInCart) {
-                    return;
-                } else {
-
-                    await addToCart(customer.customerId, color.id, 1);
-                }
-            })
-            
-            alert("Items added to cart");
-            setIsInCart(true);
-            setMoreColors([])
+          for (const color of selectedColors) {
+            const cart = await getCart(customer.customerId);
+            const alreadyInCart = cart?.cartItems?.some(item => item.variantId === color.id);
+      
+            if (!alreadyInCart) {
+              await addToCart(customer.customerId, color.id, 1);
+            }
+          }
+      
+          alert("Items added to cart");
+          setIsInCart(true);
+          setSelectedColors([]); // Optionally clear after adding
         } catch (error) {
-            console.error("Error adding to cart:", error);
-            alert("Failed to add item to cart!");
+          console.error("Error adding to cart:", error);
+          alert("Failed to add item to cart!");
         }
-    };
+      };
+      
 
 
     const handleAddColor = () => {
@@ -213,28 +204,14 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const hasMore = color.length > 4;
 
 
-    const handleSelectColor = (color, source) => {
-
-        
-        const alreadySelected = selectedColors.some(
-            (c) => c.hexCode === color.hexCode && c.source === source
-        );
-
+    const handleSelectColor = (item) => {
+        const alreadySelected = modalSelectedColors.find((color) => color.id === item.id);
         if (alreadySelected) {
-            // Remove if already selected
-            setSelectedColors((prev) =>
-                prev.filter(
-                    (c) => !(c.hexCode === color.hexCode && c.source === source)
-                )
-            );
+          setModalSelectedColors(modalSelectedColors.filter((color) => color.id !== item.id));
         } else {
-            // Add to selection
-            setSelectedColors((prev) => [...prev, { ...color, source }]);
+          setModalSelectedColors([...modalSelectedColors, item]);
         }
-
-        setIsColorSelected(true);
-    };
-
+      };
 
     // const handleColorSearch = (e) => {
     //     const searchText = e.target.value.toLowerCase();
@@ -247,16 +224,14 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     // };
 
     let filteredColorsTemp = [];
-    product.groupedVariants.forEach(aVarient => {
-        if (aVarient.id == product.productId) {
-            filteredColorsTemp.push(...aVarient.variants);
-        }
-        
+    product.groupedVariants.forEach((aVariant) => {
+      if (aVariant.id === product.productId) {
+        filteredColorsTemp.push(...aVariant.variants);
+      }
     });
-    filteredColorsTemp = filteredColorsTemp.filter ((aColor)=> {
-        return  !!!(moreColors.find((tempColor) =>tempColor.id ==  aColor.id )) 
-    }) 
 
+   
+    
     return (
         <div>
 
@@ -351,7 +326,13 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                 ))}
             </div> */}
 
-                            <div className="cursor-pointer flex gap-2 items-center mt-3" onClick={() => setIsModalOpen(true)}>
+                            <div className="cursor-pointer flex gap-2 items-center mt-3"
+                             onClick={() => {
+                                setIsModalOpen(true);
+                                setModalSelectedColors([...selectedColors]); 
+                              }}
+                              
+                             >
                                 <img src="/images/select-color.png" className="w-10 h-10" alt="More Colors" />
                                 <h4 className="text-sm text-center text-blue-600 font-semibold">Click here for color catalogue</h4>
                             </div>
@@ -476,11 +457,17 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
                                          <div className="grid grid-cols-3 gap-3 p-2">
-                                        {filteredColorsTemp.map((aVariant)=> {
-                                                     return <ColorCard selected={selectedColors.find((color)=> color.id == aVariant.id ) ? true : false} onSelect={handleSelectColor} item={aVariant}></ColorCard>
-                                                     
-                                                    })
-                                                }
+                                         {filteredColorsTemp.map((aVariant) => {
+                                            const isSelected = modalSelectedColors.find((color) => color.id === aVariant.id);
+                                            return (
+                                                <ColorCard
+                                                key={aVariant.id}
+                                                item={aVariant}
+                                                selected={!!isSelected}
+                                                onSelect={handleSelectColor}
+                                                />
+                                            );
+                                            })}
                                                 </div>
                                         
 
@@ -539,7 +526,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                 ADD COLOR
                                             </button>
                                         )
-                                    ) : isColorSelected ? (
+                                    ) : modalSelectedColors.length > 0 ? (
                                         <button
                                             className="bg-violet-600 text-white px-4 py-2 rounded"
                                             onClick={handleSubmitSelectedColor}
@@ -558,6 +545,44 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 </div>
                             </div>
                         </div>
+
+                        <div className="grid grid-cols-6 gap-3 p-2">
+                        {selectedColors.map((color, index) => (
+                            <div key={index} className="border-2 rounded-md overflow-hidden relative">
+                                <div className="relative h-20 w-full">
+                                <img
+                                    src="/images/wool-item-1.png"
+                                    className="w-full h-full object-cover"
+                                    alt="Product"
+                                />
+                                <div
+                                    className="absolute inset-0 opacity-50 mix-blend-multiply"
+                                    style={{ backgroundColor: color.hexCode }}
+                                ></div>
+
+                                <button
+                                   onClick={() => {
+                                    setSelectedColors((prev) =>
+                                      prev.filter((c) => c.hexCode !== color.hexCode || c.source !== color.source)
+                                    );
+                                    setIsInCart(false); // Reset the button
+                                  }}
+                                  
+                                    className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full"
+                                >
+                                    <RxCross2 size={18} />
+                                </button>
+                                </div>
+
+                                <div className="flex flex-col items-center p-1">
+                                <p className="text-black text-sm font-semibold">{color.colorName}</p>
+                                <p className="text-gray-600 text-xs">{color.hexCode}</p>
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+
+
                         <div className='mt-6'>
                             <div className='overflow-auto'>
                                 <div className="grid grid-cols-6 gap-3 p-2">
@@ -593,14 +618,17 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className='d-flex gap-2 mt-2'>
-                            <button
-                                onClick={handleCartButtonClick}
-                                className="d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md bg-purple-100 purple-text">
-                                ADD TO CART
-                                <span><MdOutlineShoppingCart size={20} /></span>
-                            </button>
+                        <div className="d-flex gap-2 mt-2">
+                        <button
+                            onClick={handleCartButtonClick}
+                            className={`d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md 
+                            ${isInCart ? "bg-green-500 text-white" : "bg-purple-100 purple-text"}`}
+                        >
+                            {isInCart ? "GO TO CART" : "ADD TO CART"}
+                            <span><MdOutlineShoppingCart size={20} /></span>
+                        </button>
                         </div>
+
                         <div className='grid grid-cols-2 gap-3 mt-8 text-sm md:text-md'>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Organic</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>SKU:</span> FWM15VKT</h5>

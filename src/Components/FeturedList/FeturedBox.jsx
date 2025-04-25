@@ -28,7 +28,7 @@ const FeturedBox = ({productName,number,color = 1}) => {
   </div>
 
   <img
-    src="/images/Picture2.png"
+    src="/images/Yarn4.jpg"
     alt=""
     className="h-80 w-full rounded-tr-3xl object-cover"
     style={{height:'10rem'}}

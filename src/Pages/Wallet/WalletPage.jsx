@@ -7,6 +7,8 @@ import Footer from "../../Components/Footer/Footer";
 import { RiFilePaper2Line } from "react-icons/ri";
 import { getWalletTransactions } from "../../Services/CustomerService";
 import BottomNav from "../../Components/BottomNav/BottomNav";
+import { ArrowDownToLine } from 'lucide-react';
+
 
 const WalletPage = () => {
   const [transactions, setTransactions] = useState([]);
@@ -71,19 +73,25 @@ const WalletPage = () => {
         ) : transactions.length > 0 ? (
           <div className="overflow-x-auto">
             <h3 className="text-xl font-bold my-3">Last Transactions</h3>
-            <table className="w-full border-collapse border border-gray-300">
+            <table className="w-full border-collapse border border-gray-300 ">
               <thead>
                 <tr className="bg-gray-100 text-center">
                   <th className="border border-gray-300 p-2">Source</th>
+                  <th className="border border-gray-300 p-2">Invoice No.</th>
                   <th className="border border-gray-300 p-2">Type</th>
                   <th className="border border-gray-300 p-2">Amount</th>
                   <th className="border border-gray-300 p-2">Date</th>
+                  <th  className="border border-gray-300 p-2" >Credit Note</th>
+
                 </tr>
               </thead>
               <tbody>
                 {transactions.slice().reverse().map((item, index) => (
                   <tr key={index} className="text-center">
                     <td className="border border-gray-300 p-2">{item.source}</td>
+                    <td class="text-center pr-4">
+  <span class="text-sm font-medium text-gray-700">INV-10234</span>
+</td>
                     <td
                       className="border border-gray-300 p-2 font-semibold"
                       style={{ color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000" }}
@@ -94,6 +102,18 @@ const WalletPage = () => {
                     <td className="border border-gray-300 p-2">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>
+                    <td className=" text-center pr-4">
+  <button
+    // onClick={(e) => {
+    //   e.stopPropagation();
+    //   handleDownloadInvoice(order.orderId);
+    // }}
+    className="text-violet-800 hover:text-violet-600"
+    title="Download Invoice"
+  >
+    <ArrowDownToLine size={20} />
+  </button>
+</td>
                   </tr>
                 ))}
               </tbody>

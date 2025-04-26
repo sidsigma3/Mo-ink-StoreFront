@@ -44,6 +44,9 @@ import TermOfUse from './Pages/Term Of Use/TermOfUse';
 import ShippingPolicy from './Pages/Shipping Policy/ShippingPolicy';
 import PaymentSuccess from './Pages/Payment Success/PaymentSuccess';
 import PaymentFailure from './Pages/Payment Failure/PaymentFailure';
+import OrderIssues from './Pages/Order Issues/OrderIssue';
+import DeliveryInfo from './Pages/DeliveryInfo/DeliveryInfo';
+import ReturnInfo from './Pages/ReturnInfo/ReturnInfo';
 
 
 function App() {
@@ -116,6 +119,12 @@ function App() {
                   <Route path="/shippingpolicy" element={<ShippingPolicy />} />
                   <Route path="/paymentSuccess" element={<PaymentSuccess/>} />
                   <Route path="/paymentFail" element={<PaymentFailure/>} />
+                  <Route path="/orderIssues" element={<OrderIssues/>} />
+                  <Route path="/deliveryInfo" element={<DeliveryInfo/>} />
+                  <Route path="/returnInfo" element={<ReturnInfo/>} />
+
+                  
+                  
                 </Routes>
               </div>
             

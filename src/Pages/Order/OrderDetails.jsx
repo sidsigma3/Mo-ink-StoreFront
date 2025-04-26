@@ -16,6 +16,7 @@ import { fetchProductsById } from '../../Services/ProductService'
 import { useLocation } from 'react-router-dom'
 import { downloadInvoice } from '../../Services/InvoiceService'
 import { getDiscountById } from '../../Services/DiscountService'
+import { Link } from 'react-router-dom'
 
 const OrderDetails = () => {
 
@@ -330,29 +331,29 @@ const OrderDetails = () => {
                     <h5 className='font-semibold text-lg'>Need Help</h5>
 
                     <div className='flex flex-col gap-3 mt-6'>
-                        <div className='flex gap-4 items-center text-gray-500 font-medium'>
-                            <div className='flex gap-2 items-center'>
-                                <span><AiOutlineIssuesClose size={20}/></span>
-                                <p>Order Issues</p>
-                            </div>
-                            <span><MdArrowOutward /></span>
-                        </div>
+                    <Link to="/orderissues" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
+  <div className="flex gap-2 items-center">
+    <span><AiOutlineIssuesClose size={20} /></span>
+    <p>Order Issues</p>
+  </div>
+  <span><MdArrowOutward /></span>
+</Link>
 
-                        <div className='flex gap-4 items-center text-gray-500 font-medium'>
-                            <div className='flex gap-2 items-center'>
-                                <span><HiOutlineTruck size={20}/></span>
-                                <p>Delivery Info</p>
-                            </div>
-                            <span><MdArrowOutward /></span>
-                        </div>
+<Link to="/deliveryInfo" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
+  <div className="flex gap-2 items-center">
+    <span><HiOutlineTruck size={20} /></span>
+    <p>Delivery Info</p>
+  </div>
+  <span><MdArrowOutward /></span>
+</Link>
 
-                        <div className='flex gap-4 items-center text-gray-500 font-medium'>
-                            <div className='flex gap-2 items-center'>
-                                <span><LuBox size={20}/></span>
-                                <p>Returns</p>
-                            </div>
-                            <span><MdArrowOutward /></span>
-                        </div>
+<Link to="/ReturnInfo" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
+  <div className="flex gap-2 items-center">
+    <span><LuBox size={20} /></span>
+    <p>Returns</p>
+  </div>
+  <span><MdArrowOutward /></span>
+</Link>
                     </div>
 
                 </div>

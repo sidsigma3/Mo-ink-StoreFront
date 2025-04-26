@@ -9,12 +9,12 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 import { MdOutlineShield } from "react-icons/md";
 
 
-const ShippingPolicy = () => {
+const OrderIssues = () => {
 
   
     const breadcrumbs = [
       { label: "Home", link: "/home" },
-      { label: "Shipping Policy", link: "/shippingPolicy" },
+      { label: "Order Issues", link: "/OrderIssues" },
     ];
   
     return (
@@ -24,7 +24,7 @@ const ShippingPolicy = () => {
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
 
         <div className='px-6 md:px-14 py-3 mt-0 md:mt-10 md:text-md'>
-            <HeroSection productName={"Shipping Policy"} breadcrumbs={breadcrumbs}></HeroSection>
+            <HeroSection productName={"Order Issues"} breadcrumbs={breadcrumbs}></HeroSection>
         </div>
          
   
@@ -41,85 +41,61 @@ const ShippingPolicy = () => {
 
           {/* Introduction */}
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Shipping Policies</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, tempora praesentium id in ipsa tempore molestias illum cum suscipit beatae.
-                         </p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Order Issues</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            At Ink n Dyes, we prioritize delivering a smooth and reliable experience for all our customers. However, we understand that occasional issues may arise with your order. Rest assured, we are here to help you resolve them as quickly as possible.
+            </p>
           </div>
 
-          {/* Policy Sections */}
-          <div className="space-y-6">
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Bulk Orders & Custom Orders</h3>
-              <p className="text-gray-600">
-              As a store specializing in bulk yarn manufacturing, we process and fulfill large orders tailored to your specific requirements. All orders are custom-made to meet the particular needs of our clients, including color, material, and quantity specifications. Because of the custom nature of these bulk orders, we do not accept returns or offer refunds on orders once they have been processed and shipped.
-              </p>
-            </section>
+          {/* Order Issues Section */}
+<div className="space-y-6">
+  <section>
+    
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">Common Order Issues We Address:</h4>
+    <ul className="list-disc list-inside text-gray-600 space-y-2 mb-6">
+      <li>Delayed or missing deliveries</li>
+      <li>Incorrect product or quantity received</li>
+      <li>Damaged or defective yarn</li>
+      <li>Inconsistencies in dyeing quality</li>
+      <li>Tracking information not updating</li>
+    </ul>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">2. Non-Returnable Items</h3>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                Due to the specialized nature of our products, all yarn products, including cotton, silk, nylon, polyester, and blends, are considered non-returnable. If you have ordered yarn in bulk, please ensure the specifications of the order (including color, material, quantity, and quality) are carefully reviewed before finalizing your purchase.
-                </p>
-                <p className="text-gray-600">
-                  If approved, your refund will be processed, and a credit will automatically be applied to your original method of payment within 5-10 business days.
-                </p>
-              </div>
-            </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">How to Report an Issue:</h4>
+    <ol className="list-decimal list-inside text-gray-600 space-y-2 mb-6">
+      <li>Log in to your Ink n Dyes account.</li>
+      <li>Navigate to "My Orders" and select the relevant order.</li>
+      <li>Click on "Report an Issue" and select the issue type.</li>
+      <li>Provide a brief description and upload any relevant documents or photos.</li>
+      <li>Our support team will get back to you within 24 to 48 hours.</li>
+    </ol>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Order Accuracy</h3>
-              <p className="text-gray-600">
-              We strongly encourage customers to double-check their order details (such as quantity, yarn type, color, and other specifications) before submitting it. Once the order is processed, we begin preparation, and changes or cancellations cannot be accommodated. </p>
-            </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">For Urgent Assistance:</h4>
+    <p className="text-gray-600 mb-4">
+      You can also contact our support team directly:
+    </p>
+    <div className="space-y-2">
+      <p className="text-gray-600">
+        <span className="font-medium text-gray-900">Phone/WhatsApp:</span> [Your Support Number]
+      </p>
+      <p className="text-gray-600">
+        <span className="font-medium text-gray-900">Email:</span> <a href="mailto:support@inkndyes.com" className="text-blue-600 hover:text-blue-700">support@inkndyes.com</a>
+      </p>
+      <p className="text-gray-600">
+        <span className="font-medium text-gray-900">Live Chat:</span> Available on our website and mobile app
+      </p>
+    </div>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">4. Damaged or Defective Goods</h3>
-              <p className="text-gray-600">
-              We strive to maintain the highest quality in our products. However, if you receive a damaged or defective product, please contact us immediately within 7 days of receipt. We will investigate the issue and, if found to be at fault, offer a replacement of the defective item. Please note that we may request photographic evidence of the damage or defect for verification purposes.              </p>
-            </section>
+    <p className="text-gray-600 mt-6">
+      We are committed to resolving your concerns swiftly and ensuring your continued satisfaction with our services. Thank you for choosing Ink n Dyes.
+    </p>
+  </section>
+</div>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Order Cancellation</h3>
-              <p className="text-gray-600">
-              Once an order is placed and processed, cancellation requests are not accepted due to the custom and bulk nature of our manufacturing process. Please ensure all details are correct at the time of order placement.              </p>
-            </section>
-
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">6. Refund Process for Accepted Returns</h3>
-              <p className="text-gray-600">
-              In exceptional cases where a return is authorized (e.g., defective or incorrect goods), refunds will be processed once the returned items are received and inspected. If a refund is applicable, it will be credited to your original method of payment within 10-15 business days, depending on the payment provider's policies. </p>           </section>
-
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">7. Shipping Fees</h3>
-              <p className="text-gray-600">
-              Shipping costs are non-refundable. If a refund is issued due to a defective or incorrect product, the customer may be responsible for the cost of return shipping, unless otherwise specified.     </p>        </section>
-
-
-
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Contact Us</h3>
-              <p className="text-gray-600">
-                If you have any questions about our refund policy, please contact our customer service team:
-              </p>
-              <div className="mt-4">
-                <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
-                </a>
-              </div>
-              <div className="mt-4">
-                <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
-                </a>
-              </div>
-            </section>
-          </div>
 
           {/* Last Updated */}
           <div className="mt-12 pt-8 border-t border-gray-100">
             <p className="text-sm text-gray-500 text-center">
-              Last updated: March 2025
+              Last updated: April 2025
             </p>
           </div>
         </div>
@@ -132,4 +108,4 @@ const ShippingPolicy = () => {
   );
 }
   
-  export default ShippingPolicy
+  export default OrderIssues

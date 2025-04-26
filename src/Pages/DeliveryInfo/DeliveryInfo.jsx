@@ -9,12 +9,12 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 import { MdOutlineShield } from "react-icons/md";
 
 
-const ShippingPolicy = () => {
+const DeliveryInfo = () => {
 
   
     const breadcrumbs = [
       { label: "Home", link: "/home" },
-      { label: "Shipping Policy", link: "/shippingPolicy" },
+      { label: "Delivery Information", link: "/deliveryinfo" },
     ];
   
     return (
@@ -24,7 +24,7 @@ const ShippingPolicy = () => {
         <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
 
         <div className='px-6 md:px-14 py-3 mt-0 md:mt-10 md:text-md'>
-            <HeroSection productName={"Shipping Policy"} breadcrumbs={breadcrumbs}></HeroSection>
+            <HeroSection productName={"Delivery Information"} breadcrumbs={breadcrumbs}></HeroSection>
         </div>
          
   
@@ -41,85 +41,66 @@ const ShippingPolicy = () => {
 
           {/* Introduction */}
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Shipping Policies</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, tempora praesentium id in ipsa tempore molestias illum cum suscipit beatae.
-                         </p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Delivery Information</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            At Ink n Dyes, we ensure that your yarn and dyed materials reach you safely, efficiently, and on time. We’ve designed our delivery process to meet the unique needs of weavers, manufacturers, and textile businesses of all sizes.                         </p>
           </div>
 
-          {/* Policy Sections */}
-          <div className="space-y-6">
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Bulk Orders & Custom Orders</h3>
-              <p className="text-gray-600">
-              As a store specializing in bulk yarn manufacturing, we process and fulfill large orders tailored to your specific requirements. All orders are custom-made to meet the particular needs of our clients, including color, material, and quantity specifications. Because of the custom nature of these bulk orders, we do not accept returns or offer refunds on orders once they have been processed and shipped.
-              </p>
-            </section>
+          {/* Delivery Coverage Section */}
+<div className="space-y-6">
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-6">Delivery Coverage</h3>
+    <p className="text-gray-600 mb-6">
+      We offer pan-India shipping, including to remote weaving clusters. International shipping is also available on request.
+    </p>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">2. Non-Returnable Items</h3>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                Due to the specialized nature of our products, all yarn products, including cotton, silk, nylon, polyester, and blends, are considered non-returnable. If you have ordered yarn in bulk, please ensure the specifications of the order (including color, material, quantity, and quality) are carefully reviewed before finalizing your purchase.
-                </p>
-                <p className="text-gray-600">
-                  If approved, your refund will be processed, and a credit will automatically be applied to your original method of payment within 5-10 business days.
-                </p>
-              </div>
-            </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">Delivery Timelines:</h4>
+    <ul className="list-disc list-inside text-gray-600 space-y-2 mb-6">
+      <li><span className="font-medium text-gray-900">Standard Orders:</span> Dispatched within 2–3 business days</li>
+      <li><span className="font-medium text-gray-900">Custom Dyed Orders:</span> Dispatched within 5–7 business days</li>
+      <li><span className="font-medium text-gray-900">Express Delivery:</span> Available in select regions (charges apply)</li>
+    </ul>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Order Accuracy</h3>
-              <p className="text-gray-600">
-              We strongly encourage customers to double-check their order details (such as quantity, yarn type, color, and other specifications) before submitting it. Once the order is processed, we begin preparation, and changes or cancellations cannot be accommodated. </p>
-            </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">Tracking Your Order:</h4>
+    <p className="text-gray-600 mb-6">
+      Once your order is dispatched, you will receive a tracking link via SMS and email. You can also track your order anytime from the "My Orders" section in your account.
+    </p>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">4. Damaged or Defective Goods</h3>
-              <p className="text-gray-600">
-              We strive to maintain the highest quality in our products. However, if you receive a damaged or defective product, please contact us immediately within 7 days of receipt. We will investigate the issue and, if found to be at fault, offer a replacement of the defective item. Please note that we may request photographic evidence of the damage or defect for verification purposes.              </p>
-            </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">Shipping Partners:</h4>
+    <p className="text-gray-600 mb-6">
+      We work with reliable logistics providers to ensure timely and safe deliveries, with real-time tracking support.
+    </p>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Order Cancellation</h3>
-              <p className="text-gray-600">
-              Once an order is placed and processed, cancellation requests are not accepted due to the custom and bulk nature of our manufacturing process. Please ensure all details are correct at the time of order placement.              </p>
-            </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">Delivery Charges:</h4>
+    <ul className="list-disc list-inside text-gray-600 space-y-2 mb-6">
+      <li>Free delivery on bulk orders above [Enter amount or quantity]</li>
+      <li>Standard delivery charges apply on smaller orders (visible at checkout)</li>
+    </ul>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">6. Refund Process for Accepted Returns</h3>
-              <p className="text-gray-600">
-              In exceptional cases where a return is authorized (e.g., defective or incorrect goods), refunds will be processed once the returned items are received and inspected. If a refund is applicable, it will be credited to your original method of payment within 10-15 business days, depending on the payment provider's policies. </p>           </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">Important Notes:</h4>
+    <ul className="list-disc list-inside text-gray-600 space-y-2 mb-6">
+      <li>Please ensure that your shipping address and contact details are accurate at the time of placing the order.</li>
+      <li>In case of remote locations, delivery times may vary slightly.</li>
+      <li>For urgent or scheduled deliveries, contact our support team.</li>
+    </ul>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">7. Shipping Fees</h3>
-              <p className="text-gray-600">
-              Shipping costs are non-refundable. If a refund is issued due to a defective or incorrect product, the customer may be responsible for the cost of return shipping, unless otherwise specified.     </p>        </section>
+    <h4 className="text-xl font-semibold text-gray-800 mb-2">Need Help?</h4>
+    <div className="space-y-2">
+      <p className="text-gray-600">
+        <span className="font-medium text-gray-900">Phone/WhatsApp:</span> [Your Support Number]
+      </p>
+      <p className="text-gray-600">
+        <span className="font-medium text-gray-900">Email:</span> <a href="mailto:support@inkndyes.com" className="text-blue-600 hover:text-blue-700">support@inkndyes.com</a>
+      </p>
+    </div>
+  </section>
+</div>
 
-
-
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Contact Us</h3>
-              <p className="text-gray-600">
-                If you have any questions about our refund policy, please contact our customer service team:
-              </p>
-              <div className="mt-4">
-                <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
-                </a>
-              </div>
-              <div className="mt-4">
-                <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
-                </a>
-              </div>
-            </section>
-          </div>
 
           {/* Last Updated */}
           <div className="mt-12 pt-8 border-t border-gray-100">
             <p className="text-sm text-gray-500 text-center">
-              Last updated: March 2025
+              Last updated: April 2025
             </p>
           </div>
         </div>
@@ -132,4 +113,4 @@ const ShippingPolicy = () => {
   );
 }
   
-  export default ShippingPolicy
+  export default DeliveryInfo

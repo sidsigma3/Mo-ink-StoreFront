@@ -3,6 +3,15 @@ import { fetchProductsById } from '../../Services/ProductService';
 import { Undo2 } from 'lucide-react';
 import ReturnModal from '../Modal/ReturnModal';
 
+const statusClassMap = {
+  "New Order": "bg-blue-100 border border-blue-400 text-blue-600",
+  "Shipped": "bg-yellow-100 border border-yellow-400 text-yellow-700",
+  "Manufactured": "bg-purple-100 border border-purple-400 text-purple-700",
+  "Delivered": "bg-green-100 border border-green-400 text-green-600",
+  "Cancelled": "bg-red-100 border border-red-400 text-red-600",
+  "Returned": "bg-gray-100 border border-gray-400 text-gray-600",
+};
+
 const OrderListBox = ({ item }) => {
   const [productName, setProductName] = useState("Product");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,6 +19,7 @@ const OrderListBox = ({ item }) => {
   const [returnRequested, setReturnRequested] = useState(false);
 
   const totalPrice = parseFloat(item.orderWeight) * item.pricePerKg;
+  const status = item.status || "New Order";
 
   useEffect(() => {
     const getProductName = async () => {
@@ -33,39 +43,74 @@ const OrderListBox = ({ item }) => {
   };
 
   return (
-    <div className="grid grid-cols-10 gap-4 relative">
-      <div>
-        <img src="/images/wool-item-1.png" className="h-30 rounded-md w-full" />
+    <div className="grid grid-cols-10 gap-2 relative p-4 justify-center rounded-lg bg-white">
+      
+      {/* Product Image */}
+      <div className="col-span-2 flex items-center justify-end">
+        <img
+          src="/images/wool-item-1.png"
+          className="rounded-md size-32"
+          alt="Product"
+        />
       </div>
 
-      <div className="col-span-7">
-        <h3 className="text-xl font-semibold">
-          {productName} - {item.size}
-        </h3>
+      {/* Product Info */}
+      <div className="col-span-2 flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl font-semibold">
+            {productName} - {item.size}
+          </h3>
+          <div className="flex gap-2 items-center mt-2">
+            <div
+              className="w-6 h-6 rounded-full border"
+              style={{ backgroundColor: item.color.hexCode }}
+            ></div>
+            <h5 className="text-gray-700">({item.color.colorName})</h5>
+          </div>
+        </div>
 
-        <div className="flex gap-2 items-center mt-2">
-          <div
-            className="w-6 h-6 rounded-full"
-            style={{ backgroundColor: item.color.hexCode }}
-          ></div>
-          <h5>({item.color.colorName})</h5>
+        {/* Mobile Status */}
+        <div className="block lg:hidden mt-3">
+          <span
+            className={`text-sm font-medium px-3 py-1 rounded ${statusClassMap[status] || ''}`}
+          >
+            {status}
+          </span>
         </div>
       </div>
 
-      <div className="col-span-2 flex flex-col justify-center items-end relative">
+      {/* Status Badge (Desktop) */}
+      <div className="col-span-3 hidden lg:flex justify-center items-center">
+        <span
+          className={`text-md font-semibold px-4 py-1 rounded-md ${statusClassMap[status] || ''}`}
+        >
+          {status}
+        </span>
+      </div>
+
+      {/* Pricing and Return Button */}
+      <div className="col-span-3 flex flex-col justify-center items-center relative">
         <div className="flex items-center gap-2">
-          <div>
-            <h4 className="text-2xl font-bold text-violet-800">₹{totalPrice.toFixed(0)}</h4>
-            <p className="font-medium text-gray-500">Weight: {item.orderWeight}KG</p>
+          <div className="text-right">
+            <h4 className="text-2xl font-bold text-violet-800">
+              ₹{totalPrice.toFixed(0)}
+            </h4>
+            <p className="text-gray-500 font-medium">
+              Weight: {item.orderWeight}KG
+            </p>
+
             {returnRequested && (
               <span className="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
-  <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
-  Return Requested
-</span>
+                <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
+                Return Requested
+              </span>
             )}
           </div>
+
           <button
-            className={`text-gray-500 ms-3 hover:text-gray-900 focus:outline-none ${returnRequested ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`text-gray-500 ms-3 hover:text-gray-900 focus:outline-none ${
+              returnRequested ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             onClick={() => {
               if (!returnRequested) {
                 setDropdownOpen(!dropdownOpen);
@@ -92,6 +137,7 @@ const OrderListBox = ({ item }) => {
         )}
       </div>
 
+      {/* Return Modal */}
       <ReturnModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

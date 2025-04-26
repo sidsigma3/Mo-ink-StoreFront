@@ -6,7 +6,7 @@ const MainHero = () => {
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center z-0 rounded-3xl max-h-screen"
-        style={{ backgroundImage: "url('/images/MainHero_Banner.png')" }}
+        style={{ backgroundImage: "url(https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Banner.png?updatedAt=1745685185559)" }}
       ></div>
 
       {/* Content Container */}

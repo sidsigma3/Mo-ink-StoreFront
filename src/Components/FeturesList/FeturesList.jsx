@@ -1,49 +1,71 @@
-import React from 'react'
-import { RiTruckLine } from "react-icons/ri";
-import { FaIndianRupeeSign } from "react-icons/fa6";
-import { TbRosetteDiscount } from "react-icons/tb";
-import { LuHeadphones } from "react-icons/lu";
+import React from "react";
+import { FaShoppingCart, FaGlobe, FaStar, FaTags, FaTruck, FaYarn, FaCreditCard, FaAssistiveListeningSystems } from "react-icons/fa";
 
-const FeturesList = () => {
+const FeaturesList = () => {
+  const features = [
+    {
+      icon: <FaShoppingCart className="text-purple-500 text-4xl" />,
+      title: "User-Friendly Platform",
+      description: "Easily navigate and shop with our intuitive platform designed for a seamless experience.",
+    },
+    {
+      icon: <FaGlobe className="text-purple-500 text-4xl" />,
+      title: "Digital Ecosystem",
+      description: "Connect across the entire supply chain with our advanced digital infrastructure.",
+    },
+    {
+      icon: <FaStar className="text-purple-500 text-4xl" />,
+      title: "Quality Selection",
+      description: "Access a wide range of premium products carefully curated for your needs.",
+    },
+    {
+      icon: <FaTags className="text-purple-500  text-4xl" />,
+      title: "Transparent Pricing",
+      description: "Benefit from clear and competitive pricing with no hidden costs.",
+    },
+    {
+      icon: <FaTruck className="text-purple-500 text-4xl" />,
+      title: "Efficient Logistics",
+      description: "Enjoy fast, reliable, and efficient delivery services.",
+    },
+    {
+      icon: <FaYarn className="text-purple-500 text-4xl" />,
+      title: "Unique Yarn Offerings",
+      description: "Discover exclusive yarn varieties to meet your unique project requirements.",
+    },
+    {
+      icon: <FaCreditCard className="text-purple-500 text-4xl" />,
+      title: "Low-Interest Credit",
+      description: "Take advantage of flexible payment options with low-interest credit facilities.",
+    },
+    {
+      icon: <FaAssistiveListeningSystems className="text-purple-500 text-4xl" />,
+      title: "Buy Assist Program",
+      description: "Get personalized assistance and guidance throughout your buying journey.",
+    },
+  ];
+
   return (
-    <div className='grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 md:gap-2 gap-4'>
-        <div className='p-4 rounded-2xl md:rounded-r-[0] md:rounded-l-2xl bg-gray-200 d-flex align-items-center gap-3 justify-content-center'>
-            <span className='text-violet-800'><RiTruckLine size={40}/></span>
-            <div>
-                <h4 className='text-lg font-semibold'>Pan-India Delivery</h4>
-                <p className='font-medium text-base'>We’ve got every pin code covered.</p>
+    <section className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-4xl font-bold text-center mb-16">Valued Additions</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center text-center p-6 border border-bottom border-purple-200 rounded-lg"
+            >
+              <div className="flex items-center justify-center w-20 h-20 rounded-2xl bg-white shadow-lg mb-6">
+                {feature.icon}
+              </div>
+              <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
+              <p className="text-gray-500 text-sm">{feature.description}</p>
             </div>
+          ))}
         </div>
+      </div>
+    </section>
+  );
+};
 
-
-        <div className='p-4 rounded-2xl md:rounded-l-[0] lg:rounded-[0] bg-gray-200 d-flex align-items-center gap-3 justify-content-center'>
-            <span className='text-violet-800'><FaIndianRupeeSign size={30}/></span>
-            <div>
-                <h4 className='text-lg font-semibold'>Return & Refund</h4>
-                <p className='font-medium text-base'>Money back gurantee</p>
-            </div>
-        </div>
-
-
-
-        <div className='p-4 rounded-2xl md:rounded-r-[0] lg:rounded-[0] bg-gray-200 d-flex align-items-center gap-3 justify-content-center'>
-            <span className='text-violet-800'><TbRosetteDiscount size={40}/></span>
-            <div>
-                <h4 className='text-lg font-semibold'>Member Discount</h4>
-                <p className='font-medium text-base'>For selected customers</p>
-            </div>
-        </div>
-
-        <div className='p-4 rounded-2xl md:rounded-l-[0] bg-gray-200 d-flex align-items-center gap-3 justify-content-center'>
-            <span className='text-violet-800'><LuHeadphones size={35}/></span>
-            <div>
-                <h4 className='text-lg font-semibold'>Support 24/7</h4>
-                <p className='font-medium text-base'>Contact us hours a day</p>
-            </div>
-        </div>
-
-    </div>
-  )
-}
-
-export default FeturesList
+export default FeaturesList;

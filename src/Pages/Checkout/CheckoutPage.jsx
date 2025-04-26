@@ -327,6 +327,8 @@ const CheckoutPage = () => {
                 localStorage.setItem("allProducts", JSON.stringify(allProducts));
             }
     
+            console.log(cartData)
+
             const cartProducts = cartData.map((item) => {
                 const product = allProducts.find((p) =>
                     p.variants.some((v) => v.id === item.variantId)
@@ -349,6 +351,7 @@ const CheckoutPage = () => {
                 };
             }).filter(Boolean);
     
+            console.log(cartProducts)
             setCartItems(cartProducts);
         } catch (error) {
             console.error("Failed to fetch orders:", error);

@@ -30,3 +30,15 @@ export const fetchProducts = async () => {
     return { success: false, message: error.response?.data?.message || "Failed to fetch products." };
   }
 };
+
+export const updateProduct = async (productId, productData) => {
+  try {
+    const response = await axios.put(`${API_URL}/${productId}`, productData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw error;
+  }
+};
+
+

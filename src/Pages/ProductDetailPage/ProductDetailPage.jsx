@@ -14,7 +14,7 @@ import BottomNav from '../../Components/BottomNav/BottomNav';
 import { addToWishlist, removeFromWishlist } from "../../Services/WishlistService";
 import { getCart, removeFromCart, addToCart } from "../../Services/CartService"
 import { RxCross2 } from "react-icons/rx";
-
+import { updateProduct , fetchProductsById, fetchProducts} from '../../Services/ProductService'
 
 const ColorCard = ({item , onSelect, selected = false,disabled}) => {
 
@@ -164,27 +164,113 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
       
 
 
-    const handleAddColor = () => {
-        const uniqueNewColors = tempCustomColors.filter(
-            (newColor) =>
-                !customColors.some(
-                    (existingColor) =>
-                        existingColor.colorName === newColor.colorName ||
-                        existingColor.hexCode === newColor.hexCode
-                )
-        );
-
-        if (uniqueNewColors.length === 0) {
-            alert("Color already added!");
-            return;
+      const handleAddColor = async () => {
+        if (tempCustomColors.length === 0) {
+          alert("Please add at least one color before saving.");
+          return;
         }
+      
+        const confirmAdd = window.confirm("Are you sure you want to add these colors as new variants?");
+        if (!confirmAdd) return;
+      
+        try {
+          const response = await fetchProductsById(product.productId); // 👈 pass correct id
+          const productData = response.data;
+      
+          const uniqueSizes = [...new Set(productData.variants.map(v => v.size))];
+      
+          const newVariants = tempCustomColors.flatMap((color) =>
+            uniqueSizes.map((size) => ({
+              size,
+              color: {
+                colorName: color.colorName,
+                hexCode: color.hexCode,
+              },
+              availableWeight: 100,
+              pricePerKg: 150,
+              costPerKg: 200,
+              markupPricePerKg: 250,
+            }))
+          );
+      
+          const originalGrouped = productData.groupedVariants || [];
+          const isNewVariant = (variant) => {
+            const group = originalGrouped.find(g => g.size === variant.size);
+            return !group?.variants.some(
+              existing =>
+                existing.colorName.toLowerCase() === variant.color.colorName.toLowerCase() &&
+                existing.hexCode.toLowerCase() === variant.color.hexCode.toLowerCase()
+            );
+          };
+      
+          const filteredNewVariants = newVariants.filter(isNewVariant);
+          if (filteredNewVariants.length === 0) {
+            alert("All selected colors already exist.");
+            return;
+          }
+      
+          const formattedData = {
+            title: productData.productName,
+            description: productData.productDescription,
+            media: productData.productImage || [],
+            availableStatus: productData.availableStatus,
+            gstOnProduct: Number(productData.gstOnProduct || 0),
+            productType: productData.productTypes || {
+              productName: productData.productName,
+              description: productData.productDescription,
+            },
+            variants: filteredNewVariants,
+            deletedVariantIds: [],
+          };
+      
+          // 🔥 Save new variants
+          await updateProduct(product.productId, formattedData);
+      
+          // ✅ Refetch updated product
+          const updatedProductRes = await fetchProductsById(product.productId);
+          const updatedVariants = updatedProductRes.data.variants || [];
+      
+          // ✅ Match tempCustomColors to get IDs
+          const seenHexCodes = new Set();
+          const updatedColorsWithIds = [];
+      
+          updatedVariants.forEach(variant => {
+            const hexCode = variant.color.hexCode.toLowerCase();
+      
+            if (!seenHexCodes.has(hexCode)) {
+              const match = tempCustomColors.find(
+                temp =>
+                  temp.colorName.toLowerCase() === variant.color.colorName.toLowerCase() &&
+                  temp.hexCode.toLowerCase() === variant.color.hexCode.toLowerCase()
+              );
+      
+              if (match) {
+                updatedColorsWithIds.push({
+                  ...match,
+                  id: variant.id,
+                });
+      
+                seenHexCodes.add(hexCode);
+              }
+            }
+          });
 
-        setCustomColors((prev) => [...prev, ...uniqueNewColors]);
+          const allProductsResponse = await fetchProducts();
+          const allProductsData = allProductsResponse.data || [];
 
-        setPresetColors((prev) => [...prev, ...uniqueNewColors]);
-        setTempCustomColors([]);
-        setIsAddingColor(false);
-    };
+          localStorage.setItem('allProducts', JSON.stringify(allProductsData));
+
+          setCustomColors((prev) => [...prev, ...updatedColorsWithIds]);
+          setTempCustomColors([]);
+          setIsAddingColor(false);
+          alert("New color variants added successfully!");
+      
+        } catch (error) {
+          console.error("Error adding color variants:", error);
+          alert("Failed to add color variants. Please try again.");
+        }
+      };
+      
 
     if (!product) return <p>No product details available</p>;
 
@@ -224,12 +310,14 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     // };
 
     let filteredColorsTemp = [];
-    product.groupedVariants.forEach((aVariant) => {
-      if (aVariant.id === product.productId) {
-        filteredColorsTemp.push(...aVariant.variants);
-      }
-    });
 
+    if (product?.groupedVariants?.length > 0) {
+      product.groupedVariants.forEach((groupedVariant) => {
+        if (groupedVariant.size === size) {  // 👉 Match based on selected size
+          filteredColorsTemp.push(...groupedVariant.variants);
+        }
+      });
+    }
    
     
     return (
@@ -437,21 +525,30 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                               
 
-                                        {customColors.length === 0 ?  (
-                                            <div
-                                                className="flex flex-col items-center justify-center bg-gray-100 p-3 cursor-pointer"
-                                                onClick={() => setIsAddingColor(true)}
-                                            >
-                                                <span>
-                                                    <FaPlus />
-                                                </span>
-                                                <h4>Add new color</h4>
-                                            </div>
-                                        ) : <div className="grid grid-cols-3 gap-3 p-2">
-                                        {customColors.map((item, index) => (
-                                            <ColorCard  onSelect={handleSelectColor} item={item}></ColorCard>
-                                        ))}
-                                    </div>}
+                                        {customColors.length === 0 ? (
+                                        <div
+                                            className="flex flex-col items-center justify-center bg-gray-100 p-3 cursor-pointer"
+                                            onClick={() => setIsAddingColor(true)}
+                                        >
+                                            <span><FaPlus /></span>
+                                            <h4>Add new color</h4>
+                                        </div>
+                                        ) : (
+                                        <div className="grid grid-cols-3 gap-3 p-2">
+                                            {customColors.map((item) => {
+                                            const isSelected = modalSelectedColors.find((color) => color.id === item.id);
+                                            return (
+                                                <ColorCard
+                                                key={item.id}
+                                                item={item}
+                                                selected={!!isSelected}
+                                                onSelect={handleSelectColor}
+                                                />
+                                            );
+                                            })}
+                                        </div>
+                                        )}
+
 
 
 
@@ -460,14 +557,14 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                          {filteredColorsTemp.map((aVariant) => {
                                             const isSelected = modalSelectedColors.find((color) => color.id === aVariant.id);
                                             return (
-                                                <ColorCard
+                                            <ColorCard
                                                 key={aVariant.id}
                                                 item={aVariant}
                                                 selected={!!isSelected}
                                                 onSelect={handleSelectColor}
-                                                />
+                                            />
                                             );
-                                            })}
+                                        })}
                                                 </div>
                                         
 

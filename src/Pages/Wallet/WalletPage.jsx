@@ -89,7 +89,7 @@ const WalletPage = () => {
                 {transactions.slice().reverse().map((item, index) => (
                   <tr key={index} className="text-center">
                     <td className="border border-gray-300 p-2">{item.source}</td>
-                    <td class="text-center pr-4">
+                    <td class="text-center border border-gray-300">
   <span class="text-sm font-medium text-gray-700">INV-10234</span>
 </td>
                     <td
@@ -102,7 +102,7 @@ const WalletPage = () => {
                     <td className="border border-gray-300 p-2">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>
-                    <td className=" text-center pr-4">
+                    <td className=" text-center border border-gray-300">
   <button
     // onClick={(e) => {
     //   e.stopPropagation();

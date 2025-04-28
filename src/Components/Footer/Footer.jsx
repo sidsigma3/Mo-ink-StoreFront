@@ -7,8 +7,8 @@ const Footer = () => {
   return (
     <footer className="bg-white">
     <div className="mx-auto  space-y-8 py-8 sm:px-6 lg:space-y-16 lg:px-8">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <div>
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 col-span-1 ">
+        <div className=" ">
           <div className="text-teal-600 flex justify-center md:block">
             <img src='/images/logo.png'></img>
           </div>
@@ -113,60 +113,86 @@ const Footer = () => {
           </ul>
         </div>
   
-        <div className="pl-8 grid gap-8 grid-cols-2 lg:col-span-2 lg:grid-cols-4">
-         
-  
-          <div>
-            <p className="font-medium text-gray-900">Helpful Links</p>
-  
-            <ul className="mt-6 space-y-4 text-sm">
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/contact")}> Contact </a>
-              </li>
-  
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/FAQs")}> FAQs </a>
-              </li>
+        <div className="pl-4 grid gap-50 lg:grid-cols-2 grid-cols-1">
+  {/* Helpful Links Section */}
+  <div>
+    <p className="text-lg font-semibold ">Helpful Links</p>
+    <ul className="mt-6 space-y-4 text-sm">
+      <li>
+        <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/contact")}> Contact </a>
+      </li>
+      <li>
+        <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/FAQs")}> FAQs </a>
+      </li>
+      <li>
+        <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/termsofuse")}> Terms of Use </a>
+      </li>
+      <li>
+        <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75"> Live Chat </a>
+      </li>
+    </ul>
+  </div>
 
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/termsofuse")}> Terms of Use </a>
-              </li>
+  {/* Policy Section */}
+  <div>
+    <p className="text-lg font-semibold ">Policy</p>
+    <ul className="mt-6 space-y-4 text-sm">
+      <li className='text-md'>
+        <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/returnPolicy")}> Return Policy </a>
+      </li>
+      <li>
+        <a href="#" style={{ fontSize: '16px' }} className="text-md text-gray-700 transition hover:opacity-75" onClick={() => navigate("/refundPolicy")}> Refund Policy </a>
+      </li>
+      <li>
+        <a href="#" style={{ fontSize: '16px' }} className="text-md text-gray-700 transition hover:opacity-75" onClick={() => navigate("/shippingPolicy")}> Shipping Policy </a>
+      </li>
+      <li>
+        <a href="#" style={{ fontSize: '16px' }} className="text-md text-gray-700 transition hover:opacity-75" onClick={() => navigate("/privacyPolicy")}> Privacy Policy </a>
+      </li>
+    </ul>
+  </div>
 
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75"> Live Chat </a>
-              </li>
-            </ul>
-          </div>
   
-          <div>
-            <p className="font-medium text-gray-900">Policy</p>
-  
-            <ul className="mt-6 space-y-4 text-sm">
-              {/* <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75"> Accessibility </a>
-              </li> */}
-  
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/returnPolicy")}> Return Policy </a>
-              </li>
-  
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/refundPolicy")}> Refund Policy </a>
-              </li>
+  </div>
+{/* Download App Section */}
+  <div>
+    <h3 className="text-lg font-semibold mb-4">Download Our App</h3>
+    <p className="text-md text-gray-600 mb-6">Get our app for the best shopping experience</p>
+    <div className="flex space-x-4">
+      <img src="/images/playstore.png" alt="Google Play" className="h-12"/>
+      <img src="/images/appstore.png" alt="App Store" className="h-12"/>
+    </div>
+  </div>
 
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/shippingPolicy")}> Shipping Policy </a>
-              </li>
+  {/* Features Section */}
+  <div>
+  <h3 className="text-lg font-semibold mb-4">We Assure With</h3>
+    <div className="flex items-center mb-3">
+      <img src="/images/original-icon.png" alt="100% Original" className="h-8 w-8" />
+      <div className="ms-2">
+        <h4 className="text-md font-semibold ">100% Original</h4>
+        <p className="text-md text-gray-600">Guarantee for all products</p>
+      </div>
+    </div>
 
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75" onClick={()=>navigate("/privacyPolicy")}> Privacy Policy </a>
-              </li>
-{/*   
-              <li>
-                <a href="#" className="text-gray-700 transition hover:opacity-75"> Hiring Statistics </a>
-              </li> */}
-            </ul>
-          </div>
+    <div className="flex items-center mb-3 ">
+      <img src="/images/return-icon.png" alt="100% Original" className="h-8 w-8" />
+      <div className="ms-2">
+        <h4 className="text-md font-semibold ">3-Day Return</h4>
+        <p className="text-md text-gray-600">Hassle-Free Returns process</p>
+      </div>
+    </div>
+
+    <div className="flex items-center ">
+      <img src="/images/secure-icon.png" alt="100% Original" className="h-8 w-8" />
+      <div className="ms-2">
+        <h4 className="text-md font-semibold ">Secure Payments</h4>
+        <p className="text-md text-gray-600">Trusted payment gateways</p>
+      </div>
+    </div>
+    
+
+
         </div>
       </div>
   

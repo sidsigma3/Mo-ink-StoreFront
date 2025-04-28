@@ -11,19 +11,19 @@ const steps = [
     title: '2.  Customize Your Order',
     description:
       'Choose the yarn counter, your preferred shade from 1000+ colors, and enter the bulk quantity required.',
-    image: '/images/step2.png',
+    image: '/images/Step2.png',
   },
   {
     title: '3. Add Delivery Address',
     description:
       'Enter your shipping details so we can calculate logistics and ensure timely delivery.',
-    image: '/images/step3.png',
+    image: '/images/Step3.png',
   },
   {
     title: '4. Place Your Order',
     description:
       'Confirm your selection and complete the order with our secure payment process.',
-    image: '/images/step4.png',
+    image: '/images/Step4.png',
   },
   {
     title: '5. Yarn in Production',

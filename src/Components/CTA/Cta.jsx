@@ -37,7 +37,7 @@ const Cta = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <h3 className='text-xl md:text-xl lg:text-3xl font-bold text-white text-center md:text-left'>
+        <h3 className='text-xl md:text-xl lg:text-4xl font-bold text-white text-center md:text-left'>
           Stay updated with our <br />
           latest products and offers.
         </h3>

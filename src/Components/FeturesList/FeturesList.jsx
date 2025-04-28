@@ -48,7 +48,7 @@ const FeaturesList = () => {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-center mb-16">Valued Additions</h2>
+        <h2 className="text-xl md:text-xl lg:text-4xl font-bold text-center mb-16">Valued Additions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           {features.map((feature, index) => (
             <div
@@ -59,7 +59,7 @@ const FeaturesList = () => {
                 {feature.icon}
               </div>
               <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
-              <p className="text-gray-500 text-sm">{feature.description}</p>
+              <p className="text-gray-500 text-md">{feature.description}</p>
             </div>
           ))}
         </div>

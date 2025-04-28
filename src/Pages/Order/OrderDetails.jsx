@@ -51,12 +51,16 @@ const OrderDetails = () => {
 
     console.log(appliedCoupon)
 
-    const orderDate = new Date(order.createdAt).toLocaleDateString("en-IN", {
-        timeZone: "Asia/Kolkata",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
+    const orderDate = new Date(order.createdAt).toLocaleString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true, 
+    });
+    
 
 
       const paymentDescriptions = {
@@ -360,7 +364,7 @@ const OrderDetails = () => {
 
                 
 
-                <div className='border-1 rounded-md p-3 '>
+                <div className='border-1 rounded-md p-3  flex flex-col"'>
                        
         
                 <table className='w-100 rounded mt-2 font-semibold'>
@@ -460,15 +464,20 @@ const OrderDetails = () => {
                         </tr>
                     </tbody>
                     </table>
-       
                      
        
                    </div>
-                
+                   <div></div>
+                   <div className="mt-4">
+                      <p className="text-md  font-medium  text-gray-500">
+                        Want to order these items again? Click here to{" "}
+                        <Link to="/buy" className="text-purple-800 font-bold hover:underline">
+                         Buy Again
+                          </Link>
+                        </p>
+
+                   </div>
             </div>
-
-
-
 
         </div>
 

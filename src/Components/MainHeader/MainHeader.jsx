@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { HashLink } from 'react-router-hash-link';
+
 import { Menu, X } from "lucide-react";
 
 const MainHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const menuItems = [
-    { name: "Home", path: "#home" },
-    { name: "Features", path: "#features" },
-    { name: "Why us", path: "#why-us" },
-    { name: "Products", path: "#products" },
-    { name: "FAQs", path: "#faqs" }
+    { name: "Home", path: "/#home" },
+    { name: "Features", path: "/#features" },
+    { name: "Why us", path: "/#why-us" },
+    { name: "Products", path: "/#products" },
+    { name: "FAQs", path: "/#faqs" }
   ];
   
 
@@ -37,18 +39,17 @@ const MainHeader = () => {
 
       {/* Desktop Navigation */}
       <nav className="hidden lg:flex items-center space-x-6 text-lg font-semibold text-gray-800">
-        {menuItems.map((item) => (
-          <a
-            key={item.name}
-            onClick={() => {
-              setIsOpen(false); // Close the mobile menu on navigation
-            }}
-            href={item.path}
-            className="hover:text-purple-800 hover:underline transition-colors"
-          >
-            {item.name}
-          </a>
-        ))}
+      {menuItems.map((item) => (
+  <HashLink
+    key={item.name}
+    to={item.path}
+    smooth
+    onClick={() => setIsOpen(false)} // Close the mobile menu on navigation
+    className="hover:text-purple-800 hover:underline transition-colors"
+  >
+    {item.name}
+  </HashLink>
+))}
 
       </nav>
 

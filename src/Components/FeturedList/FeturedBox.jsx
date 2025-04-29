@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const FeaturedBox = ({ productName, number, color, imageUrl }) => {
 
   const categoryImages = {
@@ -11,7 +12,7 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
    
   };
 
-  const imageSrc = imageUrl || categoryImages[productName] || '/images/default-yarn.jpg';
+  const imageSrc = imageUrl || categoryImages[productName] || '';
 
   return (
     <a

@@ -47,6 +47,8 @@ import PaymentFailure from './Pages/Payment Failure/PaymentFailure';
 import OrderIssues from './Pages/Order Issues/OrderIssue';
 import DeliveryInfo from './Pages/DeliveryInfo/DeliveryInfo';
 import ReturnInfo from './Pages/ReturnInfo/ReturnInfo';
+import ColorPalette from './Pages/ColorPalette/ColorPalette';
+import ChatbotWidget from './Components/Chatbot Widget/ChatbotWidget';
 
 
 function App() {
@@ -122,11 +124,17 @@ function App() {
                   <Route path="/orderIssues" element={<OrderIssues/>} />
                   <Route path="/deliveryInfo" element={<DeliveryInfo/>} />
                   <Route path="/returnInfo" element={<ReturnInfo/>} />
+                  <Route path="/colorpalette" element={<ColorPalette/>} />
 
                   
                   
                 </Routes>
-              </div>
+                </div>
+                
+                <div>
+      <ChatbotWidget />
+    </div>
+
             
           </ProtectedRoute>
         }

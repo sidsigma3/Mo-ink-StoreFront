@@ -67,7 +67,7 @@ const ChatbotWidget = () => {
               <div key={idx} style={{
                 ...styles.message,
                 alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                backgroundColor: msg.sender === 'user' ? '#d1e7ff' : '#eee',
+                backgroundColor: msg.sender === 'user' ? '#F3E8FF' : '#eee',
               }}>{msg.text}</div>
             ))}
             {isTyping && <div style={styles.typing}>🤖 Assistant is typing...</div>}
@@ -100,10 +100,10 @@ const styles = {
     backgroundColor: '#5B21B6', color: 'white', padding: '12px 16px', fontWeight: 'bold'
   },
   messages: {
-    flex: 1, padding: 16, display: 'flex', flexDirection: 'column', gap: 10, overflowY: 'auto', background: '#F3E8FF'
+    flex: 1, padding: 16, display: 'flex', flexDirection: 'column', gap: 10, overflowY: 'auto',
   },
   message: {
-    padding: '10px 14px', borderRadius: 12, maxWidth: '75%', whiteSpace: 'pre-wrap' , background: '#FFFFFF'
+    padding: '10px 14px', borderRadius: 12, maxWidth: '75%', whiteSpace: 'pre-wrap' 
   },
   typing: {
     fontStyle: 'italic', color: '#666', fontSize: 14

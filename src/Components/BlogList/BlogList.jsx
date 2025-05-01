@@ -1,6 +1,11 @@
 import React ,{ useRef, useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import BlogBox from './BlogBox'
+import BlogBox1 from './BlogBox1'
+import BlogBox2 from "./BloxBox2";
+import BlogBox3 from "./BloxBox3";
+import BlogBox4 from "./BloxBox4";
+
+
 
 const BlogList = () => {
 
@@ -51,11 +56,11 @@ const BlogList = () => {
 
             <div className="w-full overflow-hidden">
                 <h3 className="text-2xl md:text-2xl font-medium">Read Article</h3>
-                <ul ref={scrollRef} className="flex overflow-x-auto gap-4 mt-3 scrollbar-hide">
-                    <li><BlogBox /></li>
-                    <li><BlogBox /></li>
-                    <li><BlogBox /></li>
-                    <li><BlogBox /></li>
+                <ul ref={scrollRef} className="flex overflow-x-auto gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-3 scrollbar-hide">
+                    <li><BlogBox1 /></li>
+                    <li><BlogBox2 /></li>
+                    <li><BlogBox3 /></li>
+                    <li><BlogBox4 /></li>
                 </ul>
             </div>
 

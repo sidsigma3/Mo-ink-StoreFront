@@ -4,8 +4,8 @@ import React from 'react';
 const FeaturedBox = ({ productName, number, color, imageUrl }) => {
 
   const categoryImages = {
-    "Cotton Compact": "/images/Yarn3.jpg",
-    "Linen Yarn": "/images/Yarn7.jpg",
+    "Cotton": "/images/Yarn3.jpg",
+    "Silk": "/images/Yarn7.jpg",
     // "Silk Yarn": "/images/silk-yarn.jpg",
     // "Polyester Yarn": "/images/polyester-yarn.jpg",
     // "Nylon Yarn": "/images/nylon-yarn.jpg",

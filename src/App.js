@@ -31,7 +31,7 @@ import ErrorPage from './Pages/Error Page/ErrorPage';
 import MainHomepage from './Pages/Main Homepage/MainHomepage';
 import BlogList from './Components/BlogList/BlogList';
 import Blogs from './Pages/Blogs/Blogs';
-import BlogBox from './Components/BlogList/BlogBox';
+import BlogBox from './Components/BlogList/BlogBox1';
 import OTP from './Pages/Authnticate/OTP/OTP';
 import MainFeatures from './Components/MainFeatures/MainFeatures';
 import MainWhyUs from './Components/MainWhyUs/MainWhyUs';
@@ -114,7 +114,8 @@ function App() {
                   <Route path="/returnPolicy" element={<ReturnPolicy/>}/>
                   <Route path="/refundPolicy" element={<RefundPolicy/>}/>
                   <Route path="/product/:id" element={<ProductDetailPage />} />
-                  <Route path="/blogs" element={<Blog1/>}/>
+                  <Route path="/blogs" element={<Blogs/>}/>
+                  <Route path="/blog1" element={<Blog1/>}/>
                   <Route path="*" element={<ErrorPage />} />
                   <Route path="/privacypolicy" element={<PrivacyPolicy />} />
                   <Route path="/termsofuse" element={<TermOfUse />} />

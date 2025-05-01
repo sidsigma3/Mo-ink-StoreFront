@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -7,6 +7,8 @@ import Footer from '../../Components/Footer/Footer'
 import HeroSection from '../../Components/HeroSection/HeroSection'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { MdOutlineShield } from "react-icons/md";
+import ModalSuccess from '../../Components/Modal/ModalSuccess'
+
 
 
 const ShippingPolicy = () => {
@@ -16,6 +18,9 @@ const ShippingPolicy = () => {
       { label: "Home", link: "/home" },
       { label: "Shipping Policy", link: "/shippingPolicy" },
     ];
+
+    const [showModal, setShowModal] = useState(false);
+
   
     return (
       <div>
@@ -43,84 +48,115 @@ const ShippingPolicy = () => {
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Shipping Policies</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, tempora praesentium id in ipsa tempore molestias illum cum suscipit beatae.
-                         </p>
+            We stand behind our products and your satisfaction is our top priority. If you're not happy with your purchase, we're here to help.                         </p>
           </div>
 
           {/* Policy Sections */}
           <div className="space-y-6">
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Bulk Orders & Custom Orders</h3>
-              <p className="text-gray-600">
-              As a store specializing in bulk yarn manufacturing, we process and fulfill large orders tailored to your specific requirements. All orders are custom-made to meet the particular needs of our clients, including color, material, and quantity specifications. Because of the custom nature of these bulk orders, we do not accept returns or offer refunds on orders once they have been processed and shipped.
-              </p>
-            </section>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">1. How can I track my order on Ink n Dyes?</h3>
+    <p className="text-gray-600">
+      You can track your orders anytime by logging into your Ink n Dyes account and visiting the "My Orders" section. A live tracking link will be available once your order is shipped.
+    </p>
+  </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">2. Non-Returnable Items</h3>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                Due to the specialized nature of our products, all yarn products, including cotton, silk, nylon, polyester, and blends, are considered non-returnable. If you have ordered yarn in bulk, please ensure the specifications of the order (including color, material, quantity, and quality) are carefully reviewed before finalizing your purchase.
-                </p>
-                <p className="text-gray-600">
-                  If approved, your refund will be processed, and a credit will automatically be applied to your original method of payment within 5-10 business days.
-                </p>
-              </div>
-            </section>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">2. What is Ink n Dyes’ Platform Fee?</h3>
+    <p className="text-gray-600">
+      Ink n Dyes may charge a minimal platform fee to support secure transactions, quality checks, and digital content infrastructure. This is clearly mentioned at checkout.
+    </p>
+  </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Order Accuracy</h3>
-              <p className="text-gray-600">
-              We strongly encourage customers to double-check their order details (such as quantity, yarn type, color, and other specifications) before submitting it. Once the order is processed, we begin preparation, and changes or cancellations cannot be accommodated. </p>
-            </section>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Is the Platform Fee refundable?</h3>
+    <p className="text-gray-600">
+      Yes, if your order is canceled before shipping or returned as per policy, the platform fee will also be refunded.
+    </p>
+  </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">4. Damaged or Defective Goods</h3>
-              <p className="text-gray-600">
-              We strive to maintain the highest quality in our products. However, if you receive a damaged or defective product, please contact us immediately within 7 days of receipt. We will investigate the issue and, if found to be at fault, offer a replacement of the defective item. Please note that we may request photographic evidence of the damage or defect for verification purposes.              </p>
-            </section>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">4. What is Ink n Dyes’ Shipping Fee?</h3>
+    <p className="text-gray-600">
+      We offer free shipping on select products and promotional events. For others, a standard shipping fee may apply, depending on the order value, weight, and destination.
+    </p>
+  </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Order Cancellation</h3>
-              <p className="text-gray-600">
-              Once an order is placed and processed, cancellation requests are not accepted due to the custom and bulk nature of our manufacturing process. Please ensure all details are correct at the time of order placement.              </p>
-            </section>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">5. Will I get a refund on the shipping fee if I return the product?</h3>
+    <p className="text-gray-600">
+      Yes, in case of returns due to quality issues or incorrect product delivery, the shipping fee will also be refunded.
+    </p>
+  </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">6. Refund Process for Accepted Returns</h3>
-              <p className="text-gray-600">
-              In exceptional cases where a return is authorized (e.g., defective or incorrect goods), refunds will be processed once the returned items are received and inspected. If a refund is applicable, it will be credited to your original method of payment within 10-15 business days, depending on the payment provider's policies. </p>           </section>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">6. What is Ink n Dyes' Fair Usage Policy?</h3>
+    <p className="text-gray-600">
+      To prevent misuse of promotional offers and services, we reserve the right to limit orders from accounts showing irregular purchasing or return behavior. This ensures fairness for all users.
+    </p>
+  </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">7. Shipping Fees</h3>
-              <p className="text-gray-600">
-              Shipping costs are non-refundable. If a refund is issued due to a defective or incorrect product, the customer may be responsible for the cost of return shipping, unless otherwise specified.     </p>        </section>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">7. I’m a frequent buyer. Why am I being charged shipping?</h3>
+    <p className="text-gray-600">
+      Shipping charges are based on order value and product type. Special discounts or shipping waivers are applicable during events or for verified trade partners and influencers.
+    </p>
+  </section>
 
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">8. How do I check the delivery status of my order?</h3>
+    <p className="text-gray-600">
+      Once your order is shipped, you will receive a live tracking link via email or SMS. You can also find the tracking info in your My Orders section.
+    </p>
+  </section>
 
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">9. How can I check if Ink n Dyes delivers to my area?</h3>
+    <p className="text-gray-600">
+      You can check serviceability by entering your PIN code on the product page before adding to cart. If your location is not currently covered, you’ll be notified there.
+    </p>
+  </section>
 
-            <section>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Contact Us</h3>
-              <p className="text-gray-600">
-                If you have any questions about our refund policy, please contact our customer service team:
-              </p>
-              <div className="mt-4">
-                <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
-                </a>
-              </div>
-              <div className="mt-4">
-                <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
-                </a>
-              </div>
-            </section>
-          </div>
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">10. How are orders delivered?</h3>
+    <p className="text-gray-600">
+      We partner with trusted logistics providers to ensure timely and safe delivery. Products are carefully packed and shipped from verified suppliers and warehouses.
+    </p>
+  </section>
+
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">11. Does Ink n Dyes deliver products outside India?</h3>
+    <p className="text-gray-600">
+      At the moment, we only deliver within India. However, we are actively working on expanding our global delivery network.
+    </p>
+  </section>
+
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">12. Can I get faster delivery?</h3>
+    <p className="text-gray-600">
+      Express delivery options are available on selected products for an additional fee. You can select this during checkout if eligible.
+    </p>
+  </section>
+
+  <section>
+    <h3 className="text-xl font-semibold text-gray-900 mb-4">13. I received a partial order or damaged/empty packet. What should I do?</h3>
+    <p className="text-gray-600">
+      Please raise a ticket within 48 hours of receiving your order via our Help & Support section. Include images of the package and we’ll resolve the issue at the earliest.
+    </p>
+  </section>
+</div>
 
           {/* Last Updated */}
           <div className="mt-12 pt-8 border-t border-gray-100">
-            <p className="text-sm text-gray-500 text-center">
-              Last updated: March 2025
-            </p>
+          <div>
+      <p
+        className="text-sm text-gray-500 text-center cursor-pointer underline"
+        onClick={() => setShowModal(true)}
+      >
+        Last updated: April 2025
+      </p>
+
+      <ModalSuccess isOpen={showModal} onClose={() => setShowModal(false)} />
+    </div>
           </div>
         </div>
       </main>

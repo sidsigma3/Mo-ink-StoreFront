@@ -7,13 +7,13 @@ import { addToCart, removeFromCart, getCart } from '../../Services/CartService';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from '../../Utils/commoncontext';
+import Toast from '../Toast/Toast';
 
-
-const ProductDetailBox = ({ productName, price, size, color, itemQuantity, variantId,
+const ProductDetailBox = ({
+  productName, price, size, color, itemQuantity, variantId,
   isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,
   isWishlistPage = false,
   showCart = true,
-
 }) => {
   const { cartCount, setCartCount, wishlistCount, setWishlistCount, updateCartAndWishlistCounts } = useAppContext();
 
@@ -23,69 +23,65 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
   const [isInCart, setIsInCart] = useState(false);
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
   const [justRemoved, setJustRemoved] = useState(false);
-
   const [quantity, setQuantity] = useState(itemQuantity || 1);
 
-  const handleIncrease = () => {
-    setQuantity(prev => prev + 1);
+  const [toasts, setToasts] = useState([]);
+  const showToast = (message, type = "success") => {
+    const id = Date.now();
+    setToasts((prev) => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3000);
   };
 
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      setQuantity(prev => prev - 1);
-    }
-  };
+  const handleIncrease = () => setQuantity(prev => prev + 1);
+  const handleDecrease = () => quantity > 1 && setQuantity(prev => prev - 1);
 
   const handleWishlistClick = async () => {
-    const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     if (!customer?.customerId) return;
 
     try {
       if (isWishlisted) {
-        // Remove from wishlist
         await removeFromWishlist(customer.customerId, variantId);
         setIsWishlisted(false);
         setJustRemoved(true);
-        alert("Item is removed from wishlist");
+        setToasts(prev => [...prev, {  message: "Removed from wishlist!", type: "error" }]);
       } else {
-        // Remove from cart if present
         const cart = await getCart(customer.customerId);
         const inCart = cart?.cartItems?.some(item => item.variantId === variantId);
-
         if (inCart) {
           await removeFromCart(customer.customerId, variantId);
           setIsInCart(false);
         }
 
-        // Add to wishlist
         await addToWishlist(customer.customerId, variantId);
         setIsWishlisted(true);
         setJustRemoved(false);
-        alert("Item is added to wishlist");
+        setToasts(prev => [...prev, {  message: "Item added to wishlist"}]);
       }
 
-      onWishlistToggle?.(); // Refresh wishlist
-      onCartToggle?.(); // Refresh cart
-      updateCartAndWishlistCounts()
+      onWishlistToggle?.();
+      onCartToggle?.();
+      updateCartAndWishlistCounts();
     } catch (err) {
       console.error("Error toggling wishlist:", err);
+      showToast("Failed to update wishlist.", "error");
     }
   };
 
-
   const handleAddToCart = async () => {
     if (!customer?.customerId) {
-      alert("Please log in to add items to your cart.");
+      showToast("Please log in to add items to your cart.", "error");
       return;
     }
 
     try {
       const cart = await getCart(customer.customerId);
       const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
-      
+
       if (alreadyInCart) {
-        alert("Item is already in your Cart!");
         setIsInCart(true);
+        showToast("Item is already in your Cart!");
         return;
       }
 
@@ -95,23 +91,19 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
       onWishlistToggle?.();
 
       await addToCart(customer.customerId, variantId, quantity);
-      alert("Item is moved to cart!");
       setIsInCart(true);
-      updateCartAndWishlistCounts()
-
+      updateCartAndWishlistCounts();
+      showToast("Item is moved to cart!");
     } catch (error) {
       console.error("Error adding to cart:", error);
-      alert("Failed to add item to cart!");
+      showToast("Failed to add item to cart!", "error");
     }
   };
 
   const handleCartButtonClick = () => {
-    if (isInCart) {
-      navigate("/shoppingCart");
-    } else {
-      handleAddToCart();
-    }
+    isInCart ? navigate("/shoppingCart") : handleAddToCart();
   };
+
   useEffect(() => {
     const checkCartStatus = async () => {
       if (customer?.customerId) {
@@ -120,137 +112,146 @@ const ProductDetailBox = ({ productName, price, size, color, itemQuantity, varia
         setIsInCart(alreadyInCart);
       }
     };
-  
     checkCartStatus();
   }, [customer, variantId]);
-  
 
   useEffect(() => {
     setIsWishlisted(isWishlist);
   }, [isWishlist]);
 
   return (
-    <div>
-      <a className="relative block bg-white rounded-tr-3xl border border-gray-100 rounded" style={{ width: '19rem' }}>
-        <span
-          className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black z-20"
+    <>
+      {/* Product Card */}
+      <div>
+        <a
+          className="relative block bg-white rounded-tr-3xl border border-gray-100 rounded"
+          style={{ width: '19rem' }}
         >
-          Sale
-        </span>
-
-        <div className="relative">
-          {/* Image */}
-          <img
-            src="/images/Picture1.png"
-            alt=""
-            className="h-80 w-full rounded-tr-3xl object-cover"
-            style={{ height: '10rem' }}
-          />
-
-          {/* Color Overlay */}
-          <div
-            className="absolute inset-0 "
-            style={{
-              backgroundColor: hexCode, // Use the hex code provided in `color` prop
-              opacity: 0.4, // Adjust transparency level (0.4 = 40%)
-            }}
-          ></div>
-        </div>
-
-        {/* <img
-                src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt=""
-                className="h-80 w-full rounded-tr-3xl object-cover"
-                style={{height:'10rem'}}
-            /> */}
-
-        <div className="p-3">
-          <h5 className='font-medium'>{productName}-{size} ({color})</h5>
-
-          <div className='d-flex align-items-center justify-content-between mt-3'>
-            <div className='border px-3 py-2 rounded col-4'>
-              <h5>50 Kg</h5>
-            </div>
-
-            <div className='col-4'>
-              <label htmlFor="Quantity" className="sr-only"> Quantity </label>
-
-              <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border border-gray-300 rounded">
-                <button
-                  type="button"
-                  onClick={handleDecrease}
-                  className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
-                >
-                  &minus;
-                </button>
-
-                <input
-                  type="number"
-                  id="Quantity"
-                  value={quantity}
-                  readOnly
-                  className="w-8 text-center text-sm border-none focus:outline-none"
-                />
-
-                <button
-                  type="button"
-                  onClick={handleIncrease}
-                  className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
-                >
-                  +
-                </button>
+          {/* SALE Badge */}
+          <span className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black z-20">
+            Sale
+          </span>
+  
+          {/* Image with Color Overlay */}
+          <div className="relative">
+            <img
+              src="/images/Picture1.png"
+              alt=""
+              className="h-80 w-full rounded-tr-3xl object-cover"
+              style={{ height: '10rem' }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{ backgroundColor: hexCode, opacity: 0.4 }}
+            ></div>
+          </div>
+  
+          {/* Card Body */}
+          <div className="p-3">
+            <h5 className="font-medium">
+              {productName}-{size} ({color})
+            </h5>
+  
+            {/* Quantity Row */}
+            <div className="d-flex align-items-center justify-content-between mt-3">
+              <div className="border px-3 py-2 rounded col-4">
+                <h5>50 Kg</h5>
+              </div>
+  
+              <div className="col-4">
+                <label htmlFor="Quantity" className="sr-only">Quantity</label>
+                <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border border-gray-300 rounded">
+                  <button
+                    type="button"
+                    onClick={handleDecrease}
+                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
+                  >
+                    &minus;
+                  </button>
+  
+                  <input
+                    type="number"
+                    id="Quantity"
+                    value={quantity}
+                    readOnly
+                    className="w-8 text-center text-sm border-none focus:outline-none"
+                  />
+  
+                  <button
+                    type="button"
+                    onClick={handleIncrease}
+                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-
-
-          <div className='mt-2 d-flex justify-content-between rounded'>
-            <div className='d-flex gap-2 align-items-center'>
-              <h4 className='purple-text font-semibold text-2xl'>₹{price}</h4>
-              <p className='text-slate-400'><s>₹542.85</s></p>
+  
+            {/* Price & Rating */}
+            <div className="mt-2 d-flex justify-content-between rounded">
+              <div className="d-flex gap-2 align-items-center">
+                <h4 className="purple-text font-semibold text-2xl">₹{price}</h4>
+                <p className="text-slate-400">
+                  <s>₹542.85</s>
+                </p>
+              </div>
+  
+              <div className="bg-yellow-100 d-flex gap-2 align-items-center h-50 p-1 rounded-md">
+                <span className="text-yellow-300">
+                  <TiStarFullOutline />
+                </span>
+                <p>4.5</p>
+              </div>
             </div>
-
-            <div className='bg-yellow-100 d-flex gap-2 align-items-center h-50 p-1 rounded-md'>
-              <span className='text-yellow-300'><TiStarFullOutline /></span>
-              <p>4.5</p>
-            </div>
-
-          </div>
-
-
-          <div className='d-flex gap-2 mt-3 justify-between'>
-
-            {showCart && location.pathname !== "/shoppingCart" && (
-              <button
-                onClick={handleCartButtonClick}
-                className={`d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md ${isInCart ? 'bg-green-500 text-white' : 'bg-purple-100 purple-text'
-                  }`}
-              >
-                {isInCart ? "GO TO CART" : "ADD TO CART"}
-                <span><MdOutlineShoppingCart size={20} /></span>
-              </button>
-            )}
-            <button className="bg-purple-100 p-2 purple-text rounded px-3" onClick={handleWishlistClick}>
-              {isWishlistPage && justRemoved ? (
-                <FaHeart color="white" />
-              ) : isWishlisted ? (
-                <FaHeart color="red" />
-              ) : (
-                <FaRegHeart />
+  
+            {/* Buttons */}
+            <div className="d-flex gap-2 mt-3 justify-between">
+              {showCart && location.pathname !== "/shoppingCart" && (
+                <button
+                  onClick={handleCartButtonClick}
+                  className={`d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md ${isInCart ? 'bg-green-500 text-white' : 'bg-purple-100 purple-text'}`}
+                >
+                  {isInCart ? "GO TO CART" : "ADD TO CART"}
+                  <span>
+                    <MdOutlineShoppingCart size={20} />
+                  </span>
+                </button>
               )}
-            </button>
-
-            {/* <button className="bg-purple-100 purple-text rounded p-2 font-medium" onClick={()=>navigate("/checkOut")}>BUY NOW</button> */}
-
+  
+              <button
+                className="bg-purple-100 p-2 purple-text rounded px-3"
+                onClick={handleWishlistClick}
+              >
+                {isWishlistPage && justRemoved ? (
+                  <FaHeart color="white" />
+                ) : isWishlisted ? (
+                  <FaHeart color="red" />
+                ) : (
+                  <FaRegHeart />
+                )}
+              </button>
+            </div>
           </div>
-
-
-        </div>
-
-
-      </a>
-    </div>
-  )
+        </a>
+      </div>
+  
+      {/* Toast Notification*/}
+      {/* <div className="fixed top-4 right-4 z-50 space-y-2">
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            onClose={() =>
+              setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+            }
+          />
+        ))}
+      </div> */}
+    </>
+  );
+  
 }
 
-export default ProductDetailBox
+export default ProductDetailBox;

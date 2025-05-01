@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 
-const ReturnModal = ({ isOpen, onClose, onConfirm }) => {
+
+const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
 
   if (!isOpen) return null;
 
   const handleConfirm = () => {
+    if (!reason) {
+      alert("Please select a reason.");
+      return;
+    }
+
     onConfirm({ reason, comment });
     setReason("");
     setComment("");
+    onClose();
   };
 
   return (

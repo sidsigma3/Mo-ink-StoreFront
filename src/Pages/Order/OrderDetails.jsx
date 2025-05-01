@@ -106,9 +106,6 @@ const OrderDetails = () => {
       
       const handlingCharges = calculateHandlingCharges(order.orderVariantResponse, order.shippingAddress);
 
-
-      console.log(handlingCharges)
-
       const calculateOrderSummary = async (
         order,
         appliedCoupon = null,
@@ -121,67 +118,93 @@ const OrderDetails = () => {
         let discountByPayment = 0;
         let gstAmount = 0;
       
-        const productGstMap = new Map();
+        const productDataMap = new Map();
       
-        // Step 1: Calculate baseTotal
+        
         for (const variant of orderVariants) {
-          const weight = Number(variant.orderWeight) || 0;
-          const price = Number(variant.pricePerKg) || 0;
-          baseTotal += weight * price;
-        }
+            const weight = Number(variant.orderWeight) || 0;
+            const productId = variant.productId;
+            const size = variant.size;
+            const colorId = variant.color.id;
+          
+            let pricePerKg = 0;
+            let gstOnProduct = 0;
+          
+            if (productDataMap.has(productId)) {
+              const cachedProduct = productDataMap.get(productId);
+              const matchedVariant = cachedProduct.variants.find(
+                (v) => v.size === size && v.color?.id === colorId
+              );
+              pricePerKg = matchedVariant?.pricePerKg || 0;
+              gstOnProduct = cachedProduct.gstOnProduct || 0;
+            } else {
+              const res = await fetchProductsById(productId);
+              if (res.success) {
+                const product = res.data;
+                productDataMap.set(productId, product); // Save full product
+                const matchedVariant = product.variants.find(
+                  (v) => v.size === size && v.color?.id === colorId
+                );
+                pricePerKg = matchedVariant?.pricePerKg || 0;
+                gstOnProduct = product.gstOnProduct || 0;
+              }
+            }
+          
+            baseTotal += weight * pricePerKg;
+           
+            // If you’re calculating GST here, you can use gstOnProduct
+          }
+          
       
-        // Step 2: Apply discounts on totalCost
+      
+        // Step 2: Apply Discounts
         const couponDiscountPercent = Number(appliedCoupon?.discountValue) || 0;
         const couponDiscountType = appliedCoupon?.discountType || "Percentage";
       
-        discountByCoupon = couponDiscountType === "Percentage"
-          ? (baseTotal * couponDiscountPercent) / 100
-          : couponDiscountPercent;
+        discountByCoupon =
+          couponDiscountType === "Percentage"
+            ? (baseTotal * couponDiscountPercent) / 100
+            : couponDiscountPercent;
       
-        const paymentDiscountPercent = paymentDiscountMap[order.paymentTypeDiscount] || 0;
-        discountByPayment = baseTotal * paymentDiscountPercent / 100;
-
+        const paymentDiscountPercent =
+          paymentDiscountMap[order.paymentTypeDiscount] || 0;
+        discountByPayment = (baseTotal * paymentDiscountPercent) / 100;
+      
         const totalDiscount = discountByCoupon + discountByPayment;
         const discountedTotal = baseTotal - totalDiscount;
-
+      
         const combinedDiscountPercent =
           couponDiscountPercent + paymentDiscountPercent -
           (couponDiscountPercent * paymentDiscountPercent) / 100;
 
+        console.log(combinedDiscountPercent)
       
-        // Step 3: Calculate GST on discountedTotal (per variant using productId)
+        // Step 3: Calculate GST per variant
         for (const variant of orderVariants) {
             const weight = Number(variant.orderWeight) || 0;
-            const price = Number(variant.pricePerKg) || 0;
-            const cost = weight * price;
             const productId = variant.productId;
+            const size = variant.size;
+            const colorId = variant.color.id;
           
-            // Get GST rate for this product
-            let gstRate = 0;
-            
-            // Retrieve the GST rate for the product (from cache or API)
-            if (productGstMap.has(productId)) {
-              gstRate = productGstMap.get(productId);
-            } else {
-              const res = await fetchProductsById(productId);
-              if (res.success) {
-                gstRate = Number(res.data.gstOnProduct || 0);
-                productGstMap.set(productId, gstRate);
-              }
-            }
+            const productData = productDataMap.get(productId);
+            if (!productData) continue;
           
-            // Step 1: Calculate the discounted cost per variant
-            const discountedCost = cost - (cost * combinedDiscountPercent / 100);
+            const matchedVariant = productData.variants.find(
+              (v) => v.size === size && v.color?.id === colorId
+            );
           
-            // Step 2: Apply GST to the discounted cost
+            const pricePerKg = matchedVariant?.pricePerKg || 0;
+            const gstRate = Number(productData?.gstOnProduct || 0);
+          
+            const cost = weight * pricePerKg;
+            const discountedCost = cost - (cost * combinedDiscountPercent) / 100;
             const gstAmountForVariant = (discountedCost * gstRate) / 100;
-            
-            // Add this GST to the total GST
+          
             gstAmount += gstAmountForVariant;
           }
-          
+       
       
-        // Step 4: Add other charges
+        // Step 4: Final totals
         const finalTotal = discountedTotal;
         const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
         const walletUsed = Number(order.walletAmount) || 0;
@@ -189,12 +212,9 @@ const OrderDetails = () => {
       
         const online = Number(order.paymentTypeDiscount?.replace('%', '')) || 0;
         const cod = 100 - online;
-        
+      
         const onlinePay = (adjustedNetPay * online) / 100;
         const codPay = adjustedNetPay - onlinePay;
-      
-        
-          
       
         return {
           totalCost: baseTotal,
@@ -222,9 +242,9 @@ const OrderDetails = () => {
         };
         fetchSummary();
       }, [order, appliedCoupon, handlingCharges]);
-    
+      
       if (!summary) return <div>Loading...</div>;
-    
+      
       const {
         totalCost,
         gstAmount,
@@ -241,7 +261,6 @@ const OrderDetails = () => {
         codPay,
         combinedDiscountPercent
       } = summary;
-
 
   const breadcrumbs = [
     { label: "Home", link: "/home" },
@@ -272,19 +291,20 @@ const OrderDetails = () => {
                     </div>
                 </div>
 
-                <div className='flex items-center'>
-                <button 
-                onClick={(e)=>{
-                    handleDownloadInvoice(order.orderId)
-                }}
-                className='flex gap-2 bg-violet-100 text-violet-800 px-16 py-1 h-10 rounded items-center'>
-                    <span><TbFileInvoice size={20}/></span>
-                    <h5>INVOICE</h5>
-                </button>
-                </div>
 
-                  
-
+                {order.status === 'SHIPPED' || order.status === 'DELIVERED' && (
+                     <div className='flex items-center'>
+                     <button 
+                     onClick={(e)=>{
+                         handleDownloadInvoice(order.orderId)
+                     }}
+                     className='flex gap-2 bg-violet-100 text-violet-800 px-16 py-1 h-10 rounded items-center'>
+                         <span><TbFileInvoice size={20}/></span>
+                         <h5>INVOICE</h5>
+                     </button>
+                     </div>
+                ) }
+            
                 
             </div>
 
@@ -297,7 +317,7 @@ const OrderDetails = () => {
                 <ul className="flex flex-col gap-5">
                     {order?.orderVariantResponse.map((item, idx) => (
                     <li key={idx}>
-                        <OrderListBox item={item}/>
+                        <OrderListBox item={item} status={order.status} orderId={order.orderId}/>
                     </li>
                     ))}
                 </ul>
@@ -332,28 +352,28 @@ const OrderDetails = () => {
 
                     <div className='flex flex-col gap-3 mt-6'>
                     <Link to="/orderissues" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
-  <div className="flex gap-2 items-center">
-    <span><AiOutlineIssuesClose size={20} /></span>
-    <p>Order Issues</p>
-  </div>
-  <span><MdArrowOutward /></span>
-</Link>
+                    <div className="flex gap-2 items-center">
+                        <span><AiOutlineIssuesClose size={20} /></span>
+                        <p>Order Issues</p>
+                    </div>
+                    <span><MdArrowOutward /></span>
+                    </Link>
 
-<Link to="/deliveryInfo" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
-  <div className="flex gap-2 items-center">
-    <span><HiOutlineTruck size={20} /></span>
-    <p>Delivery Info</p>
-  </div>
-  <span><MdArrowOutward /></span>
-</Link>
+                    <Link to="/deliveryInfo" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
+                    <div className="flex gap-2 items-center">
+                        <span><HiOutlineTruck size={20} /></span>
+                        <p>Delivery Info</p>
+                    </div>
+                    <span><MdArrowOutward /></span>
+                    </Link>
 
-<Link to="/ReturnInfo" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
-  <div className="flex gap-2 items-center">
-    <span><LuBox size={20} /></span>
-    <p>Returns</p>
-  </div>
-  <span><MdArrowOutward /></span>
-</Link>
+                    <Link to="/ReturnInfo" className="flex gap-4 items-center text-gray-500 font-medium hover:text-gray-700 transition">
+                    <div className="flex gap-2 items-center">
+                        <span><LuBox size={20} /></span>
+                        <p>Returns</p>
+                    </div>
+                    <span><MdArrowOutward /></span>
+                    </Link>
                     </div>
 
                 </div>
@@ -366,7 +386,7 @@ const OrderDetails = () => {
                 <table className='w-100 rounded mt-2 font-semibold'>
                     <tbody className='leading-8'>
                         <tr>
-                        <td>Total Cost (Incl GST)</td>
+                        <td>Total Cost</td>
                         <td></td>
                         <td className='text-end'>₹{(totalCost).toFixed(0)}</td>
                         </tr>

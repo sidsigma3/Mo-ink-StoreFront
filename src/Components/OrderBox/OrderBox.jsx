@@ -15,6 +15,21 @@ const OrderBox = ({order}) => {
     
       const totalWeight = order.orderVariantResponse?.reduce((sum, item) => sum + Number(item.orderWeight), 0) || 0;
 
+      const totalCancelledItems = order.orderVariantResponse.reduce((total, item) => {
+        if (item.status === 'CANCELLED') {
+            total += 1;
+        }
+        return total;
+    }, 0);
+
+    const totalReturnedItems = order.orderVariantResponse.reduce((total, item) => {
+      if (item.status === 'RETURNED') {
+          total += 1;
+      }
+      return total;
+  }, 0);
+    
+
 
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
@@ -53,29 +68,36 @@ const OrderBox = ({order}) => {
         </div>
 
         <div className='col-span-9 md:col-span-1 flex flex-col items-end justify-center gap-1'>
-  <button 
-    onClick={(e) => {
-      e.stopPropagation()
-      handleDownloadInvoice(order.orderId)
-    }}
-    className='flex gap-2 bg-violet-100 text-violet-800 md:px-6 lg:px-8 py-1 rounded items-center'
-  >
-    <span><TbFileInvoice size={20}/></span>
-    <h5 className='text-sm md:text-md'>INVOICE</h5>
-  </button>
 
-  {/* Return Status Tag */}
-  {/* {order.isReturned && ( */}
-    <span className="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
-      <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
-      Returned ({order.totalReturnItems}2 items)
-    </span>
-  {/* )} */}
-  <span className="mt-1 inline-flex items-center gap-1 bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded">
-      <span className="w-2 h-2 me-2 rounded-full bg-red-600"></span>
-      Cancelled ({order.totalCancelledItems}2 items)
-    </span>
-</div>
+        {order.status === 'SHIPPED' || order.status === 'DELIVERED' && (
+          <button 
+            onClick={(e) => {
+              e.stopPropagation()
+              handleDownloadInvoice(order.orderId)
+            }}
+            className='flex gap-2 bg-violet-100 text-violet-800 md:px-6 lg:px-8 py-1 rounded items-center'
+          >
+            <span><TbFileInvoice size={20}/></span>
+            <h5 className='text-sm md:text-md'>INVOICE</h5>
+          </button>
+           )}
+  
+    {totalReturnedItems > 0 && (
+      <span className="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
+        <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
+        Returned ({totalReturnedItems} items)
+      </span>
+    )}
+   
+
+    {totalCancelledItems > 0 && (
+       <span className="mt-1 inline-flex items-center gap-1 bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded">
+       <span className="w-2 h-2 me-2 rounded-full bg-red-600"></span>
+       Cancelled ({totalCancelledItems} items)
+     </span>
+    )}
+   
+  </div>
 
 
         <div className='flex items-center justify-end hidden md:flex'>

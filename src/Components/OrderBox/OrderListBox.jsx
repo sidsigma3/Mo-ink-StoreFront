@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchProductsById } from '../../Services/ProductService';
 import { Undo2 } from 'lucide-react';
 import ReturnModal from '../Modal/ReturnModal';
+import { updateOrderVariantStatuses } from '../../Services/OrderService';
 
 const statusClassMap = {
   "New Order": "bg-blue-100 border border-blue-400 text-blue-600",
@@ -12,35 +13,81 @@ const statusClassMap = {
   "Returned": "bg-gray-100 border border-gray-400 text-gray-600",
 };
 
-const OrderListBox = ({ item }) => {
+const OrderListBox = ({ item , status , orderId}) => {
   const [productName, setProductName] = useState("Product");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [returnRequested, setReturnRequested] = useState(false);
+  const [returnRequested, setReturnRequested] = useState(item.status === 'RETURN_REQUESTED');
+  const [pricePerKg, setPricePerKg] = useState(0);
+  const [gstRate, setGstRate] = useState(0);
+  const [productFetched, setProductFetched] = useState(false);
 
-  const totalPrice = parseFloat(item.orderWeight) * item.pricePerKg;
-  const status = item.status || "New Order";
+  const weight = parseFloat(item.orderWeight) || 0;
+  
+  const fetchProductData = async () => {
+    const res = await fetchProductsById(item.productId);
+    if (res.success) {
+      const product = res.data;
+      setProductName(product.productName);
+      setGstRate(Number(product.gstOnProduct) || 0);
+
+      const matchedVariant = product.variants.find(
+        (v) => v.size === item.size && v.color?.id === item.color?.id
+      );
+
+      setPricePerKg(matchedVariant?.pricePerKg || 0);
+      setProductFetched(true);
+    }
+  };
 
   useEffect(() => {
-    const getProductName = async () => {
-      const res = await fetchProductsById(item.productId);
-      if (res.success) {
-        setProductName(res.data.productName);
-      }
-    };
-
     if (item?.productId) {
-      getProductName();
+      fetchProductData();
     }
   }, [item.productId]);
 
-  const handleConfirmReturn = ({ reason, comment }) => {
-    console.log("Return Requested for:", item._id);
-    console.log("Reason:", reason);
-    console.log("Comment:", comment);
-    setReturnRequested(true);
-    setIsModalOpen(false);
+  // Compute pricing only after data is fetched
+  const baseCost = weight * pricePerKg;
+  // const discountedCost = baseCost - (baseCost * combinedDiscountPercent) / 100;
+  // const gstAmount = (discountedCost * gstRate) / 100;
+  // const totalPrice = discountedCost + gstAmount;
+
+
+  const handleConfirmReturn = async ({ reason, comment }) => {
+    try {
+      await updateOrderVariantStatuses(orderId, [
+        {
+          orderVariantId: item.orderVariantId,
+          status: "RETURN_REQUESTED",
+          reason,
+          remark: comment || "Customer initiated return",
+        },
+      ]);
+
+      setReturnRequested(true);
+      alert("Return request submitted successfully!");
+    } catch (error) {
+      console.error("Failed to submit return request", error);
+      alert("Failed to submit return request");
+    } finally {
+      setIsModalOpen(false);
+    }
   };
+
+
+  const statusOptions = {
+    NEW: "New Order",
+    CANCELLED: "Cancelled",
+    CONFIRMED: "Confirmed",
+    MANUFACTURING: "Manufactured",
+    SHIPPED: "Shipped",
+    DELIVERED: "Delivered",
+    RETURNED: "Returned",
+    RETURN_REQUESTED: "Return Requested",
+    RETURN_REJECTED: "Return Rejected",
+  };
+  
+  console.log(item)
 
   return (
     <div className="grid grid-cols-10 gap-2 relative p-4 justify-center rounded-lg bg-white">
@@ -82,9 +129,9 @@ const OrderListBox = ({ item }) => {
       {/* Status Badge (Desktop) */}
       <div className="col-span-3 hidden lg:flex justify-center items-center">
         <span
-          className={`text-md font-semibold px-4 py-1 rounded-md ${statusClassMap[status] || ''}`}
+          className={`text-md font-semibold px-4 py-1 rounded-md ${statusClassMap[item.status] || ''}`}
         >
-          {status}
+          {statusOptions[item.status]}
         </span>
       </div>
 
@@ -93,10 +140,10 @@ const OrderListBox = ({ item }) => {
         <div className="flex items-center gap-2">
           <div className="text-right">
             <h4 className="text-2xl font-bold text-violet-800">
-              ₹{totalPrice.toFixed(0)}
+              ₹{baseCost.toFixed(0)}
             </h4>
             <p className="text-gray-500 font-medium">
-              Weight: {item.orderWeight}KG
+              Weight: {weight}KG
             </p>
 
             {returnRequested && (
@@ -107,19 +154,22 @@ const OrderListBox = ({ item }) => {
             )}
           </div>
 
-          <button
-            className={`text-gray-500 ms-3 hover:text-gray-900 focus:outline-none ${
-              returnRequested ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={() => {
-              if (!returnRequested) {
-                setDropdownOpen(!dropdownOpen);
-              }
-            }}
-            disabled={returnRequested}
-          >
-            <Undo2 className="w-6 h-6" />
-          </button>
+          {status === 'DELIVERED' && item.status !== 'RETURNED' && (
+             <button
+             className={`text-gray-500 ms-3 hover:text-gray-900 focus:outline-none ${
+               returnRequested ? "opacity-50 cursor-not-allowed" : ""
+             }`}
+             onClick={() => {
+               if (!returnRequested) {
+                 setDropdownOpen(!dropdownOpen);
+               }
+             }}
+             disabled={returnRequested}
+           >
+             <Undo2 className="w-6 h-6" />
+           </button>
+          )}
+         
         </div>
 
         {dropdownOpen && (

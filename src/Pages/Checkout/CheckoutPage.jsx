@@ -446,8 +446,67 @@ const CheckoutPage = () => {
       };
       
 
+      const buildDetailedOrderVariants = (cartItems) => {
+        const unitWeight = 50;
+        const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
+        const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
+      
+        console.log(paymentDiscount,productDiscount)
 
-    const handleCreateOrder = async () => {
+        const customerState = selectedAddress?.state?.toLowerCase() || "";
+        const ratePerKg = customerState === "odisha" ? 3 : 5;
+      
+        // Total weight for proportional handling charge calculation
+        const totalWeight = cartItems.reduce((acc, item) => acc + (item.quantity * unitWeight), 0);
+      
+        return cartItems
+          .filter(item => item.variantId && item.quantity > 0)
+          .map(item => {
+            const itemWeight = Number(item.quantity) * unitWeight;
+            const itemTotal = item.price * item.quantity * unitWeight;
+            const gstRate = item.gstRate || 0;
+      
+            let applicableCouponDiscount = 0;
+            if (appliedCoupon?.applicableProducts?.some(p => p.id === item.productId)) {
+              applicableCouponDiscount = productDiscount;
+            }
+      
+            const combinedDiscountPercent =
+              applicableCouponDiscount + paymentDiscount - (applicableCouponDiscount * paymentDiscount) / 100;
+
+            console.log(combinedDiscountPercent)
+      
+            const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
+            const discountedTotal = itemTotal - itemDiscount;
+            const gstForItem = (discountedTotal * gstRate) / 100;
+      
+            const cgst = customerState === "odisha" ? gstForItem / 2 : 0;
+            const sgst = customerState === "odisha" ? gstForItem / 2 : 0;
+            const igst = customerState !== "odisha" ? gstForItem : 0;
+      
+            const handlingCharges = totalWeight > 0 ? (itemWeight / totalWeight) * (totalWeight * ratePerKg) : 0;
+      
+            return {
+              variantId: item.variantId,
+              orderWeight: itemWeight,
+              variantType: item.variantType || "Cone",
+              orderVariantCgst: Number(cgst.toFixed(2)),
+              orderVariantSgst: Number(sgst.toFixed(2)),
+              orderVariantIgst: Number(igst.toFixed(2)),
+              orderVariantDiscount: Number(itemDiscount.toFixed(2)),
+              orderVariantHandlingCharges: Number(handlingCharges.toFixed(2)),
+              orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(2)),
+              status: "NEW",
+              statusReason: null,
+              statusRemark: null,
+            };
+          });
+      };
+      
+      
+
+
+      const handleCreateOrder = async () => {
         try {
           if (!customerId) {
             alert("Customer info missing!");
@@ -459,15 +518,8 @@ const CheckoutPage = () => {
             return;
           }
       
-          const orderVariants = selectedCartItems
-            .filter(item => item.variantId && item.quantity > 0)
-            .map(item => ({
-              variantId: item.variantId,
-              orderWeight: Number(item.quantity)* 50,
-              variantType: item.variantType || "Cone"
-            }));
-      
-          const totalQuantity = orderVariants.reduce((sum, item) => sum + item.orderWeight, 0);
+          const orderVariants = buildDetailedOrderVariants(selectedCartItems);
+          const totalQuantity = orderVariants.length;
           const totalAmount = Number(adjustedNetPay).toFixed(0);
       
           if (orderVariants.length === 0 || totalQuantity === 0) {
@@ -477,45 +529,47 @@ const CheckoutPage = () => {
       
           const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
       
+          const totalCgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantCgst || 0), 0);
+          const totalSgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantSgst || 0), 0);
+          const totalDiscount = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0);
+          const totalHandlingCharges = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0);
+      
           const orderData = {
             customer: {
-                customerId,
-                billingAddressId: billingAddress?.id || null,
-                shippingAddressId: selectedAddress?.id || null
+              customerId,
+              billingAddressId: billingAddress?.id || null,
+              shippingAddressId: selectedAddress?.id || null,
             },
-            status: "New Order",
-            totalAmount:Number(totalAmount),
+            status: "NEW",
+            totalAmount: Number(totalAmount),
             discountId: appliedCoupon?.discountId || null,
             walletAmount: walletUsedAmount,
             quantity: totalQuantity,
             paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
             payment: {
-              paymentId: Date.now(),
-              totalAmount:Number(totalAmount),
+              totalAmount: Number(totalAmount),
               codAmount: codPay,
               onlineAmount: onlinePay,
               transactionId: "COD" + Date.now(),
               paidAmount: onlinePay,
               pendingAmount: codPay,
-              paymentStatus: "PENDING",
-              totalDiscount:totalDiscount,
-              totalSgst:(gstAmount/2).toFixed(2),
-              totalCgst:(gstAmount/2).toFixed(2)
+              paymentStatus: "UNPAID",
+              totalDiscount,
+              totalSgst,
+              totalCgst,
+              totalHandlingCharges,
             },
-            orderVariants
+            orderVariants,
           };
-
-         
-          console.log(orderData)
+      
+          console.log(orderData);
           const response = await createOrder(orderData);
-        //   console.log("Customer Order Created:", response);
-
-       
-        await Promise.all(
+      
+          await Promise.all(
             selectedCartItems.map(item =>
-            removeFromCart(customerId, item.variantId)
+              removeFromCart(customerId, item.variantId)
             )
-        );
+          );
       
           alert("Order placed successfully!");
           navigate("/orders");
@@ -524,7 +578,7 @@ const CheckoutPage = () => {
           alert("Failed to place order.");
         }
       };
-
+      
 
       const handleOnlinePaymentFlow = async () => {
         try {
@@ -538,15 +592,19 @@ const CheckoutPage = () => {
             return;
           }
       
-          const orderVariants = selectedCartItems
-            .filter(item => item.variantId && item.quantity > 0)
-            .map(item => ({
-              variantId: item.variantId,
-              orderWeight: Number(item.quantity) * 50,
-              variantType: item.variantType || "Cone",
-            }));
+          const orderVariants = buildDetailedOrderVariants(selectedCartItems);
+        
       
-          const totalQuantity = orderVariants.reduce((sum, item) => sum + item.orderWeight, 0);
+          if (orderVariants.length === 0 ) {
+            alert("No valid items or weight!");
+            return;
+          }
+
+          const totalCgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantCgst || 0), 0);
+          const totalSgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantSgst || 0), 0);
+          const totalDiscount = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0);
+          const totalHandlingCharges = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0);
+          const totalQuantity =  orderVariants.length
           const totalAmount = Number(adjustedNetPay).toFixed(0);
       
           if (orderVariants.length === 0 || totalQuantity === 0) {
@@ -562,7 +620,7 @@ const CheckoutPage = () => {
                 billingAddressId: billingAddress?.id || null,
                 shippingAddressId: selectedAddress?.id || null
               },
-            status: "New Order",
+            status: "PENDING",
             totalAmount: Number(totalAmount),
             discountId: appliedCoupon?.discountId || null,
             walletAmount: walletUsedAmount,
@@ -575,27 +633,33 @@ const CheckoutPage = () => {
               transactionId: "COD" + Date.now(),
               paidAmount: onlinePay,
               pendingAmount: codPay,
-              paymentStatus: "PENDING",
+              paymentStatus: "UNPAID",
               totalDiscount:totalDiscount,
               totalSgst:(gstAmount/2).toFixed(2),
-              totalCgst:(gstAmount/2).toFixed(2)
+              totalCgst:(gstAmount/2).toFixed(2),
+              totalHandlingCharges,
             },
             orderVariants,
           };
       
-          // Create order on your backend
+         console.log(orderData)
+
           const createdOrder = await createOrder(orderData);
           const orderId = createdOrder.data?.orderId;
       
-          // Initiate Razorpay order
+          console.log(orderId)
+
           const paymentData = await initiatePayment(orderId);
+
+          console.log(paymentData)
+
           const { razorpayOrderId, razorpayOrderstatus } = paymentData.data;
       
           if (!razorpayOrderId || paymentData.status !== "SUCCESS") {
             throw new Error("Failed to get valid Razorpay order");
           }
       
-          // Dynamically load Razorpay script
+     
           const loadScript = (src) => {
             return new Promise((resolve) => {
               const script = document.createElement("script");
@@ -616,7 +680,7 @@ const CheckoutPage = () => {
 
       
           const options = {
-            key: "rzp_test_oqL33XMoXAV4ym", // Replace with your test key
+            key: "rzp_test_oqL33XMoXAV4ym",
             amount: Number(onlinePay) * 100,
             currency: "INR",
             name: "Mo ink and Dye",
@@ -625,7 +689,7 @@ const CheckoutPage = () => {
             handler: function (response) {
               console.log("Payment Success", response);
               alert("Payment Successful!");
-              // Optionally verify payment on backend here
+           
             },
             prefill: {
               name: customer.customerName || "",

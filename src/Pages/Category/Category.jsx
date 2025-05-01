@@ -138,11 +138,11 @@ const Category = () => {
         >
 
           <div className='flex justify-between bg-black text-white p-3'>
-            <h4 className='text-xl font-bold'>Menu</h4>
+            <h4 className='text-xl font-bold'>Filters</h4>
             <IoClose size={24} className="cursor-pointer mb-4" onClick={() => setIsOpen(false)} />
           </div>
           <div className='col-span-1 '>
-            <div className='border rounded p-3 shadow-md'>
+            <div className='border rounded p-3'>
               <h4 className='text-xl font-semibold'>Category</h4>
               <ul>
 
@@ -240,16 +240,54 @@ const Category = () => {
 
             </div> */}
 
+            <div className='border rounded p-3 mt-3 w-full max-w-xs'>
+  {/* Brand Filter */}
+  <h4 className='text-xl font-semibold mb-3'>Counter</h4>
+  <ul className='space-y-2 ms-3 mb-6'>
+    {["2/80", "2/60", "1/90", "2/100", "1/40",].map((counter, index) => (
+      <li key={index} className='flex items-center gap-2'>
+        <input type='checkbox' className='accent-violet-800' />
+        <label className='text-base font-medium'>{counter}</label>
+      </li>
+    ))}
+  </ul>
 
+  {/* Color Filter */}
+  <h4 className='text-xl font-semibold mb-3'>Color</h4>
+  <ul className='space-y-2 ms-3'>
+    {[
+      { color: "Black", code: "#000" },
+      { color: "Blue", code: "#007bff" },
+      { color: "White", code: "#f8f8f8", border: true },
+      { color: "Grey", code: "#999" },
+      { color: "Green", code: "#28a745" },
+      { color: "Navy Blue", code: "#001f3f" },
+      { color: "Brown", code: "#8B4513" },
+      { color: "Beige", code: "#f5f5dc", border: true },
+      { color: "Pink", code: "#ff69b4" },
+      { color: "Red", code: "#dc3545" },
+      { color: "Yellow", code: "#ffc107" },
+    ].map((item, index) => (
+      <li key={index} className='flex items-center gap-2'>
+        <input type='checkbox' className='accent-violet-800' />
+        <span
+          className={`w-4 h-4 rounded-full inline-block ${item.border ? 'border' : ''}`}
+          style={{ backgroundColor: item.code }}
+        ></span>
+        <label className='text-base font-medium'>{item.color}</label>
+      </li>
+    ))}
+  </ul>
+</div>
 
           </div>
         </div>
       </div>
 
 
-      <div className='grid grid-cols-3 px-6 md:px-14 py-3 gap-5 mt-10'>
-        <div className='col-span-1 hidden lg:block'>
-          <div className='border rounded p-3 shadow-md'>
+      <div className='grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  px-6 md:px-14 py-3 gap-5 mt-10'>
+        <div className='hidden md:block col-span-2 lg:col-span-1 '>
+          <div className='border rounded p-3 max-w-xs'>
             <h4 className='text-xl font-semibold'>Category</h4>
             <ul>
 
@@ -320,89 +358,56 @@ const Category = () => {
                          </li> */}
             </ul>
           </div>
-          <div className='border rounded p-3 shadow-md mt-3'>
-            <h4 className='text-xl font-semibold'>New Stock</h4>
-            <ul className='divide-y-2 divide-dotted'>
-              <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
-                <div className=''>
-                  <img src='/images/wool-item.png'></img>
-                </div>
+          <div className='border rounded p-3 mt-3 w-full max-w-xs'>
+  {/* Brand Filter */}
+  <h4 className='text-xl font-semibold mb-3'>Counter</h4>
+  <ul className='space-y-2 mb-6'>
+  {["2/80", "2/60", "1/90", "2/100", "1/40",].map((counter, index) => (
+    <li key={index} className='flex items-center gap-2'>
+        <input type='checkbox' className='accent-violet-800' />
+        <label className='text-base font-medium'>{counter}</label>
+      </li>
+    ))}
+  </ul>
 
-                <div className='flex-1'>
-                  <h4 className='font-bold text-violet-800'>Wool - 2/92
-                    <br></br>
-                    (Pink)
-                  </h4>
-                  <p className='text-lg font-medium mt-2'>₹328.85</p>
-                  <div className='flex justify-end gap-3'>
-                    <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
-                      onClick={() => navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
+  {/* Color Filter */}
+  <h4 className='text-xl font-semibold mb-3'>Color</h4>
+  <ul className='space-y-2'>
+    {[
+      { color: "Black", code: "#000" },
+      { color: "Blue", code: "#007bff" },
+      { color: "White", code: "#f8f8f8", border: true },
+      { color: "Grey", code: "#999" },
+      { color: "Green", code: "#28a745" },
+      { color: "Navy Blue", code: "#001f3f" },
+      { color: "Brown", code: "#8B4513" },
+      { color: "Beige", code: "#f5f5dc", border: true },
+      { color: "Pink", code: "#ff69b4" },
+      { color: "Red", code: "#dc3545" },
+      { color: "Yellow", code: "#ffc107" },
+    ].map((item, index) => (
+      <li key={index} className='flex items-center gap-2'>
+        <input type='checkbox' className='accent-violet-800' />
+        <span
+          className={`w-4 h-4 rounded-full inline-block ${item.border ? 'border' : ''}`}
+          style={{ backgroundColor: item.code }}
+        ></span>
+        <label className='text-base font-medium'>{item.color}</label>
+      </li>
+    ))}
+  </ul>
+</div>
 
-                    <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
-                      <span className='text-yellow-300'><TiStarFullOutline /></span>
-                      <p>4.5</p>
-                    </div>
-                  </div>
-                </div>
 
-              </li>
 
-              <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
-                <div className=''>
-                  <img src='/images/wool-item.png'></img>
-                </div>
 
-                <div className='flex-1'>
-                  <h4 className='font-bold text-violet-800'>Wool - 2/92
-                    <br></br>
-                    (Pink)
-                  </h4>
-                  <p className='text-lg font-medium mt-2'>₹328.85</p>
-                  <div className='flex justify-end gap-3'>
-                    <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
-                      onClick={() => navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
 
-                    <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
-                      <span className='text-yellow-300'><TiStarFullOutline /></span>
-                      <p>4.5</p>
-                    </div>
-                  </div>
-                </div>
-
-              </li>
-
-              <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
-                <div className=''>
-                  <img src='/images/wool-item.png'></img>
-                </div>
-
-                <div className='flex-1'>
-                  <h4 className='font-bold text-violet-800'>Wool - 2/92
-                    <br></br>
-                    (Pink)
-                  </h4>
-                  <p className='text-lg font-medium mt-2'>₹328.85</p>
-                  <div className='flex justify-end gap-3'>
-                    <button className='d-flex align-items-center justify-content-center gap-2 bg-violet-800 text-white font-medium rounded flex-1 text-xs md:text-md'
-                      onClick={() => navigate("/shoppingCart")}>ADD TO CART <span><MdOutlineShoppingCart size={20} /></span></button>
-
-                    <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
-                      <span className='text-yellow-300'><TiStarFullOutline /></span>
-                      <p>4.5</p>
-                    </div>
-                  </div>
-                </div>
-
-              </li>
-            </ul>
-
-          </div>
 
 
 
         </div>
 
-        <div className='col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4'>
+        <div className='col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 
           {selectedCategory &&
             finalData

@@ -4,7 +4,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { ImWhatsapp } from "react-icons/im";
 import { MdOutlineMailOutline } from "react-icons/md";
 import BottomNav from '../BottomNav/BottomNav';
-import emailjs from "emailjs-com";
+import emailjs from '@emailjs/browser';
 
 
 
@@ -29,10 +29,10 @@ const [zoom, setZoom] = useState(13);
       whatsapp_number: formData.whatsapp,
       email: formData.email,
       message: formData.message,
-      to_email: "moink.contact@gmail.com"
+      to_email: "aivorntech@gmail.com"
     };
   
-    emailjs.send('service_v9by9gj', 'template_pdedrha', templateParams, 'F88VuipkesL19tUp4')
+    emailjs.send('service_hmdvy1a', 'template_zuxwz8b', templateParams, 'gZPS5u-eCpN2gekB_')
       .then((response) => {
         console.log("SUCCESS!", response.status, response.text);
         alert("Message is sent to Ink & Dye. Team will soon reach out to you.");
@@ -140,7 +140,7 @@ return (
             <span><FiPhoneCall size={30} /></span>
             <div>
               <h4 className='text-lg font-medium'>PHONE</h4>
-              <p className='purple-text font-medium'>12347 65879</p>
+              <p className='purple-text font-medium'>74069 44477</p>
             </div>
           </div>
 
@@ -148,7 +148,7 @@ return (
             <span><ImWhatsapp size={30} /></span>
             <div>
               <h4 className='text-lg font-medium'>WhatsApp</h4>
-              <p className='purple-text font-medium'>12347 65879</p>
+              <p className='purple-text font-medium'>74069 44477</p>
             </div>
           </div>
 
@@ -156,7 +156,7 @@ return (
             <span><MdOutlineMailOutline size={33} /></span>
             <div>
               <h4 className='text-lg font-medium'>EMAIL</h4>
-              <p className='purple-text font-medium'>info@gmail.com</p>
+              <p className='purple-text font-medium'>support@inkndyes.com</p>
             </div>
           </div>
         </div>

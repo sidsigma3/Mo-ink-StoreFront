@@ -162,7 +162,7 @@ const ProductList = () => {
           <SlilderCard title={product.productName}>
           {product.groupedVariants.map((size, ix) =>
               size.variants.map((color, i) => (
-                <li key={`${idx}-${ix}-${i}`} className="keen-slider__slide">
+                <li key={`${idx}-${ix}-${i}`} className="keen-slider__slide ">
                   <ProductDetailBox
                     productName={product.productName}
                     size={size.size}

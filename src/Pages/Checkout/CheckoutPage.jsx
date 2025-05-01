@@ -27,6 +27,7 @@ import { useAppContext } from '../../Utils/commoncontext'
 import { getWalletTransactions } from '../../Services/CustomerService'
 import { createOrder } from '../../Services/OrderService'
 import { initiatePayment } from '../../Services/PaymentService'
+import ModalSuccess from '../../Components/Modal/ModalSuccess' 
 
 const CheckoutPage = () => {
 
@@ -47,6 +48,7 @@ const CheckoutPage = () => {
     const [quantities, setQuantities] = useState({});
     const lastTapRef = useRef(0);
     const singleClickTimeoutRef = useRef(null);
+    const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
     const selectedCartItems = cartItems.filter(item =>
         selectedItems.includes(item.variantId)
     );
@@ -458,6 +460,13 @@ const CheckoutPage = () => {
             alert("Cart is empty!");
             return;
           }
+
+          setIsOrderSuccessOpen(true);
+          setTimeout(() => {
+            setIsOrderSuccessOpen(false);
+          }, 8000);
+        
+
       
           const orderVariants = selectedCartItems
             .filter(item => item.variantId && item.quantity > 0)
@@ -673,7 +682,7 @@ const CheckoutPage = () => {
                 <HeroSection productName={"Shopping Cart"} breadcrumbs={breadcrumbs}></HeroSection>
             </div>
 
-            <div className='md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
+            <div className='px-6 md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
                 <h5 className='font-bold text-2xl'>Review your cart</h5>
                 {cartItems.length > 0 ? (
                     <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 '>
@@ -726,7 +735,7 @@ const CheckoutPage = () => {
                 )}
 
 
-                <div className='p-2 flex-1 mt-3'>
+                <div className=' flex-1 mt-10'>
 
                     <div className='flex justify-between'>
                         <h5 className='font-bold text-2xl'>Shipping Address</h5>
@@ -1226,7 +1235,14 @@ const CheckoutPage = () => {
             <div className='px-6 lg:px-14 py-3 mt-10'><Cta></Cta></div>
             <div className='px-6 lg:px-14 py-3'> <Footer></Footer></div>
             <BottomNav></BottomNav>
+
+            <ModalSuccess
+  isOpen={isOrderSuccessOpen}
+  onClose={() => setIsOrderSuccessOpen(false)}
+/>
+
         </div>
+        
     )
 }
 

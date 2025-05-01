@@ -13,6 +13,8 @@ import FeturesList from '../../Components/FeturesList/FeturesList'
 import Footer from '../../Components/Footer/Footer'
 import CtaCard from '../../Components/CTA/CtaCard'
 import BottomNav from '../../Components/BottomNav/BottomNav'
+import WhatsAppWidget from '../../Components/WhatsappWidget';
+
 
 const LandingPage = () => {
   
@@ -61,6 +63,7 @@ const LandingPage = () => {
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         <BottomNav />
+        <WhatsAppWidget />
 
     </div>
   )

@@ -13,6 +13,9 @@ import UserDropdown from '../Buttons/UserDropdown/UserDropdown';
 import { addToWishlist, getWishlist, removeFromWishlist } from "../../Services/WishlistService"
 import { getCart } from "../../Services/CartService"
 import { useAppContext } from '../../Utils/commoncontext';
+import { MdChevronRight } from "react-icons/md";
+import { AiOutlineLogout } from "react-icons/ai";
+
 
 
 const NavbarHeader = () => {
@@ -61,12 +64,26 @@ const NavbarHeader = () => {
   };
 
 
+  const accountMenuItems = [
+    { label: "Profile", path: "/setting" },
+    { label: "Your Orders", path: "/orders" },
+    { label: "Wallet", path: "/wallet" },
+    { label: "Shopping Cart", path: "/shoppingCart" },
+    { label: "Wishlist", path: "/wishlist" },
+    { label: "Address", path: "/address" },
+  ];
+
+  
+
   const handleLogout = () => {
     localStorage.clear();
     navigate("/"); 
   };
 
+
+
   useEffect(() => {
+    
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setAccountOpen(false);
@@ -119,7 +136,7 @@ const NavbarHeader = () => {
               <a className="hover:text-purple-600 cursor-pointer">About</a>
             </li>
             <li>
-              <a className="hover:text-purple-600 cursor-pointer">Blog</a>
+              <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/blogs")}>Blogs</a>
             </li>
             <li>
               <a className="hover:text-purple-600 cursor-pointer">Contact</a>
@@ -175,21 +192,54 @@ const NavbarHeader = () => {
           </Badge>
         </div>
 
-        <div ref={dropdownRef} onClick={() => setAccountOpen((prev) => !prev)} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg relative' style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}>
+        <div
+  ref={dropdownRef}
+  onClick={() => setAccountOpen((prev) => !prev)}
+  className="flex items-center justify-center rounded-full yellow-light-bg relative"
+  style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}
+>
+  <GoPerson size={20} />
 
-          <span><GoPerson size={20} /></span>
-          {accountOpen && (
-            <div
-              className="absolute bg-white shadow rounded py-2 px-3"
-              style={{ top: "100%", right: "12", minWidth: "150px", zIndex: 10 }}
-            >
-              <ul className="list-unstyled m-0">
-                <li className="p-2 cursor-pointer hover:bg-gray-200 rounded" onClick={() => navigate("/account")}>Account</li>
-                <li className="p-2 cursor-pointer hover:bg-gray-200 rounded" onClick={handleLogout}>Logout</li>
-              </ul>
-            </div>
-          )}
-        </div>
+  {accountOpen && (
+    <div className="absolute top-full right-0 w-64 z-50 mt-2 rounded-lg shadow-lg bg-white text-md">
+      {/* User Info */}
+      <div className="px-4 py-3 border-b border-gray-300">
+        <p className="font-bold text-gray-800">User Name</p>
+        <p className="text-gray-600 text-sm">useremail@gmail.com</p>
+      </div>
+
+      {/* Account Menu */}
+      <ul className="py-2  text-gray-800">
+      <li
+  className="flex justify-between items-center px-4 py-2 font-semibold hover:bg-gray-200 rounded cursor-pointer"
+  onClick={() => navigate("/account")}
+>
+  Account <MdChevronRight size={20} className="text-gray-500 text-lg" />
+</li>
+        {accountMenuItems.map(({ label, path }) => (
+    <li
+      key={label}
+      className="px-4 py-2 hover:bg-gray-200 rounded cursor-pointer"
+      onClick={() => navigate(path)}
+    >
+      {label}
+    </li>
+        ))}
+      </ul>
+
+      {/* Logout */}
+      <div className="border-t border-gray-300">
+        <li
+          className="flex justify-between items-center px-4 py-3 text-md font-semibold hover:bg-gray-200 cursor-pointer"
+          onClick={handleLogout}
+        >
+          Logout <AiOutlineLogout size={20} className="text-red-500"/>
+        </li>
+      </div>
+    </div>
+  )}
+</div>
+
 
 
       </div>

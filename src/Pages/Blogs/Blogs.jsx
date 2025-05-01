@@ -6,12 +6,12 @@ import Cta from '../../Components/CTA/Cta';
 import Footer from '../../Components/Footer/Footer';
 import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
-import BlogBox from '../../Components/BlogList/BlogBox';
+import BlogBox from '../../Components/BlogList/BlogBox1';
 
 const Blogs = () => {
   const breadcrumbs = [
     { label: "Home", link: "/home" },
-    { label: "Blogs", link: "/Blogs" },
+    { label: "Blogs", link: "/blogs" },
   ];
 
   return (

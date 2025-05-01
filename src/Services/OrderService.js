@@ -57,3 +57,14 @@ export const deleteOrder = async (orderId) => {
     throw error;
   }
 };
+
+
+export const updateOrderVariantStatuses = async (orderId,updates) => {
+  try {
+    const response = await axios.put(`${URL}/order-variants/status-update/${orderId}`, updates);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating status of order with ID ${orderId}:`, error);
+    throw error;
+  }
+};

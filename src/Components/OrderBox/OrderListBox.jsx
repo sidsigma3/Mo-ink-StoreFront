@@ -154,7 +154,7 @@ const OrderListBox = ({ item , status , orderId}) => {
             )}
           </div>
 
-          {status === 'DELIVERED' && item.status !== 'RETURNED' && (
+          {status === 'DELIVERED' && item.status !== 'RETURNED' && item.status!=='CANCELLED' && (
              <button
              className={`text-gray-500 ms-3 hover:text-gray-900 focus:outline-none ${
                returnRequested ? "opacity-50 cursor-not-allowed" : ""

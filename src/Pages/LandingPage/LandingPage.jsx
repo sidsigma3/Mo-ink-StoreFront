@@ -14,6 +14,8 @@ import Footer from '../../Components/Footer/Footer'
 import CtaCard from '../../Components/CTA/CtaCard'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import WhatsAppWidget from '../../Components/WhatsappWidget';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
 
 
 const LandingPage = () => {
@@ -34,18 +36,33 @@ const LandingPage = () => {
 
       setTimeout(() => {
         setShowWelcome(false);
-      }, 2000);
+      }, 4000);
     }
   }, []);
   return (
     <div className='w-full'>
               {showWelcome && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50">
-                <div className="bg-white text-black rounded-md shadow-lg p-2 w-full max-w-md text-center">
-                    <h2 className="text-md font-bold mb-2">Welcome {customerName}!</h2>
-                    <p className="text-xs">Please Enjoy Shopping 🛍️</p>
-                </div>
-            </div>
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 text-center">
+        <div className="w-full flex justify-center">
+          <DotLottieReact
+      src="https://lottie.host/b3f5008d-a56d-49dc-bc0a-a555bc07b23c/dJvXow8Chz.lottie"
+      loop
+            autoplay
+            style={{ width: '160px', height: '160px' }}
+          />
+        </div>
+
+       <h2 className= "text-2xl font-semibold text-gray-800 mb-2">
+        Welcome {customerName}!
+        </h2>
+
+        <p className="text-md mb-4 text-gray-500">
+        We're delighted to welcome you aboard! Take a moment, explore our collections, and discover products crafted with care.
+        </p>
+      </div>
+    </div>
+            
         )}
         {/* <div className='px-5 py-3'> <TopNavigation></TopNavigation></div> */}
         <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>

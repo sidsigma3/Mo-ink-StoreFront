@@ -8,7 +8,7 @@ import { RiFilePaper2Line } from "react-icons/ri";
 import { getWalletTransactions } from "../../Services/CustomerService";
 import BottomNav from "../../Components/BottomNav/BottomNav";
 import { ArrowDownToLine } from 'lucide-react';
-
+import { downloadCreditReceipt } from "../../Services/InvoiceService";
 
 const WalletPage = () => {
   const [transactions, setTransactions] = useState([]);
@@ -31,13 +31,10 @@ const WalletPage = () => {
       try {
         const data = await getWalletTransactions(customer.customerId);
         setTransactions(data || []); // Assuming response has a transactions array
-        const balance = data.reduce((acc, tx) => {
-          return tx.type === "CREDIT"
-            ? acc + tx.amount
-            : acc - tx.amount;
-        }, 0);
-        
-        setWalletBalance(balance);
+
+      setWalletBalance(data[data.length-1].totalAmount || 0); // Assuming response has a balance field
+
+
       } catch (error) {
         console.error("Error loading transactions:", error);
       } finally {
@@ -54,9 +51,31 @@ const WalletPage = () => {
   }, [customer]);
 
 
-
-
+  const handleDownloadCreditReceipt = async (source) => {
+    const isCancellation = source.toLowerCase().includes("cancellation");
+    const isReturn = source.toLowerCase().includes("return");
   
+    // Extract order ID (last number in the string)
+    const match = source.match(/order:\s*(\d+)/i);
+    const orderId = match ? match[1] : null;
+  
+    if (!orderId || (!isCancellation && !isReturn)) {
+      console.error("Invalid source format:", source);
+      return;
+    }
+  
+    const type = isCancellation ? "CANCELLED" : "RETURNED";
+  
+    console.log(type,orderId)
+    try {
+      await downloadCreditReceipt(orderId, type);
+    } catch (error) {
+      console.error("Failed to download credit receipt:", error);
+    }
+  };
+  
+ 
+
 
   const breadcrumbs = [
     { label: "Home", link: "/home" },
@@ -75,7 +94,7 @@ const WalletPage = () => {
       {/* Wallet Balance */}
       <div className="bg-violet-100  p-2 text-center md:text-left mt-6">
         <h3 className="text-xl font-bold">Wallet Balance:</h3>
-        <h3  className="text-xl font-bold text-green-500">₹{walletBalance.toFixed(2)}</h3>
+        <h3  className="text-xl font-bold text-green-500">₹{walletBalance.toFixed(0)}</h3>
       </div>
 
       {/* Transaction Table */}
@@ -104,30 +123,30 @@ const WalletPage = () => {
                   <tr key={index} className="text-center">
                     <td className="border border-gray-300 p-2">{item.source}</td>
                     <td class="text-center border border-gray-300">
-  <span class="text-sm font-medium text-gray-700">INV-10234</span>
-</td>
+                      <span class="text-sm font-medium text-gray-700">INV-10234</span>
+                    </td>
                     <td
                       className="border border-gray-300 p-2 font-semibold"
                       style={{ color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000" }}
                     >
                       {item.type}
                     </td>
-                    <td className="border border-gray-300 p-2">₹{item.amount.toFixed(2)}</td>
+                    <td className="border border-gray-300 p-2">₹{item.amount.toFixed(0)}</td>
                     <td className="border border-gray-300 p-2">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>
                     <td className=" text-center border border-gray-300">
-  <button
-    // onClick={(e) => {
-    //   e.stopPropagation();
-    //   handleDownloadInvoice(order.orderId);
-    // }}
-    className="text-violet-800 hover:text-violet-600"
-    title="Download Invoice"
-  >
-    <ArrowDownToLine size={20} />
-  </button>
-</td>
+                      <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDownloadCreditReceipt(item.source);
+                      }}
+                        className="text-violet-800 hover:text-violet-600"
+                        title="Download Invoice"
+                      >
+                        <ArrowDownToLine size={20} />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

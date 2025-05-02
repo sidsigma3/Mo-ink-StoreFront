@@ -3,6 +3,7 @@ import { TbFileInvoice } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
 import { MdArrowForwardIos } from "react-icons/md";
 import { downloadInvoice } from '../../Services/InvoiceService';
+import { downloadCreditReceipt } from '../../Services/InvoiceService';
 
 const OrderBox = ({order}) => {
 
@@ -29,7 +30,13 @@ const OrderBox = ({order}) => {
       return total;
   }, 0);
     
-
+const handleDownloadCreditReceipt = async (orderId,type) => {
+      try {
+        await downloadCreditReceipt(orderId, type);
+      } catch (error) {
+        console.error("Failed to download credit receipt:", error);
+      }
+    };
 
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
@@ -69,7 +76,7 @@ const OrderBox = ({order}) => {
 
         <div className='col-span-9 md:col-span-1 flex flex-col items-end justify-center gap-1'>
 
-        {order.status === 'SHIPPED' || order.status === 'DELIVERED' && (
+        {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
           <button 
             onClick={(e) => {
               e.stopPropagation()
@@ -97,6 +104,30 @@ const OrderBox = ({order}) => {
      </span>
     )}
    
+  </div>
+
+  <div>
+     {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
+                    order?.payment?.totalRefundAmount > 0 && (
+                      <button
+                        onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
+                        className='flex gap-2 bg-red-100 text-red-800 px-6 py-1 h-10 rounded items-center'
+                      >
+                        <TbFileInvoice size={20} />
+                        <h5>Cancelled Receipt</h5>
+                      </button>
+                    )}
+    
+                    {
+                      order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
+                        <button
+                          onClick={() => handleDownloadCreditReceipt(order.orderId, "RETURNED")}
+                          className='flex gap-2 bg-green-100 text-green-800 px-6 py-1 h-10 rounded items-center'
+                        >
+                          <TbFileInvoice size={20} />
+                          <h5>Returned Receipt</h5>
+                        </button>
+                     )}
   </div>
 
 

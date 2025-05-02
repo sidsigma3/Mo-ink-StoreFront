@@ -17,6 +17,7 @@ import { useLocation } from 'react-router-dom'
 import { downloadInvoice } from '../../Services/InvoiceService'
 import { getDiscountById } from '../../Services/DiscountService'
 import { Link } from 'react-router-dom'
+import { downloadCreditReceipt } from '../../Services/InvoiceService'
 
 const OrderDetails = () => {
 
@@ -52,15 +53,17 @@ const OrderDetails = () => {
     console.log(appliedCoupon)
     const orderDateObj = new Date(order.createdAt); // RAW Date object
 
-    const orderDate = orderDateObj.toLocaleString("en-IN", {
-      timeZone: "Asia/Kolkata",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+
+    const orderDate = new Date(order.createdAt).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
       hour: "numeric",
       minute: "numeric",
-      hour12: true,
-    });
+      hour12: true, 
+      });
+
     
     const estimatedDeliveryDateObj = new Date(orderDateObj);
     estimatedDeliveryDateObj.setDate(orderDateObj.getDate() + 18);
@@ -70,6 +73,7 @@ const OrderDetails = () => {
       month: 'long',
       day: 'numeric',
     });
+
     
 
 
@@ -276,6 +280,15 @@ const OrderDetails = () => {
         combinedDiscountPercent
       } = summary;
 
+
+   const handleDownloadCreditReceipt = async (orderId,type) => {
+      try {
+        await downloadCreditReceipt(orderId, type);
+      } catch (error) {
+        console.error("Failed to download credit receipt:", error);
+      }
+    };
+
   const breadcrumbs = [
     { label: "Home", link: "/home" },
     { label: "Account", link: "/account" },
@@ -307,18 +320,43 @@ const OrderDetails = () => {
                 </div>
 
 
-                {order.status === 'SHIPPED' || order.status === 'DELIVERED' && (
-                     <div className='flex items-center'>
-                     <button 
-                     onClick={(e)=>{
-                         handleDownloadInvoice(order.orderId)
-                     }}
-                     className='flex gap-2 bg-violet-100 text-violet-800 px-16 py-1 h-10 rounded items-center'>
-                         <span><TbFileInvoice size={20}/></span>
-                         <h5>INVOICE</h5>
-                     </button>
-                     </div>
-                ) }
+                {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
+                  <div className='flex items-center'>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDownloadInvoice(order.orderId);
+                      }}
+                      className='flex gap-2 bg-violet-100 text-violet-800 px-16 py-1 h-10 rounded items-center'
+                    >
+                      <span><TbFileInvoice size={20} /></span>
+                      <h5>INVOICE</h5>
+                    </button>
+                  </div>
+                )}
+
+
+                {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
+                order?.payment?.totalRefundAmount > 0 && (
+                  <button
+                    onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
+                    className='flex gap-2 bg-red-100 text-red-800 px-6 py-1 h-10 rounded items-center'
+                  >
+                    <TbFileInvoice size={20} />
+                    <h5>Cancelled Receipt</h5>
+                  </button>
+                )}
+
+                {
+                  order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
+                    <button
+                      onClick={() => handleDownloadCreditReceipt(order.orderId, "RETURNED")}
+                      className='flex gap-2 bg-green-100 text-green-800 px-6 py-1 h-10 rounded items-center'
+                    >
+                      <TbFileInvoice size={20} />
+                      <h5>Returned Receipt</h5>
+                    </button>
+                 )}
             
                 
             </div>
@@ -395,7 +433,7 @@ const OrderDetails = () => {
 
                 
 
-                <div className='border-1 rounded-md p-3  flex flex-col"'>
+                <div className='border-1 rounded-md p-3 '>
                        
         
                 <table className='w-100 rounded mt-2 font-semibold'>
@@ -495,20 +533,15 @@ const OrderDetails = () => {
                         </tr>
                     </tbody>
                     </table>
+       
                      
        
                    </div>
-                   <div></div>
-                   <div className="mt-4">
-                      <p className="text-md  font-medium  text-gray-500">
-                        Want to order these items again? Click here to{" "}
-                        <Link to="/buy" className="text-purple-800 font-bold hover:underline">
-                         Buy Again
-                          </Link>
-                        </p>
-
-                   </div>
+                
             </div>
+
+
+
 
         </div>
 

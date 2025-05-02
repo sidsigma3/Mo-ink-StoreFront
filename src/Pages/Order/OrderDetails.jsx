@@ -50,15 +50,25 @@ const OrderDetails = () => {
     }, [order?.discountId]);
 
     console.log(appliedCoupon)
+    const orderDateObj = new Date(order.createdAt); // RAW Date object
 
-    const orderDate = new Date(order.createdAt).toLocaleString("en-IN", {
+    const orderDate = orderDateObj.toLocaleString("en-IN", {
       timeZone: "Asia/Kolkata",
       year: "numeric",
       month: "short",
       day: "numeric",
       hour: "numeric",
       minute: "numeric",
-      hour12: true, 
+      hour12: true,
+    });
+    
+    const estimatedDeliveryDateObj = new Date(orderDateObj);
+    estimatedDeliveryDateObj.setDate(orderDateObj.getDate() + 18);
+    
+    const estimatedDeliveryDate = estimatedDeliveryDateObj.toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
     
 
@@ -291,8 +301,9 @@ const OrderDetails = () => {
                     <h4 className='font-bold text-2xl'>Order ID: {order.orderId}</h4>
                     <div className='flex divide-x-4 mt-6 gap-6'>
                         <h5>Order date:  <span className='font-semibold'>{orderDate}</span></h5>
-                        <h4 className='ps-6 text-violet-800 font-medium flex items-center gap-2'><span><HiOutlineTruck size={22}/></span>Estimated delivery May 16, 2022</h4>
-                    </div>
+                        <h4 className='ps-6 text-violet-800 font-medium flex items-center gap-2'>
+      <span><HiOutlineTruck size={22} /></span> Estimated delivery {estimatedDeliveryDate}</h4>                    
+      </div>
                 </div>
 
 

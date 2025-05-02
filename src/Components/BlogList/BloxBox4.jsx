@@ -3,7 +3,7 @@ import React from 'react'
 const BloxBox4 = () => {
   return (
     <div>
-       <a href="/Blog1" className="block">
+       <a href="/Blog4" className="block">
         <article className= "bg-white border border-grey-100 rounded-2xl overflow-hidden transition-transform transform hover:scale-95">
             <img
                 alt="Blog Image"
@@ -14,13 +14,11 @@ const BloxBox4 = () => {
             <div className="p-3">
                 <a href="#">
                 <h3 className="text-lg font-medium text-gray-900">
-                The Journey of Yarn: From Raw Fiber to High-Quality Thread.
-                </h3>
+                Cone vs. Hank: Choosing the Right Yarn                </h3>
                 </a>
 
                 <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                A behind-the-scenes look at how raw materials like cotton, silk, and polyester are transformed into premium yarns. Highlight the production process, quality control, and sustainability efforts.
-                </p>
+                Not all yarn formats are created equal. The choice between a yarn cone and a hank may seem minor, but it can greatly impact your production efficiency, dyeing precision, and weaving style.                </p>
 
                 <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more

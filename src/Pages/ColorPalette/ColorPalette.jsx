@@ -4,9 +4,14 @@ import Cta from '../../Components/CTA/Cta'
 import Footer from '../../Components/Footer/Footer'
 import MainHeader from '../../Components/MainHeader/MainHeader'
 import ColorCatalog from '../../Components/MainColors/ColorCatalog'
+import { useEffect } from "react";
+
 
 const ColorPalette = () => {
   
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className='w-full'>
@@ -21,4 +26,4 @@ const ColorPalette = () => {
   )
 }
 
-export default ColorPalette
+export default ColorPalette;

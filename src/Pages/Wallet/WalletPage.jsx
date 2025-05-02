@@ -31,18 +31,32 @@ const WalletPage = () => {
       try {
         const data = await getWalletTransactions(customer.customerId);
         setTransactions(data || []); // Assuming response has a transactions array
-      setWalletBalance(data[0].totalAmount || 0); // Assuming response has a balance field
+        const balance = data.reduce((acc, tx) => {
+          return tx.type === "CREDIT"
+            ? acc + tx.amount
+            : acc - tx.amount;
+        }, 0);
+        
+        setWalletBalance(balance);
       } catch (error) {
         console.error("Error loading transactions:", error);
       } finally {
         setLoading(false);
       }
+
+      
     };
 
+    
     if (customer) {
       fetchTransactions();
     }
   }, [customer]);
+
+
+
+
+  
 
   const breadcrumbs = [
     { label: "Home", link: "/home" },

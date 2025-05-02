@@ -6,7 +6,11 @@ import Cta from '../../Components/CTA/Cta';
 import Footer from '../../Components/Footer/Footer';
 import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
-import BlogBox from '../../Components/BlogList/BlogBox1';
+import BlogBox1 from '../../Components/BlogList/BlogBox1';
+import BlogBox2 from '../../Components/BlogList/BloxBox2';
+import BlogBox3 from '../../Components/BlogList/BloxBox3';
+import BlogBox4 from '../../Components/BlogList/BloxBox4';
+
 
 const Blog1 = () => {
   const breadcrumbs = [
@@ -120,17 +124,17 @@ const Blog1 = () => {
           <div className="max-w-8xl w-full overflow-x-auto scrollbar-hide">
             <ul className="flex space-x-4 sflex lg:justify-center overflow-x-auto pb-4">
               <li className="snap-start shrink-0 w-80">
-                <BlogBox />
+                <BlogBox1 />
               </li>
               <li className="snap-start shrink-0 w-80">
-                <BlogBox />
+                <BlogBox2 />
               </li>
             
               <li className="snap-start shrink-0 w-80">
-                <BlogBox />
+                <BlogBox3 />
               </li>
               <li className="snap-start shrink-0 w-80">
-                <BlogBox />
+                <BlogBox4 />
               </li>
               
               </ul>

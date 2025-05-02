@@ -3,7 +3,7 @@ import React from 'react'
 const BlogBox2 = () => {
   return (
     <div>
-       <a href="/Blog1" className="block">
+       <a href="/Blog2" className="block">
         <article className= "bg-white border border-grey-100 rounded-2xl overflow-hidden transition-transform transform hover:scale-95">
             <img
                 alt="Blog Image"
@@ -14,13 +14,12 @@ const BlogBox2 = () => {
             <div className="p-3">
                 <a href="#">
                 <h3 className="text-lg font-medium text-gray-900">
-                The Journey of Yarn: From Raw Fiber to High-Quality Thread.
-                </h3>
+                How Quality Yarn is Manufactured 
+                                </h3>
                 </a>
 
                 <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                A behind-the-scenes look at how raw materials like cotton, silk, and polyester are transformed into premium yarns. Highlight the production process, quality control, and sustainability efforts.
-                </p>
+                At Mo Ink & Dyes, we believe in quality from the first strand. Our yarn manufacturing process is a finely tuned combination of craftsmanship and innovation, designed to produce yarns that deliver strength, consistency, and visual perfection.                </p>
 
                 <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more

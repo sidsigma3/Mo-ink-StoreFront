@@ -464,7 +464,7 @@ const CheckoutPage = () => {
           setIsOrderSuccessOpen(true);
           setTimeout(() => {
             setIsOrderSuccessOpen(false);
-          }, 8000);
+          }, 6000);
         
 
       

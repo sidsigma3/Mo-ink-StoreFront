@@ -10,8 +10,9 @@ const Footer = () => {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 col-span-1 ">
         <div className=" ">
           <div className="text-teal-600 flex justify-center md:block">
-            <img src='/images/logo.png'></img>
-          </div>
+          <a href="/home">
+  <img src="/images/logo.png" alt="Mo Ink & Dyes Logo" />
+</a>          </div>
   
           <p className="mt-4 sm:text-center md:text-left text-gray-500">
           Spinning Quality, Weaving Trust – Delivering Premium Yarns for a Sustainable Future.

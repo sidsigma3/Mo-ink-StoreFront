@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import confetti from 'canvas-confetti';
 
-const ModalCoupon = ({ isOpen, onClose, amountSaved, couponCode }) => {
+const ModalCoupon = ({ isOpen, onClose, savings, discount }) => {
   const canvasRef = useRef(null);
   const wrapperRef = useRef(null);
 
@@ -56,14 +56,16 @@ const ModalCoupon = ({ isOpen, onClose, amountSaved, couponCode }) => {
 
         {/* Coupon Info */}
         <h2 className="text-4xl font-bold text-gray-800 mb-4 relative z-20">
-        ₹5,996{amountSaved}
-        </h2>
-        <p className="text-md text-gray-500 mb-2 relative z-20">
-          Saved with this coupon
-        </p>
-        <p className="text-xl text-gray-500 relative mb-4  z-20">
-          <strong>‘{couponCode}WELCOME15’</strong> applied!
-        </p>
+  ₹{(typeof savings === 'number' ? savings : 0).toFixed(2)}/-
+</h2>
+
+<p className="text-md text-gray-500 mb-2 relative z-20">
+  Saved with this coupon
+</p>
+<p className="text-xl text-gray-500 relative mb-4 z-20">
+  <strong>{discount || "Your coupon is applied!"}</strong> 
+</p>
+
       </div>
     </div>
   );

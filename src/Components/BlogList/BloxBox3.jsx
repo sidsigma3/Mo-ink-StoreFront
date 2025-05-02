@@ -3,7 +3,7 @@ import React from 'react'
 const BloxBox3 = () => {
   return (
     <div>
-       <a href="/Blog1" className="block">
+       <a href="/Blog3" className="block">
         <article className= "bg-white border border-grey-100 rounded-2xl overflow-hidden transition-transform transform hover:scale-95">
             <img
                 alt="Blog Image"
@@ -14,13 +14,11 @@ const BloxBox3 = () => {
             <div className="p-3">
                 <a href="#">
                 <h3 className="text-lg font-medium text-gray-900">
-                The Journey of Yarn: From Raw Fiber to High-Quality Thread.
-                </h3>
+                The Art of Dyeing: How Color Brings Yarn to Life                </h3>
                 </a>
 
                 <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                A behind-the-scenes look at how raw materials like cotton, silk, and polyester are transformed into premium yarns. Highlight the production process, quality control, and sustainability efforts.
-                </p>
+                The yarn dyeing process is an artful fusion of chemical mastery and creative vision. With over 1,000 vibrant yarn colors, we empower textile designers and manufacturers to bring imagination to life                </p>
 
                 <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more

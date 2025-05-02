@@ -47,8 +47,12 @@ import PaymentFailure from './Pages/Payment Failure/PaymentFailure';
 import OrderIssues from './Pages/Order Issues/OrderIssue';
 import DeliveryInfo from './Pages/DeliveryInfo/DeliveryInfo';
 import ReturnInfo from './Pages/ReturnInfo/ReturnInfo';
-import ColorPalette from './Pages/ColorPalette/ColorPalette';
 import ChatbotWidget from './Components/Chatbot Widget/ChatbotWidget';
+import Blog2 from './Pages/Blogs/Blog2';
+import Blog3 from './Pages/Blogs/Blog3';
+import Blog4 from './Pages/Blogs/Blog4';
+import ColorPalette from './Pages/ColorPalette/ColorPalette';
+
 
 
 function App() {
@@ -87,6 +91,7 @@ function App() {
       <Route path="/verifyCode" element={<VerifyCode />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route path="/" element={<MainHomepage/>} />
+      <Route path="/colorpalette" element={<ColorPalette/>} />
 
       {/* Protected Routes */}
       <Route
@@ -116,6 +121,9 @@ function App() {
                   <Route path="/product/:id" element={<ProductDetailPage />} />
                   <Route path="/blogs" element={<Blogs/>}/>
                   <Route path="/blog1" element={<Blog1/>}/>
+                  <Route path="/blog2" element={<Blog2/>}/>
+                  <Route path="/blog3" element={<Blog3/>}/>
+                  <Route path="/blog4" element={<Blog4/>}/>
                   <Route path="*" element={<ErrorPage />} />
                   <Route path="/privacypolicy" element={<PrivacyPolicy />} />
                   <Route path="/termsofuse" element={<TermOfUse />} />
@@ -124,10 +132,7 @@ function App() {
                   <Route path="/paymentFail" element={<PaymentFailure/>} />
                   <Route path="/orderIssues" element={<OrderIssues/>} />
                   <Route path="/deliveryInfo" element={<DeliveryInfo/>} />
-                  <Route path="/returnInfo" element={<ReturnInfo/>} />
-                  <Route path="/colorpalette" element={<ColorPalette/>} />
-
-                  
+                  <Route path="/returnInfo" element={<ReturnInfo/>} />                  
                   
                 </Routes>
                 </div>

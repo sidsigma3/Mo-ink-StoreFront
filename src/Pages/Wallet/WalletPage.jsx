@@ -31,14 +31,20 @@ const WalletPage = () => {
       try {
         const data = await getWalletTransactions(customer.customerId);
         setTransactions(data || []); // Assuming response has a transactions array
+
       setWalletBalance(data[data.length-1].totalAmount || 0); // Assuming response has a balance field
+
+
       } catch (error) {
         console.error("Error loading transactions:", error);
       } finally {
         setLoading(false);
       }
+
+      
     };
 
+    
     if (customer) {
       fetchTransactions();
     }
@@ -69,6 +75,7 @@ const WalletPage = () => {
   };
   
  
+
 
   const breadcrumbs = [
     { label: "Home", link: "/home" },

@@ -6,7 +6,11 @@ import Cta from '../../Components/CTA/Cta';
 import Footer from '../../Components/Footer/Footer';
 import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
-import BlogBox from '../../Components/BlogList/BlogBox1';
+import BlogBox1 from '../../Components/BlogList/BlogBox1';
+import BlogBox2 from '../../Components/BlogList/BloxBox2';
+import BlogBox3 from '../../Components/BlogList/BloxBox3';
+import BlogBox4 from '../../Components/BlogList/BloxBox4';
+
 
 const Blogs = () => {
   const breadcrumbs = [
@@ -28,10 +32,10 @@ const Blogs = () => {
       <div className="flex justify-center px-4 pt-8">
             <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-3 max-w-7xl">
 
-                <li><BlogBox /></li>
-                <li><BlogBox /></li>
-                <li><BlogBox /></li>
-                <li><BlogBox /></li>
+            <li><BlogBox1 /></li>
+                    <li><BlogBox2 /></li>
+                    <li><BlogBox3 /></li>
+                    <li><BlogBox4 /></li>
             </ul>
       </div>
 

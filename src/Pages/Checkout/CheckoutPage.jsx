@@ -28,6 +28,8 @@ import { getWalletTransactions } from '../../Services/CustomerService'
 import { createOrder } from '../../Services/OrderService'
 import { initiatePayment } from '../../Services/PaymentService'
 import ModalSuccess from '../../Components/Modal/ModalSuccess' 
+import ModalCoupon from '../../Components/Modal/ModalCoupon';
+
 
 const CheckoutPage = () => {
 
@@ -403,6 +405,9 @@ const CheckoutPage = () => {
         { label: "Account", link: "/account" },
         { label: "Shopping Cart", link: "/shoppingCart" }
     ];
+
+    const [showModal, setShowModal] = useState(false);
+    
     const handleCouponClick = (discount) => {
         const now = Date.now();
         const DOUBLE_TAP_DELAY = 300;
@@ -421,7 +426,11 @@ const CheckoutPage = () => {
                 }
 
                 setAppliedCoupon(discount);
-                alert(`You have saved Rs ${savings.toFixed(2)}/- amount on your order`);
+                // alert(`You have saved Rs ${savings.toFixed(2)}/- amount on your order`);
+                setShowModal(true);
+            setTimeout(() => {
+            setShowModal(false);
+        }, 3000);
             }, DOUBLE_TAP_DELAY);
         }
 
@@ -520,10 +529,7 @@ const CheckoutPage = () => {
             return;
           }
 
-          setIsOrderSuccessOpen(true);
-          setTimeout(() => {
-            setIsOrderSuccessOpen(false);
-          }, 8000);
+         
         
 
       
@@ -580,8 +586,13 @@ const CheckoutPage = () => {
             )
           );
       
-          alert("Order placed successfully!");
+        //   alert("Order placed successfully!");
+        setIsOrderSuccessOpen(true);
+        setTimeout(() => {
+          setIsOrderSuccessOpen(false);
           navigate("/orders");
+        }, 3000);
+          
         } catch (error) {
           console.error("Order creation failed:", error);
           alert("Failed to place order.");
@@ -1304,6 +1315,10 @@ const CheckoutPage = () => {
   isOpen={isOrderSuccessOpen}
   onClose={() => setIsOrderSuccessOpen(false)}
 />
+
+<ModalCoupon isOpen={showModal} 
+onClose={() => setShowModal(false)} />
+
 
         </div>
         

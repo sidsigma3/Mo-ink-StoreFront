@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+
 
 // Your earthy tones + additional random colors
 const basePalette = [
@@ -69,12 +71,12 @@ const MainColors = () => {
           ))}
         </div>
         <div className="flex flex-col sm:flex-row items-center justify-center mt-16 gap-4">
-            <a
-              href="/colorpalette"
-              className="text-base sm:text-lg font-medium rounded-full text-white py-2 px-10 bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-500   hover:bg-black/5 transition"
-            >
-              View Colors
-            </a>
+        <Link
+             to="/colorpalette"
+             className="text-base sm:text-lg font-medium rounded-full text-white py-2 px-10 bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-500 hover:bg-black/5 transition"
+        >
+               View Colors
+        </Link>
         
           </div>
       </div>

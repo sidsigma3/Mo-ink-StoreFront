@@ -7,7 +7,7 @@ import { updateOrderVariantStatuses } from '../../Services/OrderService';
 const statusClassMap = {
   "New Order": "bg-blue-100 border border-blue-400 text-blue-600",
   "Shipped": "bg-yellow-100 border border-yellow-400 text-yellow-700",
-  "Manufactured": "bg-purple-100 border border-purple-400 text-purple-700",
+  "Manufactured": "bg-purple-100 border- border-purple-400 text-purple-700",
   "Delivered": "bg-green-100 border border-green-400 text-green-600",
   "Cancelled": "bg-red-100 border border-red-400 text-red-600",
   "Returned": "bg-gray-100 border border-gray-400 text-gray-600",
@@ -76,7 +76,7 @@ const OrderListBox = ({ item , status , orderId}) => {
 
 
   const statusOptions = {
-    NEW: "New Order",
+    NEW: "New Order" ,
     CANCELLED: "Cancelled",
     CONFIRMED: "Confirmed",
     MANUFACTURING: "Manufactured",

@@ -114,15 +114,7 @@ const Category = () => {
           <h4>Filters</h4>
         </div>
 
-        {/* <div className='flex gap-2'>
-            
-            <div className='border rounded-md p-2'>
-                Show 50
-            </div>
-            <div className='border rounded-md p-2'>
-                Sort by:Featured
-            </div>
-            </div> */}
+       
       </div>
 
 
@@ -137,11 +129,11 @@ const Category = () => {
           onClick={(e) => e.stopPropagation()}
         >
 
-          <div className='flex justify-between bg-black text-white p-3'>
+          <div className='flex justify-between bg-black text-white p-3 sticky top-0 z-10'>
             <h4 className='text-xl font-bold'>Filters</h4>
             <IoClose size={24} className="cursor-pointer mb-4" onClick={() => setIsOpen(false)} />
           </div>
-          <div className='col-span-1 '>
+          <div className='col-span-1 overflow-y-auto h-[calc(100vh-56px)] p-3 '>
             <div className='border rounded p-3'>
               <h4 className='text-xl font-semibold'>Category</h4>
               <ul>
@@ -171,90 +163,41 @@ const Category = () => {
             </div>
 
 
-            {/* <div className='border rounded p-3 shadow-md mt-3'>
-              <h4 className='text-xl font-semibold'>New Stock</h4>
-              <ul className='divide-y-2 divide-dotted'>
-                <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
-                  <div className=''>
-                    <img src='/images/wool-item.png'></img>
-                  </div>
 
-                  <div className='flex-1'>
-                    <h4 className='font-bold text-violet-800'>Wool - 2/92
-                      <br></br>
-                      (Pink)
-                    </h4>
-                    <p className='text-lg font-medium mt-2'>₹328.85</p>
-                    <div className='flex justify-end'>
-                      <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
-                        <span className='text-yellow-300'><TiStarFullOutline /></span>
-                        <p>4.5</p>
-                      </div>
-                    </div>
-                  </div>
+            <div className='w-full max-w-xs'>
 
-                </li>
+{/* Checkbx Cone Hank Section */}
+<div className='border rounded p-3 my-3 '>
+  <h4 className='text-xl font-semibold mb-3'>Type</h4>
+  <ul className='space-y-2'>
+    <li className='flex items-center gap-2'>
+      <input type='checkbox' className='accent-violet-800' />
+      <label className='text-base font-medium'>Cone</label>
+    </li>
+    <li className='flex items-center gap-2'>
+      <input type='checkbox' className='accent-violet-800' />
+      <label className='text-base font-medium'>Hank</label>
+    </li>
+  </ul>
+</div>
 
-                <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
-                  <div className=''>
-                    <img src='/images/wool-item.png'></img>
-                  </div>
-
-                  <div className='flex-1'>
-                    <h4 className='font-bold text-violet-800'>Wool - 2/92
-                      <br></br>
-                      (Pink)
-                    </h4>
-                    <p className='text-lg font-medium mt-2'>₹328.85</p>
-                    <div className='flex justify-end'>
-                      <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
-                        <span className='text-yellow-300'><TiStarFullOutline /></span>
-                        <p>4.5</p>
-                      </div>
-                    </div>
-                  </div>
-
-                </li>
-
-                <li className='pb-2 flex justify-between gap-4 mt-2 pt-2'>
-                  <div className=''>
-                    <img src='/images/wool-item.png'></img>
-                  </div>
-
-                  <div className='flex-1'>
-                    <h4 className='font-bold text-violet-800'>Wool - 2/92
-                      <br></br>
-                      (Pink)
-                    </h4>
-                    <p className='text-lg font-medium mt-2'>₹328.85</p>
-                    <div className='flex justify-end'>
-                      <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
-                        <span className='text-yellow-300'><TiStarFullOutline /></span>
-                        <p>4.5</p>
-                      </div>
-                    </div>
-                  </div>
-
-                </li>
-              </ul>
-
-            </div> */}
-
-            <div className='border rounded p-3 mt-3 w-full max-w-xs'>
-  {/* Brand Filter */}
+{/* Counter Filter Section */}
+<div className='border rounded p-3 mb-3'>
   <h4 className='text-xl font-semibold mb-3'>Counter</h4>
-  <ul className='space-y-2 ms-3 mb-6'>
-    {["2/80", "2/60", "1/90", "2/100", "1/40",].map((counter, index) => (
+  <ul className='space-y-2'>
+    {["2/80", "2/60", "1/90", "2/100", "1/40"].map((counter, index) => (
       <li key={index} className='flex items-center gap-2'>
         <input type='checkbox' className='accent-violet-800' />
         <label className='text-base font-medium'>{counter}</label>
       </li>
     ))}
   </ul>
+</div>
 
-  {/* Color Filter */}
+{/* Color Filter Section */}
+<div className='border rounded p-3'>
   <h4 className='text-xl font-semibold mb-3'>Color</h4>
-  <ul className='space-y-2 ms-3'>
+  <ul className='space-y-2'>
     {[
       { color: "Black", code: "#000" },
       { color: "Blue", code: "#007bff" },
@@ -279,6 +222,9 @@ const Category = () => {
     ))}
   </ul>
 </div>
+
+</div>
+
 
           </div>
         </div>
@@ -358,45 +304,70 @@ const Category = () => {
                          </li> */}
             </ul>
           </div>
-          <div className='border rounded p-3 mt-3 w-full max-w-xs'>
-  {/* Brand Filter */}
-  <h4 className='text-xl font-semibold mb-3'>Counter</h4>
-  <ul className='space-y-2 mb-6'>
-  {["2/80", "2/60", "1/90", "2/100", "1/40",].map((counter, index) => (
-    <li key={index} className='flex items-center gap-2'>
-        <input type='checkbox' className='accent-violet-800' />
-        <label className='text-base font-medium'>{counter}</label>
-      </li>
-    ))}
-  </ul>
 
-  {/* Color Filter */}
-  <h4 className='text-xl font-semibold mb-3'>Color</h4>
-  <ul className='space-y-2'>
-    {[
-      { color: "Black", code: "#000" },
-      { color: "Blue", code: "#007bff" },
-      { color: "White", code: "#f8f8f8", border: true },
-      { color: "Grey", code: "#999" },
-      { color: "Green", code: "#28a745" },
-      { color: "Navy Blue", code: "#001f3f" },
-      { color: "Brown", code: "#8B4513" },
-      { color: "Beige", code: "#f5f5dc", border: true },
-      { color: "Pink", code: "#ff69b4" },
-      { color: "Red", code: "#dc3545" },
-      { color: "Yellow", code: "#ffc107" },
-    ].map((item, index) => (
-      <li key={index} className='flex items-center gap-2'>
+
+
+          <div className='w-full max-w-xs'>
+
+  {/* Checkbx Cone Hank Section */}
+  <div className='border rounded p-3 my-3 '>
+    <h4 className='text-xl font-semibold mb-3'>Type</h4>
+    <ul className='space-y-2'>
+      <li className='flex items-center gap-2'>
         <input type='checkbox' className='accent-violet-800' />
-        <span
-          className={`w-4 h-4 rounded-full inline-block ${item.border ? 'border' : ''}`}
-          style={{ backgroundColor: item.code }}
-        ></span>
-        <label className='text-base font-medium'>{item.color}</label>
+        <label className='text-base font-medium'>Cone</label>
       </li>
-    ))}
-  </ul>
+      <li className='flex items-center gap-2'>
+        <input type='checkbox' className='accent-violet-800' />
+        <label className='text-base font-medium'>Hank</label>
+      </li>
+    </ul>
+  </div>
+
+  {/* Counter Filter Section */}
+  <div className='border rounded p-3 mb-3'>
+    <h4 className='text-xl font-semibold mb-3'>Counter</h4>
+    <ul className='space-y-2'>
+      {["2/80", "2/60", "1/90", "2/100", "1/40"].map((counter, index) => (
+        <li key={index} className='flex items-center gap-2'>
+          <input type='checkbox' className='accent-violet-800' />
+          <label className='text-base font-medium'>{counter}</label>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {/* Color Filter Section */}
+  <div className='border rounded p-3'>
+    <h4 className='text-xl font-semibold mb-3'>Color</h4>
+    <ul className='space-y-2'>
+      {[
+        { color: "Black", code: "#000" },
+        { color: "Blue", code: "#007bff" },
+        { color: "White", code: "#f8f8f8", border: true },
+        { color: "Grey", code: "#999" },
+        { color: "Green", code: "#28a745" },
+        { color: "Navy Blue", code: "#001f3f" },
+        { color: "Brown", code: "#8B4513" },
+        { color: "Beige", code: "#f5f5dc", border: true },
+        { color: "Pink", code: "#ff69b4" },
+        { color: "Red", code: "#dc3545" },
+        { color: "Yellow", code: "#ffc107" },
+      ].map((item, index) => (
+        <li key={index} className='flex items-center gap-2'>
+          <input type='checkbox' className='accent-violet-800' />
+          <span
+            className={`w-4 h-4 rounded-full inline-block ${item.border ? 'border' : ''}`}
+            style={{ backgroundColor: item.code }}
+          ></span>
+          <label className='text-base font-medium'>{item.color}</label>
+        </li>
+      ))}
+    </ul>
+  </div>
+  
 </div>
+
 
 
 

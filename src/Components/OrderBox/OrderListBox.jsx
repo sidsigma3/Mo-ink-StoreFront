@@ -86,8 +86,20 @@ const OrderListBox = ({ item , status , orderId}) => {
     RETURN_REQUESTED: "Return Requested",
     RETURN_REJECTED: "Return Rejected",
   };
+
+  const statusClassMap = {
+    NEW: "bg-blue-100 border border-blue-400 text-blue-600",
+    CONFIRMED: "bg-cyan-300 border-cyan-800" ,
+    SHIPPED: "bg-yellow-100 border border-yellow-400 text-yellow-700",
+    MANUFACTURING: "bg-purple-100 border border-purple-400 text-purple-700",
+    DELIVERED: "bg-green-100 border border-green-400 text-green-600",
+    CANCELLED: "bg-red-100 border border-red-400 text-red-600",
+    RETURNED: "bg-gray-100 border border-gray-400 text-gray-600",
+    RETURN_REQUESTED: "bg-orange-100 border border-orange-400 text-orange-600",
+    RETURN_REJECTED: "bg-pink-100 border border-pink-400 text-pink-600",
+  };
   
-  console.log(item)
+  
 
   return (
     <div className="grid grid-cols-10 gap-2 relative p-4 justify-center rounded-lg bg-white">
@@ -118,11 +130,12 @@ const OrderListBox = ({ item , status , orderId}) => {
 
         {/* Mobile Status */}
         <div className="block lg:hidden mt-3">
-          <span
-            className={`text-sm font-medium px-3 py-1 rounded ${statusClassMap[status] || ''}`}
-          >
-            {status}
-          </span>
+        <span
+          className={`text-md font-semibold px-4 py-1 rounded-md ${statusClassMap[item.status] || ''}`}
+        >
+          {statusOptions[item.status]}
+        </span>
+
         </div>
       </div>
 

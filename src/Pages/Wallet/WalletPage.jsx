@@ -110,7 +110,7 @@ const WalletPage = () => {
               <thead>
                 <tr className="bg-gray-100 text-center">
                   <th className="border border-gray-300 p-2">Source</th>
-                  <th className="border border-gray-300 p-2">Invoice No.</th>
+                  {/* <th className="border border-gray-300 p-2">Invoice No.</th> */}
                   <th className="border border-gray-300 p-2">Type</th>
                   <th className="border border-gray-300 p-2">Amount</th>
                   <th className="border border-gray-300 p-2">Date</th>
@@ -122,9 +122,9 @@ const WalletPage = () => {
                 {transactions.slice().reverse().map((item, index) => (
                   <tr key={index} className="text-center">
                     <td className="border border-gray-300 p-2">{item.source}</td>
-                    <td class="text-center border border-gray-300">
+                    {/* <td class="text-center border border-gray-300">
                       <span class="text-sm font-medium text-gray-700">INV-10234</span>
-                    </td>
+                    </td> */}
                     <td
                       className="border border-gray-300 p-2 font-semibold"
                       style={{ color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000" }}
@@ -135,18 +135,20 @@ const WalletPage = () => {
                     <td className="border border-gray-300 p-2">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>
-                    <td className=" text-center border border-gray-300">
-                      <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDownloadCreditReceipt(item.source);
-                      }}
-                        className="text-violet-800 hover:text-violet-600"
-                        title="Download Invoice"
-                      >
-                        <ArrowDownToLine size={20} />
-                      </button>
-                    </td>
+                    {(item.source?.includes("Refund for cancellation") || item.source?.includes("Refund for return")) && (
+                      <td className="text-center border border-gray-300">
+                        <button
+                          className="text-violet-800 hover:text-violet-600"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDownloadCreditReceipt(item.source);
+                          }}
+                        >
+                         <ArrowDownToLine size={20} />
+                        </button>
+                      </td>
+                    )}
+
                   </tr>
                 ))}
               </tbody>

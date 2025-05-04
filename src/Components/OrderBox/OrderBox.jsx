@@ -30,7 +30,8 @@ const OrderBox = ({order}) => {
       return total;
   }, 0);
     
-const handleDownloadCreditReceipt = async (orderId,type) => {
+const handleDownloadCreditReceipt = async (e,orderId,type) => {
+      e.stopPropagation()
       try {
         await downloadCreditReceipt(orderId, type);
       } catch (error) {
@@ -110,7 +111,7 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
      {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
                     order?.payment?.totalRefundAmount > 0 && (
                       <button
-                        onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
+                        onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "CANCELLED")}
                         className='flex gap-2 bg-red-100 text-red-800 px-6 py-1 h-10 rounded items-center'
                       >
                         <TbFileInvoice size={20} />
@@ -121,7 +122,7 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
                     {
                       order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
                         <button
-                          onClick={() => handleDownloadCreditReceipt(order.orderId, "RETURNED")}
+                          onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "RETURNED")}
                           className='flex gap-2 bg-green-100 text-green-800 px-6 py-1 h-10 rounded items-center'
                         >
                           <TbFileInvoice size={20} />

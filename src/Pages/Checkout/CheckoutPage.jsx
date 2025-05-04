@@ -25,7 +25,7 @@ import { useRef } from "react";
 import { Button } from 'react-bootstrap';
 import { useAppContext } from '../../Utils/commoncontext'
 import { getWalletTransactions } from '../../Services/CustomerService'
-import { createOrder } from '../../Services/OrderService'
+import { createOrder, updateOrderStatuses } from '../../Services/OrderService'
 import { initiatePayment } from '../../Services/PaymentService'
 import ModalSuccess from '../../Components/Modal/ModalSuccess' 
 import ModalCoupon from '../../Components/Modal/ModalCoupon';
@@ -211,14 +211,28 @@ const CheckoutPage = () => {
       
           const combinedDiscountPercent =
             productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
+
+
+        const couponDiscountPercent = Number(appliedCoupon?.discountValue) || 0;
+        const paymentDiscountPercent = Number(paymentDiscount) || 0;
+        console.log(paymentDiscountPercent)
+         
+       
+        // Step 1: Apply coupon discount
+        const couponDiscountAmount = (itemTotal * couponDiscountPercent) / 100;
+        const subtotalAfterCoupon = itemTotal - couponDiscountAmount;
+    
+        // Step 2: Apply payment discount
+        const paymentDiscountAmount = (subtotalAfterCoupon * paymentDiscountPercent) / 100;
+        const finalTotal = subtotalAfterCoupon - paymentDiscountAmount;
       
           const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
           const discountedTotal = itemTotal - itemDiscount;
           const gstForItem = (discountedTotal * gstRate) / 100;
       
           gstAmount += gstForItem;
-          discountByCoupon += (itemTotal * productDiscount) / 100;
-          discountByPayment += (itemTotal * paymentDiscount) / 100;
+          discountByCoupon += couponDiscountAmount;
+          discountByPayment += paymentDiscountAmount;
         });
       
         const handlingCharges = calculateHandlingCharges(selectedCartItems, selectedAddress);
@@ -464,6 +478,66 @@ const CheckoutPage = () => {
       
         console.log(paymentDiscount,productDiscount)
 
+        const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
+        
+        const customerState = selectedAddress?.state?.toLowerCase() || "";
+        const ratePerKg = customerState === "odisha" ? 3 : 5;
+      
+        // Total weight for proportional handling charge calculation
+        const totalWeight = cartItems.reduce((acc, item) => acc + (item.quantity * unitWeight), 0);
+      
+        return cartItems
+          .filter(item => item.variantId && item.quantity > 0)
+          .map(item => {
+            const itemWeight = Number(item.quantity) * unitWeight;
+            const itemTotal = item.price * item.quantity * unitWeight;
+            const gstRate = item.gstRate || 0;
+      
+            let applicableCouponDiscount = 0;
+            if (appliedCoupon?.applicableProducts?.some(p => p.id === item.productId)) {
+              applicableCouponDiscount = productDiscount;
+            }
+      
+            const combinedDiscountPercent =
+              applicableCouponDiscount + paymentDiscount - (applicableCouponDiscount * paymentDiscount) / 100;
+
+           
+      
+            const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
+            const discountedTotal = itemTotal - itemDiscount;
+            const gstForItem = (discountedTotal * gstRate) / 100;
+      
+            const cgst = billingState === "odisha" ? gstForItem / 2 : 0;
+            const sgst = billingState === "odisha" ? gstForItem / 2 : 0;
+            const igst = billingState !== "odisha" ? gstForItem : 0;
+      
+            const handlingCharges = totalWeight > 0 ? (itemWeight / totalWeight) * (totalWeight * ratePerKg) : 0;
+      
+            return {
+              variantId: item.variantId,
+              orderWeight: itemWeight,
+              variantType: item.variantType || "Cone",
+              orderVariantCgst: Number(cgst.toFixed(2)),
+              orderVariantSgst: Number(sgst.toFixed(2)),
+              orderVariantIgst: Number(igst.toFixed(2)),
+              orderVariantDiscount: Number(itemDiscount.toFixed(2)),
+              orderVariantHandlingCharges: Number(handlingCharges.toFixed(2)),
+              orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(2)),
+              status: "NEW",
+              statusReason: null,
+              statusRemark: null,
+            };
+          });
+      };
+      
+      const buildDetailedOrderVariantsForPayment = (cartItems) => {
+        const unitWeight = 50;
+        const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
+        const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
+      
+        console.log(paymentDiscount,productDiscount)
+
+        const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
         const customerState = selectedAddress?.state?.toLowerCase() || "";
         const ratePerKg = customerState === "odisha" ? 3 : 5;
       
@@ -491,9 +565,9 @@ const CheckoutPage = () => {
             const discountedTotal = itemTotal - itemDiscount;
             const gstForItem = (discountedTotal * gstRate) / 100;
       
-            const cgst = customerState === "odisha" ? gstForItem / 2 : 0;
-            const sgst = customerState === "odisha" ? gstForItem / 2 : 0;
-            const igst = customerState !== "odisha" ? gstForItem : 0;
+            const cgst = billingState === "odisha" ? gstForItem / 2 : 0;
+            const sgst = billingState === "odisha" ? gstForItem / 2 : 0;
+            const igst = billingState !== "odisha" ? gstForItem : 0;
       
             const handlingCharges = totalWeight > 0 ? (itemWeight / totalWeight) * (totalWeight * ratePerKg) : 0;
       
@@ -507,7 +581,7 @@ const CheckoutPage = () => {
               orderVariantDiscount: Number(itemDiscount.toFixed(2)),
               orderVariantHandlingCharges: Number(handlingCharges.toFixed(2)),
               orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(2)),
-              status: "NEW",
+              status: "PENDING",
               statusReason: null,
               statusRemark: null,
             };
@@ -612,7 +686,7 @@ const CheckoutPage = () => {
             return;
           }
       
-          const orderVariants = buildDetailedOrderVariants(selectedCartItems);
+          const orderVariants = buildDetailedOrderVariantsForPayment(selectedCartItems);
         
       
           if (orderVariants.length === 0 ) {
@@ -662,16 +736,18 @@ const CheckoutPage = () => {
             orderVariants,
           };
       
-         console.log(orderData)
+          console.log(orderData)
 
           const createdOrder = await createOrder(orderData);
           const orderId = createdOrder.data?.orderId;
+
+          const statusData = {
+              status: "NEW"
+          }
       
-          console.log(orderId)
+          const statusChange = await updateOrderStatuses(orderId,statusData)
 
           const paymentData = await initiatePayment(orderId);
-
-          console.log(paymentData)
 
           const { razorpayOrderId, razorpayOrderstatus } = paymentData.data;
       
@@ -696,8 +772,6 @@ const CheckoutPage = () => {
             alert("Razorpay script failed to load. Check your internet connection.");
             return;
           }
-
-
       
           const options = {
             key: "rzp_test_oqL33XMoXAV4ym",
@@ -745,8 +819,11 @@ const CheckoutPage = () => {
         }
       };
       
+      const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
 
-      console.log(selectedCartItems)
+      const isOdisha = billingState === "odisha";
+
+   
 
     return (
         <div>
@@ -1132,7 +1209,7 @@ const CheckoutPage = () => {
                         <table className='w-100 rounded mt-2 font-semibold'>
                             <tbody className='leading-8'>
                                 <tr className=''>
-                                    <td>Total Cost(Incl GST)</td>
+                                    <td>Total Cost</td>
                                     <td></td>
                                     <td style={{ textAlign: 'end' }}>₹{totalProductCost.toLocaleString()}
                                     </td>
@@ -1176,17 +1253,32 @@ const CheckoutPage = () => {
                                     <td className='text-end pb-2'>₹{finalTotal.toFixed(0)}</td>
                                 </tr>
 
-                                <tr className=''>
-                                    <td className='pb-2'>CGST</td>
-                                    <td className='pb-2'></td>
-                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
-                                </tr>
+                                
+                                {
+                            isOdisha ? (
+                                <>
 
-                                <tr className=''>
-                                    <td className='pb-2'>SGST</td>
-                                    <td className='pb-2'></td>
-                                    <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
-                                </tr>
+                                        <tr className=''>
+                                            <td className='pb-2'>CGST</td>
+                                            <td className='pb-2'></td>
+                                            <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
+                                        </tr>
+
+                                        <tr className=''>
+                                            <td className='pb-2'>SGST</td>
+                                            <td className='pb-2'></td>
+                                            <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
+                                        </tr>
+
+                                        </>
+                                    ) : (
+                                    <tr>
+                                    <td>IGST</td>
+                                    <td></td>
+                                    <td className="text-end pb-2">₹{(gstAmount).toFixed(0)}</td>
+                                    </tr>
+                                )
+                                }
                                 
 
                                 <tr className=''>
@@ -1208,7 +1300,7 @@ const CheckoutPage = () => {
                                 </tr>
                                 <tr className='border-b-2'>
                                     <td className='pb-2'>Wallet</td>
-                                    <td className='pb-2'>₹{walletBalance}</td>
+                                    <td className='pb-2'>₹{walletBalance.toFixed(0)}</td>
                                     <td style={{ textAlign: 'end' }} className='pb-2'>
                                         <div className="text-right">
                                             <input
@@ -1312,12 +1404,16 @@ const CheckoutPage = () => {
             <BottomNav></BottomNav>
 
             <ModalSuccess
-  isOpen={isOrderSuccessOpen}
-  onClose={() => setIsOrderSuccessOpen(false)}
-/>
+            isOpen={isOrderSuccessOpen}
+            onClose={() => setIsOrderSuccessOpen(false)}
+            />
 
-<ModalCoupon isOpen={showModal} 
-onClose={() => setShowModal(false)} />
+            <ModalCoupon 
+                isOpen={showModal} 
+                onClose={() => setShowModal(false)} 
+                discount={discountByCoupon}
+                discountCode={appliedCoupon?.discountCode}
+            />
 
 
         </div>

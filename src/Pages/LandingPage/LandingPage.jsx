@@ -46,7 +46,7 @@ const LandingPage = () => {
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 text-center">
         <div className="w-full flex justify-center">
           <DotLottieReact
-      src="https://lottie.host/b3f5008d-a56d-49dc-bc0a-a555bc07b23c/dJvXow8Chz.lottie"
+      src="https://lottie.host/49e747f4-b776-40d5-b9c2-3885bc288c68/au3CuH3NU1.lottie"
       loop
             autoplay
             style={{ width: '160px', height: '160px' }}

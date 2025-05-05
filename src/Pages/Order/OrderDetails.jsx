@@ -319,18 +319,18 @@ const OrderDetails = () => {
       </div>
                 </div>
 
-
+                <div className='flex flex-row items-end gap-2'>
                 {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
-                  <div className='flex items-center'>
+                  <div className='flex items-center g-2'>
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDownloadInvoice(order.orderId);
                       }}
-                      className='flex gap-2 bg-violet-100 text-violet-800 px-16 py-1 h-10 rounded items-center'
+                      className='bg-violet-100 text-violet-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
                     >
                       <span><TbFileInvoice size={20} /></span>
-                      <h5>INVOICE</h5>
+                      <h5>Order Invoice</h5>
                     </button>
                   </div>
                 )}
@@ -340,10 +340,10 @@ const OrderDetails = () => {
                 order?.payment?.totalRefundAmount > 0 && (
                   <button
                     onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
-                    className='flex gap-2 bg-red-100 text-red-800 px-6 py-1 h-10 rounded items-center'
+                    className='bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
                   >
                     <TbFileInvoice size={20} />
-                    <h5>Cancelled Receipt</h5>
+                    <h5>Cancel Receipt</h5>
                   </button>
                 )}
 
@@ -351,14 +351,14 @@ const OrderDetails = () => {
                   order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
                     <button
                       onClick={() => handleDownloadCreditReceipt(order.orderId, "RETURNED")}
-                      className='flex gap-2 bg-green-100 text-green-800 px-6 py-1 h-10 rounded items-center'
+                      className=' bg-green-100 text-green-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
                     >
                       <TbFileInvoice size={20} />
-                      <h5>Returned Receipt</h5>
+                      <h5>Return Receipt</h5>
                     </button>
                  )}
             
-                
+                 </div>
             </div>
 
             <div className='mt-16'>

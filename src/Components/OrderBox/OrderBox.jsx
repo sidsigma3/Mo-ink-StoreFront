@@ -41,10 +41,10 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
         <div className='col-span-3 md:col-span-2 lg:col-span-1'>
-            <img src='/images/wool-item-1.png' className='sm:h-2/3 md:h-40 rounded-md w-full'></img>
+        <img src='/images/wool-item-1.png' className='w-4/5 aspect-square object-cover rounded-md' alt='Wool Item' />
         </div>
 
-        <div className='col-span-6 md:col-span-3 lg:col-span-4 text-gray-500 font-medium'>
+        <div className='col-span-6 md:col-span-3 lg:col-span-2 flex flex-col items-start justify-center text-gray-500 font-medium'>
 
         <div className='flex justify-between'>
             <h5>Order ID: <span className='text-black font-bold'>{order.orderId}</span></h5>
@@ -74,7 +74,7 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
 
         </div>
 
-        <div className='col-span-9 md:col-span-1 flex flex-col items-end justify-center gap-1'>
+        <div className='col-span-9 md:col-span-2 flex flex-col items-start justify-center gap-2'>
 
         {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
           <button 
@@ -82,15 +82,15 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
               e.stopPropagation()
               handleDownloadInvoice(order.orderId)
             }}
-            className='flex gap-2 bg-violet-100 text-violet-800 md:px-6 lg:px-8 py-1 rounded items-center'
+            className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
           >
             <span><TbFileInvoice size={20}/></span>
-            <h5 className='text-sm md:text-md'>INVOICE</h5>
+            <h5>Order Invoice</h5>
           </button>
            )}
   
     {totalReturnedItems > 0 && (
-      <span className="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
+      <span className="bg-yellow-100 text-yellow-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center">
         <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
         Returned ({totalReturnedItems} items)
       </span>
@@ -98,7 +98,7 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
    
 
     {totalCancelledItems > 0 && (
-       <span className="mt-1 inline-flex items-center gap-1 bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded">
+       <span className="bg-red-100 text-red-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center">
        <span className="w-2 h-2 me-2 rounded-full bg-red-600"></span>
        Cancelled ({totalCancelledItems} items)
      </span>
@@ -106,15 +106,15 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
    
   </div>
 
-  <div>
+  <div className= 'col-span-9 md:col-span-1 flex flex-col items-start justify-center gap-2'>
      {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
                     order?.payment?.totalRefundAmount > 0 && (
                       <button
                         onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
-                        className='flex gap-2 bg-red-100 text-red-800 px-6 py-1 h-10 rounded items-center'
+                        className=' bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
                       >
                         <TbFileInvoice size={20} />
-                        <h5>Cancelled Receipt</h5>
+                        <h5>Cancel Receipt</h5>
                       </button>
                     )}
     
@@ -122,10 +122,10 @@ const handleDownloadCreditReceipt = async (orderId,type) => {
                       order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
                         <button
                           onClick={() => handleDownloadCreditReceipt(order.orderId, "RETURNED")}
-                          className='flex gap-2 bg-green-100 text-green-800 px-6 py-1 h-10 rounded items-center'
+                          className='bg-green-100  text-green-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
                         >
                           <TbFileInvoice size={20} />
-                          <h5>Returned Receipt</h5>
+                          <h5 className='text-sm md:text-md'>Return Receipt</h5>
                         </button>
                      )}
   </div>

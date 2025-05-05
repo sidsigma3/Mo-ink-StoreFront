@@ -114,12 +114,14 @@ const OrderDetails = () => {
         const ratePerKg = state === "odisha" ? 3 : 5;
       
         const totalWeight = cartItems.reduce((acc, item) => {
-          const weight = Number(item.orderWeight) || 0; // assuming 1 qty = 50kg
+          if (item.status === 'CANCELLED') return acc; // 👈 Skip cancelled items
+          const weight = Number(item.orderWeight) || 0;
           return acc + weight;
         }, 0);
       
         return Number((totalWeight * ratePerKg).toFixed(2));
       };
+      
       
       
       const handlingCharges = calculateHandlingCharges(order.orderVariantResponse, order.shippingAddress);
@@ -130,7 +132,10 @@ const OrderDetails = () => {
         handlingCharges = 0,
         platformFees = 0
       ) => {
-        const orderVariants = order.orderVariantResponse || [];
+        const orderVariants = (order.orderVariantResponse || []).filter(
+          (variant) => variant.status !== 'CANCELLED' // ✅ Exclude cancelled
+        );
+      
         let baseTotal = 0;
         let discountByCoupon = 0;
         let discountByPayment = 0;
@@ -138,92 +143,89 @@ const OrderDetails = () => {
       
         const productDataMap = new Map();
       
-        
+        // Step 1: Accumulate base total
         for (const variant of orderVariants) {
-            const weight = Number(variant.orderWeight) || 0;
-            const productId = variant.productId;
-            const size = variant.size;
-            const colorId = variant.color.id;
-          
-            let pricePerKg = 0;
-            let gstOnProduct = 0;
-          
-            if (productDataMap.has(productId)) {
-              const cachedProduct = productDataMap.get(productId);
-              const matchedVariant = cachedProduct.variants.find(
+          const weight = Number(variant.orderWeight) || 0;
+          const productId = variant.productId;
+          const size = variant.size;
+          const colorId = variant.color.id;
+      
+          let pricePerKg = 0;
+      
+          if (productDataMap.has(productId)) {
+            const cachedProduct = productDataMap.get(productId);
+            const matchedVariant = cachedProduct.variants.find(
+              (v) => v.size === size && v.color?.id === colorId
+            );
+            pricePerKg = matchedVariant?.pricePerKg || 0;
+          } else {
+            const res = await fetchProductsById(productId);
+            if (res.success) {
+              const product = res.data;
+              productDataMap.set(productId, product);
+              const matchedVariant = product.variants.find(
                 (v) => v.size === size && v.color?.id === colorId
               );
               pricePerKg = matchedVariant?.pricePerKg || 0;
-              gstOnProduct = cachedProduct.gstOnProduct || 0;
-            } else {
-              const res = await fetchProductsById(productId);
-              if (res.success) {
-                const product = res.data;
-                productDataMap.set(productId, product); // Save full product
-                const matchedVariant = product.variants.find(
-                  (v) => v.size === size && v.color?.id === colorId
-                );
-                pricePerKg = matchedVariant?.pricePerKg || 0;
-                gstOnProduct = product.gstOnProduct || 0;
-              }
             }
-          
-            baseTotal += weight * pricePerKg;
-           
-            // If you’re calculating GST here, you can use gstOnProduct
           }
-          
       
+          baseTotal += weight * pricePerKg;
+        }
       
-        // Step 2: Apply Discounts
+        // Step 2: Apply discounts sequentially
         const couponDiscountPercent = Number(appliedCoupon?.discountValue) || 0;
         const couponDiscountType = appliedCoupon?.discountType || "Percentage";
       
-        discountByCoupon =
+        const couponDiscountAmount =
           couponDiscountType === "Percentage"
             ? (baseTotal * couponDiscountPercent) / 100
             : couponDiscountPercent;
       
+        const subtotalAfterCoupon = baseTotal - couponDiscountAmount;
+      
         const paymentDiscountPercent =
           paymentDiscountMap[order.paymentTypeDiscount] || 0;
-        discountByPayment = (baseTotal * paymentDiscountPercent) / 100;
+        const paymentDiscountAmount =
+          (subtotalAfterCoupon * paymentDiscountPercent) / 100;
       
+        const finalTotal = subtotalAfterCoupon - paymentDiscountAmount;
+      
+        discountByCoupon = couponDiscountAmount;
+        discountByPayment = paymentDiscountAmount;
         const totalDiscount = discountByCoupon + discountByPayment;
-        const discountedTotal = baseTotal - totalDiscount;
       
-        const combinedDiscountPercent =
-          couponDiscountPercent + paymentDiscountPercent -
-          (couponDiscountPercent * paymentDiscountPercent) / 100;
-
-        console.log(combinedDiscountPercent)
-      
-        // Step 3: Calculate GST per variant
+        // Step 3: GST calculation based on final discounted value
         for (const variant of orderVariants) {
-            const weight = Number(variant.orderWeight) || 0;
-            const productId = variant.productId;
-            const size = variant.size;
-            const colorId = variant.color.id;
-          
-            const productData = productDataMap.get(productId);
-            if (!productData) continue;
-          
-            const matchedVariant = productData.variants.find(
-              (v) => v.size === size && v.color?.id === colorId
-            );
-          
-            const pricePerKg = matchedVariant?.pricePerKg || 0;
-            const gstRate = Number(productData?.gstOnProduct || 0);
-          
-            const cost = weight * pricePerKg;
-            const discountedCost = cost - (cost * combinedDiscountPercent) / 100;
-            const gstAmountForVariant = (discountedCost * gstRate) / 100;
-          
-            gstAmount += gstAmountForVariant;
-          }
-       
+          const weight = Number(variant.orderWeight) || 0;
+          const productId = variant.productId;
+          const size = variant.size;
+          const colorId = variant.color.id;
       
-        // Step 4: Final totals
-        const finalTotal = discountedTotal;
+          const productData = productDataMap.get(productId);
+          if (!productData) continue;
+      
+          const matchedVariant = productData.variants.find(
+            (v) => v.size === size && v.color?.id === colorId
+          );
+          const pricePerKg = matchedVariant?.pricePerKg || 0;
+          const gstRate = Number(productData.gstOnProduct || 0);
+      
+          const cost = weight * pricePerKg;
+          const couponReduced =
+            couponDiscountType === "Percentage"
+              ? cost - (cost * couponDiscountPercent) / 100
+              : cost - (couponDiscountAmount * cost) / baseTotal;
+      
+          const finalReduced =
+            couponReduced -
+            (paymentDiscountAmount * couponReduced) / subtotalAfterCoupon;
+      
+          const gstForItem = (finalReduced * gstRate) / 100;
+          gstAmount += gstForItem;
+        }
+      
+        // Step 4: Final amounts
         const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
         const walletUsed = Number(order.walletAmount) || 0;
         const adjustedNetPay = netPayable - walletUsed;
@@ -248,9 +250,16 @@ const OrderDetails = () => {
           cod,
           onlinePay,
           codPay,
-          combinedDiscountPercent
+          combinedDiscountPercent:
+            couponDiscountType === "Percentage"
+              ? couponDiscountPercent +
+                paymentDiscountPercent -
+                (couponDiscountPercent * paymentDiscountPercent) / 100
+              : null,
         };
       };
+      
+      
       
       
       useEffect(() => {
@@ -296,6 +305,21 @@ const OrderDetails = () => {
     { label: "Order Details", link: "/orderDetails" },
   ];
 
+
+  const getStateFromBillingAddress = (billingAddress) => {
+    try {
+      const beforePin = billingAddress.split("PIN:")[0];
+      const parts = beforePin.split(",").map(p => p.trim()).filter(Boolean);
+      const state = parts[parts.length - 1]?.toLowerCase(); // Safely get last non-empty entry
+      return state;
+    } catch (err) {
+      console.error("Failed to parse billing address:", err);
+      return "";
+    }
+  };
+  
+  const billingState = getStateFromBillingAddress(order?.billingAddress)
+  const isOdisha = billingState?.toLowerCase() === "odisha";
 
 
   return (
@@ -478,6 +502,10 @@ const OrderDetails = () => {
                         <td className='text-end pb-2'>₹{Math.round(finalTotal)}</td>
                         </tr>
 
+                        {
+                      isOdisha ? (
+                        <>
+
                         <tr>
                         <td className='pb-2'>CGST</td>
                         <td></td>
@@ -488,6 +516,16 @@ const OrderDetails = () => {
                         <td></td>
                         <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(0)}</td>
                         </tr>
+
+                        </>
+                            ) : (
+                              <tr>
+                              <td>IGST</td>
+                              <td></td>
+                              <td className="text-end pb-2">₹{(gstAmount).toFixed(0)}</td>
+                            </tr>
+                          )
+                        }
 
                         <tr>
                         <td className='pb-2'>Handling Charges</td>

@@ -68,3 +68,14 @@ export const updateOrderVariantStatuses = async (orderId,updates) => {
     throw error;
   }
 };
+
+
+export const updateOrderStatuses = async (orderId,updates) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/${orderId}/status-update`, updates);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating status of order with ID ${orderId}:`, error);
+    throw error;
+  }
+};

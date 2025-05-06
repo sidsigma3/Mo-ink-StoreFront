@@ -561,13 +561,13 @@ const OrderDetails = () => {
                         <tr>
                         <td>Advance Paid</td>
                         <td>{online}%</td>
-                        <td className='text-end'>₹{onlinePay.toFixed(0)}</td>
+                        <td className='text-end'>₹{order?.payment.onlineAmount.toFixed(0)}</td>
                         </tr>
 
                         <tr>
                         <td className='pt-2'>Balance Due</td>
                         <td>{cod}%</td>
-                        <td className='text-end pt-2'>₹{codPay.toFixed(0)}</td>
+                        <td className='text-end pt-2'>₹{ order?.payment.codAmount.toFixed(0)-order?.payment.totalAdjustedAmount.toFixed(0)}</td>
                         </tr>
                     </tbody>
                     </table>

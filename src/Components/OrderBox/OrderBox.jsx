@@ -77,18 +77,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
 
         <div className='col-span-9 md:col-span-2 flex flex-col items-start justify-center gap-2'>
 
-        {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
-          <button 
-            onClick={(e) => {
-              e.stopPropagation()
-              handleDownloadInvoice(order.orderId)
-            }}
-            className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
-          >
-            <span><TbFileInvoice size={20}/></span>
-            <h5>Order Invoice</h5>
-          </button>
-           )}
+      
   
     {totalReturnedItems > 0 && (
       <span className="bg-yellow-100 text-yellow-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center">
@@ -108,6 +97,19 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
   </div>
 
   <div className= 'col-span-9 md:col-span-1 flex flex-col items-start justify-center gap-2'>
+
+  {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
+          <button 
+            onClick={(e) => {
+              e.stopPropagation()
+              handleDownloadInvoice(order.orderId)
+            }}
+            className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
+          >
+            <span><TbFileInvoice size={20}/></span>
+            <h5>Order Invoice</h5>
+          </button>
+           )}
      {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
                     order?.payment?.totalRefundAmount > 0 && (
                       <button

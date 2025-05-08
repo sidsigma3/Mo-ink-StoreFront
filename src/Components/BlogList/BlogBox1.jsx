@@ -22,7 +22,7 @@ const BlogBox1 = () => {
                 A behind-the-scenes look at how raw materials like cotton, silk, and polyester are transformed into premium yarns. Highlight the production process, quality control, and sustainability efforts.
                 </p>
 
-                <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
+                <a href="/Blog1" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more
 
                 <span aria-hidden="true" className="block transition-all group-hover:ms-0.5 rtl:rotate-180">

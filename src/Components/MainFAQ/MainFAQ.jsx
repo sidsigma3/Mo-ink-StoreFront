@@ -79,20 +79,18 @@ const MainFAQ = () => {
               Ultimately, quality work is judged by the extent
             </h2>
             <p className="text-gray-600 leading-relaxed mb-6">
-              There Are Many Variations Of Passages Of Lorem Ipsum Available, But
-              The Majority Have Suffered Alteration In Some Form, By Injected Humour,
-              Or Randomised Words Which Don't Look Even Slightly Believable.
+            There are many varieties of yarn available, but most have undergone changes in texture, color, or twist, with added blends or patterns that don’t always reflect traditional spinning techniques.
             </p>
             <div className="flex flex-col md:flex-row gap-6 mb-6">
   {/* List */}
   <ul className="space-y-3 text-l font-semibold justify-center text-black md:w-1/2">
-    <li className="flex items-center gap-2">
+    <li className="flex items-start gap-2">
       <span className="text-purple-800">✔</span> We’re Professional
     </li>
-    <li className="flex items-center gap-2">
+    <li className="flex items-start gap-2">
       <span className="text-purple-800">✔</span> We Use Quality Material
     </li>
-    <li className="flex items-center gap-2">
+    <li className="flex items-start gap-2">
       <span className="text-purple-800">✔</span> 100% Customers Satisfaction
     </li>
   </ul>

@@ -35,7 +35,7 @@ export default function MainMap() {
         {/* Map Image */}
         <div className="mt-12 w-full max-w-7xl mx-auto">
           <img
-            src="/images/MainMap.png"
+            src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainMap.png?updatedAt=1746636596949"
             alt="India Connected Map"
             className="w-full h-auto object-contain pointer-events-none select-none"
             draggable={false}

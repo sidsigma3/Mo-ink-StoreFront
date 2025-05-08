@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const ModalSuccess = ({ isOpen, onClose }) => {
+
+  const modalRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    // Add event listener for clicks outside the modal
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
+
+
   if (!isOpen) return null;
 
   return (

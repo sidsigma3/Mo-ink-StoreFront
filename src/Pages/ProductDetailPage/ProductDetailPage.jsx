@@ -15,6 +15,8 @@ import { addToWishlist, removeFromWishlist } from "../../Services/WishlistServic
 import { getCart, removeFromCart, addToCart } from "../../Services/CartService"
 import { RxCross2 } from "react-icons/rx";
 import { updateProduct , fetchProductsById, fetchProducts} from '../../Services/ProductService'
+import ModalAddColor from '../../Components/Modal/ModalAddColor'
+
 
 const ColorCard = ({item , onSelect, selected = false,disabled}) => {
 
@@ -66,6 +68,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [presetColors, setPresetColors] = useState([]);
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     const [modalSelectedColors, setModalSelectedColors] = useState([]);
+    const [showAddColorModal, setShowAddColorModal] = useState(false);
 
     
     const handleColorSearch = (e) => {
@@ -170,8 +173,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           return;
         }
       
-        const confirmAdd = window.confirm("Are you sure you want to add these colors as new variants?");
-        if (!confirmAdd) return;
+        console.log("Colors added:", tempCustomColors);
+
       
         try {
           const response = await fetchProductsById(product.productId); // 👈 pass correct id
@@ -611,10 +614,11 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                         tempCustomColors.length > 0 ? (
                                             <button
                                                 className="bg-violet-600 text-white px-4 py-2 rounded"
-                                                onClick={handleAddColor}
+                                                onClick={() => setShowAddColorModal(true)}
                                             >
                                                 SUBMIT
                                             </button>
+
                                         ) : (
                                             <button
                                                 className="bg-violet-200 text-violet-800 p-2 rounded"
@@ -774,6 +778,15 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                 </div>
             </div>
+
+            <ModalAddColor
+        isOpen={showAddColorModal} 
+        onCancel={() => setShowAddColorModal(false)} 
+        onConfirm={() => {
+          handleAddColor(); 
+          setShowAddColorModal(false); 
+        }}
+      />
 
             <div className='px-6 md:px-14 py-3'> <ProductList></ProductList></div>
             <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>

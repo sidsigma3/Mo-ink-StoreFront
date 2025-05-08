@@ -4,6 +4,7 @@ import { BiHomeAlt } from "react-icons/bi";
 import { PiSuitcaseSimpleBold } from "react-icons/pi";
 import { BiBuildingHouse } from "react-icons/bi";
 import { updateCustomerDetails, getCustomerDetails } from '../../Services/CustomerService';
+import SelectState from '../SelectState/SelectState';
 
 
 const ModalAddress = ({
@@ -182,8 +183,7 @@ const ModalAddress = ({
                         </div>
 
                         <div className='flex flex-col gap-2'>
-                            <label className='font-semibold'>State</label>
-                            <input className='border-1 rounded p-1' name='state' value={formData.state} onChange={handleChange}></input>
+                            <label className='font-semibold'>State</label> <SelectState value={formData.state} onChange={handleChange} />
                         </div>
 
                         <div className='flex flex-col gap-2'>

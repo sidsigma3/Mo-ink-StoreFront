@@ -19,6 +19,7 @@
     "keen-slider": "^6.8.6",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.487.0",
+    "moment-timezone": "^0.5.48",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^19.0.0",

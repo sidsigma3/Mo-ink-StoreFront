@@ -17,6 +17,7 @@ const SettingPage = () => {
   const [customer, setCustomer] = useState({});
   const customerData = JSON.parse(localStorage.getItem('userData') || '{}');
   const [originalCustomer, setOriginalCustomer] = useState({});
+  const [isModified, setIsModified] = useState(false); 
 
 
   useEffect(() => {
@@ -57,6 +58,10 @@ const SettingPage = () => {
     setOriginalCustomer(formattedCustomer);
   }, [customerDetails]);
 
+  useEffect(() => {
+    setIsModified(JSON.stringify(customer) !== JSON.stringify(originalCustomer));
+  }, [customer, originalCustomer]);
+
   // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -88,9 +93,10 @@ const SettingPage = () => {
 
     try {
       await updateCustomerDetails(customerData.customerId, updatedCustomerData);
-      alert("Changes saved successfully!");
+      alert("✅ Changes saved successfully!");
+      setOriginalCustomer(customer); // Reset original to current
     } catch (error) {
-      console.error("Failed to save changes:", error);
+      console.error("❌ Failed to save changes:", error);
     }
   };
 
@@ -106,7 +112,6 @@ const SettingPage = () => {
     { label: "Account", link: "/account" },
     { label: "Profile", link: "/setting" },
   ];
-  const isModified = JSON.stringify(customer) !== JSON.stringify(originalCustomer);
 
   return (
     <div>

@@ -7,7 +7,6 @@ import Footer from '../../Components/Footer/Footer'
 import HeroSection from '../../Components/HeroSection/HeroSection'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { MdOutlineShield } from "react-icons/md";
-import ModalCoupon from '../../Components/Modal/ModalCoupon';
 
 
 
@@ -18,8 +17,6 @@ const PrivacyPolicy = () => {
       { label: "Home", link: "/home" },
       { label: "Privacy Policy", link: "/privacyPolicy" },
     ];
-
-        const [showModal, setShowModal] = useState(false);
     
   
     return (
@@ -168,13 +165,11 @@ const PrivacyPolicy = () => {
           <div className="mt-12 pt-8 border-t border-gray-100">
           <div>
       <p
-        className="text-sm text-gray-500 text-center cursor-pointer underline"
-        onClick={() => setShowModal(true)}
+        className="text-sm text-gray-500 text-center cursor-pointer "
       >
         Last updated: April 2025
       </p>
 
-      <ModalCoupon isOpen={showModal} onClose={() => setShowModal(false)} />
     </div>
           </div>
         </div>

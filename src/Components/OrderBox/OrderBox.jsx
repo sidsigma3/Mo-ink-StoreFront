@@ -80,7 +80,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
       
   
     {totalReturnedItems > 0 && (
-      <span className="bg-yellow-100 text-yellow-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center">
+      <span className="bg-yellow-100 text-yellow-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-46 rounded items-center">
         <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
         Returned ({totalReturnedItems} items)
       </span>
@@ -88,7 +88,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
    
 
     {totalCancelledItems > 0 && (
-       <span className="bg-red-100 text-red-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center">
+       <span className="bg-red-100 text-red-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-46 rounded items-center">
        <span className="w-2 h-2 me-2 rounded-full bg-red-600"></span>
        Cancelled ({totalCancelledItems} items)
      </span>
@@ -104,7 +104,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
               e.stopPropagation()
               handleDownloadInvoice(order.orderId)
             }}
-            className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
+            className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48  rounded items-center'
           >
             <span><TbFileInvoice size={20}/></span>
             <h5>Order Invoice</h5>
@@ -114,8 +114,10 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
                     order?.payment?.totalRefundAmount > 0 && (
                       <button
 
+
                         onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "CANCELLED")}
                         className=' bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
+
 
                       >
                         <TbFileInvoice size={20} />
@@ -126,8 +128,10 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
                     {
                       order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
                         <button
+
                           onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "RETURNED")}
                           className='bg-green-100  text-green-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
+
 
                         >
                           <TbFileInvoice size={20} />

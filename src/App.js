@@ -92,6 +92,15 @@ function App() {
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route path="/" element={<MainHomepage/>} />
       <Route path="/colorpalette" element={<ColorPalette/>} />
+      <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+      <Route path="/termsofuse" element={<TermOfUse />} />
+      <Route path="/shippingpolicy" element={<ShippingPolicy />} />
+      <Route path="/returnPolicy" element={<ReturnPolicy/>}/>
+      <Route path="/refundPolicy" element={<RefundPolicy/>}/>
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/FAQs" element={<FAQs/>}/>
+
+
 
       {/* Protected Routes */}
       <Route
@@ -111,8 +120,6 @@ function App() {
                   <Route path="/setting" element={<SettingPage />} />
                   <Route path="/wallet" element={<WalletPage />} />
                   <Route path="/orders" element={<OrderPage />} />
-                  <Route path="/contact" element={<ContactPage />} />
-                  <Route path="/FAQs" element={<FAQs/>}/>
                   <Route path="/address" element={<AddressPage />} />
                   <Route path="/blogbox" element={<BlogBox />} />
                   <Route path="/orderDetails" element={<OrderDetails />} />
@@ -125,9 +132,7 @@ function App() {
                   <Route path="/blog3" element={<Blog3/>}/>
                   <Route path="/blog4" element={<Blog4/>}/>
                   <Route path="*" element={<ErrorPage />} />
-                  <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-                  <Route path="/termsofuse" element={<TermOfUse />} />
-                  <Route path="/shippingpolicy" element={<ShippingPolicy />} />
+                  
                   <Route path="/paymentSuccess" element={<PaymentSuccess/>} />
                   <Route path="/paymentFail" element={<PaymentFailure/>} />
                   <Route path="/orderIssues" element={<OrderIssues/>} />

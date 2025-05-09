@@ -14,13 +14,13 @@ const BloxBox4 = () => {
             <div className="p-3">
                 <a href="#">
                 <h3 className="text-lg font-medium text-gray-900">
-                Cone vs. Hank: Choosing the Right Yarn                </h3>
+                Cone vs. Hank: Choosing the Right Yarn Format for Your Needs   </h3>
                 </a>
 
                 <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
                 Not all yarn formats are created equal. The choice between a yarn cone and a hank may seem minor, but it can greatly impact your production efficiency, dyeing precision, and weaving style.                </p>
 
-                <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
+                <a href="/Blog4" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more
 
                 <span aria-hidden="true" className="block transition-all group-hover:ms-0.5 rtl:rotate-180">

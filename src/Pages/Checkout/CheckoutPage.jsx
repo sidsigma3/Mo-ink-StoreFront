@@ -687,33 +687,27 @@ const CheckoutPage = () => {
           }
       
           const orderVariants = buildDetailedOrderVariantsForPayment(selectedCartItems);
-        
       
-          if (orderVariants.length === 0 ) {
+          if (orderVariants.length === 0) {
             alert("No valid items or weight!");
             return;
           }
-
+      
           const totalCgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantCgst || 0), 0);
           const totalSgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantSgst || 0), 0);
           const totalDiscount = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0);
           const totalHandlingCharges = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0);
-          const totalQuantity =  orderVariants.length
+          const totalQuantity = orderVariants.length;
           const totalAmount = Number(adjustedNetPay).toFixed(0);
-      
-          if (orderVariants.length === 0 || totalQuantity === 0) {
-            alert("No valid items or weight!");
-            return;
-          }
       
           const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
       
           const orderData = {
             customer: {
-                customerId,
-                billingAddressId: billingAddress?.id || null,
-                shippingAddressId: selectedAddress?.id || null
-              },
+              customerId,
+              billingAddressId: billingAddress?.id || null,
+              shippingAddressId: selectedAddress?.id || null
+            },
             status: "PENDING",
             totalAmount: Number(totalAmount),
             discountId: appliedCoupon?.discountId || null,
@@ -728,34 +722,24 @@ const CheckoutPage = () => {
               paidAmount: onlinePay,
               pendingAmount: codPay,
               paymentStatus: "UNPAID",
-              totalDiscount:totalDiscount,
-              totalSgst:(gstAmount/2).toFixed(2),
-              totalCgst:(gstAmount/2).toFixed(2),
+              totalDiscount: totalDiscount,
+              totalSgst: (gstAmount / 2).toFixed(2),
+              totalCgst: (gstAmount / 2).toFixed(2),
               totalHandlingCharges,
             },
             orderVariants,
           };
       
-          console.log(orderData)
-
           const createdOrder = await createOrder(orderData);
           const orderId = createdOrder.data?.orderId;
-
-          const statusData = {
-              status: "NEW"
-          }
       
-          const statusChange = await updateOrderStatuses(orderId,statusData)
-
           const paymentData = await initiatePayment(orderId);
-
-          const { razorpayOrderId, razorpayOrderstatus } = paymentData.data;
+          const { razorpayOrderId } = paymentData.data;
       
           if (!razorpayOrderId || paymentData.status !== "SUCCESS") {
             throw new Error("Failed to get valid Razorpay order");
           }
       
-     
           const loadScript = (src) => {
             return new Promise((resolve) => {
               const script = document.createElement("script");
@@ -780,10 +764,27 @@ const CheckoutPage = () => {
             name: "Mo ink and Dye",
             description: `Payment for Order #${razorpayOrderId}`,
             order_id: razorpayOrderId,
-            handler: function (response) {
-              console.log("Payment Success", response);
-              alert("Payment Successful!");
-           
+            handler: async function (response) {
+              try {
+                console.log("Payment Success", response);
+      
+                // ✅ Update order status to NEW after payment success
+                await updateOrderStatuses(orderId, { status: "NEW" });
+      
+                // ✅ Remove items from cart
+                await Promise.all(
+                  selectedCartItems.map(item =>
+                    removeFromCart(customerId, item.variantId)
+                  )
+                );
+      
+                // ✅ Navigate to success page after everything is complete
+                navigate('/paymentSuccess');
+              } catch (error) {
+                console.error("Post-payment flow failed:", error);
+                alert("Payment succeeded but post-processing failed.");
+                navigate('/paymentFail');
+              }
             },
             prefill: {
               name: customer.customerName || "",
@@ -797,27 +798,17 @@ const CheckoutPage = () => {
               color: "#3399cc",
             },
           };
-
-          console.log(options)
       
           const rzp = new window.Razorpay(options);
           rzp.open();
-
-          
-            await Promise.all(
-                selectedCartItems.map(item =>
-                removeFromCart(customerId, item.variantId)
-                )
-            );
-
-          navigate('/paymentSuccess')
       
         } catch (err) {
           console.error("Payment initiation failed:", err);
           alert("Something went wrong. Please try again.");
-          navigate('/paymentFail')
+          navigate('/paymentFail');
         }
       };
+      
       
       const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
 

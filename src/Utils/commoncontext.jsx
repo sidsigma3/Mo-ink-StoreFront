@@ -1,5 +1,5 @@
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState , useEffect} from "react";
 import { getWishlist } from "../Services/WishlistService";
 import { getCart } from "../Services/CartService";
 
@@ -26,6 +26,11 @@ export const AppProvider = ({ children }) => {
           console.error("Failed to fetch counts", error);
         }
       };
+
+      useEffect(() => {
+        updateCartAndWishlistCounts();
+      }, []);
+
 
   return (
     <AppContext.Provider value={{ cartCount, setCartCount , wishlistCount, setWishlistCount , updateCartAndWishlistCounts}}>

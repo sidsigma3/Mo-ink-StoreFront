@@ -5,6 +5,8 @@ import { PiSuitcaseSimpleBold } from "react-icons/pi";
 import { BiBuildingHouse } from "react-icons/bi";
 import { updateCustomerDetails, getCustomerDetails } from '../../Services/CustomerService';
 import SelectState from '../SelectState/SelectState';
+import Toast from '../../Components/Toast/Toast';
+
 
 
 const ModalAddress = ({
@@ -43,6 +45,8 @@ const ModalAddress = ({
     }, [selectedAddress, usedAddressTypes]);
 
     const isDisabled = (type) => usedAddressTypes?.has(type) && !selectedAddress;
+    const [toasts, setToasts] = useState([]);
+    
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,8 +59,13 @@ const ModalAddress = ({
 
     
     const handleSave = async () => {
+        const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
         if (!formData.addressType) {
-            alert("Please select address type");
+            showToast("Please select address type", "error");
             return;
         }
     
@@ -73,7 +82,7 @@ const ModalAddress = ({
         );
     
         if (exactMatch && !selectedAddress) {
-            alert(`This address is already used under "${exactMatch.addressType}". Please add a different address.`);
+            showToast(`Same address "${exactMatch.addressType}" in use. Add a new one`, "error");
             return;
         }
     
@@ -82,7 +91,7 @@ const ModalAddress = ({
         );
     
         if (alreadyExists && !selectedAddress) {
-            alert(`${formData.addressType} address already exists.`);
+            showToast(`${formData.addressType} address already exists.`, "error");
             return;
         }
     
@@ -121,7 +130,7 @@ const ModalAddress = ({
             handleClose();
         } catch (error) {
             console.error("Failed to update customer address:", error);
-            alert("Something went wrong while saving address.");
+            showToast("Something went wrong while saving address.", "error");
         }
     };
     
@@ -246,6 +255,21 @@ const ModalAddress = ({
                     </button>
                 </ModalFooter>
             </Modal>
+
+{/* Toast Notification */}
+<div className="fixed top-4 right-4 z-[9999] space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
         </div>
     )
 }

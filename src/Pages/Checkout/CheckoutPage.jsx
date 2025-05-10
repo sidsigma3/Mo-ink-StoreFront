@@ -29,6 +29,8 @@ import { createOrder, updateOrderStatuses } from '../../Services/OrderService'
 import { initiatePayment } from '../../Services/PaymentService'
 import ModalSuccess from '../../Components/Modal/ModalSuccess' 
 import ModalCoupon from '../../Components/Modal/ModalCoupon';
+import Toast from '../../Components/Toast/Toast';
+
 
 
 const CheckoutPage = () => {
@@ -59,6 +61,8 @@ const CheckoutPage = () => {
 
     const [walletBalance, setWalletBalance] = useState(0);
     const platformFees = 49;
+    const [toasts, setToasts] = useState([]);
+    
 
     const paymentDiscountMap = {
         "100% Online and 0% COD": 1.5,
@@ -387,8 +391,13 @@ const CheckoutPage = () => {
 
 
     const handleRemoveFromCart = async (variantId) => {
+        const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
         if (!customer?.customerId) {
-            alert("Please log in to add items to your cart.");
+            showToast("Please log in to add items to your cart.", "error");
             return;
         }
 
@@ -396,9 +405,9 @@ const CheckoutPage = () => {
             await removeFromCart(customer.customerId, variantId);
             fetchOrders()
             updateCartAndWishlistCounts()
-            alert("Item removed from cart successfully!");
+            showToast("Item removed from cart successfully!", "Success");
         } catch (error) {
-            alert("Failed to remove item from cart!");
+            showToast("Failed to remove item from cart!", "error");
         }
     }
 
@@ -592,14 +601,18 @@ const CheckoutPage = () => {
 
 
       const handleCreateOrder = async () => {
+        const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
         try {
           if (!customerId) {
-            alert("Customer info missing!");
+            showToast("Customer info missing!", "error");
             return;
           }
       
           if (selectedCartItems.length === 0) {
-            alert("Cart is empty!");
+            showToast("Cart is empty!", "error");
             return;
           }
 
@@ -675,21 +688,27 @@ const CheckoutPage = () => {
       
 
       const handleOnlinePaymentFlow = async () => {
+        const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
         try {
-          if (!customerId) {
-            alert("Customer info missing!");
-            return;
-          }
-      
-          if (selectedCartItems.length === 0) {
-            alert("Cart is empty!");
-            return;
-          }
+            if (!customerId) {
+                showToast("Customer info missing!", "error");
+                return;
+              }
+          
+              if (selectedCartItems.length === 0) {
+                showToast("Cart is empty!", "error");
+                return;
+              }
       
           const orderVariants = buildDetailedOrderVariantsForPayment(selectedCartItems);
       
-          if (orderVariants.length === 0) {
-            alert("No valid items or weight!");
+          if (orderVariants.length === 0 ) {
+            showToast("No valid items or weight!", "error");
+
             return;
           }
       
@@ -700,6 +719,11 @@ const CheckoutPage = () => {
           const totalQuantity = orderVariants.length;
           const totalAmount = Number(adjustedNetPay).toFixed(0);
       
+          if (orderVariants.length === 0 || totalQuantity === 0) {
+            showToast("No valid items or weight!", "error");
+            return;
+          }
+
           const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
       
           const orderData = {
@@ -753,11 +777,12 @@ const CheckoutPage = () => {
           const razorpayLoaded = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
       
           if (!razorpayLoaded) {
-            alert("Razorpay script failed to load. Check your internet connection.");
+            showToast("Razorpay script failed to load. Check your internet connection.", "error");
             return;
           }
       
           const options = {
+            
             key: "rzp_test_oqL33XMoXAV4ym",
             amount: Number(onlinePay) * 100,
             currency: "INR",
@@ -800,12 +825,20 @@ const CheckoutPage = () => {
           };
       
           const rzp = new window.Razorpay(options);
+          const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
           rzp.open();
       
         } catch (err) {
-          console.error("Payment initiation failed:", err);
-          alert("Something went wrong. Please try again.");
-          navigate('/paymentFail');
+            console.error("Payment initiation failed:", err);
+            showToast("Something went wrong. Please try again.", "error");
+            
+            setTimeout(() => {
+              navigate('/paymentFail');
+            }, 3000);
+            
         }
       };
       
@@ -1406,6 +1439,19 @@ const CheckoutPage = () => {
                 discountCode={appliedCoupon?.discountCode}
             />
 
+  {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
 
         </div>
         

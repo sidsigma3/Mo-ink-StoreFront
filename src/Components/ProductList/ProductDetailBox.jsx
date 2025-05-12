@@ -11,7 +11,7 @@ import Toast from '../Toast/Toast';
 
 const ProductDetailBox = ({
   productName, price, size, color, itemQuantity, variantId,
-  isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,
+  isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,variantType,
   isWishlistPage = false,
   showCart = true,
 }) => {
@@ -149,7 +149,7 @@ const ProductDetailBox = ({
           {/* Card Body */}
           <div className="p-3">
             <h5 className="font-medium">
-              {productName}-{size} ({color})
+              {productName}-{size} ({color}) ({variantType})
             </h5>
   
             {/* Quantity Row */}

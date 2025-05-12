@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect , useMemo} from 'react'
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -20,33 +20,32 @@ import Toast from '../../Components/Toast/Toast';
 
 
 
-const ColorCard = ({item , onSelect, selected = false,disabled}) => {
-
-    return <div 
-    onClick={() => !disabled && onSelect(item)}
-    className={`border-4 rounded-md cursor-pointer ${selected
-        ? 'border-blue-500'
-        : 'border-gray-300'
+const ColorCard = ({ item, onSelect, selected = false, disabled }) => {
+    return (
+      <div
+        onClick={() => !disabled && onSelect(item)}
+        className={`border-4 rounded-md cursor-pointer ${
+          selected ? "border-blue-500" : "border-gray-300"
         }`}
->
-    <div className="relative h-20 overflow-hidden">
-        <img
+      >
+        <div className="relative h-20 overflow-hidden">
+          <img
             src="/images/wool-item-1.png"
             className="w-full h-full object-cover"
             alt="Product"
-        />
-        <div
+          />
+          <div
             className="absolute inset-0 opacity-50 mix-blend-multiply"
-            style={{ backgroundColor: item.hexCode }}
-        ></div>
-    </div>
-    <div className="flex flex-col items-center mt-2">
-        <h5 className="text-black font-bold">{item.colorName}</h5>
-        <h5 className="text-gray-600">{item.hexCode}</h5>
-    </div>
-</div>
-}
-
+            style={{ backgroundColor: item.color?.hexCode }}
+          ></div>
+        </div>
+        <div className="flex flex-col items-center mt-2">
+          <h5 className="text-black font-bold">{item.color?.colorName}</h5>
+          <h5 className="text-gray-600">{item.color?.hexCode}</h5>
+        </div>
+      </div>
+    );
+  };
 
 const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
@@ -55,7 +54,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [isInCart, setIsInCart] = useState();
     const [isWishlisted, setIsWishlisted] = useState();
     const [justRemoved, setJustRemoved] = useState();
-    const { product, size, color, price } = location.state || {};
+    const { product, size, color, price ,variantType} = location.state || {};
     const [filteredColors, setFilteredColors] = useState([]);
     const [moreColors, setMoreColors] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,6 +74,17 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     
 
     
+
+    const filteredColorsTemp = useMemo(() => {
+        if (!product?.variants?.length) return [];
+        return product.variants.filter(
+          (variant) => variant.size === size && variant.variantType === variantType
+        );
+      }, [product, size, variantType]);
+      
+
+      console.log(filteredColorsTemp)
+
     const handleColorSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
         setSearchTerm(searchText);
@@ -125,12 +135,15 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     };
 
     const handleSaveColor = () => {
-        if (newColor.colorName && newColor.hexCode) {
-            setTempCustomColors((prev) => [...prev, newColor]);
-            setNewColor({ colorName: "", hexCode: "" });
-        }
+        if (!newColor.hexCode) return;
+    
+        const defaultName = `Color-${tempCustomColors.length + 1}`;
+        const colorName = newColor.colorName || defaultName;
+    
+        setTempCustomColors((prev) => [...prev, { ...newColor, colorName }]);
+        setNewColor({ colorName: "", hexCode: "" });
     };
-
+    
     const handleCartButtonClick = () => {
         if (isInCart) {
             navigate("/shoppingCart");
@@ -140,16 +153,18 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     };
 
     const handleAddToCart = async () => {
+
         const showToast = (message, type = "error") => {
             setToasts([{ message, type }]);
             setTimeout(() => setToasts([]), 3000);
           };
-        
+
         if (!customer?.customerId) {
           showToast("Please log in to add items to your cart.", "error");
           return;
         }
       
+        // Ensure at least one color is selected
         if (selectedColors.length === 0) {
             showToast("Please select a color before adding to cart.", "error");
             return;
@@ -157,21 +172,32 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
         }
       
         try {
+          // Get the current cart to check if the item already exists
+          const cart = await getCart(customer.customerId);
+          
+          // Iterate over each selected color and add it to the cart if not already there
           for (const color of selectedColors) {
-            const cart = await getCart(customer.customerId);
             const alreadyInCart = cart?.cartItems?.some(item => item.variantId === color.id);
       
             if (!alreadyInCart) {
+              // Add the color to the cart if it's not already in there
               await addToCart(customer.customerId, color.id, 1);
             }
           }
       
+
           showToast("Items added to cart", "success");
+
           setIsInCart(true);
-          setSelectedColors([]); // Optionally clear after adding
+          
+          // Optionally, clear selected colors after adding them to the cart
+          setSelectedColors([]);
+      
         } catch (error) {
           console.error("Error adding to cart:", error);
+
           showToast("Failed to add item to cart!", "error");
+
         }
       };
       
@@ -192,14 +218,26 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
       
         try {
-          const response = await fetchProductsById(product.productId); // 👈 pass correct id
+          const response = await fetchProductsById(product.id);
           const productData = response.data;
       
-          const uniqueSizes = [...new Set(productData.variants.map(v => v.size))];
+          const existingVariants = productData.variants || [];
       
+          // Get unique combinations of size + variantType
+          const sizeVariantTypeCombos = [
+            ...new Set(
+              existingVariants.map((v) => `${v.size}__${v.variantType}`)
+            ),
+          ].map((combo) => {
+            const [size, variantType] = combo.split("__");
+            return { size, variantType };
+          });
+      
+          // Generate new variants for each custom color across all size + variantType combos
           const newVariants = tempCustomColors.flatMap((color) =>
-            uniqueSizes.map((size) => ({
+            sizeVariantTypeCombos.map(({ size, variantType }) => ({
               size,
+              variantType,
               color: {
                 colorName: color.colorName,
                 hexCode: color.hexCode,
@@ -211,17 +249,19 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             }))
           );
       
-          const originalGrouped = productData.groupedVariants || [];
+          // Filter out variants that already exist
           const isNewVariant = (variant) => {
-            const group = originalGrouped.find(g => g.size === variant.size);
-            return !group?.variants.some(
-              existing =>
-                existing.colorName.toLowerCase() === variant.color.colorName.toLowerCase() &&
-                existing.hexCode.toLowerCase() === variant.color.hexCode.toLowerCase()
+            return !existingVariants.some(
+              (existing) =>
+                existing.size === variant.size &&
+                existing.variantType === variant.variantType &&
+                existing.color.colorName.toLowerCase() === variant.color.colorName.toLowerCase() &&
+                existing.color.hexCode.toLowerCase() === variant.color.hexCode.toLowerCase()
             );
           };
       
           const filteredNewVariants = newVariants.filter(isNewVariant);
+      
           if (filteredNewVariants.length === 0) {
             showToast("All selected colors already exist.", "error");
             return;
@@ -241,23 +281,23 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             deletedVariantIds: [],
           };
       
-          // 🔥 Save new variants
-          await updateProduct(product.productId, formattedData);
+          // Save new variants
+          await updateProduct(product.id, formattedData);
       
-          // ✅ Refetch updated product
-          const updatedProductRes = await fetchProductsById(product.productId);
+          // Refetch updated product
+          const updatedProductRes = await fetchProductsById(product.id);
           const updatedVariants = updatedProductRes.data.variants || [];
       
-          // ✅ Match tempCustomColors to get IDs
+          // Get newly added color variants by matching hex codes
           const seenHexCodes = new Set();
           const updatedColorsWithIds = [];
       
-          updatedVariants.forEach(variant => {
+          updatedVariants.forEach((variant) => {
             const hexCode = variant.color.hexCode.toLowerCase();
       
             if (!seenHexCodes.has(hexCode)) {
               const match = tempCustomColors.find(
-                temp =>
+                (temp) =>
                   temp.colorName.toLowerCase() === variant.color.colorName.toLowerCase() &&
                   temp.hexCode.toLowerCase() === variant.color.hexCode.toLowerCase()
               );
@@ -265,24 +305,23 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
               if (match) {
                 updatedColorsWithIds.push({
                   ...match,
-                  id: variant.id,
+                  id: variant.color.id || variant.id, 
                 });
       
                 seenHexCodes.add(hexCode);
               }
             }
           });
-
+      
           const allProductsResponse = await fetchProducts();
           const allProductsData = allProductsResponse.data || [];
-
+      
           localStorage.setItem('allProducts', JSON.stringify(allProductsData));
-
+      
           setCustomColors((prev) => [...prev, ...updatedColorsWithIds]);
           setTempCustomColors([]);
           setIsAddingColor(false);
           alert("New color variants added successfully!");
-      
         } catch (error) {
           console.error("Error adding color variants:", error);
           showToast("Failed to add color variants. Please try again.", "error");
@@ -309,14 +348,16 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
     const handleSelectColor = (item) => {
-        const alreadySelected = modalSelectedColors.find((color) => color.id === item.id);
+        const color = item.color; // Access color from variant
+        const alreadySelected = modalSelectedColors.find((selected) => selected.id === color.id);
+      
         if (alreadySelected) {
-          setModalSelectedColors(modalSelectedColors.filter((color) => color.id !== item.id));
+          setModalSelectedColors(modalSelectedColors.filter((selected) => selected.id !== color.id));
         } else {
-          setModalSelectedColors([...modalSelectedColors, item]);
+          setModalSelectedColors([...modalSelectedColors, color]);
         }
       };
-
+      
     // const handleColorSearch = (e) => {
     //     const searchText = e.target.value.toLowerCase();
     //     const filtered = customColors.filter(
@@ -327,17 +368,11 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     //     setFilteredColors(filtered);
     // };
 
-    let filteredColorsTemp = [];
-
-    if (product?.groupedVariants?.length > 0) {
-      product.groupedVariants.forEach((groupedVariant) => {
-        if (groupedVariant.size === size) {  // 👉 Match based on selected size
-          filteredColorsTemp.push(...groupedVariant.variants);
-        }
-      });
-    }
    
-    
+       
+    console.log(product)
+
+
     return (
         <div>
 
@@ -371,7 +406,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                         <span class="inline-flex items-center rounded-md bg-pink-200 px-2 py-1 text-xs font-medium text-pink-600 ring-1 ring-inset ring-pink-700/10">Sale off</span>
                         <div className='flex gap-3 lg:block'>
-                            <p className="text-gray-800 text-2xl md:2xl font-bold mt-6">{product.productName} - {size}</p>
+                            <p className="text-gray-800 text-2xl md:2xl font-bold mt-6">{product.productName} - {size} - {variantType}</p>
                             <div class="flex items-center space-x-1 gap-2 mt-6">
                                 <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
                                     <span className='text-yellow-300'><TiStarFullOutline /></span>
@@ -469,20 +504,28 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                             <input
                                                 type="text"
                                                 name="colorName"
-                                                value={newColor.colorName}
+                                                value={newColor.colorName || `Color-${tempCustomColors.length + 1}`}
                                                 onChange={handleInputChange}
                                                 className="border p-2 rounded"
                                             />
 
                                             <label className="font-medium">Hex Code</label>
-                                            <input
-                                                type="text"
-                                                name="hexCode"
-                                                value={newColor.hexCode}
-                                                onChange={handleInputChange}
-                                                className="border p-2 rounded"
-                                                placeholder='e.g. #fff000'
-                                            />
+                                            <div className="flex items-center gap-2">
+                                                <input
+                                                    type="text"
+                                                    name="hexCode"
+                                                    value={newColor.hexCode}
+                                                    onChange={handleInputChange}
+                                                    className="border p-2 rounded w-full"
+                                                    placeholder="e.g. #fff000"
+                                                />
+                                                <input
+                                                    type="color"
+                                                    value={newColor.hexCode}
+                                                    onChange={(e) => setNewColor((prev) => ({ ...prev, hexCode: e.target.value }))}
+                                                    className="w-10 h-10 p-0 border rounded cursor-pointer"
+                                                />
+                                            </div>
 
                                             {newColor.hexCode && (
                                                 <div
@@ -554,7 +597,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                         ) : (
                                         <div className="grid grid-cols-3 gap-3 p-2">
                                             {customColors.map((item) => {
-                                            const isSelected = modalSelectedColors.find((color) => color.id === item.id);
+                                            const isSelected = modalSelectedColors.find((color) => color.id === item.color.id);
                                             return (
                                                 <ColorCard
                                                 key={item.id}
@@ -572,18 +615,19 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
                                          <div className="grid grid-cols-3 gap-3 p-2">
+
                                          {filteredColorsTemp.map((aVariant) => {
-                                            const isSelected = modalSelectedColors.find((color) => color.id === aVariant.id);
+                                            const isSelected = modalSelectedColors.find((color) => color.id === aVariant.color.id);
                                             return (
-                                            <ColorCard
+                                                <ColorCard
                                                 key={aVariant.id}
                                                 item={aVariant}
                                                 selected={!!isSelected}
                                                 onSelect={handleSelectColor}
-                                            />
+                                                />
                                             );
-                                        })}
-                                                </div>
+                                            })}
+                                        </div>
                                         
 
                                         {/* <div className='h-[28rem] md:h-[32rem] overflow-auto'>
@@ -663,8 +707,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         </div>
 
                         <div className="grid grid-cols-6 gap-3 p-2">
-                        {selectedColors.map((color, index) => (
-                            <div key={index} className="border-2 rounded-md overflow-hidden relative">
+                        {selectedColors.map((color) => (
+                            <div key={color.id} className="border-2 rounded-md overflow-hidden relative">
                                 <div className="relative h-20 w-full">
                                 <img
                                     src="/images/wool-item-1.png"
@@ -677,25 +721,25 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 ></div>
 
                                 <button
-                                   onClick={() => {
-                                    setSelectedColors((prev) =>
-                                      prev.filter((c) => c.hexCode !== color.hexCode || c.source !== color.source)
-                                    );
+                                    onClick={() => {
+                                    setSelectedColors((prev) => prev.filter((c) => c.id !== color.id));
                                     setIsInCart(false); // Reset the button
-                                  }}
-                                  
-                                    className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full"
+                                    }}
+                                    className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full p-1"
                                 >
-                                    <RxCross2 size={18} />
+                                    <RxCross2 size={16} />
                                 </button>
                                 </div>
 
                                 <div className="flex flex-col items-center p-1">
-                                <p className="text-black text-sm font-semibold">{color.colorName}</p>
+                                <p className="text-black text-sm font-semibold">
+                                    {color.colorName}
+                                </p>
                                 <p className="text-gray-600 text-xs">{color.hexCode}</p>
                                 </div>
                             </div>
                             ))}
+
                         </div>
 
 

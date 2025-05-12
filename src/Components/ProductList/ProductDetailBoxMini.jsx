@@ -7,7 +7,7 @@ import { useAppContext } from '../../Utils/commoncontext';
 
 
 
-const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle,selectedOption,
+const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle,variantType,
   isSelected = false,
   onSelectChange = () => { },
   onQuantityChange = () => {},
@@ -86,13 +86,6 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
     }
   };
 
-  const handleOptionClick = (option) => {
-    if (selectedOption === option) {
-      onVariantTypeChange(variantId, ''); // deselect
-    } else {
-      onVariantTypeChange(variantId, option); // select
-    }
-  };
 
   return (
     <div className='relative'>
@@ -166,20 +159,9 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
           <div className='mt-2 float-start'>
             <div className="mt-3">
               <div className="flex items-center gap-2">
-                {['Cone', 'Hank'].map((form) => (
-                  <button
-                    key={form}
-                    onClick={() => handleOptionClick(form)}
-                    className={`inline-block rounded p-2 px-4 text-sm font-medium transition 
-            ${selectedOption === form
-                        ? "bg-purple-500 text-white"
-                        : "bg-purple-100 text-purple-500 hover:bg-purple-400 hover:text-white"}
-            `}
-                    style={{ width: "max-content" }}
-                  >
-                    {form}
-                  </button>
-                ))}
+              <span className="inline-block rounded bg-purple-100 text-purple-700 px-4 py-1 text-sm font-medium">
+                  {variantType}
+                </span>
 
                 <button
                   onClick={handleWishlistClick}

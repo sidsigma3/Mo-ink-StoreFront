@@ -4,86 +4,97 @@ import { fetchProducts } from '../../Services/ProductService';
 import KeenSlider from 'keen-slider';
 import 'keen-slider/keen-slider.min.css';
 
-
-const SlilderCard = ({title, children}) => {
+const SlilderCard = ({ title, children }) => {
   const sliderRef = useRef(null);
-  const instance = useRef(null)
+  const instance = useRef(null);
+
   useEffect(() => {
-    if (sliderRef.current) {
+    if (sliderRef.current && children?.length > 0) {
+      // Destroy existing instance before creating a new one (important if children change)
+      if (instance.current) {
+        instance.current.destroy();
+      }
+
       instance.current = new KeenSlider(sliderRef.current, {
-              loop: false,
-              slides: {
-                origin: 'center',
-                perView: 4,
-                spacing: 8,
-              },
-              breakpoints: {
-                '(min-width: 1024px)': {
-                  slides: {
-                    origin: 'auto',
-                    perView: 4,
-                    spacing: 16,
-                  },
-                },
-              },
-            });
+        loop: false,
+        slides: {
+          origin: "center",
+          perView: 4,
+          spacing: 8,
+        },
+        breakpoints: {
+          "(min-width: 1024px)": {
+            slides: {
+              origin: "auto",
+              perView: 4,
+              spacing: 16,
+            },
+          },
+        },
+      });
     }
-       
-  }, []);
+
+    return () => instance.current?.destroy(); // clean up on unmount
+  }, [children]);
+
   const handlePrevious = () => instance.current?.prev();
   const handleNext = () => instance.current?.next();
-  return <>
-  
-  <div className="flex justify-between items-end mr-10">
-  <h2 className="text-xl text-black p-4">
-            Top Selling {title}
-          </h2>
-            <div className="mb-2 flex gap-4">
-              <button
-                onClick={handlePrevious}
-                className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
-              >
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="size-5 rtl:rotate-180"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-              </svg>
-              </button>
-              <button
-                onClick={handleNext}
-                className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
-              >
-                <svg
-                className="size-5 rtl:rotate-180"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M9 5l7 7-7 7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                />
-              </svg>
-              </button>
-            </div>
-          </div>
-  
-  <ul
-            ref={sliderRef}
-            className="keen-slider mt-2 px-6"
-          >
-            {children}
-          </ul></>
 
-}
+  return (
+    <>
+      <div className="flex justify-between items-end mr-10">
+        <h2 className="text-xl text-black p-4">Top Selling {title}</h2>
+        <div className="mb-2 flex gap-4">
+          <button
+            onClick={handlePrevious}
+            className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-5 rtl:rotate-180"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5L8.25 12l7.5-7.5"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={handleNext}
+            className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+          >
+            <svg
+              className="size-5 rtl:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <ul ref={sliderRef} className="keen-slider mt-2 px-6">
+        {children}
+      </ul>
+    </>
+  );
+};
+
+
+
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [finalData, setFinalData] = useState([]);
@@ -112,29 +123,31 @@ const ProductList = () => {
   const aggregateProductData = (productData) => {
     return productData.map((product) => {
       const groupedVariants = product.variants.reduce((acc, variant) => {
-        const { size, color, availableWeight, id } = variant;
-
-        if (!acc[size]) {
-          acc[size] = {
+        const { size, color, availableWeight, id, variantType, pricePerKg } = variant;
+        const key = `${size}_${variantType}`;
+  
+        if (!acc[key]) {
+          acc[key] = {
             id,
             size,
+            variantType,
             variants: [],
             totalWeight: 0,
           };
         }
-
-        acc[size].variants.push({
+  
+        acc[key].variants.push({
           colorName: color.colorName,
           hexCode: color.hexCode || '#ccc',
-          available: variant.availableWeight,
-          price: variant.pricePerKg,
-          id: variant.id,
+          available: Number(availableWeight),
+          price: pricePerKg,
+          id: id,
         });
-
-        acc[size].totalWeight += Number(availableWeight);
+  
+        acc[key].totalWeight += Number(availableWeight);
         return acc;
       }, {});
-
+  
       return {
         productId: product.id,
         productName: product.productName,
@@ -151,33 +164,29 @@ const ProductList = () => {
       };
     });
   };
+  
+  console.log(finalData)
 
   return (
     <div className="space-y-12">
-      {finalData.map((product, idx) => (
-        <div key={product.productId} className="relative flex flex-col bg-gray-100 p-4">
-
-
-          
+      {products.map((product, idx) => (
+        <div key={product.id} className="relative flex flex-col bg-gray-100 p-4">
           <SlilderCard title={product.productName}>
-          {product.groupedVariants.map((size, ix) =>
-              size.variants.map((color, i) => (
-                <li key={`${idx}-${ix}-${i}`} className="keen-slider__slide ">
-                  <ProductDetailBox
-                    productName={product.productName}
-                    size={size.size}
-                    color={color.colorName}
-                    price={color.price}
-                    variantId={color.id}
-                    navigateCart={true}
-                    hexCode={color.hexCode}
-                  />
-                </li>
-              ))
-            )}
+            {product.variants.map((variant, i) => (
+              <li key={`${product.id}-${variant.id}`} className="keen-slider__slide">
+                <ProductDetailBox
+                  productName={`${product.productName}`}
+                  size={variant.size}
+                  color={variant.color.colorName}
+                  price={variant.pricePerKg}
+                  variantId={variant.id}
+                  navigateCart={true}
+                  hexCode={variant.color.hexCode || '#ccc'}
+                  variantType={variant.variantType}
+                />
+              </li>
+            ))}
           </SlilderCard>
-
-          
         </div>
       ))}
     </div>

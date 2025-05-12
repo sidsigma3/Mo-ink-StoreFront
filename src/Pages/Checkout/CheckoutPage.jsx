@@ -69,7 +69,9 @@ const CheckoutPage = () => {
     };
 
  
+    console.log(cartItems)
 
+  
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     const customerId = customer?.customerId;
     
@@ -95,12 +97,16 @@ const CheckoutPage = () => {
      
     
 
-    const handleQuantityChange = (variantId, newQty) => {
-    setQuantities((prev) => ({
-        ...prev,
-        [variantId]: newQty
-    }));
+      const handleQuantityChange = (variantId, newQty) => {
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+                item.variantId === variantId
+                    ? { ...item, quantity: newQty }
+                    : item
+            )
+        );
     };
+    
 
     useEffect(() => {
         const fetchWalletBalance = async () => {
@@ -335,25 +341,25 @@ const CheckoutPage = () => {
     
         setLoading(true);
         try {
+            // 1. Fetch cart
             const cartResponse = await getCart(customer.customerId);
             const cartData = cartResponse?.cartItems || [];
     
-            let allProducts = JSON.parse(localStorage.getItem("allProducts"));
-            if (!allProducts) {
-                const productResponse = await fetchProducts();
-                allProducts = productResponse?.data || [];
-                localStorage.setItem("allProducts", JSON.stringify(allProducts));
-            }
+            // 2. Fetch all products fresh
+            const productResponse = await fetchProducts();
+            const allProducts = productResponse?.data || [];
     
-            console.log(cartData)
-
+            // 3. Map cart items to detailed product data using variantId
             const cartProducts = cartData.map((item) => {
                 const product = allProducts.find((p) =>
                     p.variants.some((v) => v.id === item.variantId)
                 );
                 const variant = product?.variants.find((v) => v.id === item.variantId);
     
-                if (!product || !variant) return null;
+                if (!product || !variant) {
+                    console.warn(`Variant ID ${item.variantId} not found`);
+                    return null;
+                }
     
                 return {
                     productId: product.id,
@@ -362,23 +368,22 @@ const CheckoutPage = () => {
                     colorName: variant.color?.colorName,
                     price: variant.pricePerKg,
                     variantId: variant.id,
-                    quantity:  quantities[item.variantId] || 1,
+                    quantity: item.quantity || 1,
                     productImage: product.productImage?.[0] || "/images/default.png",
                     gstRate: product.gstOnProduct || 0,
-                    variantType: variantTypes[item.variantId] || "Cone", 
+                    variantType: variant.variantType || "Cone", // ← Now pulled directly from variant
                 };
             }).filter(Boolean);
     
-            console.log(cartProducts)
             setCartItems(cartProducts);
         } catch (error) {
-            console.error("Failed to fetch orders:", error);
+            console.error("Failed to fetch cart items:", error);
         } finally {
             setLoading(false);
         }
-    }, [customer?.customerId, setCartItems , variantTypes,quantities]);
+    }, [customer?.customerId, setCartItems]);
     
-    
+      
 
 
     useEffect(() => {
@@ -854,14 +859,15 @@ const CheckoutPage = () => {
                                                 price={item.price}
                                                 size={item.size}
                                                 color={item.colorName}
+                                                variantType={item.variantType}
                                                 // itemQuantity={item.quantity}
                                                 variantId={item.variantId}
                                                 isSelected={selectedItems.includes(item.variantId)}
                                                 onSelectChange={handleCheckboxChange}
                                                 // onQuantityChange={(variantId, newQty) => handleQuantityUpdate(variantId, newQty)}
                                                 onVariantTypeChange={handleVariantTypeChange}
-                                                selectedOption={variantTypes[item.variantId] || "Cone"}
-                                                itemQuantity={quantities[item.variantId] || 1} // ✅ use internal state first
+                                             
+                                                itemQuantity={item.quantity} // ✅ use internal state first
                                                 onQuantityChange={handleQuantityChange}
                                             />
                                         </div>

@@ -380,20 +380,36 @@ const Category = () => {
 
         <div className='col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 
-          {selectedCategory &&
-            finalData
-              .filter((product) => product.productName === selectedCategory)
-              .flatMap((product) =>
-                product.groupedVariants.flatMap((size, i) =>
-                  <CategoryBox
-                    key={i}
-                    size={size.size}
-                    color={size.variants}
-                    price={size.variants[0].price}
-                    product={product}
-                  />
-                )
-              )}
+        {selectedCategory &&
+  products
+    .filter((product) => product.productName === selectedCategory)
+    .flatMap((product) => {
+      const combinations = {};
+
+      product.variants.forEach((variant) => {
+        const key = `${variant.size}_${variant.variantType}`;
+        if (!combinations[key]) {
+          combinations[key] = {
+            size: variant.size,
+            variantType: variant.variantType,
+            variants: [],
+            price: variant.pricePerKg,
+          };
+        }
+        combinations[key].variants.push(variant);
+      });
+
+      return Object.values(combinations).map((combo, i) => (
+        <CategoryBox
+          key={i}
+          size={combo.size}
+          variantType={combo.variantType}
+          color={combo.variants}
+          price={combo.price}
+          product={product}
+        />
+      ));
+    })}
           {/* <div>
                     <CategoryBox></CategoryBox>
                 </div>

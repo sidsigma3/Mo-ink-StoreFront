@@ -149,13 +149,17 @@ const OrderDetails = () => {
           const productId = variant.productId;
           const size = variant.size;
           const colorId = variant.color.id;
+          const variantType = variant.variantType
       
           let pricePerKg = 0;
       
           if (productDataMap.has(productId)) {
             const cachedProduct = productDataMap.get(productId);
             const matchedVariant = cachedProduct.variants.find(
-              (v) => v.size === size && v.color?.id === colorId
+              (v) =>
+                v.size === size &&
+                v.color?.id === colorId &&
+                (variantType ? v.variantType === variantType : true)
             );
             pricePerKg = matchedVariant?.pricePerKg || 0;
           } else {
@@ -164,11 +168,15 @@ const OrderDetails = () => {
               const product = res.data;
               productDataMap.set(productId, product);
               const matchedVariant = product.variants.find(
-                (v) => v.size === size && v.color?.id === colorId
+                (v) =>
+                  v.size === size &&
+                  v.color?.id === colorId &&
+                  (variantType ? v.variantType === variantType : true)
               );
               pricePerKg = matchedVariant?.pricePerKg || 0;
             }
           }
+          
       
           baseTotal += weight * pricePerKg;
         }

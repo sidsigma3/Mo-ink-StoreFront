@@ -3,13 +3,14 @@ import { TiStarFullOutline } from "react-icons/ti";
 import { FaRegHeart } from "react-icons/fa";
 import { LuPencilRuler } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
-const CategoryBox = ({ size, color, price , product}) => {
+
+const CategoryBox = ({ size, color, price , product , variantType }) => {
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate("/productDetails", {
-      state: { product, size, color, price },
+      state: { product, size, variantType, color, price },
     });
   };
 
@@ -25,7 +26,10 @@ const CategoryBox = ({ size, color, price , product}) => {
       <div className="flex flex-col items-center gap-2"> 
         <span className="text-violet-800"><LuPencilRuler size={40}/></span>
         <h4 className="text-xl font-bold">Counter - {size}</h4>
-        <h4 className="text-xl font-bold">Total color  - {Array.isArray(color) ? color.length : 1}</h4>
+        <h4 className="text-lg font-medium">{variantType}</h4>
+        <h4 className="text-xl font-bold">
+          Total color - {Array.isArray(color) ? color.length : 1}
+        </h4>
         {/* <h5 className="text-xl font-bold text-violet-900">₹{price}<span>/KG</span></h5> */}
 
         <div className="d-flex gap-2 mt-4 w-full">

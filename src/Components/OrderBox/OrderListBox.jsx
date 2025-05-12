@@ -30,15 +30,19 @@ const OrderListBox = ({ item , status , orderId}) => {
       const product = res.data;
       setProductName(product.productName);
       setGstRate(Number(product.gstOnProduct) || 0);
-
+  
       const matchedVariant = product.variants.find(
-        (v) => v.size === item.size && v.color?.id === item.color?.id
+        (v) =>
+          v.size === item.size &&
+          v.color?.id === item.color?.id &&
+          (item.variantType ? v.variantType === item.variantType : true)
       );
-
+  
       setPricePerKg(matchedVariant?.pricePerKg || 0);
       setProductFetched(true);
     }
   };
+  
 
   useEffect(() => {
     if (item?.productId) {
@@ -117,7 +121,7 @@ const OrderListBox = ({ item , status , orderId}) => {
       <div className="col-span-2 flex flex-col justify-between">
         <div>
           <h3 className="text-xl font-semibold">
-            {productName} - {item.size}
+            {productName} - {item.size} - {item.variantType.toLowerCase()}
           </h3>
           <div className="flex gap-2 items-center mt-2">
             <div
@@ -126,6 +130,7 @@ const OrderListBox = ({ item , status , orderId}) => {
             ></div>
             <h5 className="text-gray-700">({item.color.colorName})</h5>
           </div>
+          
         </div>
 
         {/* Mobile Status */}

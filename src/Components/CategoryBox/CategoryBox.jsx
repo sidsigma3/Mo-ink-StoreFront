@@ -4,13 +4,17 @@ import { FaRegHeart } from "react-icons/fa";
 import { LuPencilRuler } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
+
 const CategoryBox = ({ size, color, price , product , variantType }) => {
+
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate("/productDetails", {
+
       state: { product, size, variantType, color, price },
+
     });
   };
 
@@ -31,6 +35,9 @@ const CategoryBox = ({ size, color, price , product , variantType }) => {
           Total color - {Array.isArray(color) ? color.length : 1}
         </h4>
         {/* <h5 className="text-xl font-bold text-violet-900">₹{price}<span>/KG</span></h5> */}
+        <h5 className="text-xl font-bold text-violet-900">{type}<span>Hank</span></h5>
+
+        
 
         <div className="d-flex gap-2 mt-4 w-full">
           <button className="d-flex align-items-center justify-content-center gap-2 bg-white p-2 purple-text font-semibold rounded flex-1">

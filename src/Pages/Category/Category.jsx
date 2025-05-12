@@ -40,6 +40,26 @@ const Category = () => {
     getProducts();
   }, []);
 
+  const [selectedType, setSelectedType] = useState(null);
+
+  const types = [
+    { name: "Cone", count: 2 },
+    { name: "Hank", count: 3 },
+  ];
+
+
+  const [selectedCounter, setSelectedCounter] = useState(null);
+
+// Optional: Replace with actual counts if needed
+const counters = [
+  { name: "2/80", count: 2 },
+  { name: "2/60", count: 1 },
+  { name: "1/90", count: 3 },
+  { name: "2/100", count: 2 },
+  { name: "1/40", count: 4 },
+];
+
+
 
   const aggregateProductData = (productData) => {
     return productData.map((product) => {
@@ -166,29 +186,44 @@ const Category = () => {
 
             <div className='w-full max-w-xs'>
 
-{/* Checkbx Cone Hank Section */}
-<div className='border rounded p-3 my-3 '>
-  <h4 className='text-xl font-semibold mb-3'>Type</h4>
-  <ul className='space-y-2'>
-    <li className='flex items-center gap-2'>
-      <input type='checkbox' className='accent-violet-800' />
-      <label className='text-base font-medium'>Cone</label>
-    </li>
-    <li className='flex items-center gap-2'>
-      <input type='checkbox' className='accent-violet-800' />
-      <label className='text-base font-medium'>Hank</label>
-    </li>
+
+ {/* Checkbx Cone Hank Section */}
+ <div className="border rounded p-3 my-3">
+  <h4 className="text-xl font-semibold mb-3">Type</h4>
+  <ul className="space-y-2">
+    {types.map((type, index) => (
+      <li
+        key={index}
+        className={`p-2 border border-1 rounded cursor-pointer ${
+          selectedType === type.name ? "bg-violet-200" : "bg-white"
+        } hover:bg-violet-100 flex justify-between items-center`}
+        onClick={() => setSelectedType(type.name)}
+      >
+        <h5 className="text-base font-medium">{type.name}</h5>
+        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+          <h6 className="text-sm">{type.count}</h6>
+        </div>
+      </li>
+    ))}
   </ul>
 </div>
 
-{/* Counter Filter Section */}
-<div className='border rounded p-3 mb-3'>
-  <h4 className='text-xl font-semibold mb-3'>Counter</h4>
-  <ul className='space-y-2'>
-    {["2/80", "2/60", "1/90", "2/100", "1/40"].map((counter, index) => (
-      <li key={index} className='flex items-center gap-2'>
-        <input type='checkbox' className='accent-violet-800' />
-        <label className='text-base font-medium'>{counter}</label>
+  {/* Counter Filter Section */}
+  <div className="border rounded p-3 mb-3">
+  <h4 className="text-xl font-semibold mb-3">Counter</h4>
+  <ul className="space-y-2">
+    {counters.map((counter, index) => (
+      <li
+        key={index}
+        className={`p-2 border border-1 rounded cursor-pointer ${
+          selectedCounter === counter.name ? "bg-violet-200" : "bg-white"
+        } hover:bg-violet-100 flex justify-between items-center`}
+        onClick={() => setSelectedCounter(counter.name)}
+      >
+        <h5 className="text-base font-medium">{counter.name}</h5>
+        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+          <h6 className="text-sm">{counter.count}</h6>
+        </div>
       </li>
     ))}
   </ul>
@@ -309,33 +344,47 @@ const Category = () => {
 
           <div className='w-full max-w-xs'>
 
-  {/* Checkbx Cone Hank Section */}
-  <div className='border rounded p-3 my-3 '>
-    <h4 className='text-xl font-semibold mb-3'>Type</h4>
-    <ul className='space-y-2'>
-      <li className='flex items-center gap-2'>
-        <input type='checkbox' className='accent-violet-800' />
-        <label className='text-base font-medium'>Cone</label>
+ {/* Checkbx Cone Hank Section */}
+<div className="border rounded p-3 my-3">
+  <h4 className="text-xl font-semibold mb-3">Type</h4>
+  <ul className="space-y-2">
+    {types.map((type, index) => (
+      <li
+        key={index}
+        className={`p-2 border border-1 rounded cursor-pointer ${
+          selectedType === type.name ? "bg-violet-200" : "bg-white"
+        } hover:bg-violet-100 flex justify-between items-center`}
+        onClick={() => setSelectedType(type.name)}
+      >
+        <h5 className="text-base font-medium">{type.name}</h5>
+        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+          <h6 className="text-sm">{type.count}</h6>
+        </div>
       </li>
-      <li className='flex items-center gap-2'>
-        <input type='checkbox' className='accent-violet-800' />
-        <label className='text-base font-medium'>Hank</label>
-      </li>
-    </ul>
-  </div>
+    ))}
+  </ul>
+</div>
 
   {/* Counter Filter Section */}
-  <div className='border rounded p-3 mb-3'>
-    <h4 className='text-xl font-semibold mb-3'>Counter</h4>
-    <ul className='space-y-2'>
-      {["2/80", "2/60", "1/90", "2/100", "1/40"].map((counter, index) => (
-        <li key={index} className='flex items-center gap-2'>
-          <input type='checkbox' className='accent-violet-800' />
-          <label className='text-base font-medium'>{counter}</label>
-        </li>
-      ))}
-    </ul>
-  </div>
+  <div className="border rounded p-3 mb-3">
+  <h4 className="text-xl font-semibold mb-3">Counter</h4>
+  <ul className="space-y-2">
+    {counters.map((counter, index) => (
+      <li
+        key={index}
+        className={`p-2 border border-1 rounded cursor-pointer ${
+          selectedCounter === counter.name ? "bg-violet-200" : "bg-white"
+        } hover:bg-violet-100 flex justify-between items-center`}
+        onClick={() => setSelectedCounter(counter.name)}
+      >
+        <h5 className="text-base font-medium">{counter.name}</h5>
+        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+          <h6 className="text-sm">{counter.count}</h6>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
 
   {/* Color Filter Section */}
   <div className='border rounded p-3'>

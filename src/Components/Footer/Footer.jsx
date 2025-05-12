@@ -114,7 +114,7 @@ const Footer = () => {
           </ul>
         </div>
   
-        <div className="pl-4 grid gap-50 lg:grid-cols-2 grid-cols-1">
+        <div className="pl-4 grid sm:mt-6 gap-50 lg:grid-cols-2 grid-cols-1">
   {/* Helpful Links Section */}
   <div>
     <p className="text-lg font-semibold ">Helpful Links</p>
@@ -128,15 +128,13 @@ const Footer = () => {
       <li>
         <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/termsofuse")}> Terms of Use </a>
       </li>
-      <li>
-        <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75"> Live Chat </a>
-      </li>
+      
     </ul>
   </div>
 
   {/* Policy Section */}
   <div>
-    <p className="text-lg font-semibold ">Policy</p>
+    <p className="text-lg  font-semibold ">Policy</p>
     <ul className="mt-6 space-y-4 text-sm">
       <li className='text-md'>
         <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/returnPolicy")}> Return Policy </a>

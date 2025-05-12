@@ -103,15 +103,10 @@ const RefundPolicy = () => {
               <h3 className="text-xl font-semibold text-gray-900 mb-4">8. Contact Us</h3>
               <p className="text-gray-600">
                 If you have any questions about our refund policy, please contact our customer service team:
-              </p>
+              </p>     
               <div className="mt-4">
                 <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
-                </a>
-              </div>
-              <div className="mt-4">
-                <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-700 font-medium">
-                  support@example.com
+                  support@inkndyes.com
                 </a>
               </div>
             </section>

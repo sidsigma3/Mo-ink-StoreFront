@@ -20,7 +20,7 @@ const BloxBox3 = () => {
                 <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
                 The yarn dyeing process is an artful fusion of chemical mastery and creative vision. With over 1,000 vibrant yarn colors, we empower textile designers and manufacturers to bring imagination to life                </p>
 
-                <a href="#" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
+                <a href="/Blog3" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more
 
                 <span aria-hidden="true" className="block transition-all group-hover:ms-0.5 rtl:rotate-180">

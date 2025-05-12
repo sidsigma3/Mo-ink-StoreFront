@@ -18,6 +18,8 @@ import { downloadInvoice } from '../../Services/InvoiceService'
 import { getDiscountById } from '../../Services/DiscountService'
 import { Link } from 'react-router-dom'
 import { downloadCreditReceipt } from '../../Services/InvoiceService'
+import moment from 'moment-timezone';
+
 
 const OrderDetails = () => {
 
@@ -53,16 +55,19 @@ const OrderDetails = () => {
     console.log(appliedCoupon)
     const orderDateObj = new Date(order.createdAt); // RAW Date object
 
+    const orderDate = moment.utc(order.createdAt).tz("Asia/Kolkata").format("D MMM YYYY, h:mm A");
+    console.log(orderDate);
 
-    const orderDate = new Date(order.createdAt).toLocaleString("en-IN", {
-        timeZone: "Asia/Kolkata",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true, 
-      });
+    
+    // const orderDate = new Date(order.createdAt).toLocaleString("en-IN", {
+    //     timeZone: "Asia/Kolkata",
+    //     year: "numeric",
+    //     month: "short",
+    //     day: "numeric",
+    //   hour: "numeric",
+    //   minute: "numeric",
+    //   hour12: true, 
+    //   });
 
     
     const estimatedDeliveryDateObj = new Date(orderDateObj);

@@ -15,6 +15,10 @@ import { addToWishlist, removeFromWishlist } from "../../Services/WishlistServic
 import { getCart, removeFromCart, addToCart } from "../../Services/CartService"
 import { RxCross2 } from "react-icons/rx";
 import { updateProduct , fetchProductsById, fetchProducts} from '../../Services/ProductService'
+import ModalAddColor from '../../Components/Modal/ModalAddColor'
+import Toast from '../../Components/Toast/Toast';
+
+
 
 const ColorCard = ({ item, onSelect, selected = false, disabled }) => {
     return (
@@ -65,6 +69,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [presetColors, setPresetColors] = useState([]);
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     const [modalSelectedColors, setModalSelectedColors] = useState([]);
+    const [showAddColorModal, setShowAddColorModal] = useState(false);
+    const [toasts, setToasts] = useState([]);
+    
 
     
 
@@ -146,16 +153,22 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     };
 
     const handleAddToCart = async () => {
-        // Check if the customer is logged in
+
+        const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
         if (!customer?.customerId) {
-          alert("Please log in to add items to your cart.");
+          showToast("Please log in to add items to your cart.", "error");
           return;
         }
       
         // Ensure at least one color is selected
         if (selectedColors.length === 0) {
-          alert("Please select a color before adding to cart.");
-          return;
+            showToast("Please select a color before adding to cart.", "error");
+            return;
+            
         }
       
         try {
@@ -172,10 +185,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             }
           }
       
-          // Successfully added items to the cart
-          alert("Items added to cart");
-      
-          // Update the UI to show that items are in the cart
+
+          showToast("Items added to cart", "success");
+
           setIsInCart(true);
           
           // Optionally, clear selected colors after adding them to the cart
@@ -183,20 +195,27 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
       
         } catch (error) {
           console.error("Error adding to cart:", error);
-          alert("Failed to add items to cart!");
+
+          showToast("Failed to add item to cart!", "error");
+
         }
       };
       
 
 
       const handleAddColor = async () => {
+        const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
         if (tempCustomColors.length === 0) {
-          alert("Please add at least one color before saving.");
+            showToast("Please add at least one color before saving.", "error");
           return;
         }
       
-        const confirmAdd = window.confirm("Are you sure you want to add these colors as new variants?");
-        if (!confirmAdd) return;
+        console.log("Colors added:", tempCustomColors);
+
       
         try {
           const response = await fetchProductsById(product.id);
@@ -244,7 +263,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           const filteredNewVariants = newVariants.filter(isNewVariant);
       
           if (filteredNewVariants.length === 0) {
-            alert("All selected colors already exist.");
+            showToast("All selected colors already exist.", "error");
             return;
           }
       
@@ -305,7 +324,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           alert("New color variants added successfully!");
         } catch (error) {
           console.error("Error adding color variants:", error);
-          alert("Failed to add color variants. Please try again.");
+          showToast("Failed to add color variants. Please try again.", "error");
         }
       };
       
@@ -654,10 +673,11 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                         tempCustomColors.length > 0 ? (
                                             <button
                                                 className="bg-violet-600 text-white px-4 py-2 rounded"
-                                                onClick={handleAddColor}
+                                                onClick={() => setShowAddColorModal(true)}
                                             >
                                                 SUBMIT
                                             </button>
+
                                         ) : (
                                             <button
                                                 className="bg-violet-200 text-violet-800 p-2 rounded"
@@ -767,6 +787,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             {isInCart ? "GO TO CART" : "ADD TO CART"}
                             <span><MdOutlineShoppingCart size={20} /></span>
                         </button>
+                        
                         </div>
 
                         <div className='grid grid-cols-2 gap-3 mt-8 text-sm md:text-md'>
@@ -816,6 +837,28 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
                 </div>
+            </div>
+
+            <ModalAddColor
+        isOpen={showAddColorModal} 
+        onCancel={() => setShowAddColorModal(false)} 
+        onConfirm={() => {
+          handleAddColor(); 
+          setShowAddColorModal(false); 
+        }}
+      />
+     {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
             </div>
 
             <div className='px-6 md:px-14 py-3'> <ProductList></ProductList></div>

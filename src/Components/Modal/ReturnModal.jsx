@@ -4,8 +4,16 @@ import React, { useState } from "react";
 const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
+  const [returnWeight, setReturnWeight] = useState(0);
 
   if (!isOpen) return null;
+
+  const handleWeightChange = (e) => {
+    setReturnWeight(e.target.value);
+  };
+
+  const isSubmitDisabled = !reason || returnWeight <= 0;
+
 
   const handleConfirm = () => {
     if (!reason) {
@@ -57,6 +65,22 @@ const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
 
         <div className="mb-4">
           <label className="block font-medium text-gray-800 mb-1">
+            Return Weight (kg): 
+          </label>
+          <input
+            type="number"
+            value={returnWeight}
+            onChange={handleWeightChange}
+            placeholder="Enter weight..."
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
+          {returnWeight <= 0 && returnWeight !== "" && (
+            <p className="text-red-500 text-sm mt-2">Return weight must be greater than 0</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label className="block font-medium text-gray-800 mb-1">
             Comment (optional):
           </label>
           <textarea
@@ -68,7 +92,9 @@ const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
           />
         </div>
 
-        <div className="flex justify-end gap-2">
+      
+
+        <div className="flex justify-between gap-2">
           <button
             onClick={onClose}
             className="px-4 py-2 rounded bg-gray-300 text-gray-800 hover:bg-gray-400"
@@ -78,7 +104,7 @@ const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
           <button
             className="px-4 py-2 rounded bg-violet-800 text-white hover:bg-violet-700"
             onClick={handleConfirm}
-            disabled={!reason}
+            disabled={isSubmitDisabled}
           >
             Confirm
           </button>

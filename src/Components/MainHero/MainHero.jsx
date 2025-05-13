@@ -21,7 +21,7 @@ const MainHero = () => {
         "
         style={{
           backgroundImage:
-            "url(https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Banner.png?updatedAt=1745685185559)", height: "80vh",
+            "url(https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Banner.png?updatedAt=1745685185559)", height: "87vh",
         }}
       >
         {/* Content Layered Inside */}

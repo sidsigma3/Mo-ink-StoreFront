@@ -410,7 +410,7 @@ const CheckoutPage = () => {
             await removeFromCart(customer.customerId, variantId);
             fetchOrders()
             updateCartAndWishlistCounts()
-            showToast("Item removed from cart successfully!", "Success");
+            showToast("Item removed from cart!", "error");
         } catch (error) {
             showToast("Failed to remove item from cart!", "error");
         }
@@ -630,7 +630,7 @@ const CheckoutPage = () => {
           const totalAmount = Number(adjustedNetPay).toFixed(0);
       
           if (orderVariants.length === 0 || totalQuantity === 0) {
-            alert("No valid items or weight!");
+            showToast("No valid items or weight!", "error");
             return;
           }
       
@@ -687,7 +687,7 @@ const CheckoutPage = () => {
           
         } catch (error) {
           console.error("Order creation failed:", error);
-          alert("Failed to place order.");
+          showToast("Failed to place order", "error");
         }
       };
       
@@ -812,7 +812,7 @@ const CheckoutPage = () => {
                 navigate('/paymentSuccess');
               } catch (error) {
                 console.error("Post-payment flow failed:", error);
-                alert("Payment succeeded but post-processing failed.");
+                showToast("Payment succeeded but post-processing failed.", "error");
                 navigate('/paymentFail');
               }
             },

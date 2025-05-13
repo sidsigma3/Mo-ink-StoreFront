@@ -230,7 +230,7 @@ const counters = [
 </div>
 
 {/* Color Filter Section */}
-<div className='border rounded p-3'>
+{/* <div className='border rounded p-3'>
   <h4 className='text-xl font-semibold mb-3'>Color</h4>
   <ul className='space-y-2'>
     {[
@@ -256,7 +256,7 @@ const counters = [
       </li>
     ))}
   </ul>
-</div>
+</div> */}
 
 </div>
 
@@ -387,7 +387,7 @@ const counters = [
 </div>
 
   {/* Color Filter Section */}
-  <div className='border rounded p-3'>
+  {/* <div className='border rounded p-3'>
     <h4 className='text-xl font-semibold mb-3'>Color</h4>
     <ul className='space-y-2'>
       {[
@@ -413,7 +413,7 @@ const counters = [
         </li>
       ))}
     </ul>
-  </div>
+  </div> */}
   
 </div>
 

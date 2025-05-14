@@ -470,9 +470,7 @@ const OrderDetails = () => {
 
                 
 
-                <div className='border-1 rounded-md p-3 '>
-                       
-        
+                <div className='border-1 rounded-md p-3 '>                  
                 <table className='w-100 rounded mt-2 font-semibold'>
                     <tbody className='leading-8'>
                         <tr>
@@ -585,10 +583,21 @@ const OrderDetails = () => {
                     </tbody>
                     </table>
        
-                     
        
                    </div>
-                
+
+
+                  <div>
+                </div>
+
+
+               <div class="flex items-center mt-2 gap-2 text-black font-medium">
+  <span>Happy with your previous purchase and want to repeat order?</span>
+  <a href="#" class="text-violet-800 font-bold underline hover:text-violet-900">Buy Again</a>
+</div>
+
+
+
             </div>
 
 

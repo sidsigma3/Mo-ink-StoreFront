@@ -34,7 +34,9 @@ const CategoryBox = ({ size, color, price , product , variantType }) => {
           Total color - {Array.isArray(color) ? color.length : 1}
         </h4>
         {/* <h5 className="text-xl font-bold text-violet-900">₹{price}<span>/KG</span></h5> */}
+
         <h5 className="text-xl font-bold text-violet-900">{variantType}<span></span></h5>
+
 
         
 

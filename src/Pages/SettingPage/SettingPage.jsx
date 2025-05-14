@@ -179,6 +179,11 @@ const SettingPage = () => {
         </div>
 
         <div className="flex flex-col">
+          <label className="font-medium">GST number</label>
+          <input className="border-1 p-1 rounded mt-2" name="gstNumber" value={customer.gstNumber} onChange={handleInputChange} />
+        </div>
+
+        <div className="flex flex-col">
           <label className="font-medium">Pincode</label>
           <input className="border-1 p-1 rounded mt-2" name="pincode" value={customer.pincode} onChange={handleInputChange} />
         </div>

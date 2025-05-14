@@ -1159,7 +1159,12 @@ const CheckoutPage = () => {
                                                     <h5 className='text-violet-800 font-bold text-md'
                                                         onClick={() => handleCouponClick(discount)}>APPLY</h5>
                                                 </div>
-                                                <h4 className='text-green-600 font-semibold mt-2 border-b-2 border-dotted pb-2'>Save ₹{2103} on this order!</h4>
+                                                <h4 className='text-green-600 font-semibold mt-2 border-b-2 border-dotted pb-2'>
+                                                Save ₹{discount.discountType === 'Percentage'
+                                                    ? ((Number(totalProductCost) * Number(discount.discountValue)) / 100).toFixed(2)
+                                                    : Number(discount.discountValue).toFixed(2)} on this order!
+                                                </h4>
+
                                                 <h4 className='mt-4 font-medium'>Use Code {discount.discountCode} Get {discount.discountValue} {discount.discountType === 'Percentage' ? '%' : '₹'} off as <br></br>discount bonus</h4>
 
                                             </div>

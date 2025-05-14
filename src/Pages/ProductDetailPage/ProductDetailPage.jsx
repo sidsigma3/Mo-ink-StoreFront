@@ -348,7 +348,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
     const handleSelectColor = (item) => {
-        const color = item.color; // Access color from variant
+        const color = item; // Access color from variant
         const alreadySelected = modalSelectedColors.find((selected) => selected.id === color.id);
       
         if (alreadySelected) {
@@ -371,7 +371,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
    
        
     console.log(product)
-
+    console.log(selectedColors)
+    console.log(modalSelectedColors)
+  
 
     return (
         <div>
@@ -617,7 +619,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                          <div className="grid grid-cols-3 gap-3 p-2">
 
                                          {filteredColorsTemp.map((aVariant) => {
-                                            const isSelected = modalSelectedColors.find((color) => color.id === aVariant.color.id);
+                                            const isSelected = modalSelectedColors.find((color) => color.color.id === aVariant.color.id);
                                             return (
                                                 <ColorCard
                                                 key={aVariant.id}
@@ -708,7 +710,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                         <div className="grid grid-cols-6 gap-3 p-2">
                         {selectedColors.map((color) => (
-                            <div key={color.id} className="border-2 rounded-md overflow-hidden relative">
+                            <div key={color.color.id} className="border-2 rounded-md overflow-hidden relative">
                                 <div className="relative h-20 w-full">
                                 <img
                                     src="/images/wool-item-1.png"
@@ -717,12 +719,12 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 />
                                 <div
                                     className="absolute inset-0 opacity-50 mix-blend-multiply"
-                                    style={{ backgroundColor: color.hexCode }}
+                                    style={{ backgroundColor: color.color.hexCode }}
                                 ></div>
 
                                 <button
                                     onClick={() => {
-                                    setSelectedColors((prev) => prev.filter((c) => c.id !== color.id));
+                                    setSelectedColors((prev) => prev.filter((c) => c.id !== color.color.id));
                                     setIsInCart(false); // Reset the button
                                     }}
                                     className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full p-1"
@@ -733,9 +735,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                                 <div className="flex flex-col items-center p-1">
                                 <p className="text-black text-sm font-semibold">
-                                    {color.colorName}
+                                    {color.color.colorName}
                                 </p>
-                                <p className="text-gray-600 text-xs">{color.hexCode}</p>
+                                <p className="text-gray-600 text-xs">{color.color.hexCode}</p>
                                 </div>
                             </div>
                             ))}

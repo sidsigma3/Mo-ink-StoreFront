@@ -55,11 +55,13 @@ const PaymentFailure = () => {
   
             {/* Buttons */}
             <div className=" flex flex-col sm:flex-row gap-3 w-full lg:w-1/2">
-              <button
-                className="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
-                onClick={()=>navigate('/home')}
+
+               <button
+                className="w-full px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-400 transition-colors font-medium flex items-center justify-center gap-2"
+                onClick={() => navigate('/checkOut')}
               >
-                Close
+                Place as COD 
+                <ArrowRight size={20} />
               </button>
   
               <button
@@ -67,9 +69,20 @@ const PaymentFailure = () => {
                 onClick={() => navigate('/checkOut')}
               >
                 <CreditCard size={20} />
-                Try Again
-                <ArrowRight size={20} />
+                Retry Payment
+               <ArrowRight size={20} />
               </button>
+               
+            </div>
+
+            <div className=" flex flex-col sm:flex-row mt-3 gap-3 w-full lg:w-1/2">
+              <button
+                className="w-full px-4 py-3 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                onClick={()=>navigate('/home')}
+              >
+                Close
+              </button>
+
             </div>
           </div>
         </main>

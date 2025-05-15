@@ -116,7 +116,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
 
 
                         onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "CANCELLED")}
-                        className=' bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
+                        className=' bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48 rounded items-center'
 
 
                       >
@@ -130,7 +130,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
                         <button
 
                           onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "RETURNED")}
-                          className='bg-green-100  text-green-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-52 rounded items-center'
+                          className='bg-green-100  text-green-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48 rounded items-center'
 
 
                         >

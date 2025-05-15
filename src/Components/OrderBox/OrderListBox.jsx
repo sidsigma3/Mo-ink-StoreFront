@@ -210,6 +210,8 @@ const OrderListBox = ({ item , status , orderId}) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirmReturn}
+        weight={item.orderWeight}
+
       />
     </div>
   );

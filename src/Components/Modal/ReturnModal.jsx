@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-
-const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
+// 🔸 Added `weight` prop
+const ReturnModal = ({ isOpen, onClose, onConfirm, weight }) => {
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
   const [returnWeight, setReturnWeight] = useState(0);
@@ -9,11 +9,10 @@ const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
   if (!isOpen) return null;
 
   const handleWeightChange = (e) => {
-    setReturnWeight(e.target.value);
+    setReturnWeight(Number(e.target.value)); // Ensure it's a number
   };
 
-  const isSubmitDisabled = !reason || returnWeight <= 0;
-
+  const isSubmitDisabled = !reason || returnWeight <= 0 || returnWeight > weight;
 
   const handleConfirm = () => {
     if (!reason) {
@@ -21,9 +20,10 @@ const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
       return;
     }
 
-    onConfirm({ reason, comment });
+    onConfirm({ reason, comment, returnWeight });
     setReason("");
     setComment("");
+    setReturnWeight(0);
     onClose();
   };
 
@@ -73,9 +73,19 @@ const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
             onChange={handleWeightChange}
             placeholder="Enter weight..."
             className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
-          />
-          {returnWeight <= 0 && returnWeight !== "" && (
-            <p className="text-red-500 text-sm mt-2">Return weight must be greater than 0</p>
+            min="1"
+            // 🔸 Use weight as max value
+            max={weight}
+          />    
+          {returnWeight !== "" && returnWeight <= 0 && (
+            <p className="text-red-500 text-sm mt-2">
+              Return weight must be greater than 0
+            </p>
+          )}
+          {returnWeight !== "" && returnWeight > weight && (
+            <p className="text-red-500 text-sm mt-2">
+              Return weight cannot exceed {weight} kg
+            </p>
           )}
         </div>
 
@@ -91,8 +101,6 @@ const ReturnModal = ({ isOpen, onClose, onConfirm}) => {
             rows="3"
           />
         </div>
-
-      
 
         <div className="flex justify-between gap-2">
           <button

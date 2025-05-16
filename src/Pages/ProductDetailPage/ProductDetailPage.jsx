@@ -17,7 +17,7 @@ import { RxCross2 } from "react-icons/rx";
 import { updateProduct , fetchProductsById, fetchProducts} from '../../Services/ProductService'
 import ModalAddColor from '../../Components/Modal/ModalAddColor'
 import Toast from '../../Components/Toast/Toast';
-
+import namer from 'color-namer';
 
 
 const ColorCard = ({ item, onSelect, selected = false, disabled }) => {
@@ -131,7 +131,40 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewColor((prev) => ({ ...prev, [name]: value }));
+
+        console.log(name,value)
+    
+        if (name === 'hexCode') {
+            const hex = value;
+          
+            // Only proceed if it matches valid 3 or 6 digit hex
+            const isValidHex = /^#([0-9A-F]{3}){1,2}$/i.test(hex);
+            if (!isValidHex) {
+              setNewColor((prev) => ({
+                ...prev,
+                hexCode: hex,
+                colorName: '', // clear or keep previous
+              }));
+              return;
+            }
+          
+            let suggestedName = '';
+            try {
+              const names = namer(hex);
+              suggestedName = names.ntc[0].name.replace(/\s+/g, '-').toLowerCase(); // e.g., "Bright Red" → "bright-red"
+            } catch {
+              suggestedName = `color-${hex.replace('#', '').slice(0, 4).toUpperCase()}`;
+            }
+          
+            setNewColor((prev) => ({
+              ...prev,
+              hexCode: hex,
+              colorName: suggestedName,
+            }));
+          }
+           else {
+            setNewColor((prev) => ({ ...prev, [name]: value }));
+        }
     };
 
     const handleSaveColor = () => {
@@ -294,24 +327,39 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
       
           updatedVariants.forEach((variant) => {
             const hexCode = variant.color.hexCode.toLowerCase();
-      
-            if (!seenHexCodes.has(hexCode)) {
+            const colorName = variant.color.colorName.toLowerCase();
+            const variantTypeData = variant.variantType;
+            const sizeData = variant.size;
+          
+            // Use all 4 keys to form a unique match string
+            const key = `${hexCode}__${colorName}__${variantType}__${size}`;
+          
+            if (!seenHexCodes.has(key)) {
               const match = tempCustomColors.find(
                 (temp) =>
-                  temp.colorName.toLowerCase() === variant.color.colorName.toLowerCase() &&
-                  temp.hexCode.toLowerCase() === variant.color.hexCode.toLowerCase()
+                  temp.hexCode.toLowerCase() === hexCode &&
+                  temp.colorName.toLowerCase() === colorName &&
+                  variantType === variantTypeData &&
+                  size === sizeData
               );
-      
+          
               if (match) {
                 updatedColorsWithIds.push({
-                  ...match,
-                  id: variant.color.id || variant.id, 
+                  id: variant.id,
+                  color: {
+                    id: variant.color.id,
+                    colorName: variant.color.colorName,
+                    hexCode: variant.color.hexCode,
+                  },
+                  variantType,
+                  size,
                 });
-      
-                seenHexCodes.add(hexCode);
+          
+                seenHexCodes.add(key);
               }
             }
           });
+          
       
           const allProductsResponse = await fetchProducts();
           const allProductsData = allProductsResponse.data || [];
@@ -321,6 +369,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           setCustomColors((prev) => [...prev, ...updatedColorsWithIds]);
           setTempCustomColors([]);
           setIsAddingColor(false);
+          setIsModalOpen(true)
           alert("New color variants added successfully!");
         } catch (error) {
           console.error("Error adding color variants:", error);
@@ -331,6 +380,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
     if (!product) return <p>No product details available</p>;
 
+
+      console.log(customColors)
 
     // const handleColorSearch = (e) => {
     //     setSearchColor(e.target.value.toLowerCase());
@@ -348,15 +399,15 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
     const handleSelectColor = (item) => {
-        const color = item; // Access color from variant
-        const alreadySelected = modalSelectedColors.find((selected) => selected.id === color.id);
+        const alreadySelected = modalSelectedColors.find((selected) => selected.id === item.id);
       
         if (alreadySelected) {
-          setModalSelectedColors(modalSelectedColors.filter((selected) => selected.id !== color.id));
+          setModalSelectedColors(modalSelectedColors.filter((selected) => selected.id !== item.id));
         } else {
-          setModalSelectedColors([...modalSelectedColors, color]);
+          setModalSelectedColors([...modalSelectedColors, item]);
         }
       };
+      
       
     // const handleColorSearch = (e) => {
     //     const searchText = e.target.value.toLowerCase();
@@ -506,9 +557,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                             <input
                                                 type="text"
                                                 name="colorName"
-                                                value={newColor.colorName || `Color-${tempCustomColors.length + 1}`}
+                                                value={newColor.colorName}
                                                 onChange={handleInputChange}
                                                 className="border p-2 rounded"
+                                                disabled={true}
                                             />
 
                                             <label className="font-medium">Hex Code</label>
@@ -523,10 +575,12 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                 />
                                                 <input
                                                     type="color"
+                                                    name="hexCode"
                                                     value={newColor.hexCode}
-                                                    onChange={(e) => setNewColor((prev) => ({ ...prev, hexCode: e.target.value }))}
+                                                    onChange={handleInputChange}
                                                     className="w-10 h-10 p-0 border rounded cursor-pointer"
-                                                />
+                                                    />
+
                                             </div>
 
                                             {newColor.hexCode && (
@@ -599,15 +653,15 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                         ) : (
                                         <div className="grid grid-cols-3 gap-3 p-2">
                                             {customColors.map((item) => {
-                                            const isSelected = modalSelectedColors.find((color) => color.id === item.color.id);
-                                            return (
+                                                const isSelected = modalSelectedColors.find((color) => color.id === item.id); // Fix here
+                                                return (
                                                 <ColorCard
-                                                key={item.id}
-                                                item={item}
-                                                selected={!!isSelected}
-                                                onSelect={handleSelectColor}
+                                                    key={item.id}
+                                                    item={item}
+                                                    selected={!!isSelected}
+                                                    onSelect={handleSelectColor}
                                                 />
-                                            );
+                                                );
                                             })}
                                         </div>
                                         )}

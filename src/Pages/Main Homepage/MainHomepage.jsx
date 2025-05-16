@@ -35,7 +35,7 @@ const MainHomepage = () => {
         <div className='px-4 md:px-14 pt-14 pb-28 '> <MainMap></MainMap> </div>
         <div className='py-28 bg-[#fffbed]'> <MainFAQ></MainFAQ> </div>
         <div className='pt-28 pb-6'> <MainParallax></MainParallax> </div>
-        <div className='px-6 md:px-14 py-3 mt-10'> <FeturesList></FeturesList></div>
+        <div className='py-3 px-6 md:px-14 mt-10'> <FeturesList></FeturesList></div>
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         

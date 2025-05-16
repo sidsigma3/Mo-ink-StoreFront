@@ -74,3 +74,25 @@ export const getWalletTransactions = async (customerId) => {
     throw error;
   }
 };
+
+export const forgotPassword = async (customerData) => {
+  try {
+    const response = await axios.post(`${URL}/password/forgot-password`, customerData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating customer:", error);
+    throw error;
+  }
+};
+
+export const resetPassword = async (customerData) => {
+  try {
+    const response = await axios.post(`${URL}/password/reset-password`, customerData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating customer:", error);
+    throw error;
+  }
+};
+
+

@@ -78,18 +78,24 @@ const MainHeader = () => {
       {isOpen && (
         <div className="absolute top-20 right-0 w-3/4 bg-white shadow-xl rounded-2xl border-t border-gray-200 lg:hidden z-40">
           <div className="flex flex-col p-4 space-y-4 text-base font-medium text-gray-800">
+            {/* ✅ FIXED: Use HashLink with item.name and item.path */}
             {menuItems.map((item) => (
-              <a
-                key={item}
-                href="#"
+              <HashLink
+                key={item.name}
+                to={item.path}
+                smooth
+                onClick={() => setIsOpen(false)}
                 className="hover:text-purple-800 hover:underline transition-colors"
               >
-                {item}
-              </a>
+                {item.name}
+              </HashLink>
             ))}
 
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => {
+                setIsOpen(false); // optional: close mobile menu on nav
+                navigate("/login");
+              }}
               type="button"
               className="text-base font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
             >

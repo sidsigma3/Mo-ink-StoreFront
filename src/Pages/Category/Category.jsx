@@ -40,15 +40,29 @@ const Category = () => {
     getProducts();
   }, []);
 
-  const [selectedType, setSelectedType] = useState(null);
+  // const [selectedTypes, setSelectedTypes] = useState([]);
+  // const [selectedType, setSelectedType] = useState(null);
 
-  const types = [
+
+  const variantType  = [
     { name: "Cone", count: 2 },
     { name: "Hank", count: 3 },
   ];
 
+const [selectedVariantType, setSelectedVariantType] = useState([]);
+
 
   const [selectedCounter, setSelectedCounter] = useState(null);
+const [selectedCounters, setSelectedCounters] = useState([]);
+
+const handleCounterSelection = (counterName) => {
+  const isSelected = selectedCounters.includes(counterName);
+  const updatedSelection = isSelected
+    ? selectedCounters.filter(c => c !== counterName)
+    : [...selectedCounters, counterName];
+  setSelectedCounters(updatedSelection);
+};
+
 
 // Optional: Replace with actual counts if needed
 const counters = [
@@ -109,6 +123,9 @@ const counters = [
       };
     });
   };
+
+
+
 
 
   const finalData = aggregateProductData(products)
@@ -186,48 +203,49 @@ const counters = [
 
             <div className='w-full max-w-xs'>
 
+            {/* Counter Filter Section */}
+            <div className="border rounded p-3 my-3">
+            <h4 className="text-xl font-semibold mb-3">Counter</h4>
+            <ul className="space-y-2">
+              {counters.map((counter, index) => (
+                <li
+                  key={index}
+                  className={`p-2 border border-1 rounded cursor-pointer ${
+                    selectedCounter === counter.name ? "bg-violet-200" : "bg-white"
+                  } hover:bg-violet-100 flex justify-between items-center`}
+                  onClick={() => setSelectedCounter(counter.name)}
+                >
+                  <h5 className="text-base font-medium">{counter.name}</h5>
+                  <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+                    <h6 className="text-sm">{counter.count}</h6>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
 
- {/* Checkbx Cone Hank Section */}
- <div className="border rounded p-3 my-3">
-  <h4 className="text-xl font-semibold mb-3">Type</h4>
-  <ul className="space-y-2">
-    {types.map((type, index) => (
-      <li
-        key={index}
-        className={`p-2 border border-1 rounded cursor-pointer ${
-          selectedType === type.name ? "bg-violet-200" : "bg-white"
-        } hover:bg-violet-100 flex justify-between items-center`}
-        onClick={() => setSelectedType(type.name)}
-      >
-        <h5 className="text-base font-medium">{type.name}</h5>
-        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-          <h6 className="text-sm">{type.count}</h6>
-        </div>
-      </li>
-    ))}
-  </ul>
-</div>
+          {/* Checkbx Cone Hank Section */}
+          <div className="border rounded p-3 ">
+            <h4 className="text-xl font-semibold mb-3">Type</h4>
+            <ul className="space-y-2">
+              {/* {type.map((type, index) => (
+                <li
+                  key={index}
+                  className={`p-2 border border-1 rounded cursor-pointer ${
+                    selectedType === type.name ? "bg-violet-200" : "bg-white"
+                  } hover:bg-violet-100 flex justify-between items-center`}
+                  onClick={() => setSelectedType(type.name)}
+                >
+                  <h5 className="text-base font-medium">{type.name}</h5>
+                  <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
+                    <h6 className="text-sm">{type.count}</h6>
+                  </div>
+                </li>
+              ))} */}
+            </ul>
+          </div>
 
-  {/* Counter Filter Section */}
-  <div className="border rounded p-3 mb-3">
-  <h4 className="text-xl font-semibold mb-3">Counter</h4>
-  <ul className="space-y-2">
-    {counters.map((counter, index) => (
-      <li
-        key={index}
-        className={`p-2 border border-1 rounded cursor-pointer ${
-          selectedCounter === counter.name ? "bg-violet-200" : "bg-white"
-        } hover:bg-violet-100 flex justify-between items-center`}
-        onClick={() => setSelectedCounter(counter.name)}
-      >
-        <h5 className="text-base font-medium">{counter.name}</h5>
-        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-          <h6 className="text-sm">{counter.count}</h6>
-        </div>
-      </li>
-    ))}
-  </ul>
-</div>
+
 
 {/* Color Filter Section */}
 {/* <div className='border rounded p-3'>
@@ -282,9 +300,6 @@ const counters = [
                   >
                     <div className="flex justify-between font-medium">
                       <h5 className="text-base">{product.productName}</h5>
-                      <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-                        <h6 className="text-sm">{product.groupedVariants.length}</h6>
-                      </div>
                     </div>
                   </li>
                 ))
@@ -344,47 +359,62 @@ const counters = [
 
           <div className='w-full max-w-xs'>
 
- {/* Checkbx Cone Hank Section */}
-<div className="border rounded p-3 my-3">
-  <h4 className="text-xl font-semibold mb-3">Type</h4>
-  <ul className="space-y-2">
-    {types.map((type, index) => (
-      <li
-        key={index}
-        className={`p-2 border border-1 rounded cursor-pointer ${
-          selectedType === type.name ? "bg-violet-200" : "bg-white"
-        } hover:bg-violet-100 flex justify-between items-center`}
-        onClick={() => setSelectedType(type.name)}
-      >
-        <h5 className="text-base font-medium">{type.name}</h5>
-        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-          <h6 className="text-sm">{type.count}</h6>
-        </div>
-      </li>
-    ))}
-  </ul>
-</div>
+            {/* Counter Filter Section - Multi-selection */}
+              <div className="border rounded p-3 my-3">
+                <h4 className="text-xl font-semibold mb-3">Counter</h4>
+                <ul className="space-y-2">
+                  {counters.map((counter, index) => {
+                    const isSelected = selectedCounters.includes(counter.name);
+                    return (
+                      <li
+                        key={index}
+                        className={`p-2 border border-1 rounded cursor-pointer ${
+                          isSelected ? "bg-violet-200" : "bg-white"
+                        } flex justify-between items-center`}
+                      onClick={() => {
+                      const isSelected = selectedCounters.includes(counter.name);
+                      const updatedSelection = isSelected
+                        ? selectedCounters.filter(c => c !== counter.name)
+                        : [...selectedCounters, counter.name];
+                      setSelectedCounters(updatedSelection);
+                    }}
 
-  {/* Counter Filter Section */}
-  <div className="border rounded p-3 mb-3">
-  <h4 className="text-xl font-semibold mb-3">Counter</h4>
-  <ul className="space-y-2">
-    {counters.map((counter, index) => (
-      <li
-        key={index}
-        className={`p-2 border border-1 rounded cursor-pointer ${
-          selectedCounter === counter.name ? "bg-violet-200" : "bg-white"
-        } hover:bg-violet-100 flex justify-between items-center`}
-        onClick={() => setSelectedCounter(counter.name)}
-      >
-        <h5 className="text-base font-medium">{counter.name}</h5>
-        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-          <h6 className="text-sm">{counter.count}</h6>
-        </div>
-      </li>
-    ))}
-  </ul>
-</div>
+                      >
+                        <h5 className="text-base font-medium">{counter.name}</h5>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+
+              {/* Type Filter - Multi-selection */}
+             <div className="border rounded p-3">
+                <h4 className="text-xl font-semibold mb-3">Type</h4>
+                <ul className="space-y-2">
+                  {variantType.map((variant, index) => {
+                    const isSelected = selectedVariantType === variant.name; // Check if this variant is selected
+                    return (
+                      <li
+                        key={index}
+                        className={`p-2 border border-1 rounded cursor-pointer ${
+                          isSelected ? "bg-violet-200" : "bg-white"
+                        } flex justify-between items-center`}
+                        onClick={() => {
+                          // Update the selectedVariantType to only the clicked variant
+                          setSelectedVariantType(isSelected ? "" : variant.name); // Clear selection if already selected
+                        }}
+                      >
+                        <h5 className="text-base font-medium">{variant.name}</h5>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+
+
+ 
 
   {/* Color Filter Section */}
   {/* <div className='border rounded p-3'>
@@ -427,7 +457,7 @@ const counters = [
 
         </div>
 
-        <div className='col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div className='col-span-3 h-1/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 
         {selectedCategory &&
   products

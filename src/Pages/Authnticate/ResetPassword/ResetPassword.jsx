@@ -1,33 +1,73 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CreditCard } from 'lucide-react';
+import axios from "axios"; 
+import { resetPassword } from "../../../Services/CustomerService";
+
 
 const ResetPassword = () => {
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [showToast, setShowToast] = useState(false);
-    const navigate = useNavigate();
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation(); 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
+  const userType = "CUSTOMER"; 
 
-        if (!password || !confirmPassword) {
-            alert("Please fill out both fields.");
-            return;
-        }
+ useEffect(() => {
+    console.log("Token:", token);
+    console.log("UserType:", userType);
+  }, []);
 
-        if (password !== confirmPassword) {
-            alert("Passwords do not match.");
-            return;
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    console.log("hello")
 
-        // Proceed with password reset logic
+
+    if (!password || !confirmPassword) {
+      alert("Please fill out both fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    if (!token || !userType) {
+      alert("Invalid or expired reset link.");
+      return;
+    }
+
+    try {
+      const payload = {
+        token,
+        password,
+        userType,
+      };
+
+      const data = await resetPassword(payload);
+
+      console.log("Response from resetPassword:", data); 
+
+      if (data?.success) {
         setShowToast(true);
         setTimeout(() => {
-            setShowToast(false);
-            navigate("/login");
-        }, 100000);
-    };
+          setShowToast(false);
+          navigate("/login");
+        }, 3000);
+      } else {
+        alert(data?.message || "Something went wrong.");
+      }
+    } catch (error) {
+      alert("Failed to reset password. Please try again.");
+      console.error(error);
+    }
+  };
+
+
 
     return (
         <div

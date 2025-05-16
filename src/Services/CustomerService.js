@@ -77,7 +77,9 @@ export const getWalletTransactions = async (customerId) => {
 
 export const forgotPassword = async (customerData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/password/forgot-password`, customerData);
+
+    const response = await axios.post(`${URL}/password/forgot-password`, customerData);
+
     return response.data;
   } catch (error) {
     console.error("Error creating customer:", error);
@@ -87,10 +89,15 @@ export const forgotPassword = async (customerData) => {
 
 export const resetPassword = async (customerData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/password/reset-password`, customerData);
+
+    const response = await axios.post(`${URL}/password/reset-password`, customerData);
+
     return response.data;
   } catch (error) {
     console.error("Error creating customer:", error);
     throw error;
   }
 };
+
+
+

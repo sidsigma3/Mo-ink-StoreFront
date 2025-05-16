@@ -15,6 +15,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
     password: '',
     company: '',
     gstNumber: '',
+    hasGst: true,
     panNumber: '',
     cancelledCheque: '',
     customerAddress: '',
@@ -35,6 +36,15 @@ const SignupPage = ({ togglePage, isLogin }) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  
+  const handleGstCheckbox = () => {
+    setFormData((prev) => ({
+      ...prev,
+      hasGst: !prev.hasGst,
+      gstNumber: !prev.hasGst ? "" : prev.gstNumber, // optional: clear GST input if unchecked
     }));
   };
 
@@ -206,24 +216,30 @@ const SignupPage = ({ togglePage, isLogin }) => {
               />
             </div>
 
-            {/* <div className="flex flex-col w-full">
-              <label className="">GST Number</label>
+              <div className="flex flex-col w-full">
+              <label>GST Number</label>
               <input
                 className="login-input rounded-full text-black px-4 py-1"
                 placeholder="GST number"
                 name="gstNumber"
                 value={formData.gstNumber}
                 onChange={handleChange}
+                disabled={!formData.hasGst}
               />
-            </div> */}
+            </div>
           </div>
 
 
               <div className="flex flex-row justify-between items-center text-sm text-gray-300 mb-4">
                     <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                      I don’t have a GST Number
-                    </label>
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={!formData.hasGst}
+                      onChange={handleGstCheckbox}
+                    />
+                    I don’t have a GST Number
+                  </label>
                     
             </div>
           

@@ -1,16 +1,30 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "../../../Services/CustomerService";
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
+    const userType = "CUSTOMER"; 
     const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add actual API logic here
-        setMessage("Password reset instructions sent to your email.");
+        setMessage("");
+        setError("");
+
+        try {
+            await forgotPassword({ email, userType });
+            setMessage("Password reset instructions sent to your email.");
+            setTimeout(() => navigate("/login"), 2000);
+        } catch (err) {
+            setError("Something went wrong. Please check your email and try again.");
+            console.error(err);
+        }
     };
+
+
 
     return (
         <div
@@ -52,17 +66,18 @@ const ForgotPasswordPage = () => {
                         className="w-full px-4 py-1 rounded-full mb-4 text-black focus:outline-none"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required  
                     />
 
                     <button
                         type="submit"
                         className="w-full bg-purple-700 text-white rounded-full py-1 font-medium"
-                        onClick={() => navigate("/verifycode")}
                     >
-                        Get Code
+                        Submit
                     </button>
 
                     {message && <p className="text-green-400 text-sm mt-4">{message}</p>}
+                    {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
                 </form>
 
                 <div className="text-center text-xs my-2 text-gray-300">Or login with</div>

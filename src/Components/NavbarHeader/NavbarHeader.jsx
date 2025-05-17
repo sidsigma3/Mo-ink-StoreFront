@@ -98,151 +98,146 @@ const NavbarHeader = () => {
   }, [accountOpen]);
 
   return (
-    <div className='d-flex align-items-center justify-content-between border-bottom'>
+  // Only showing updated JSX portion for visual improvements (same logic retained)
 
-      <div className="flex md:hidden justify-between items-center p-4 ps-0 border-b bg-white">
-        <FiMenu size={30} className="cursor-pointer" onClick={() => setIsOpen(true)} />
+<div className='d-flex align-items-center justify-content-between border-bottom px-3 py-2 bg-white'>
 
-      </div>
+  
 
+ 
 
-      <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-transform ${isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        onClick={() => setIsOpen(false)}
-      >
+  {/* Logo */}
+  <div>
+    <img className="h-10 cursor-pointer" src="/images/logo.png" alt="Logo" onClick={() => navigate("/home")} />
+  </div>
 
-        <div
-          className="bg-white w-64 h-full shadow-lg transform transition-transform"
-          onClick={(e) => e.stopPropagation()}
-        >
+{/* Mobile Menu */}
+    <div className="right-3 block lg:hidden  ">
+    <FiMenu size={26} className="cursor-pointer" onClick={() => setIsOpen(true)} />
+  </div>
 
-          <div className='flex justify-between bg-yellow-200 p-3'>
-            <h4 className='text-xl font-bold'>Menu</h4>
-            <IoClose size={24} className="cursor-pointer " onClick={() => setIsOpen(false)} />
-          </div>
-
-
-
-          <ul className="space-y-4 text-lg font-medium p-3">
-            <li>
-              <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/home")}>
-                Home
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-purple-600 cursor-pointer">About</a>
-            </li>
-            <li>
-              <a className="hover:text-purple-600 cursor-pointer" onClick={() => navigate("/blogs")}>Blogs</a>
-            </li>
-            <li>
-              <a className="hover:text-purple-600 cursor-pointer">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-
-
-      <div>
-        <img className='h-12 cursor-pointer' src='/images/logo.png' onClick={() => navigate("/home")}></img>
-      </div>
-
-      {/* <div className='hidden lg:block'>
-        <ProductSearch></ProductSearch>
-      </div> */}
-
-      <div className="hidden lg:block">
-        <YourLocation />
-      </div>
-
-
-      <div className='d-flex gap-3'>
-        <div onClick={handleWishlist} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}>
-          <Badge badgeContent={wishlistCount}
-          //display context value here
-            sx={{
-              '& .MuiBadge-badge': {
-                backgroundColor: purpuleColor,
-                color: '#fff',
-                top: '-7px',
-                right: '-7px'
-              },
-            }}
-          >
-            <span><FaRegHeart /></span>
-          </Badge>
-        </div>
-
-        <div onClick={handleCart} className='d-flex align-items-center justify-content-center rounded-circle yellow-light-bg' style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}>
-          <Badge badgeContent={cartCount}
-            sx={{
-              '& .MuiBadge-badge': {
-                backgroundColor: purpuleColor,
-                color: '#fff',
-                top: '-4px',
-                right: '-4px'
-              },
-            }}
-          >
-            <span><PiShoppingCart size={22} /></span>
-          </Badge>
-        </div>
-
-        <div
-  ref={dropdownRef}
-  onClick={() => setAccountOpen((prev) => !prev)}
-  className="flex items-center justify-center rounded-full yellow-light-bg relative"
-  style={{ width: '2.3rem', height: '2.3rem', cursor: 'pointer' }}
->
-  <GoPerson size={20} />
-
-  {accountOpen && (
-    <div className="absolute top-full right-0 w-64 z-50 mt-2 rounded-lg shadow-lg bg-white text-md">
-      {/* User Info */}
-      <div className="px-4 py-3 border-b border-gray-300">
-        <p className="font-bold text-gray-800">User Name</p>
-        <p className="text-gray-600 text-sm">useremail@gmail.com</p>
-      </div>
-
-      {/* Account Menu */}
-      <ul className="py-2  text-gray-800">
-      <li
-  className="flex justify-between items-center px-4 py-2 font-semibold hover:bg-gray-200 rounded cursor-pointer"
-  onClick={() => navigate("/account")}
->
-  Account <MdChevronRight size={20} className="text-gray-500 text-lg" />
-</li>
-        {accountMenuItems.map(({ label, path }) => (
-    <li
-      key={label}
-      className="px-4 py-2 hover:bg-gray-200 rounded cursor-pointer"
-      onClick={() => navigate(path)}
-    >
-      {label}
-    </li>
-        ))}
-      </ul>
-
-      {/* Logout */}
-      <div className="border-t border-gray-300">
-        <li
-          className="flex justify-between items-center px-4 py-3 text-md font-semibold hover:bg-gray-200 cursor-pointer"
-          onClick={handleLogout}
-        >
-          Logout <AiOutlineLogout size={20} className="text-red-500"/>
-        </li>
-      </div>
+ {/* Slide-out Sidebar */}
+  <div
+    className={`fixed inset-y-0 right-0  z-50 transition-transform ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+    onClick={() => setIsOpen(false)}
+  >
+    <div className="bg-white w-64 h-screen shadow-xl flex flex-col justify-between" onClick={(e) => e.stopPropagation()}>
+  {/* Header */}
+  <div>
+    <div className="flex justify-between items-center bg-yellow-300 p-4">
+      <h4 className="text-xl font-bold">Menu</h4>
+      <IoClose size={22} className="cursor-pointer text-gray-800" onClick={() => setIsOpen(false)} />
     </div>
-  )}
+
+    {/* Menu Items */}
+    <ul className="p-4 space-y-3 text-base">
+      <li className="cursor-pointer text-lg hover:text-purple-600" onClick={() => navigate("/home")}>Home</li>
+      <li className="cursor-pointer text-lg hover:text-purple-600" onClick={() => navigate("/about")}>About</li>
+      <li className="cursor-pointer text-lg hover:text-purple-600" onClick={() => navigate("/blogs")}>Blogs</li>
+      <li className="cursor-pointer text-lg hover:text-purple-600" onClick={() => navigate("/contact")}>Contact</li>
+    </ul>
+
+    {/* Banner Image */}
+    <div className="mt-6 h-20 overflow-hidden rounded-lg">
+      <img
+        src="/images/MainMarketing.png"
+        alt="Banner"
+        className="w-full h-full object-contain"
+      />
+    </div>
+  </div>
+
+  {/* Logout Button */}
+  <div className="py-4 px-2">
+    <button
+      className="w-full py-2 rounded-full bg-red-500 text-lg text-white hover:bg-red-700"
+      onClick={handleLogout}
+    >
+      Logout
+    </button>
+  </div>
 </div>
 
+  </div>
 
+  {/* Location */}
+  <div className="hidden lg:block">
+    <YourLocation />
+  </div>
 
-      </div>
-
+  {/* Right Icons Section */}
+  <div className="hidden lg:flex gap-4 items-center">
+    
+    {/* Wishlist */}
+    <div onClick={handleWishlist} className="flex items-center justify-center w-10 h-10 rounded-full yellow-light-bg cursor-pointer relative">
+      <Badge badgeContent={wishlistCount} sx={{
+        '& .MuiBadge-badge': {
+          backgroundColor: purpuleColor,
+          color: '#fff',
+          top: '-6px',
+          right: '-6px',
+        }
+      }}>
+        <FaRegHeart size={18} />
+      </Badge>
     </div>
+
+    {/* Cart */}
+    <div onClick={handleCart} className="flex items-center justify-center w-10 h-10 rounded-full yellow-light-bg cursor-pointer relative">
+      <Badge badgeContent={cartCount} sx={{
+        '& .MuiBadge-badge': {
+          backgroundColor: purpuleColor,
+          color: '#fff',
+          top: '-4px',
+          right: '-4px',
+        }
+      }}>
+        <PiShoppingCart size={20} />
+      </Badge>
+    </div>
+
+    {/* Account Dropdown */}
+    <div ref={dropdownRef} onClick={() => setAccountOpen((prev) => !prev)}
+      className="flex items-center justify-center w-10 h-10 rounded-full yellow-light-bg cursor-pointer relative">
+      <GoPerson size={20} />
+
+      {accountOpen && (
+        <div className="absolute top-full right-0 w-64 mt-2 z-50 bg-white rounded-lg shadow-lg overflow-hidden">
+          
+          {/* User Info */}
+          <div className="px-4 py-3 border-b border-gray-200">
+            <p className="font-bold text-gray-800">User Name</p>
+            <p className="text-sm text-gray-500">useremail@gmail.com</p>
+          </div>
+
+          {/* Navigation Items */}
+          <ul className="text-sm py-2">
+            <li onClick={() => navigate("/account")}
+              className="flex items-center justify-between px-4 py-2 hover:bg-gray-100 cursor-pointer font-semibold text-gray-800">
+              Account <MdChevronRight size={18} className="text-gray-500" />
+            </li>
+            {accountMenuItems.map(({ label, path }) => (
+              <li key={label}
+                onClick={() => navigate(path)}
+                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700">
+                {label}
+              </li>
+            ))}
+          </ul>
+
+          {/* Logout */}
+          <div className="border-t border-gray-200">
+            <li onClick={handleLogout}
+              className="flex items-center justify-between px-4 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-100 cursor-pointer">
+              Logout <AiOutlineLogout size={18} className="text-red-500" />
+            </li>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
   )
 }
 

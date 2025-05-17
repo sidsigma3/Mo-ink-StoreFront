@@ -114,11 +114,11 @@ const Footer = () => {
           </ul>
         </div>
   
-        <div className="pl-4 grid sm:mt-6 gap-50 lg:grid-cols-2 grid-cols-1">
+        <div className="pl-4 grid gap-50 lg:grid-cols-2 grid-cols-1">
   {/* Helpful Links Section */}
   <div>
     <p className="text-lg font-semibold ">Helpful Links</p>
-    <ul className="mt-6 space-y-4 text-sm">
+    <ul className="mt-6 mb-6 space-y-4 text-sm">
       <li>
         <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/contact")}> Contact </a>
       </li>

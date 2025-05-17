@@ -42,7 +42,7 @@ const SlilderCard = ({ title, children }) => {
 
   return (
     <>
-      <div className="flex justify-between items-end mr-10">
+      <div className="flex justify-between items-end mr-2">
         <h2 className="text-xl text-black p-4">Top Selling {title}</h2>
         <div className="mb-2 flex gap-4">
           <button
@@ -86,7 +86,7 @@ const SlilderCard = ({ title, children }) => {
         </div>
       </div>
 
-      <ul ref={sliderRef} className="keen-slider mt-2 px-6">
+      <ul ref={sliderRef} className="keen-slider mt-2">
         {children}
       </ul>
     </>
@@ -168,28 +168,36 @@ const ProductList = () => {
   console.log(finalData)
 
   return (
-    <div className="space-y-12">
-      {products.map((product, idx) => (
-        <div key={product.id} className="relative flex flex-col bg-gray-100 p-4">
-          <SlilderCard title={product.productName}>
-            {product.variants.map((variant, i) => (
-              <li key={`${product.id}-${variant.id}`} className="keen-slider__slide">
-                <ProductDetailBox
-                  productName={`${product.productName}`}
-                  size={variant.size}
-                  color={variant.color.colorName}
-                  price={variant.pricePerKg}
-                  variantId={variant.id}
-                  navigateCart={true}
-                  hexCode={variant.color.hexCode || '#ccc'}
-                  variantType={variant.variantType}
-                />
-              </li>
-            ))}
-          </SlilderCard>
-        </div>
-      ))}
+<div className="space-y-12">
+  {products.map((product) => (
+    <div key={product.id} className="relative flex flex-col bg-gray-100 p-4 rounded-lg shadow-sm">
+      <SlilderCard title={product.productName}>
+        <ul className="flex flex-nowrap gap-4 overflow-x-auto p-0 m-0 list-none">
+          {product.variants.map((variant) => (
+            <li
+              key={`${product.id}-${variant.id}`}
+              className="bg-white rounded-xl shadow p-4 flex-shrink-0"
+              style={{ minWidth: '250px' }}
+            >
+              <ProductDetailBox
+                productName={product.productName}
+                size={variant.size}
+                color={variant.color.colorName}
+                price={variant.pricePerKg}
+                variantId={variant.id}
+                navigateCart={true}
+                hexCode={variant.color.hexCode || '#ccc'}
+                variantType={variant.variantType}
+              />
+            </li>
+          ))}
+        </ul>
+      </SlilderCard>
     </div>
+  ))}
+</div>
+
+
   );
 };
 

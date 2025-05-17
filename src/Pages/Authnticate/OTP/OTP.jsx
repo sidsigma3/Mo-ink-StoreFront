@@ -60,31 +60,50 @@ const OTP = () => {
                 </p>
 
                 <form onSubmit={handleSubmit}>
-      <label className="block text-l mb-1">Email OTP</label>
-      <input
-        type="text"
-        placeholder="Enter 6-digit code"
-        className="w-full px-4 py-2 rounded-full mb-4 text-black focus:outline-none"
-        value={emailCode}
-        onChange={(e) => handleNumericInput(e, setEmailCode)}
-      />
 
-      <label className="block text-l mb-1">Phone OTP</label>
-      <input
-        type="text"
-        placeholder="Enter 6-digit code"
-        className="w-full px-4 py-2 rounded-full mb-4 text-black focus:outline-none"
-        value={phoneCode}
-        onChange={(e) =>  handleNumericInput(e, setPhoneCode)}
-      />
+                <div className="flex justify-between items-center mb-1">
+                <label className="text-l">Email OTP</label>
+                <button
+                className="text-sm text-white cursor-pointer"
+                onClick={''}
+                >
+                Resend
+                </button>
+            </div>
+                <input
+                    type="text"
+                    placeholder="Enter 6-digit code"
+                    className="w-full px-4 py-1 mb-2 text-left align-center rounded-full text-black focus:outline-none"
+                    value={emailCode}
+                    onChange={(e) => handleNumericInput(e, setEmailCode)}
+                />
 
-                    <p className="text-sm text-gray-300 mb-4">
+
+                {/* <label className="block text-l mb-1">Phone OTP</label> */}
+                <div className="flex justify-between items-center mb-1">
+                <label className="text-l">Phone OTP</label>
+                <button
+                className="text-sm text-white cursor-pointer"
+                onClick={''}
+                >
+                Resend
+                </button>
+            </div>
+                <input
+                    type="text"
+                    placeholder="Enter 6-digit code"
+                    className="w-full px-4 py-1 mb-2 text-left align-center rounded-full text-black focus:outline-none"
+                    value={phoneCode}
+                    onChange={(e) =>  handleNumericInput(e, setPhoneCode)}
+                />
+
+                    {/* <p className="text-sm text-gray-300 mb-4">
                         Didn’t receive a code? <span className="text-white underline cursor-pointer">Resend</span>
-                    </p>
+                    </p> */}
 
                     <button
                         type="submit"
-                        className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
+                        className="w-full mt-4 bg-purple-800 text-white rounded-full py-1 font-medium"
                         onClick={() => navigate("/")}
                     >
                         Verify
@@ -93,7 +112,7 @@ const OTP = () => {
                     {message && <p className="text-green-400 text-sm mt-4">{message}</p>}
                 </form>
 
-                <div className="text-center text-xs my-4 text-gray-300">Or login with</div>
+                <div className="text-center text-xs my-3 text-gray-300">Or login with</div>
 
                 <div className="flex flex-row justify-center items-center gap-2">
                     <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm">

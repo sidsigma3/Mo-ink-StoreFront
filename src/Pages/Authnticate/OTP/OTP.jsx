@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Toast from "../../../Components/Toast/Toast";
 import { otpVerify } from "../../../Services/CustomerService";
 import { useLocation } from "react-router-dom";
 import { createCustomer } from "../../../Services/CustomerService";
@@ -13,6 +13,13 @@ const OTP = () => {
     const [emailCode, setEmailCode] = useState("");
     const [phoneCode, setPhoneCode] = useState("");
     const [error, setError] = useState(""); 
+    const [toasts, setToasts] = useState([]); 
+    
+    const showToast = (message, type = "error") => {
+      setToasts([{ message, type }]);
+      setTimeout(() => setToasts([]), 3000);
+    };
+  
 
     const handleNumericInput = (e, setter) => {
     let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
@@ -62,6 +69,15 @@ const OTP = () => {
     }
   };
 
+  const resendEmailOTP = (e) => {
+    e.preventDefault();
+    showToast("Email OTP resent successfully!", "success");
+  }
+    const resendPhoneOTP = (e) => {
+      e.preventDefault(); 
+      showToast("Phone OTP resent successfully!", "success");
+    };
+  
     return (
         <div
             className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">

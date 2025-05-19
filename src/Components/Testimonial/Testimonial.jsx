@@ -47,11 +47,11 @@ const Testimonial = () => {
   return (
     <section className="bg-gray-200">
       <div className="w-100  px-16 py-12 sm:px-6 lg:me-0 lg:py-16 lg:pe-12 lg:ps-12 xl:py-24" style={{width:'100%'}}>
-        <div className="max-w-7xl items-end justify-between sm:flex sm:pe-6 lg:pe-8">
+        <div className="w-full items-end justify-between sm:flex ">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
             Read trusted reviews from our customers
           </h2>
-          <div className="mt-8 flex gap-4 lg:mt-0">
+          <div className="mt-8 flex justify-end gap-4 lg:mt-0">
             <button
               aria-label="Previous slide"
               onClick={handlePrevious}

@@ -939,38 +939,44 @@ const CheckoutPage = () => {
                             {/* Address Type Selection Dropdown */}
                             <div>
                                 <Dropdown>
-                                    <Dropdown.Toggle className='font-semibold bg-violet-200 flex items-center text-violet-800 w-36 justify-between' variant="light" id="dropdown-basic">
-                                        {selectedType ? (
-                                            <>
-                                                <span>{selectedType}</span>
-                                                {selectedType === 'HOME' ? (
-                                                    <BiHomeAlt size={20} />
-                                                ) : selectedType === 'WORK' ? (
-                                                    <PiSuitcaseSimpleBold size={20} />
-                                                ) : (
-                                                    <BiBuildingHouse size={20} />
-                                                )}
-                                            </>
+                                <Dropdown.Toggle
+                                    className='font-semibold bg-violet-200 flex items-center text-violet-800 sm:w-36 w-15 justify-between px-2 sm:px-4'
+                                    variant="light"
+                                    id="dropdown-basic"
+                                >
+                                    {selectedType ? (
+                                    <>
+                                        <span className="hidden sm:inline ">{selectedType}</span>
+                                        {selectedType === 'HOME' ? (
+                                        <BiHomeAlt size={20} className="sm:ml-2 mx-auto " />
+                                        ) : selectedType === 'WORK' ? (
+                                        <PiSuitcaseSimpleBold size={20} className="sm:ml-2 mx-auto" />
                                         ) : (
-                                            <span className=''>Select type</span>
+                                        <BiBuildingHouse size={20} className="sm:ml-2 mx-auto" />
                                         )}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        {["HOME", "WORK", "OTHER"]
-                                            .filter(type =>
-                                                customer.addresses?.some(addr => addr.addressType === type)
-                                            )
-                                            .map((type) => (
-                                                <Dropdown.Item
-                                                    key={type}
-                                                    onClick={() => setSelectedType(type)}
-                                                >
-                                                    {type}
-                                                </Dropdown.Item>
-                                            ))}
-                                    </Dropdown.Menu>
+                                    </>
+                                    ) : (
+                                    <span className='hidden sm:inline'>Select type</span>
+                                    )}
+                                </Dropdown.Toggle>
 
+                                <Dropdown.Menu className='left-auto right-0 min-w-[2rem] sm:min-w-[9rem]'>
+                                    {["HOME", "WORK", "OTHER"]
+                                    .filter(type =>
+                                        customer.addresses?.some(addr => addr.addressType === type)
+                                    )
+                                    .map((type) => (
+                                        <Dropdown.Item
+                                        key={type}
+                                        onClick={() => setSelectedType(type)}
+                                        className="text-sm"
+                                        >
+                                        {type}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
                                 </Dropdown>
+
                             </div>
                         </div>
                     )}
@@ -1104,7 +1110,7 @@ const CheckoutPage = () => {
                     </div>
 
                     <div
-                        className={`fixed top-0 right-0 w-2/4 md:w-2/5 lg:w-1/3 h-full bg-white shadow-lg transform transition-transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"
+                        className={`fixed top-0 right-0 w-5/6 md:w-2/5 lg:w-1/3 h-full bg-white shadow-lg transform transition-transform ${isSidebarOpen ? "translate-x-0" : "translate-x-full"
                             } z-50 p-4`}
                         style={{ overflowY: "auto" }}
                     >
@@ -1253,8 +1259,8 @@ const CheckoutPage = () => {
                                     <td>
                                         <div>
                                             <p>Total Discount</p>
-                                            <p className='text-gray-400 pl-12'>By payment Type</p>
-                                            <p className='text-gray-400 pl-12'>By coupon Code</p>
+                                            <p className='text-gray-400 pl-6'>By payment Type</p>
+                                            <p className='text-gray-400 pl-6'>By coupon Code</p>
                                         </div>
                                     </td>
                                     <td>
@@ -1372,48 +1378,6 @@ const CheckoutPage = () => {
                                     <td className='pt-2'>{cod}%</td>
                                     <td className='text-end pt-2'>₹{codPay.toFixed(0)}</td>
                                 </tr>
-
-                                {/* <tr>
-                                    <td>Discounts by payment</td>
-                                    <td>5%</td>
-                                    <td style={{textAlign:'end'}}>₹748</td>
-                                    
-                                </tr>
-        
-                                <tr>
-                                    <td>Discounts</td>
-                                    <td>5%</td>
-                                    <td style={{textAlign:'end'}}>-₹5,000</td>
-                                    
-                                </tr>
-        
-                                <tr>
-                                    <td>Shipping or delivery</td>
-                                    <td></td>
-                                    <td style={{textAlign:'end'}}>₹2,156</td>
-                                    
-                                </tr> */}
-
-                                {/* <tr>
-                                    <td>SubTotal</td>
-                                    <td></td>
-                                    <td style={{textAlign:'end'}}>₹2,121,156</td>
-                                    
-                                </tr>
-
-                                <tr className='border-b-4'>
-                                    <td>Remaining Balance</td>
-                                    <td></td>
-                                    <td style={{textAlign:'end'}}>₹3,526,379</td>
-                                    
-                                </tr>
-        
-                                <tr className=''>
-                                    <td>Total</td>
-                                    <td></td>
-                                    <td style={{textAlign:'end'}}>₹2,121,156</td>
-                                    
-                                </tr> */}
                             </tbody>
                         </table>
                     </div>

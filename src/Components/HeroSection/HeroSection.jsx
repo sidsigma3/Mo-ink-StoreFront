@@ -5,16 +5,16 @@ const HeroSection = ({ productName, breadcrumbs = [] }) => {
     <div className=''>
         <div className=''>
       <div
-        className='p-5 rounded-5'
+        className='p-5 rounded-5 h-[8rem] md:h-[15rem] flex flex-col items-center justify-center'
         style={{
-          height: '15rem',
           backgroundImage: "url('/images/cta-bg.png')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <h3 className='text-3xl text-white font-bold mb-8 text-center'>{productName}</h3>
+      <div>
+        <h3 className='text-3xl text-white font-bold mb-4 lg:mb-8 text-center'>{productName}</h3>
 
         <nav aria-label="Breadcrumb" className='flex justify-center'>
           <ol className="flex items-center gap-1 text-sm text-white">
@@ -43,7 +43,9 @@ const HeroSection = ({ productName, breadcrumbs = [] }) => {
               </li>
             ))}
           </ol>
+
         </nav>
+        </div>
       </div>
     </div>
     </div>

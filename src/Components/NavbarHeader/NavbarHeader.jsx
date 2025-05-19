@@ -121,7 +121,7 @@ const NavbarHeader = () => {
     className={`fixed inset-y-0 right-0  z-50 transition-transform ${isOpen ? "translate-x-0" : "translate-x-full"}`}
     onClick={() => setIsOpen(false)}
   >
-    <div className="bg-white w-64 h-screen shadow-xl flex flex-col justify-between" onClick={(e) => e.stopPropagation()}>
+    <div className="bg-white w-80 h-screen shadow-xl flex flex-col justify-between" onClick={(e) => e.stopPropagation()}>
   {/* Header */}
   <div>
     <div className="flex justify-between items-center bg-yellow-300 p-4">
@@ -138,9 +138,9 @@ const NavbarHeader = () => {
     </ul>
 
     {/* Banner Image */}
-    <div className="mt-6 h-20 overflow-hidden rounded-lg">
+    <div className="mt-6 h-62 overflow-hidden rounded-lg">
       <img
-        src="/images/MainMarketing.png"
+        src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Mobile%20Navbar%20Banner.png?updatedAt=1747462801201"
         alt="Banner"
         className="w-full h-full object-contain"
       />

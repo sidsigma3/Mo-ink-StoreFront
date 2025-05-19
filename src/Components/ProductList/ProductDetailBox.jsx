@@ -124,7 +124,7 @@ const ProductDetailBox = ({
       {/* Product Card */}
       <div>
         <a
-          className="relative block bg-white rounded-tr-3xl border border-gray-100 rounded"
+          className="relative block bg-white rounded-lg border border-gray-100 rounded"
           style={{ width: '19rem' }}
         >
           {/* SALE Badge */}
@@ -133,15 +133,15 @@ const ProductDetailBox = ({
           </span>
   
           {/* Image with Color Overlay */}
-          <div className="relative">
+          <div className="relative rounded-lg">
             <img
               src="/images/Picture1.png"
               alt=""
-              className="h-80 w-full rounded-tr-3xl object-cover"
+              className="h-80 w-full rounded-lg object-cover"
               style={{ height: '10rem' }}
             />
             <div
-              className="absolute inset-0"
+              className="absolute inset-0 rounded-lg"
               style={{ backgroundColor: hexCode, opacity: 0.4 }}
             ></div>
           </div>

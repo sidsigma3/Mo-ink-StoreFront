@@ -25,15 +25,16 @@ const TimelineComponent = ({ orderStatus }) => {
   const currentIndex = statusOptions.findIndex(option => option.key === orderStatus);
 
   return (
-    <div className="flex items-end max-w-screen-lg mx-auto">
+    <div className="w-full overflow-x-auto">
+     <div className="flex items-end max-w-screen-lg mx-auto min-w-[640px] sm:min-w-0 flex-nowrap">
       {statusOptions.map((status, index) => {
         const isCompleted = index <= currentIndex;
         const isLast = index === statusOptions.length - 1;
 
         return (
-          <div key={status.key} className="w-full">
+          <div key={status.key} className="w-full min-w-[120px]">
             {/* Label */}
-            <h6 className={`text-sm font-bold ${isCompleted ? 'text-green-500' : 'text-gray-300'} mb-2 mr-4`}>
+            <h6 className={`text-sm font-bold ${isCompleted ? 'text-green-500' : 'text-gray-300'}  mb-2 mr-4 text-center`}>
               {status.label}
             </h6>
 
@@ -62,6 +63,7 @@ const TimelineComponent = ({ orderStatus }) => {
           </div>
         );
       })}
+    </div>
     </div>
   );
 };

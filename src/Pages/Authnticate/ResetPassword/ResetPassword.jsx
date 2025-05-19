@@ -3,12 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { CreditCard } from 'lucide-react';
 import axios from "axios"; 
 import { resetPassword } from "../../../Services/CustomerService";
+import Toast from "../../../Components/Toast/Toast";
 
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [toasts, setToasts] = useState([]); 
   const navigate = useNavigate();
   const location = useLocation(); 
 
@@ -21,52 +23,47 @@ const ResetPassword = () => {
     console.log("UserType:", userType);
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    console.log("hello")
 
 
-    if (!password || !confirmPassword) {
-      alert("Please fill out both fields.");
-      return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+   const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+  console.log("hello");
+
+  if (!password || !confirmPassword) {
+    showToast("Please fill out both fields.", "error");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showToast("Passwords do not match.", "error");
+    return;
+  }
+
+  if (!token || !userType) {
+    showToast("Invalid or expired reset link.", "error");
+    return;
+  }
+
+  try {
+    const payload = { token, password, userType };
+    const data = await resetPassword(payload);
+    console.log("Response from resetPassword:", data);
+
+    if (data?.success) {
+      showToast("Password successfully reset!", "success");
+      setTimeout(() => navigate("/login"), 3000);
+    } else {
+      showToast(data?.message || "Something went wrong.", "error");
     }
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
-    if (!token || !userType) {
-      alert("Invalid or expired reset link.");
-      return;
-    }
-
-    try {
-      const payload = {
-        token,
-        password,
-        userType,
-      };
-
-      const data = await resetPassword(payload);
-
-      console.log("Response from resetPassword:", data); 
-
-      if (data?.success) {
-        setShowToast(true);
-        setTimeout(() => {
-          setShowToast(false);
-          navigate("/login");
-        }, 3000);
-      } else {
-        alert(data?.message || "Something went wrong.");
-      }
-    } catch (error) {
-      alert("Failed to reset password. Please try again.");
-      console.error(error);
-    }
-  };
-
+  } catch (error) {
+    showToast("Failed to reset password. Please try again.", "error");
+    console.error(error);
+  }
+};
 
 
     return (
@@ -141,6 +138,22 @@ const ResetPassword = () => {
                     </button>
                 </form>
             </div>
+
+             {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
+
         </div>
     );
 };

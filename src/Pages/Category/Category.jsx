@@ -156,13 +156,13 @@ const counters = [
 
 
       <div
-        className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-0  z-50 transition-transform ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         onClick={() => setIsOpen(false)}
       >
 
         <div
-          className="bg-white w-2/3 md:w-2/5 h-full shadow-lg transform transition-transform"
+          className="bg-white w-80 shadow-lg  md:w-2/5 h-full shadow-lg transform transition-transform"
           onClick={(e) => e.stopPropagation()}
         >
 
@@ -175,26 +175,22 @@ const counters = [
               <h4 className='text-xl font-semibold'>Category</h4>
               <ul>
 
-                {products.length > 0 ? (
-                  finalData.map((product, index) => (
-                    <li
-                      key={index}
-                      className={`p-2 border border-1 rounded mt-2 cursor-pointer ${selectedCategory === product.productName ? "bg-violet-200" : ""
-                        }`}
-                      onClick={() => setSelectedCategory(product.productName)}
-                    >
-                      <div className="flex justify-between font-medium">
-                        <h5 className="text-base">{product.productName}</h5>
-                        <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-                          <h6 className="text-sm">{product.groupedVariants.length}</h6>
-                        </div>
-                      </div>
-                    </li>
-                  ))
-                ) : (
-                  <p>No products available</p>
-                )}
-
+              {products.length > 0 ? (
+                finalData.map((product, index) => (
+                  <li
+                    key={index}
+                    className={`p-2 border border-1 rounded mt-2 cursor-pointer ${selectedCategory === product.productName ? "bg-violet-200" : ""
+                      }`}
+                    onClick={() => setSelectedCategory(product.productName)}
+                  >
+                    <div className="flex justify-between font-medium">
+                      <h5 className="text-base">{product.productName}</h5>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <p>No products available</p>
+              )}
 
               </ul>
             </div>
@@ -203,47 +199,59 @@ const counters = [
 
             <div className='w-full max-w-xs'>
 
-            {/* Counter Filter Section */}
-            <div className="border rounded p-3 my-3">
-            <h4 className="text-xl font-semibold mb-3">Counter</h4>
-            <ul className="space-y-2">
-              {counters.map((counter, index) => (
-                <li
-                  key={index}
-                  className={`p-2 border border-1 rounded cursor-pointer ${
-                    selectedCounter === counter.name ? "bg-violet-200" : "bg-white"
-                  } hover:bg-violet-100 flex justify-between items-center`}
-                  onClick={() => setSelectedCounter(counter.name)}
-                >
-                  <h5 className="text-base font-medium">{counter.name}</h5>
-                  <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-                    <h6 className="text-sm">{counter.count}</h6>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Counter Filter Section - Multi-selection */}
+              <div className="border rounded p-3 my-3">
+                <h4 className="text-xl font-semibold mb-3">Counter</h4>
+                <ul className="space-y-2">
+                  {counters.map((counter, index) => {
+                    const isSelected = selectedCounters.includes(counter.name);
+                    return (
+                      <li
+                        key={index}
+                        className={`p-2 border border-1 rounded cursor-pointer ${
+                          isSelected ? "bg-violet-200" : "bg-white"
+                        } flex justify-between items-center`}
+                      onClick={() => {
+                      const isSelected = selectedCounters.includes(counter.name);
+                      const updatedSelection = isSelected
+                        ? selectedCounters.filter(c => c !== counter.name)
+                        : [...selectedCounters, counter.name];
+                      setSelectedCounters(updatedSelection);
+                    }}
 
-          {/* Checkbx Cone Hank Section */}
-          <div className="border rounded p-3 ">
-            <h4 className="text-xl font-semibold mb-3">Type</h4>
-            <ul className="space-y-2">
-              {/* {type.map((type, index) => (
-                <li
-                  key={index}
-                  className={`p-2 border border-1 rounded cursor-pointer ${
-                    selectedType === type.name ? "bg-violet-200" : "bg-white"
-                  } hover:bg-violet-100 flex justify-between items-center`}
-                  onClick={() => setSelectedType(type.name)}
-                >
-                  <h5 className="text-base font-medium">{type.name}</h5>
-                  <div className="bg-violet-100 rounded-full w-6 h-6 flex justify-center items-center">
-                    <h6 className="text-sm">{type.count}</h6>
-                  </div>
-                </li>
-              ))} */}
-            </ul>
-          </div>
+                      >
+                        <h5 className="text-base font-medium">{counter.name}</h5>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+
+              {/* Type Filter - Multi-selection */}
+             <div className="border rounded p-3">
+                <h4 className="text-xl font-semibold mb-3">Type</h4>
+                <ul className="space-y-2">
+                  {variantType.map((variant, index) => {
+                    const isSelected = selectedVariantType === variant.name; // Check if this variant is selected
+                    return (
+                      <li
+                        key={index}
+                        className={`p-2 border border-1 rounded cursor-pointer ${
+                          isSelected ? "bg-violet-200" : "bg-white"
+                        } flex justify-between items-center`}
+                        onClick={() => {
+                          // Update the selectedVariantType to only the clicked variant
+                          setSelectedVariantType(isSelected ? "" : variant.name); // Clear selection if already selected
+                        }}
+                      >
+                        <h5 className="text-base font-medium">{variant.name}</h5>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
 
 
 
@@ -284,8 +292,8 @@ const counters = [
       </div>
 
 
-      <div className='grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  px-6 md:px-14 py-3 gap-5 mt-10'>
-        <div className='hidden md:block col-span-2 lg:col-span-1 '>
+      <div className='grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  px-6 md:px-14 py-3 gap-5 mt-2 md:mt-10'>
+        <div className='hidden lg:block col-span-2 lg:col-span-1 '>
           <div className='border rounded p-3 max-w-xs'>
             <h4 className='text-xl font-semibold'>Category</h4>
             <ul>

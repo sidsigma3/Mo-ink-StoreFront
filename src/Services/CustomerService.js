@@ -99,5 +99,12 @@ export const resetPassword = async (customerData) => {
   }
 };
 
-
-
+export const sendInquiryEmail = async (payload) => {
+  try {
+    const response = await axios.post(`${URL}/support/email`, payload);
+    return response.data;
+  } catch (error) {
+    console.error("Inquiry API Error:", error);
+    throw error;
+  }
+};

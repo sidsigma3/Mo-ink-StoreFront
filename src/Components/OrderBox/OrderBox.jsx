@@ -42,7 +42,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
         <div className='col-span-3 md:col-span-2 lg:col-span-1'>
-        <img src='/images/wool-item-1.png' className='w-4/5 aspect-square object-cover rounded-md' alt='Wool Item' />
+        <img src='/images/wool-item-1.png' className='w-5/4 aspect-square object-cover rounded-md' alt='Wool Item' />
         </div>
 
         <div className='col-span-6 md:col-span-3 lg:col-span-2 flex flex-col items-start justify-center text-gray-500 font-medium'>
@@ -96,7 +96,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
    
   </div>
 
-  <div className= 'col-span-9 md:col-span-1 flex flex-col items-start justify-center gap-2'>
+  <div className= 'hidden sm:block col-span-9 md:col-span-1 flex flex-col items-start justify-center gap-2'>
 
   {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
           <button 

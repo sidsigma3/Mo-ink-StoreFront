@@ -21,7 +21,7 @@ import ModalWelcome from '../../Components/Modal/ModalWelcome'
 
 const LandingPage = () => {
   return (
-    <div>
+    <div className="overflow-hidden">
       <div className='w-full'> <ModalWelcome /></div>
       <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader /></div>
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar /></div>

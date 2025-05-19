@@ -437,33 +437,37 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
                 <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-8 mt-6">
-                    <div class="lg:col-span-3">
-                        <div class="grid sm:grid-cols-3 gap-2 text-center">
-                            <div class="sm:col-span-2 bg-gray-100 flex items-center rounded">
-                                <img src="/images/wool-item-1.png" alt="Product" class="w-full object-contain object-top" />
-                            </div>
+                   <div class="lg:col-span-3">
+  <div class="grid sm:grid-cols-3 gap-2 text-center">
+    
+     <div class="sm:col-span-2 bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+      <img src="/images/wool-item-1.png" alt="Product" class="w-full h-full object-contain rounded-lg" />
+    </div>
 
-                            <div class="sm:space-y-2 w-full h-full max-sm:grid max-sm:grid-cols-2 max-sm:gap-2">
-                                <div class="bg-gray-100 flex items-center rounded w-full h-[140px] sm:h-[200px]">
-                                    <img src="/images/wool-item-1.png" alt="Product" class="w-full max-h-full object-contain object-top" />
-                                </div>
+    {/* <!-- Two Smaller Images --> */}
+    <div class="sm:space-y-2 w-full h-full max-sm:grid max-sm:grid-cols-2 max-sm:gap-2">
+      <div class="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+        <img src="/images/wool-item-1.png" alt="Product" class="w-full h-full object-contain rounded-lg" />
+      </div>
 
-                                <div class="bg-gray-100 flex items-center rounded w-full h-[140px] sm:h-[200px]">
-                                    <img src="/images/wool-item-1.png" alt="Product" class="w-full max-h-full object-contain object-top" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <div class="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+        <img src="/images/wool-item-1.png" alt="Product" class="w-full h-full object-contain rounded-lg" />
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
                     <div class="w-full lg:col-span-2">
 
                         <span class="inline-flex items-center rounded-md bg-pink-200 px-2 py-1 text-xs font-medium text-pink-600 ring-1 ring-inset ring-pink-700/10">Sale off</span>
-                        <div className='flex gap-3 lg:block'>
-                            <p className="text-gray-800 text-2xl md:2xl font-bold mt-6">{product.productName} - {size} - {variantType}</p>
-                            <div class="flex items-center space-x-1 gap-2 mt-6">
-                                <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-1'>
-                                    <span className='text-yellow-300'><TiStarFullOutline /></span>
-                                    <p>4.5</p>
+                        <div className='d-flex flex-wrap items-center gap-3 mt-6 lg:block'>
+                            <p className="text-gray-800 text-2xl md:2xl font-bold">{product.productName} - {size} - {variantType}</p>
+                            <div class="flex items-center space-x-1 gap-2">
+                                <div className='bg-yellow-100 d-flex gap-2 rounded-2 align-items-center h-50 px-2 py-2'>
+                                    <span className='text-md text-yellow-300'><TiStarFullOutline /></span>
+                                    <p className='text-md'>4.5</p>
                                 </div>
 
                                 <h5 className='text-gray-400'>(32 reviews)</h5>
@@ -533,7 +537,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                             <div
                                 ref={modalRef}
-                                className={`fixed top-0 right-0 w-96 h-full bg-white shadow-lg transform z-40 ${isModalOpen ? "translate-x-0" : "translate-x-full"
+                                className={`fixed top-0 right-0 w-80 h-full bg-white shadow-lg transform z-50 ${isModalOpen ? "translate-x-0" : "translate-x-full"
                                     } transition-transform duration-300 ease-in-out p-4`}
                             >
                                 <button
@@ -600,7 +604,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                             {tempCustomColors.length > 0 && (
                                                 <div className="mt-4">
                                                     <h4 className="font-semibold">Added Colors:</h4>
-                                                    <div className="grid grid-cols-3 gap-3 p-2">
+                                                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 p-2">
                                                         {tempCustomColors.map((item, index) => (
                                                             <div key={index} className="border-4 rounded-md border-gray-300">
                                                                 <div className="relative h-16 overflow-hidden">
@@ -670,7 +674,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
                                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
-                                         <div className="grid grid-cols-3 gap-3 p-2">
+                                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 p-2">
 
                                          {filteredColorsTemp.map((aVariant) => {
                                             const isSelected = modalSelectedColors.find((color) => color.color.id === aVariant.color.id);
@@ -762,7 +766,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-6 gap-3 p-2">
+                        <div className="grid grid-cols-4 gap-3 mt-4">
                         {selectedColors.map((color) => (
                             <div key={color.color.id} className="border-2 rounded-md overflow-hidden relative">
                                 <div className="relative h-20 w-full">
@@ -801,7 +805,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                         <div className='mt-6'>
                             <div className='overflow-auto'>
-                                <div className="grid grid-cols-6 gap-3 p-2">
+                                <div className="grid grid-cols-4 gap-3 p-2">
                                     {moreColors.map((item, index) => (
                                         <div
                                             key={index}
@@ -868,27 +872,27 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                     <div class="mt-8">
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Product Description</h3>
-                        <p class="text-sm text-gray-600 mt-4">Step up your footwear game with our premium men's shoes. Designed for comfort and crafted with a contemporary aesthetic, these versatile shoes are a must-have addition to your wardrobe. The supple and breathable materials ensure all-day comfort, making them perfect for everyday wear.</p>
+                        <p class="text-md text-gray-600 mt-4">Step up your footwear game with our premium men's shoes. Designed for comfort and crafted with a contemporary aesthetic, these versatile shoes are a must-have addition to your wardrobe. The supple and breathable materials ensure all-day comfort, making them perfect for everyday wear.</p>
                     </div>
 
                     <div class="mt-8">
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Packaging & Delivery</h3>
-                        <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
+                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                     </div>
 
                     <div class="mt-8">
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Suggested Use</h3>
-                        <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
+                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                     </div>
 
                     <div class="mt-8">
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingrediets</h3>
-                        <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
+                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                     </div>
 
                     <div class="mt-8">
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
-                        <p class="text-sm text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
+                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
                     </div>
 
 

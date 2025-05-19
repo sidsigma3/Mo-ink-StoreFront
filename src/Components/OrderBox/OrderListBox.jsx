@@ -107,10 +107,10 @@ const OrderListBox = ({ item , status , orderId}) => {
   
 
   return (
-    <div className="grid grid-cols-10 gap-2 relative p-4 justify-center rounded-lg bg-white">
+    <div className="grid grid-cols-10 gap-2 relative  justify-center rounded-lg bg-white">
       
       {/* Product Image */}
-      <div className="col-span-2 flex items-center justify-end">
+      <div className="col-span-3 lg:col-span-2 flex items-center justify-end">
         <img
           src="/images/wool-item-1.png"
           className="rounded-md size-32"
@@ -119,9 +119,9 @@ const OrderListBox = ({ item , status , orderId}) => {
       </div>
 
       {/* Product Info */}
-      <div className="col-span-2 flex flex-col justify-between">
+      <div className="col-span-4 lg:col-span-3 flex flex-col justify-between">
         <div>
-          <h3 className="text-xl font-semibold">
+          <h3 className="text-sm lg:text-lg font-bold">
             {productName} - {item.size} - {item.variantType.toLowerCase()}
           </h3>
           <div className="flex gap-2 items-center mt-2">
@@ -129,7 +129,7 @@ const OrderListBox = ({ item , status , orderId}) => {
               className="w-6 h-6 rounded-full border"
               style={{ backgroundColor: item.color.hexCode }}
             ></div>
-            <h5 className="text-gray-700">({item.color.colorName})</h5>
+            <h5 className="text-sm lg:text-lg font-bold text-gray-500">({item.color.colorName})</h5>
           </div>
           
         </div>
@@ -146,7 +146,7 @@ const OrderListBox = ({ item , status , orderId}) => {
       </div>
 
       {/* Status Badge (Desktop) */}
-      <div className="col-span-3 hidden lg:flex justify-center items-center">
+      <div className="col-span-3 lg:col-span-2 hidden lg:flex justify-center items-center">
         <span
           className={`text-md font-semibold px-4 py-1 rounded-md ${statusClassMap[item.status] || ''}`}
         >
@@ -155,10 +155,10 @@ const OrderListBox = ({ item , status , orderId}) => {
       </div>
 
       {/* Pricing and Return Button */}
-      <div className="col-span-3 flex flex-col justify-center items-center relative">
+      <div className="col-span-3 lg:col-span-2 flex flex-col justify-center items-center relative">
         <div className="flex items-center gap-2">
           <div className="text-right">
-            <h4 className="text-2xl font-bold text-violet-800">
+            <h4 className="text-xl font-bold text-violet-800">
               ₹{baseCost.toFixed(0)}
             </h4>
             <p className="text-gray-500 font-medium">

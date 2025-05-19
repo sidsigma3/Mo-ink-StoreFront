@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../../../Services/CustomerService";
+import Toast from "../../../Components/Toast/Toast";
+
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
@@ -8,18 +10,24 @@ const ForgotPasswordPage = () => {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const [toasts, setToasts] = useState([]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage("");
-        setError("");
+         const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
+        // setMessage("");
+        // setError("");
 
         try {
             await forgotPassword({ email, userType });
-            setMessage("Password reset instructions sent to your email.");
-            setTimeout(() => navigate("/login"), 2000);
+            showToast("Password reset link sent to your email.", "success");
         } catch (err) {
-            setError("Something went wrong. Please check your email and try again.");
+            showToast("Email doesn't exist, Try another.", "error");
             console.error(err);
         }
     };
@@ -107,6 +115,19 @@ const ForgotPasswordPage = () => {
                     </button>
                 </div>
             </div>
+              {/* Toast Notification */}
+                 <div className="fixed top-4 right-4 z-50 space-y-2">
+                            {toasts.map((toast) => (
+                                <Toast
+                                    key={toast.id}
+                                    message={toast.message}
+                                    type={toast.type}
+                                    onClose={() =>
+                                        setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                                    }
+                                />
+                            ))}
+                        </div>
         </div>
     );
 };

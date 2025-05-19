@@ -114,11 +114,11 @@ const Footer = () => {
           </ul>
         </div>
   
-        <div className="pl-4 grid sm:mt-6 gap-50 lg:grid-cols-2 grid-cols-1">
+        <div className="pl-4 grid gap-50 lg:grid-cols-2 grid-cols-2">
   {/* Helpful Links Section */}
   <div>
     <p className="text-lg font-semibold ">Helpful Links</p>
-    <ul className="mt-6 space-y-4 text-sm">
+    <ul className="mt-6 mb-6 space-y-4 text-sm">
       <li>
         <a href="#" style={{ fontSize: '16px' }} className="text-gray-700 transition hover:opacity-75" onClick={() => navigate("/contact")}> Contact </a>
       </li>
@@ -154,10 +154,10 @@ const Footer = () => {
   
   </div>
 {/* Download App Section */}
-  <div>
-    <h3 className="text-lg font-semibold mb-4">Download Our App</h3>
-    <p className="text-md text-gray-600 mb-6">Get our app for the best shopping experience</p>
-    <div className="flex space-x-4">
+  <div className='justify-center items-center'>
+    <h3 className="text-lg text-center  font-semibold mb-4">Download Our App</h3>
+    <p className="text-md text-center  text-gray-600 mb-6">Get our app for the best shopping experience</p>
+    <div className="flex justify-center space-x-4">
       <img src="/images/playstore.png" alt="Google Play" className="h-12"/>
       <img src="/images/appstore.png" alt="App Store" className="h-12"/>
     </div>

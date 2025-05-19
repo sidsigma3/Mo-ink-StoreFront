@@ -188,6 +188,7 @@ const ProductList = () => {
                 navigateCart={true}
                 hexCode={variant.color.hexCode || '#ccc'}
                 variantType={variant.variantType}
+                imageUrl={product.productImage}
               />
             </li>
           ))}

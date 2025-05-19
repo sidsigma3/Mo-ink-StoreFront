@@ -11,12 +11,12 @@ import Toast from '../Toast/Toast';
 
 const ProductDetailBox = ({
   productName, price, size, color, itemQuantity, variantId,
-  isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,variantType,
+  isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,variantType,imageUrl,
   isWishlistPage = false,
   showCart = true,
 }) => {
   const { cartCount, setCartCount, wishlistCount, setWishlistCount, updateCartAndWishlistCounts } = useAppContext();
-
+  const backendUrl = process.env.REACT_APP_IMAGE_URL
   const navigate = useNavigate()
   const location = useLocation();
   const [isWishlisted, setIsWishlisted] = useState(isWishlist);
@@ -135,7 +135,7 @@ const ProductDetailBox = ({
           {/* Image with Color Overlay */}
           <div className="relative rounded-lg">
             <img
-              src="/images/Picture1.png"
+              src={`${backendUrl}${imageUrl}`}
               alt=""
               className="h-80 w-full rounded-lg object-cover"
               style={{ height: '10rem' }}

@@ -7,7 +7,7 @@ import { useAppContext } from '../../Utils/commoncontext';
 
 
 
-const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,
+const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,
   isSelected = false,
   showCart = true,
   onSelectChange = () => { },
@@ -15,7 +15,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, v
   onVariantTypeChange = () => {},
 }) => {
   const { updateCartAndWishlistCounts } = useAppContext();
-
+  const backendUrl = process.env.REACT_APP_IMAGE_URL
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -104,7 +104,8 @@ console.log(hexCode);
         <div className="relative flex items-center justify-center ps-3 rounded-lg">
               <div className="relative w-full h-40 rounded-lg overflow-hidden">
                 <img
-                  src="/images/Picture1.png"
+                  
+                  src={`${backendUrl}${productImage}`}
                   alt=""
                   className="w-full h-full object-cover z-0" 
                 />

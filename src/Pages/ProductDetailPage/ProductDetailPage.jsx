@@ -20,35 +20,10 @@ import Toast from '../../Components/Toast/Toast';
 import namer from 'color-namer';
 
 
-const ColorCard = ({ item, onSelect, selected = false, disabled }) => {
-    return (
-      <div
-        onClick={() => !disabled && onSelect(item)}
-        className={`border-4 rounded-md cursor-pointer ${
-          selected ? "border-blue-500" : "border-gray-300"
-        }`}
-      >
-        <div className="relative h-20 overflow-hidden">
-          <img
-            src="/images/wool-item-1.png"
-            className="w-full h-full object-cover"
-            alt="Product"
-          />
-          <div
-            className="absolute inset-0 opacity-50 mix-blend-multiply"
-            style={{ backgroundColor: item.color?.hexCode }}
-          ></div>
-        </div>
-        <div className="flex flex-col items-center mt-2">
-          <h5 className="text-black font-bold">{item.color?.colorName}</h5>
-          <h5 className="text-gray-600">{item.color?.hexCode}</h5>
-        </div>
-      </div>
-    );
-  };
+
 
 const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
-
+    const backendUrl = process.env.REACT_APP_IMAGE_URL
     const location = useLocation();
     const navigate = useNavigate();
     const [isInCart, setIsInCart] = useState();
@@ -128,6 +103,34 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isModalOpen]);
+
+
+    const ColorCard = ({ item, onSelect, selected = false, disabled }) => {
+        return (
+          <div
+            onClick={() => !disabled && onSelect(item)}
+            className={`border-4 rounded-md cursor-pointer ${
+              selected ? "border-blue-500" : "border-gray-300"
+            }`}
+          >
+            <div className="relative h-20 overflow-hidden">
+              <img
+               src={`${backendUrl}${product.productImage}`}
+                className="w-full h-full object-cover"
+                alt="Product"
+              />
+              <div
+                className="absolute inset-0 opacity-50 mix-blend-multiply"
+                style={{ backgroundColor: item.color?.hexCode }}
+              ></div>
+            </div>
+            <div className="flex flex-col items-center mt-2">
+              <h5 className="text-black font-bold">{item.color?.colorName}</h5>
+              <h5 className="text-gray-600">{item.color?.hexCode}</h5>
+            </div>
+          </div>
+        );
+      };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -441,17 +444,17 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
   <div class="grid sm:grid-cols-3 gap-2 text-center">
     
      <div class="sm:col-span-2 bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-      <img src="/images/wool-item-1.png" alt="Product" class="w-full h-full object-contain rounded-lg" />
+      <img   src={`${backendUrl}${product.productImage}`} alt="Product" class="w-full h-full object-contain rounded-lg" />
     </div>
 
     {/* <!-- Two Smaller Images --> */}
     <div class="sm:space-y-2 w-full h-full max-sm:grid max-sm:grid-cols-2 max-sm:gap-2">
       <div class="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-        <img src="/images/wool-item-1.png" alt="Product" class="w-full h-full object-contain rounded-lg" />
+        <img src={`${backendUrl}${product.productImage}`} alt="Product" class="w-full h-full object-contain rounded-lg" />
       </div>
 
       <div class="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-        <img src="/images/wool-item-1.png" alt="Product" class="w-full h-full object-contain rounded-lg" />
+        <img src={`${backendUrl}${product.productImage}`} alt="Product" class="w-full h-full object-contain rounded-lg" />
       </div>
     </div>
 
@@ -771,7 +774,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             <div key={color.color.id} className="border-2 rounded-md overflow-hidden relative">
                                 <div className="relative h-20 w-full">
                                 <img
-                                    src="/images/wool-item-1.png"
+                                   src={`${backendUrl}${product.productImage}`}
                                     className="w-full h-full object-cover"
                                     alt="Product"
                                 />

@@ -83,6 +83,7 @@ console.log(wishlistItems)
                 isWishlist={wishlistIds.has(item.variantId)}
                 onWishlistToggle={fetchWishlistData}
                 hexCode={item.hexCode}
+                imageUrl={item.productImage}
               />
             </li>
           ))}

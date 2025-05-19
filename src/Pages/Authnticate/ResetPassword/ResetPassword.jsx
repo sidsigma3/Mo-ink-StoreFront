@@ -16,50 +16,55 @@ const ResetPassword = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
-  const accountType = "CUSTOMER"; 
+  const userType = "CUSTOMER"; 
+
+ useEffect(() => {
+    console.log("Token:", token);
+    console.log("UserType:", userType);
+  }, []);
 
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    const showToast = (message, type = "error") => {
-      setToasts([{ message, type }]);
-      setTimeout(() => setToasts([]), 3000);
-    };
-  
-    if (!password || !confirmPassword) {
-      showToast("Please fill out both fields.");
-      return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+   const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+  console.log("hello");
+
+  if (!password || !confirmPassword) {
+    showToast("Please fill out both fields.", "error");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showToast("Passwords do not match.", "error");
+    return;
+  }
+
+  if (!token || !userType) {
+    showToast("Invalid or expired reset link.", "error");
+    return;
+  }
+
+  try {
+    const payload = { token, password, userType };
+    const data = await resetPassword(payload);
+    console.log("Response from resetPassword:", data);
+
+    if (data?.success) {
+      showToast("Password successfully reset!", "success");
+      setTimeout(() => navigate("/login"), 3000);
+    } else {
+      showToast(data?.message || "Something went wrong.", "error");
     }
-  
-    if (password !== confirmPassword) {
-      showToast("Passwords do not match.");
-      return;
-    }
-  
-    if (!token || !accountType) {
-      showToast("Invalid or expired reset link.");
-      return;
-    }
-  
-    try {
-      const payload = { token, password, accountType };
-      const data = await resetPassword(payload);
-      console.log("Response from resetPassword:", data);
-  
-      if (data?.success) {
-        showToast("Password successfully reset!", "success");
-        setTimeout(() => navigate("/login"), 3000);
-      } else {
-        showToast(data?.message || "Something went wrong.");
-      }
-    } catch (error) {
-      showToast("Failed to reset password. Please try again.");
-      console.error(error);
-    }
-  };
-  
+  } catch (error) {
+    showToast("Failed to reset password. Please try again.", "error");
+    console.error(error);
+  }
+};
+
 
     return (
         <div

@@ -99,6 +99,33 @@ export const resetPassword = async (customerData) => {
   }
 };
 
+
+
+export const otpSend = async (customerData) => {
+  try {
+    const response = await axios.post(`${URL}/otp/send`, customerData);
+    return response.data;
+  } catch (error) {
+    console.error("Error sending otp:", error);
+    throw error;
+  }
+};
+
+
+
+export const otpVerify = async (customerData) => {
+  try {
+    const response = await axios.post(`${URL}/otp/verify`, customerData);
+    return response.data;
+  } catch (error) {
+    console.error("Error sending otp:", error);
+    throw error;
+  }
+};
+
+
+
+
 export const sendInquiryEmail = async (payload) => {
   try {
     const response = await axios.post(`${URL}/support/email`, payload);
@@ -108,3 +135,4 @@ export const sendInquiryEmail = async (payload) => {
     throw error;
   }
 };
+

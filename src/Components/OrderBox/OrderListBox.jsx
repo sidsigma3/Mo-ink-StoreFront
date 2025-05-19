@@ -57,13 +57,14 @@ const OrderListBox = ({ item , status , orderId}) => {
   // const totalPrice = discountedCost + gstAmount;
 
 
-  const handleConfirmReturn = async ({ reason, comment }) => {
+  const handleConfirmReturn = async ({ reason, comment ,returnWeight}) => {
     try {
       await updateOrderVariantStatuses(orderId, [
         {
           orderVariantId: item.orderVariantId,
           status: "RETURN_REQUESTED",
           reason,
+          returnWeight,
           remark: comment || "Customer initiated return",
         },
       ]);

@@ -8,10 +8,142 @@ import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { CreditCard, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { updateOrderStatuses } from '../../Services/OrderService';
+import Toast from '../../Components/Toast/Toast';
+import { initiatePayment } from '../../Services/PaymentService';
+import { removeFromCart } from '../../Services/CartService';
+
 
 const PaymentFailure = () => {
 
+  const { state } = useLocation();
   const navigate = useNavigate()
+  const [toasts, setToasts] = useState([]);
+  const [retryCount, setRetryCount] = useState(state?.retryCount || 0);
+
+  const orderId = state?.orderId;
+  const customerId = state?.customerId;
+  const selectedCartItems = state?.selectedCartItems;
+  const onlinePay = state?.onlinePay;
+  const codPay = state?.codPay;
+  const customer = state?.customer
+
+  const showToast = (message, type = "error") => {
+    setToasts([{ message, type }]);
+    setTimeout(() => setToasts([]), 3000);
+  };
+
+  const handleRetryPayment = async () => {
+    if (retryCount >= 2) return;
+  
+    setRetryCount(retryCount + 1);
+  
+    try {
+      const paymentData = await initiatePayment(orderId);
+      const { razorpayOrderId } = paymentData.data;
+  
+      if (!razorpayOrderId || paymentData.status !== "SUCCESS") {
+        showToast("Failed to get valid Razorpay order", "error");
+        return;
+      }
+  
+      const loadScript = (src) => {
+        return new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = src;
+          script.onload = () => resolve(true);
+          script.onerror = () => resolve(false);
+          document.body.appendChild(script);
+        });
+      };
+  
+      const razorpayLoaded = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+  
+      if (!razorpayLoaded) {
+        showToast("Failed to load Razorpay", "error");
+        return;
+      }
+  
+      const rzp = new window.Razorpay({
+        key: "rzp_test_oqL33XMoXAV4ym",
+        amount: Number(onlinePay) * 100,
+        currency: "INR",
+        name: "Mo ink and Dye",
+        description: `Payment for Order #${razorpayOrderId}`,
+        order_id: razorpayOrderId,
+        handler: async function (response) {
+          try {
+            await updateOrderStatuses(orderId, { status: "NEW" });
+  
+            await Promise.all(
+              selectedCartItems.map(item =>
+                removeFromCart(customerId, item.variantId)
+              )
+            );
+  
+            navigate('/paymentSuccess');
+          } catch (error) {
+            console.error("Post-payment flow failed:", error);
+            showToast("Payment succeeded but post-processing failed.", "error");
+            navigate('/paymentFail');
+          }
+        },
+        prefill: {
+          name: customer.customerName || "",
+          email: customer.email || "",
+          contact: customer.phoneNumber || "",
+        },
+        notes: {
+          orderId,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      });
+  
+      rzp.open();
+    } catch (error) {
+      console.error("Retry payment failed:", error);
+      showToast("Something went wrong during retry. Please try again.", "error");
+    }
+  };
+  
+
+  const handlePlaceAsCOD = async () => {
+    try {
+      // Update the order status
+      await updateOrderStatuses(orderId, {
+        status: 'NEW'
+      });
+  
+      // Remove all items from cart after order is successfully placed
+      await Promise.all(
+        selectedCartItems.map(item =>
+          removeFromCart(customerId, item.variantId)
+        )
+      );
+  
+      // Navigate to orders page
+      navigate('/orders');
+    } catch (err) {
+      console.error(err);
+      setToasts([{ message: "Failed to update to COD", type: "error" }]);
+    }
+  };
+  
+
+  const handleCloseOrder = async () => {
+    try {
+      await updateOrderStatuses(orderId, { status: 'FAILED' });
+      navigate('/home');
+    } catch (err) {
+      console.error(err);
+      setToasts([{ message: "Failed to update order", type: "error" }]);
+    }
+  };
+  
+
 
   const breadcrumbs = [
     { label: "Home", link: "/home" },
@@ -58,27 +190,33 @@ const PaymentFailure = () => {
 
                <button
                 className="w-full px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-400 transition-colors font-medium flex items-center justify-center gap-2"
-                onClick={() => navigate('/checkOut')}
+                onClick={handlePlaceAsCOD}
+              
+                
               >
                 Place as COD 
                 <ArrowRight size={20} />
               </button>
   
               <button
-                className="w-full px-4 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-500 transition-colors font-medium flex items-center justify-center gap-2"
-                onClick={() => navigate('/checkOut')}
+                onClick={handleRetryPayment}
+                disabled={retryCount >= 2}
+                className={`w-full px-4 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-500 transition-colors font-medium flex items-center justify-center gap-2 ${
+                  retryCount >= 2 ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
                 <CreditCard size={20} />
                 Retry Payment
-               <ArrowRight size={20} />
+                <ArrowRight size={20} />
               </button>
+
                
             </div>
 
             <div className=" flex flex-col sm:flex-row mt-3 gap-3 w-full lg:w-1/2">
               <button
                 className="w-full px-4 py-3 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors font-medium"
-                onClick={()=>navigate('/home')}
+                onClick={handleCloseOrder}
               >
                 Close
               </button>
@@ -91,6 +229,20 @@ const PaymentFailure = () => {
       <div className='px-6 md:px-14 py-3 mt-10'><Cta /></div>
       <div className='px-6 md:px-14 py-3'> <Footer /></div>
       <BottomNav />
+
+      <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
     </div>
   );
 }

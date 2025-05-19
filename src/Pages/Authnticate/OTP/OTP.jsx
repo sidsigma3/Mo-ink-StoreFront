@@ -1,25 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Toast from "../../../Components/Toast/Toast";
+
+import { otpVerify } from "../../../Services/CustomerService";
+import { useLocation } from "react-router-dom";
+import { createCustomer } from "../../../Services/CustomerService";
 
 const OTP = () => {
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate();
-  const [emailCode, setEmailCode] = useState("");
-  const [phoneCode, setPhoneCode] = useState("");
-  const [toasts, setToasts] = useState([]);
-  const [error, setError] = useState("");
+    const location = useLocation();
+    const customerData = location.state?.customerData;
+    const [message, setMessage] = useState("");
+    const navigate = useNavigate();
+    const [emailCode, setEmailCode] = useState("");
+    const [phoneCode, setPhoneCode] = useState("");
+    const [error, setError] = useState(""); 
 
-  const showToast = (message, type = "error") => {
-    const id = Date.now();
-    setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3000);
-  };
+    const handleNumericInput = (e, setter) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
 
-  const handleNumericInput = (e, setter) => {
-    let value = e.target.value.replace(/\D/g, "");
     if (value.length > 6) {
       showToast("Only 6 digits are allowed", "error");
       value = value.slice(0, 6);
@@ -27,33 +24,49 @@ const OTP = () => {
     setter(value);
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (emailCode.length !== 6 || phoneCode.length !== 6) {
-      showToast("Both OTPs must be 6 digits long.", "error");
+
+    if (!customerData) {
+      alert("Missing customer data. Please register again.");
+      navigate("/register");
       return;
     }
-    showToast("Code verified successfully!", "success");
 
-    setTimeout(() => {
-      setToasts([]);
-      navigate("/");
-    }, 2000);
+    try {
+      // Verify Phone OTP
+      await otpVerify({
+        emailOrPhone: customerData.phoneNumber,
+        otp: phoneCode,
+        accountType: "CUSTOMER",
+        otpType: "PHONE",
+      });
+
+      // Verify Email OTP
+      await otpVerify({
+        emailOrPhone: customerData.email,
+        otp: emailCode,
+        accountType: "CUSTOMER",
+        otpType: "EMAIL",
+      });
+
+      // ✅ After successful OTP verification, create customer
+      await createCustomer(customerData);
+
+      alert("Account created and OTP verified successfully!");
+      navigate("/login");
+    } catch (error) {
+      alert("OTP verification or account creation failed.");
+      console.error("Error:", error);
+    }
   };
 
-  const resendEmailOTP = (e) => {
-    e.preventDefault();
-    showToast("Email OTP resent successfully!", "success");
-  };
+    return (
+        <div
+            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
+            <div
 
-  const resendPhoneOTP = (e) => {
-    e.preventDefault(); 
-    showToast("Phone OTP resent successfully!", "success");
-  };
-
-  return (
-    <div className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
-      <div
         className="absolute inset-0 bg-center bg-cover filter blur-sm z-0"
         style={{
           backgroundImage:

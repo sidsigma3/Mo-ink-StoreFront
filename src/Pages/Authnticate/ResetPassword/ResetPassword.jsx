@@ -16,11 +16,11 @@ const ResetPassword = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
-  const userType = "CUSTOMER"; 
+  const accountType = "CUSTOMER"; 
 
  useEffect(() => {
     console.log("Token:", token);
-    console.log("UserType:", userType);
+    console.log("UserType:", accountType);
   }, []);
 
 
@@ -59,11 +59,45 @@ const handleSubmit = async (e) => {
     } else {
       showToast(data?.message || "Something went wrong.", "error");
     }
-  } catch (error) {
-    showToast("Failed to reset password. Please try again.", "error");
-    console.error(error);
-  }
-};
+
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    if (!token || !accountType) {
+      alert("Invalid or expired reset link.");
+      return;
+    }
+
+    try {
+      const payload = {
+        token,
+        password,
+        accountType,
+      };
+
+      const data = await resetPassword(payload);
+
+      console.log("Response from resetPassword:", data); 
+
+      if (data?.success) {
+        setShowToast(true);
+        setTimeout(() => {
+          setShowToast(false);
+          navigate("/login");
+        }, 3000);
+      } else {
+        alert(data?.message || "Something went wrong.");
+      }
+    } catch (error) {
+      alert("Failed to reset password. Please try again.");
+      console.error(error);
+    }
+  };
+
+
 
 
     return (

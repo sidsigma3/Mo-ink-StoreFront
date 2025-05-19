@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SignupPage.css';
 import { useNavigate } from "react-router-dom";
 import ToggleBtn from '../../../Components/Buttons/ToggleButton/ToggleBtn';
@@ -14,8 +14,9 @@ const SignupPage = ({ togglePage, isLogin }) => {
     whatsappNumber: '',
     email: '',
     password: '',
-    company: '',
     gstNumber: '',
+    company: '',
+    gstVerified: null,
     hasGst: true,
     panNumber: '',
     cancelledCheque: '',
@@ -32,10 +33,65 @@ const SignupPage = ({ togglePage, isLogin }) => {
 
   const [loading, setLoading] = useState(false);
 
+   const [isVerifying, setIsVerifying] = useState(false);
+
+  // Watch GST field and trigger API when 15 characters are entered
+  useEffect(() => {
+    const validateGST = async () => {
+      setIsVerifying(true);
+      try {
+        const response = await fetch("https://api.bulkpe.in/client/verifyGstin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            gstin: formData.gstNumber,
+            reference: `REF-${Date.now()}`, // unique
+          }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          setFormData((prev) => ({
+            ...prev,
+            gstVerified: true,
+            company: data.data?.lgnm || "",
+          }));
+        } else {
+          setFormData((prev) => ({
+            ...prev,
+            gstVerified: false,
+          }));
+        }
+      } catch (err) {
+        console.error("GST validation failed:", err);
+        setFormData((prev) => ({
+          ...prev,
+          gstVerified: false,
+        }));
+      } finally {
+        setIsVerifying(false);
+      }
+    };
+
+    if (formData.gstNumber.length === 15) {
+      validateGST();
+    } else if (formData.gstNumber.length < 15) {
+      setFormData((prev) => ({
+        ...prev,
+        gstVerified: null,
+        company: "",
+      }));
+    }
+  }, [formData.gstNumber]);
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
@@ -48,6 +104,42 @@ const SignupPage = ({ togglePage, isLogin }) => {
       gstNumber: !prev.hasGst ? "" : prev.gstNumber, // optional: clear GST input if unchecked
     }));
   };
+
+  const verifyGstNumber = async (gstNumber) => {
+  try {
+    const response = await fetch("https://api.bulkpe.in/client/verifyGstin", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer aWSVQNyt+z3IiJHV+YX9UgyVVGvsw7WKbYHBMvfjwQu8B4ZH0TDo5/foe26Zf/Qj4idKNyezUG3ux15YcAHqaKyAIyGvXVP5Wap/YcqusaqUvpabVex0BKwk+CTPqH9tka9xfjHYM2wHwPSWUCXZOw==",
+  },
+  body: JSON.stringify({
+    gstin: formData.gstNumber.trim(),
+    reference: `REF-${Math.floor(Math.random() * 1000000)}`
+  }),
+});
+
+
+    const data = await response.json();
+
+    if (data.success) {
+    setFormData((prev) => ({
+      ...prev,
+    gstVerified: true,
+    company: data.data?.lgnm || "",
+  }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        gstVerified: false,
+      }));
+      alert("Invalid GST number");
+    }
+  } catch (error) {
+    console.error("Error verifying GST:", error);
+    alert("Failed to verify GST number. Try again.");
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -225,29 +317,44 @@ const SignupPage = ({ togglePage, isLogin }) => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex flex-col w-full">
-              <label className="">Company</label>
-              <input
-                className="login-input rounded-full text-black px-4 py-1"
-                placeholder="Company"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-              />
-            </div>
+          
+            {/* GST Number Field */}
+      <div className="flex flex-col w-full relative">
+        <label>GST Number</label>
+        <input
+          className="login-input rounded-full text-black px-4 py-1"
+          placeholder="GST number"
+          name="gstNumber"
+          value={formData.gstNumber}
+          onChange={handleChange}
+          disabled={!formData.hasGst}
+          maxLength={15}
+        />
+        {formData.gstNumber.length === 15 && (
+          <span className="absolute right-3 top-7 text-lg">
+            {isVerifying ? (
+              <span className=" text-center text-yellow-500">⏳</span> 
+            ) : formData.gstVerified ? (
+              <span className=" text-center text-green-600">✔️</span>
+            ) : (
+              <span className=" text-center text-red-500">❌</span>
+            )}
+          </span>
+        )}
+      </div>
 
-              <div className="flex flex-col w-full">
-              <label>GST Number</label>
-              <input
-                className="login-input rounded-full text-black px-4 py-1"
-                placeholder="GST number"
-                name="gstNumber"
-                value={formData.gstNumber}
-                onChange={handleChange}
-                disabled={!formData.hasGst}
-              />
-            </div>
-          </div>
+        {/* Company Field */}
+        <div className="flex flex-col w-full">
+          <label className="">Company</label>
+          <input
+            className="login-input rounded-full text-black px-4 py-1"
+            placeholder="Company"
+            name="company"
+            value={formData.company}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
 
 
               <div className="flex flex-row justify-between items-center text-sm text-gray-300 mb-4">

@@ -4,6 +4,7 @@ import Toast from "../../../Components/Toast/Toast";
 import { otpVerify } from "../../../Services/CustomerService";
 import { useLocation } from "react-router-dom";
 import { createCustomer } from "../../../Services/CustomerService";
+import ModalOTPVerified from "../../../Components/Modal/ModalOTPVerified";
 
 const OTP = () => {
     const location = useLocation();
@@ -14,7 +15,8 @@ const OTP = () => {
     const [phoneCode, setPhoneCode] = useState("");
     const [error, setError] = useState(""); 
     const [toasts, setToasts] = useState([]); 
-    
+    const [isOtpVerified, setIsOtpVerified] = useState(false);
+
     const showToast = (message, type = "error") => {
       setToasts([{ message, type }]);
       setTimeout(() => setToasts([]), 3000);
@@ -31,43 +33,42 @@ const OTP = () => {
     setter(value);
   };
 
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  if (!customerData) {
+    showToast("Missing customer data. Please register again.", "error");
+    navigate("/");
+    return;
+  }
 
-    if (!customerData) {
-      alert("Missing customer data. Please register again.");
-      navigate("/register");
-      return;
-    }
+  try {
+    // Verify Phone OTP
+    await otpVerify({
+      emailOrPhone: customerData.phoneNumber,
+      otp: phoneCode,
+      accountType: "CUSTOMER",
+      otpType: "PHONE",
+    });
 
-    try {
-      // Verify Phone OTP
-      await otpVerify({
-        emailOrPhone: customerData.phoneNumber,
-        otp: phoneCode,
-        accountType: "CUSTOMER",
-        otpType: "PHONE",
-      });
+    // Verify Email OTP
+    await otpVerify({
+      emailOrPhone: customerData.email,
+      otp: emailCode,
+      accountType: "CUSTOMER",
+      otpType: "EMAIL",
+    });
 
-      // Verify Email OTP
-      await otpVerify({
-        emailOrPhone: customerData.email,
-        otp: emailCode,
-        accountType: "CUSTOMER",
-        otpType: "EMAIL",
-      });
+    // Create customer
+    await createCustomer(customerData);
+    setIsOtpVerified(true);
 
-      // ✅ After successful OTP verification, create customer
-      await createCustomer(customerData);
+  } catch (error) {
+    console.error("Error:", error);
+    showToast("OTP verification failed.", "error");
+  }
+};
 
-      alert("Account created and OTP verified successfully!");
-      navigate("/login");
-    } catch (error) {
-      alert("OTP verification or account creation failed.");
-      console.error("Error:", error);
-    }
-  };
 
   const resendEmailOTP = (e) => {
     e.preventDefault();
@@ -194,6 +195,15 @@ const OTP = () => {
           </button>
         </div>
       </div>
+      {isOtpVerified && (
+  <ModalOTPVerified
+    onClose={() => {
+      setIsOtpVerified(false);
+      navigate("/login");
+    }}
+  />
+)}
+
     </div>
   );
 };

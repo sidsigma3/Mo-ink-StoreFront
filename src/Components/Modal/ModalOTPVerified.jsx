@@ -42,7 +42,7 @@ const ModalOTPVerified = ({ isOpen, onClose }) => {
         </h2>
 
         <p className="text-md mb-4 text-gray-500">
-          Our confirmation details will be sent shortly. Sit back and relax while we prepare your order!
+          We've confirmed your code. You're all set to proceed with your secure session.
         </p>
       </div>
     </div>

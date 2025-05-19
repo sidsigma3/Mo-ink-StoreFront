@@ -18,87 +18,48 @@ const ResetPassword = () => {
   const token = queryParams.get("token");
   const accountType = "CUSTOMER"; 
 
- useEffect(() => {
-    console.log("Token:", token);
-    console.log("UserType:", accountType);
-  }, []);
 
 
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-   const showToast = (message, type = "error") => {
-            setToasts([{ message, type }]);
-            setTimeout(() => setToasts([]), 3000);
-          };
-  console.log("hello");
-
-  if (!password || !confirmPassword) {
-    showToast("Please fill out both fields.", "error");
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    showToast("Passwords do not match.", "error");
-    return;
-  }
-
-  if (!token || !userType) {
-    showToast("Invalid or expired reset link.", "error");
-    return;
-  }
-
-  try {
-    const payload = { token, password, userType };
-    const data = await resetPassword(payload);
-    console.log("Response from resetPassword:", data);
-
-    if (data?.success) {
-      showToast("Password successfully reset!", "success");
-      setTimeout(() => navigate("/login"), 3000);
-    } else {
-      showToast(data?.message || "Something went wrong.", "error");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const showToast = (message, type = "error") => {
+      setToasts([{ message, type }]);
+      setTimeout(() => setToasts([]), 3000);
+    };
+  
+    if (!password || !confirmPassword) {
+      showToast("Please fill out both fields.");
+      return;
     }
-
-
+  
     if (password !== confirmPassword) {
-      alert("Passwords do not match.");
+      showToast("Passwords do not match.");
       return;
     }
-
+  
     if (!token || !accountType) {
-      alert("Invalid or expired reset link.");
+      showToast("Invalid or expired reset link.");
       return;
     }
-
+  
     try {
-      const payload = {
-        token,
-        password,
-        accountType,
-      };
-
+      const payload = { token, password, accountType };
       const data = await resetPassword(payload);
-
-      console.log("Response from resetPassword:", data); 
-
+      console.log("Response from resetPassword:", data);
+  
       if (data?.success) {
-        setShowToast(true);
-        setTimeout(() => {
-          setShowToast(false);
-          navigate("/login");
-        }, 3000);
+        showToast("Password successfully reset!", "success");
+        setTimeout(() => navigate("/login"), 3000);
       } else {
-        alert(data?.message || "Something went wrong.");
+        showToast(data?.message || "Something went wrong.");
       }
     } catch (error) {
-      alert("Failed to reset password. Please try again.");
+      showToast("Failed to reset password. Please try again.");
       console.error(error);
     }
   };
-
-
-
+  
 
     return (
         <div

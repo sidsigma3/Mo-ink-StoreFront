@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import './SignupPage.css';
 import { useNavigate } from "react-router-dom";
 import ToggleBtn from '../../../Components/Buttons/ToggleButton/ToggleBtn';
-import { createCustomer } from '../../../Services/CustomerService';
+import { createCustomer , otpSend } from '../../../Services/CustomerService';
+
 
 const SignupPage = ({ togglePage, isLogin }) => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     const customerData = {
       customerName: `${formData.firstName} ${formData.lastName}`.trim(),
       phoneNumber: formData.phoneNumber || null,
@@ -74,20 +75,39 @@ const SignupPage = ({ togglePage, isLogin }) => {
       ],
       customerStatus: 'ACTIVE',
     };
-
+  
     try {
-      const response = await createCustomer(customerData);
-      alert('Account created successfully!');
-      console.log('Customer Created:', response);
-      e.target.reset();
-      navigate("/otp")
+      // Send OTPs
+      if (formData.phoneNumber) {
+        await otpSend({
+          emailOrPhone: formData.phoneNumber,
+          accountType: "CUSTOMER",
+          otpType: "PHONE",
+        });
+      }
+  
+      if (formData.email) {
+        await otpSend({
+          emailOrPhone: formData.email,
+          accountType: "CUSTOMER",
+          otpType: "EMAIL",
+        });
+      }
+  
+      // Navigate to OTP page with full customer data
+      navigate("/otp", {
+        state: {
+          customerData,  // whole object passed to OTP page
+        },
+      });
     } catch (error) {
-      alert('Failed to create account!');
+      alert("Failed to send OTP!");
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div

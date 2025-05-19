@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { otpVerify } from "../../../Services/CustomerService";
+import { useLocation } from "react-router-dom";
+import { createCustomer } from "../../../Services/CustomerService";
 
 const OTP = () => {
+    const location = useLocation();
+    const customerData = location.state?.customerData;
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
     const [emailCode, setEmailCode] = useState("");
@@ -19,13 +24,42 @@ const OTP = () => {
     setter(value);
   };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Email OTP:", emailCode);
-        console.log("Phone OTP:", phoneCode);
-        // Add actual verification logic here
-        // setMessage("Code verified successfully!");
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!customerData) {
+      alert("Missing customer data. Please register again.");
+      navigate("/register");
+      return;
+    }
+
+    try {
+      // Verify Phone OTP
+      await otpVerify({
+        emailOrPhone: customerData.phoneNumber,
+        otp: phoneCode,
+        accountType: "CUSTOMER",
+        otpType: "PHONE",
+      });
+
+      // Verify Email OTP
+      await otpVerify({
+        emailOrPhone: customerData.email,
+        otp: emailCode,
+        accountType: "CUSTOMER",
+        otpType: "EMAIL",
+      });
+
+      // ✅ After successful OTP verification, create customer
+      await createCustomer(customerData);
+
+      alert("Account created and OTP verified successfully!");
+      navigate("/login");
+    } catch (error) {
+      alert("OTP verification or account creation failed.");
+      console.error("Error:", error);
+    }
+  };
 
     return (
         <div

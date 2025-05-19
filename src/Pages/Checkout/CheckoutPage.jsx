@@ -694,41 +694,30 @@ const CheckoutPage = () => {
 
       const handleOnlinePaymentFlow = async () => {
         const showToast = (message, type = "error") => {
-            setToasts([{ message, type }]);
-            setTimeout(() => setToasts([]), 3000);
-          };
-
+          setToasts([{ message, type }]);
+          setTimeout(() => setToasts([]), 3000);
+        };
+      
+        let orderId = null; // Declare here to use in catch
+      
         try {
-            if (!customerId) {
-                showToast("Customer info missing!", "error");
-                return;
-              }
-          
-              if (selectedCartItems.length === 0) {
-                showToast("Cart is empty!", "error");
-                return;
-              }
+          if (!customerId) {
+            showToast("Customer info missing!", "error");
+            return;
+          }
+      
+          if (selectedCartItems.length === 0) {
+            showToast("Cart is empty!", "error");
+            return;
+          }
       
           const orderVariants = buildDetailedOrderVariantsForPayment(selectedCartItems);
-      
-          if (orderVariants.length === 0 ) {
+          if (orderVariants.length === 0) {
             showToast("No valid items or weight!", "error");
-
             return;
           }
       
-          const totalCgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantCgst || 0), 0);
-          const totalSgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantSgst || 0), 0);
-          const totalDiscount = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0);
-          const totalHandlingCharges = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0);
-          const totalQuantity = orderVariants.length;
           const totalAmount = Number(adjustedNetPay).toFixed(0);
-      
-          if (orderVariants.length === 0 || totalQuantity === 0) {
-            showToast("No valid items or weight!", "error");
-            return;
-          }
-
           const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
       
           const orderData = {
@@ -741,7 +730,7 @@ const CheckoutPage = () => {
             totalAmount: Number(totalAmount),
             discountId: appliedCoupon?.discountId || null,
             walletAmount: walletUsedAmount,
-            quantity: totalQuantity,
+            quantity: orderVariants.length,
             paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
             payment: {
               totalAmount: Number(totalAmount),
@@ -751,16 +740,16 @@ const CheckoutPage = () => {
               paidAmount: onlinePay,
               pendingAmount: codPay,
               paymentStatus: "UNPAID",
-              totalDiscount: totalDiscount,
+              totalDiscount: orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0),
               totalSgst: (gstAmount / 2).toFixed(2),
               totalCgst: (gstAmount / 2).toFixed(2),
-              totalHandlingCharges,
+              totalHandlingCharges: orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0),
             },
             orderVariants,
           };
       
           const createdOrder = await createOrder(orderData);
-          const orderId = createdOrder.data?.orderId;
+          orderId = createdOrder.data?.orderId;
       
           const paymentData = await initiatePayment(orderId);
           const { razorpayOrderId } = paymentData.data;
@@ -786,8 +775,7 @@ const CheckoutPage = () => {
             return;
           }
       
-          const options = {
-            
+          const rzp = new window.Razorpay({
             key: "rzp_test_oqL33XMoXAV4ym",
             amount: Number(onlinePay) * 100,
             currency: "INR",
@@ -796,19 +784,14 @@ const CheckoutPage = () => {
             order_id: razorpayOrderId,
             handler: async function (response) {
               try {
-                console.log("Payment Success", response);
-      
-                // ✅ Update order status to NEW after payment success
                 await updateOrderStatuses(orderId, { status: "NEW" });
       
-                // ✅ Remove items from cart
                 await Promise.all(
                   selectedCartItems.map(item =>
                     removeFromCart(customerId, item.variantId)
                   )
                 );
       
-                // ✅ Navigate to success page after everything is complete
                 navigate('/paymentSuccess');
               } catch (error) {
                 console.error("Post-payment flow failed:", error);
@@ -827,25 +810,30 @@ const CheckoutPage = () => {
             theme: {
               color: "#3399cc",
             },
-          };
+          });
       
-          const rzp = new window.Razorpay(options);
-          const showToast = (message, type = "error") => {
-            setToasts([{ message, type }]);
-            setTimeout(() => setToasts([]), 3000);
-          };
           rzp.open();
       
         } catch (err) {
-            console.error("Payment initiation failed:", err);
-            showToast("Something went wrong. Please try again.", "error");
-            
-            setTimeout(() => {
-              navigate('/paymentFail');
-            }, 3000);
-            
+          console.error("Payment initiation failed:", err);
+          showToast("Something went wrong. Please try again.", "error");
+      
+          setTimeout(() => {
+            navigate('/paymentFail', {
+              state: {
+                orderId,
+                customerId,
+                selectedCartItems,
+                onlinePay,
+                codPay,
+                customer,
+                retryCount: 0,
+              }
+            });
+          }, 3000);
         }
       };
+      
       
       
       const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
@@ -1451,7 +1439,7 @@ const CheckoutPage = () => {
             />
 
   {/* Toast Notification */}
-     <div className="fixed top-4 right-4 z-50 space-y-2">
+            <div className="fixed top-4 right-4 z-50 space-y-2">
                 {toasts.map((toast) => (
                     <Toast
                         key={toast.id}

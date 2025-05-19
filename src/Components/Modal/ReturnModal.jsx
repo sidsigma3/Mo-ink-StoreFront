@@ -4,14 +4,16 @@ import React, { useState } from "react";
 const ReturnModal = ({ isOpen, onClose, onConfirm, weight }) => {
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
-  const [returnWeight, setReturnWeight] = useState(0);
+  const [returnWeight, setReturnWeight] = useState("");
 
   if (!isOpen) return null;
 
   const handleWeightChange = (e) => {
-    setReturnWeight(Number(e.target.value)); // Ensure it's a number
+    const value = e.target.value;
+    // Allow empty string to let user fully clear input
+    setReturnWeight(value === "" ? "" : Number(value));
   };
-
+  
   const isSubmitDisabled = !reason || returnWeight <= 0 || returnWeight > weight;
 
   const handleConfirm = () => {

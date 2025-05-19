@@ -14,11 +14,11 @@ const ResetPassword = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
-  const userType = "CUSTOMER"; 
+  const accountType = "CUSTOMER"; 
 
  useEffect(() => {
     console.log("Token:", token);
-    console.log("UserType:", userType);
+    console.log("UserType:", accountType);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -36,7 +36,7 @@ const ResetPassword = () => {
       return;
     }
 
-    if (!token || !userType) {
+    if (!token || !accountType) {
       alert("Invalid or expired reset link.");
       return;
     }
@@ -45,7 +45,7 @@ const ResetPassword = () => {
       const payload = {
         token,
         password,
-        userType,
+        accountType,
       };
 
       const data = await resetPassword(payload);

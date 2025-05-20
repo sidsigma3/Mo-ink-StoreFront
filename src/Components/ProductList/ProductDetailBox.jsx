@@ -24,6 +24,7 @@ const ProductDetailBox = ({
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
   const [justRemoved, setJustRemoved] = useState(false);
   const [quantity, setQuantity] = useState(itemQuantity || 1);
+  const [cartItems, setCartItems] = useState([]);
 
   const [toasts, setToasts] = useState([]);
   const showToast = (message, type = "success") => {
@@ -39,27 +40,27 @@ const ProductDetailBox = ({
 
   const handleWishlistClick = async () => {
     if (!customer?.customerId) return;
-
+  
     try {
       if (isWishlisted) {
         await removeFromWishlist(customer.customerId, variantId);
         setIsWishlisted(false);
         setJustRemoved(true);
-        setToasts(prev => [...prev, {  message: "Removed from wishlist!", type: "error" }]);
+        setToasts(prev => [...prev, { message: "Removed from wishlist!", type: "error" }]);
       } else {
-        const cart = await getCart(customer.customerId);
-        const inCart = cart?.cartItems?.some(item => item.variantId === variantId);
+        const inCart = cartItems.some(item => item.variantId === variantId);
         if (inCart) {
           await removeFromCart(customer.customerId, variantId);
           setIsInCart(false);
+          setCartItems(prev => prev.filter(item => item.variantId !== variantId));
         }
-
+  
         await addToWishlist(customer.customerId, variantId);
         setIsWishlisted(true);
         setJustRemoved(false);
-        setToasts(prev => [...prev, {  message: "Item added to wishlist"}]);
+        setToasts(prev => [...prev, { message: "Item added to wishlist" }]);
       }
-
+  
       onWishlistToggle?.();
       onCartToggle?.();
       updateCartAndWishlistCounts();
@@ -68,30 +69,31 @@ const ProductDetailBox = ({
       showToast("Failed to update wishlist.", "error");
     }
   };
+  
 
   const handleAddToCart = async () => {
     if (!customer?.customerId) {
       showToast("Please log in to add items to your cart.", "error");
       return;
     }
-
+  
     try {
-      const cart = await getCart(customer.customerId);
-      const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
-
+      const alreadyInCart = cartItems.some(item => item.variantId === variantId);
+  
       if (alreadyInCart) {
         setIsInCart(true);
         showToast("Item is already in your Cart!");
         return;
       }
-
+  
       await removeFromWishlist(customer.customerId, variantId);
       setIsWishlisted(false);
       setJustRemoved(true);
       onWishlistToggle?.();
-
+  
       await addToCart(customer.customerId, variantId, quantity);
       setIsInCart(true);
+      setCartItems(prev => [...prev, { variantId, quantity }]);
       updateCartAndWishlistCounts();
       showToast("Item is moved to cart!");
     } catch (error) {
@@ -99,25 +101,23 @@ const ProductDetailBox = ({
       showToast("Failed to add item to cart!", "error");
     }
   };
+  
 
   const handleCartButtonClick = () => {
     isInCart ? navigate("/shoppingCart") : handleAddToCart();
   };
 
   useEffect(() => {
-    const checkCartStatus = async () => {
-      if (customer?.customerId) {
-        const cart = await getCart(customer.customerId);
-        const alreadyInCart = cart?.cartItems?.some(item => item.variantId === variantId);
-        setIsInCart(alreadyInCart);
-      }
-    };
-    checkCartStatus();
-  }, [customer, variantId]);
-
-  useEffect(() => {
-    setIsWishlisted(isWishlist);
-  }, [isWishlist]);
+    if (!customer?.customerId) return;
+  
+    const storedCartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const storedWishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+  
+    setCartItems(storedCartItems);
+    setIsInCart(storedCartItems.some(item => item.variantId === variantId));
+    setIsWishlisted(storedWishlistItems.some(item => item.variantId === variantId));
+  }, [customer?.customerId]);
+  
 
   return (
     <>

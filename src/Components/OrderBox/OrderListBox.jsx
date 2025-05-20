@@ -21,6 +21,8 @@ const OrderListBox = ({ item , status , orderId}) => {
   const [pricePerKg, setPricePerKg] = useState(0);
   const [gstRate, setGstRate] = useState(0);
   const [productFetched, setProductFetched] = useState(false);
+  const [productImage,setProductImage] = useState()
+  const backendUrl = process.env.REACT_APP_IMAGE_URL
 
   const weight = parseFloat(item.orderWeight) || 0;
   
@@ -30,7 +32,8 @@ const OrderListBox = ({ item , status , orderId}) => {
       const product = res.data;
       setProductName(product.productName);
       setGstRate(Number(product.gstOnProduct) || 0);
-  
+      setProductImage(product.productImage)
+
       const matchedVariant = product.variants.find(
         (v) =>
           v.size === item.size &&
@@ -80,6 +83,8 @@ const OrderListBox = ({ item , status , orderId}) => {
   };
 
 
+  console.log(productImage)
+
   const statusOptions = {
     NEW: "New Order" ,
     CANCELLED: "Cancelled",
@@ -112,7 +117,7 @@ const OrderListBox = ({ item , status , orderId}) => {
       {/* Product Image */}
       <div className="col-span-3 lg:col-span-2 flex items-center justify-end">
         <img
-          src="/images/wool-item-1.png"
+          src={`${backendUrl}${productImage}`}
           className="rounded-md size-32"
           alt="Product"
         />

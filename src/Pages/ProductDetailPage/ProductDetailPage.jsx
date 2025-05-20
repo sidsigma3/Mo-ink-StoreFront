@@ -18,18 +18,20 @@ import { updateProduct , fetchProductsById, fetchProducts} from '../../Services/
 import ModalAddColor from '../../Components/Modal/ModalAddColor'
 import Toast from '../../Components/Toast/Toast';
 import namer from 'color-namer';
+import { useAppContext } from '../../Utils/commoncontext'
 
 
 
 
 const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
+    const {updateCartAndWishlistCounts } = useAppContext()
     const backendUrl = process.env.REACT_APP_IMAGE_URL
     const location = useLocation();
     const navigate = useNavigate();
     const [isInCart, setIsInCart] = useState();
     const [isWishlisted, setIsWishlisted] = useState();
     const [justRemoved, setJustRemoved] = useState();
-    const { product, size, color, price ,variantType} = location.state || {};
+    const { product, size, color, price ,variantType , markupPrice} = location.state || {};
     const [filteredColors, setFilteredColors] = useState([]);
     const [moreColors, setMoreColors] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -228,6 +230,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           
           // Optionally, clear selected colors after adding them to the cart
           setSelectedColors([]);
+          updateCartAndWishlistCounts();
       
         } catch (error) {
           console.error("Error adding to cart:", error);
@@ -250,7 +253,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           return;
         }
       
-        console.log("Colors added:", tempCustomColors);
+      
 
       
         try {
@@ -373,7 +376,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           setTempCustomColors([]);
           setIsAddingColor(false);
           setIsModalOpen(true)
-          alert("New color variants added successfully!");
+        
         } catch (error) {
           console.error("Error adding color variants:", error);
           showToast("Failed to add color variants. Please try again.", "error");
@@ -480,7 +483,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             <h4 className="purple-text font-bold text-2xl md:text-4xl">₹{price}</h4>
                             <div>
                                 <p className='text-yellow-500 font-medium text-sm'>26% Off</p>
-                                <p className="text-slate-400 font-medium"><s>₹{product.compareAtPrice}</s></p>
+                                <p className="text-slate-400 font-medium"><s>₹{markupPrice}</s></p>
                             </div>
 
                         </div>
@@ -540,7 +543,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                             <div
                                 ref={modalRef}
-                                className={`fixed top-0 right-0 w-80 h-full bg-white shadow-lg transform z-50 ${isModalOpen ? "translate-x-0" : "translate-x-full"
+                                className={`fixed top-0 right-0 w-74 h-full bg-white shadow-lg transform z-50 ${isModalOpen ? "translate-x-0" : "translate-x-full"
                                     } transition-transform duration-300 ease-in-out p-4`}
                             >
                                 <button
@@ -677,9 +680,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
                                         <h4 className="mt-4 text-lg font-semibold ">Preset Catalogue</h4>
-                                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 p-2">
-
-                                         {filteredColorsTemp.map((aVariant) => {
+                                        <div className="h-[32rem] overflow-y-auto p-2">
+                                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                                            {filteredColorsTemp.map((aVariant) => {
                                             const isSelected = modalSelectedColors.find((color) => color.color.id === aVariant.color.id);
                                             return (
                                                 <ColorCard
@@ -691,6 +694,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                             );
                                             })}
                                         </div>
+                                        </div>
+
                                         
 
                                         {/* <div className='h-[28rem] md:h-[32rem] overflow-auto'>
@@ -785,8 +790,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                                 <button
                                     onClick={() => {
-                                    setSelectedColors((prev) => prev.filter((c) => c.id !== color.color.id));
-                                    setIsInCart(false); // Reset the button
+                                        setSelectedColors((prev) => prev.filter((c) => c.id !== color.id));
+                                        setIsInCart(false); // Reset the button
                                     }}
                                     className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full p-1"
                                 >

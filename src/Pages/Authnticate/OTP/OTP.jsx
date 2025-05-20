@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Toast from "../../../Components/Toast/Toast";
-import { otpVerify } from "../../../Services/CustomerService";
+import { otpVerify ,otpSend} from "../../../Services/CustomerService";
 import { useLocation } from "react-router-dom";
 import { createCustomer } from "../../../Services/CustomerService";
 import ModalOTPVerified from "../../../Components/Modal/ModalOTPVerified";
@@ -70,14 +70,44 @@ const handleSubmit = async (e) => {
 };
 
 
-  const resendEmailOTP = (e) => {
-    e.preventDefault();
-    showToast("Email OTP resent successfully!", "success");
+const resendEmailOTP = async (e) => {
+  e.preventDefault();
+  try {
+    if (customerData.email) {
+      await otpSend({
+        emailOrPhone: customerData.email,
+        accountType: "CUSTOMER",
+        otpType: "EMAIL",
+      });
+      showToast("Email OTP resent successfully!", "success");
+    } else {
+      showToast("Missing email address.", "error");
+    }
+  } catch (error) {
+    console.error("Resend email OTP error:", error);
+    showToast("Failed to resend Email OTP.", "error");
   }
-    const resendPhoneOTP = (e) => {
-      e.preventDefault(); 
+};
+
+const resendPhoneOTP = async (e) => {
+  e.preventDefault();
+  try {
+    if (customerData.phoneNumber) {
+      await otpSend({
+        emailOrPhone: customerData.phoneNumber,
+        accountType: "CUSTOMER",
+        otpType: "PHONE",
+      });
       showToast("Phone OTP resent successfully!", "success");
-    };
+    } else {
+      showToast("Missing phone number.", "error");
+    }
+  } catch (error) {
+    console.error("Resend phone OTP error:", error);
+    showToast("Failed to resend Phone OTP.", "error");
+  }
+};
+
   
     return (
         <div

@@ -7,7 +7,7 @@ import { useAppContext } from '../../Utils/commoncontext';
 
 
 
-const ProductDetailBoxMini = ({ productName, price, size, color, itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,
+const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,
   isSelected = false,
   showCart = true,
   onSelectChange = () => { },

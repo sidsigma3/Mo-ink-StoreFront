@@ -4,12 +4,12 @@ import { FaRegHeart } from "react-icons/fa";
 import { LuPencilRuler } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
-const CategoryBox = ({ size, color, price , product , variantType }) => {
+const CategoryBox = ({ size, color, price , product , variantType ,markupPrice }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate("/productDetails", {
-      state: { product, size, variantType, color, price },
+      state: { product, size, variantType, color, price ,markupPrice },
     });
   };
 

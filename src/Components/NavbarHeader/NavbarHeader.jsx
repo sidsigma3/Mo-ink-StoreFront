@@ -34,7 +34,6 @@ const NavbarHeader = () => {
     navigate("/wishlist")
   }
 
-
   const handleCart = () => {
     navigate("/shoppingCart")
   }

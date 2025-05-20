@@ -16,10 +16,43 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 import WhatsAppWidget from '../../Components/WhatsappWidget';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import ModalWelcome from '../../Components/Modal/ModalWelcome'
-
-
+import { getCart } from '../../Services/CartService'
+import { getWishlist } from '../../Services/WishlistService'
 
 const LandingPage = () => {
+
+
+  const customer = JSON.parse(localStorage.getItem("userData"))
+
+
+  const fetchAndStoreCartAndWishlist = async (customerId) => {
+    if (!customerId) return;
+  
+    try {
+      const [cart, wishlist] = await Promise.all([
+        getCart(customerId),
+        getWishlist(customerId)
+      ]);
+  
+      const cartItems = cart?.variantIds || [];
+      const wishlistItems = wishlist?.wishlistItems || [];
+  
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      localStorage.setItem("wishlistItems", JSON.stringify(wishlistItems));
+    } catch (err) {
+      console.error("Failed to fetch cart or wishlist", err);
+    }
+  };
+  
+
+  useEffect(() => {
+    if (customer?.customerId) {
+      fetchAndStoreCartAndWishlist(customer.customerId);
+    }
+  }, [customer?.customerId]);
+  
+
+
   return (
     <div className="overflow-hidden">
       <div className='w-full'> <ModalWelcome /></div>

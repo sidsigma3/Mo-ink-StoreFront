@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useMemo } from 'react'
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -26,28 +26,39 @@ const Category = () => {
     const getProducts = async () => {
       const response = await fetchProducts();
       if (response.success) {
-        setProducts(response.data);
-
-        // ✅ Automatically select the first category when data is loaded
-        if (response.data.length > 0) {
-          setSelectedCategory(response.data[0].productName);
+        const fetchedProducts = response.data;
+        setProducts(fetchedProducts);
+  
+        if (fetchedProducts.length > 0) {
+          const firstProduct = fetchedProducts[0];
+          setSelectedCategory(firstProduct.productName);
+  
+          // 🧠 Extract unique sizes (counters) and variant types
+          const sizes = Array.from(new Set(firstProduct.variants.map(v => v.size)));
+          const types = Array.from(new Set(firstProduct.variants.map(v => v.variantType)));
+  
+          // ✅ Preselect first available size and type
+          setSelectedCounters(sizes.length > 0 ? [sizes[0]] : []);
+          setSelectedVariantType(types.length > 0 ? types[0] : "");
         }
       } else {
         console.error(response.message);
       }
     };
-
+  
     getProducts();
   }, []);
+  
 
   // const [selectedTypes, setSelectedTypes] = useState([]);
   // const [selectedType, setSelectedType] = useState(null);
 
 
-  const variantType  = [
-    { name: "Cone", count: 2 },
-    { name: "Hank", count: 3 },
+  const variantType = [
+    { name: "CONE" },
+    { name: "HANK" },
   ];
+  ;
 
 const [selectedVariantType, setSelectedVariantType] = useState([]);
 
@@ -130,6 +141,60 @@ const counters = [
 
   const finalData = aggregateProductData(products)
 
+
+
+  const derivedCounters = useMemo(() => {
+    const selectedProduct = products.find(
+      (p) => p.productName === selectedCategory
+    );
+    if (!selectedProduct) return [];
+
+    const sizeSet = new Set();
+    selectedProduct.variants.forEach((v) => sizeSet.add(v.size));
+
+    return [...sizeSet].map((s) => ({ name: s }));
+  }, [selectedCategory, products]);
+
+  // Filtered and grouped variants
+  const filteredVariants = useMemo(() => {
+    const selectedProduct = products.find(
+      (p) => p.productName === selectedCategory
+    );
+    if (!selectedProduct) return [];
+
+    const matchingVariants = selectedProduct.variants.filter((variant) => {
+      const sizeMatch =
+        selectedCounters.length === 0 ||
+        selectedCounters.includes(variant.size);
+      const typeMatch =
+        !selectedVariantType || variant.variantType === selectedVariantType;
+      return sizeMatch && typeMatch;
+    });
+
+    // Group by size + variantType
+    const grouped = {};
+    matchingVariants.forEach((variant) => {
+      const key = `${variant.size}_${variant.variantType}`;
+      if (!grouped[key]) {
+        grouped[key] = {
+          size: variant.size,
+          variantType: variant.variantType,
+          variants: [],
+          price: variant.pricePerKg,
+          markupPrice:variant.markupPricePerKg,
+        };
+      }
+      grouped[key].variants.push(variant);
+    });
+
+    return Object.values(grouped).map((group, i) => ({
+      key: i,
+      ...group,
+      product: selectedProduct,
+    }));
+  }, [selectedCategory, selectedCounters, selectedVariantType, products]);
+
+
   const breadcrumbs = [
     { label: "Home", link: "/home" },
     { label: "Category", link: "/category" },
@@ -137,6 +202,8 @@ const counters = [
   ];
 
 
+  console.log(finalData)
+  console.log(filteredVariants)
 
   return (
     <div>
@@ -200,57 +267,55 @@ const counters = [
             <div className='w-full max-w-xs'>
 
             {/* Counter Filter Section - Multi-selection */}
-              <div className="border rounded p-3 my-3">
-                <h4 className="text-xl font-semibold mb-3">Counter</h4>
-                <ul className="space-y-2">
-                  {counters.map((counter, index) => {
-                    const isSelected = selectedCounters.includes(counter.name);
-                    return (
-                      <li
-                        key={index}
-                        className={`p-2 border border-1 rounded cursor-pointer ${
-                          isSelected ? "bg-violet-200" : "bg-white"
-                        } flex justify-between items-center`}
-                      onClick={() => {
-                      const isSelected = selectedCounters.includes(counter.name);
+            {selectedCategory && (
+          <div className="border rounded p-3 my-3">
+            <h4 className="text-xl font-semibold mb-3">Counter</h4>
+            <ul className="space-y-2">
+              {derivedCounters.map((counter, index) => {
+                const isSelected = selectedCounters.includes(counter.name);
+                return (
+                  <li
+                    key={index}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    onClick={() => {
                       const updatedSelection = isSelected
                         ? selectedCounters.filter(c => c !== counter.name)
                         : [...selectedCounters, counter.name];
                       setSelectedCounters(updatedSelection);
                     }}
+                  >
+                    <h5 className="text-base font-medium">{counter.name}</h5>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
 
-                      >
-                        <h5 className="text-base font-medium">{counter.name}</h5>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
 
 
               {/* Type Filter - Multi-selection */}
-             <div className="border rounded p-3">
-                <h4 className="text-xl font-semibold mb-3">Type</h4>
-                <ul className="space-y-2">
-                  {variantType.map((variant, index) => {
-                    const isSelected = selectedVariantType === variant.name; // Check if this variant is selected
-                    return (
-                      <li
-                        key={index}
-                        className={`p-2 border border-1 rounded cursor-pointer ${
-                          isSelected ? "bg-violet-200" : "bg-white"
-                        } flex justify-between items-center`}
-                        onClick={() => {
-                          // Update the selectedVariantType to only the clicked variant
-                          setSelectedVariantType(isSelected ? "" : variant.name); // Clear selection if already selected
-                        }}
-                      >
-                        <h5 className="text-base font-medium">{variant.name}</h5>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              {selectedCategory && (
+          <div className="border rounded p-3">
+            <h4 className="text-xl font-semibold mb-3">Type</h4>
+            <ul className="space-y-2">
+              {variantType.map((variant, index) => {
+                const isSelected = selectedVariantType === variant.name;
+                return (
+                  <li
+                    key={index}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    onClick={() =>
+                      setSelectedVariantType(isSelected ? "" : variant.name)
+                    }
+                  >
+                    <h5 className="text-base font-medium">{variant.name}</h5>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
 
 
 
@@ -367,58 +432,54 @@ const counters = [
 
           <div className='w-full max-w-xs'>
 
-            {/* Counter Filter Section - Multi-selection */}
-              <div className="border rounded p-3 my-3">
-                <h4 className="text-xl font-semibold mb-3">Counter</h4>
-                <ul className="space-y-2">
-                  {counters.map((counter, index) => {
-                    const isSelected = selectedCounters.includes(counter.name);
-                    return (
-                      <li
-                        key={index}
-                        className={`p-2 border border-1 rounded cursor-pointer ${
-                          isSelected ? "bg-violet-200" : "bg-white"
-                        } flex justify-between items-center`}
-                      onClick={() => {
-                      const isSelected = selectedCounters.includes(counter.name);
+              {selectedCategory && (
+          <div className="border rounded p-3 my-3">
+            <h4 className="text-xl font-semibold mb-3">Counter</h4>
+            <ul className="space-y-2">
+              {derivedCounters.map((counter, index) => {
+                const isSelected = selectedCounters.includes(counter.name);
+                return (
+                  <li
+                    key={index}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    onClick={() => {
                       const updatedSelection = isSelected
                         ? selectedCounters.filter(c => c !== counter.name)
                         : [...selectedCounters, counter.name];
                       setSelectedCounters(updatedSelection);
                     }}
+                  >
+                    <h5 className="text-base font-medium">{counter.name}</h5>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
 
-                      >
-                        <h5 className="text-base font-medium">{counter.name}</h5>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
 
-
-              {/* Type Filter - Multi-selection */}
-             <div className="border rounded p-3">
-                <h4 className="text-xl font-semibold mb-3">Type</h4>
-                <ul className="space-y-2">
-                  {variantType.map((variant, index) => {
-                    const isSelected = selectedVariantType === variant.name; // Check if this variant is selected
-                    return (
-                      <li
-                        key={index}
-                        className={`p-2 border border-1 rounded cursor-pointer ${
-                          isSelected ? "bg-violet-200" : "bg-white"
-                        } flex justify-between items-center`}
-                        onClick={() => {
-                          // Update the selectedVariantType to only the clicked variant
-                          setSelectedVariantType(isSelected ? "" : variant.name); // Clear selection if already selected
-                        }}
-                      >
-                        <h5 className="text-base font-medium">{variant.name}</h5>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+        
+              {selectedCategory && (
+          <div className="border rounded p-3">
+            <h4 className="text-xl font-semibold mb-3">Type</h4>
+            <ul className="space-y-2">
+              {variantType.map((variant, index) => {
+                const isSelected = selectedVariantType === variant.name;
+                return (
+                  <li
+                    key={index}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    onClick={() =>
+                      setSelectedVariantType(isSelected ? "" : variant.name)
+                    }
+                  >
+                    <h5 className="text-base font-medium">{variant.name}</h5>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
 
 
 
@@ -467,80 +528,51 @@ const counters = [
 
         <div className='col-span-3 h-1/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 
-        {selectedCategory &&
-  products
-    .filter((product) => product.productName === selectedCategory)
-    .flatMap((product) => {
-      const combinations = {};
+        {/* {selectedCategory &&
+        products
+          .filter((product) => product.productName === selectedCategory)
+          .flatMap((product) => {
+            const combinations = {};
 
-      product.variants.forEach((variant) => {
-        const key = `${variant.size}_${variant.variantType}`;
-        if (!combinations[key]) {
-          combinations[key] = {
-            size: variant.size,
-            variantType: variant.variantType,
-            variants: [],
-            price: variant.pricePerKg,
-          };
-        }
-        combinations[key].variants.push(variant);
-      });
+            product.variants.forEach((variant) => {
+              const key = `${variant.size}_${variant.variantType}`;
+              if (!combinations[key]) {
+                combinations[key] = {
+                  size: variant.size,
+                  variantType: variant.variantType,
+                  variants: [],
+                  price: variant.pricePerKg,
+                };
+              }
+              combinations[key].variants.push(variant);
+            });
 
-      return Object.values(combinations).map((combo, i) => (
-        <CategoryBox
-          key={i}
-          size={combo.size}
-          variantType={combo.variantType}
-          color={combo.variants}
-          price={combo.price}
-          product={product}
-        />
-      ));
-    })}
-          {/* <div>
-                    <CategoryBox></CategoryBox>
-                </div>
+            return Object.values(combinations).map((combo, i) => (
+              <CategoryBox
+                key={i}
+                size={combo.size}
+                variantType={combo.variantType}
+                color={combo.variants}
+                price={combo.price}
+                product={product}
+              />
+            ));
+          })} */}
 
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div>
-
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div>
-
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div>
-
-
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div>
-
-
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div>
-
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div>
-
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div>
-
-
-                <div>
-                    <CategoryBox></CategoryBox>
-                </div> */}
-
-
-
-
-        </div>
-      </div>
+        {filteredVariants.map(combo => (
+          <CategoryBox
+            key={combo.key}
+            size={combo.size}
+            variantType={combo.variantType}
+            color={combo.variants}
+            price={combo.price}
+            product={combo.product}
+            markupPrice={combo.markupPrice}
+          />
+        ))}
+              
+              </div>
+            </div>
 
 
 

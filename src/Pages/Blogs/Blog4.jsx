@@ -96,14 +96,14 @@ const Blog4 = () => {
 
         <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Why It Matters for Weavers and Manufacturers</h2>
         <p className="text-gray-600 mb-6">
-          The correct yarn format directly influences dye uptake, weaving flow, and fabric quality. At Mo Ink & Dyes, we offer both formats so you can choose what best suits your business model—whether you're mass-producing fabrics or crafting exclusive textiles.
+          The correct yarn format directly influences dye uptake, weaving flow, and fabric quality. At Ink n Dyes, we offer both formats so you can choose what best suits your business model—whether you're mass-producing fabrics or crafting exclusive textiles.
         </p>
 
         <p className="text-xl font-medium text-gray-800 mt-10">
           Efficiency or artistry? Choose the yarn form that supports your process best.
         </p>
         <p className="text-gray-600 mt-4">
-          With Mo Ink & Dyes, you get flexibility, quality, and consistency—no matter your scale.
+          With Ink n Dyes, you get flexibility, quality, and consistency—no matter your scale.
         </p>
       </div>
     </div>

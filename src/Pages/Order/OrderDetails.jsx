@@ -502,7 +502,8 @@ const OrderDetails = () => {
                         </td>
                         <td>
                             <div>
-                            <p className='text-end'>₹{Math.round(totalDiscount)}</p>
+                            <p className='text-end text-green-500'>
+                            <span className="mr-1 font-semibold">-</span> ₹{totalDiscount.toFixed(0)}</p>
                             <p className='text-gray-400 text-end'>₹{Math.round(discountByPayment)}</p>
                             <p className='text-gray-400 text-end'>₹{Math.round(discountByCoupon)}</p>
                             </div>
@@ -561,7 +562,9 @@ const OrderDetails = () => {
                         <tr className='border-b-2'>
                             <td className='pb-2'>Wallet</td>
                             <td className='pb-2'></td>
-                            <td className='text-end pb-2'>₹{order.walletAmount || 0}</td>
+                            <td className='text-end text-green-500 pb-2'>
+                            <span className="mr-1 font-semibold">-</span>₹{order.walletAmount || 0}
+                            </td>
                         </tr>
 
 

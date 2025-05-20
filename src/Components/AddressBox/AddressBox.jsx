@@ -45,7 +45,7 @@ const AddressBox = ({ address, name, company, phone, onDelete }) => {
               title='Delete address'
             >
               <MdDeleteOutline size={18} />
-              <span className='text-sm font-semibold'>DELETE</span>
+               <span className='text-sm font-semibold hidden sm:inline'>DELETE</span> 
             </button>
           )}
         </div>

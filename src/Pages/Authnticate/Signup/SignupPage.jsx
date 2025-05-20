@@ -221,7 +221,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
 
       {/* Auth Box */}
       <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 w-full max-w-md sm:max-w-lg md:max-w-xl text-white backdrop-blur-md overflow-y-auto max-h-[90vh]">
-        <h3 className="text-center text-2xl font-bold mb-4">Welcome to Mo Ink N Dyes!</h3>
+        <h3 className="text-center text-2xl font-bold mb-4">Welcome to Ink N Dyes!</h3>
 
         <div className="flex justify-center mb-4 bg-white rounded-full overflow-hidden w-full max-w-xs mx-auto">
           <button

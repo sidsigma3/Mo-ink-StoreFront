@@ -854,7 +854,7 @@ const CheckoutPage = () => {
             <div className='px-6 md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
                 <h5 className='font-bold text-2xl'>Review your cart</h5>
                 {cartItems.length > 0 ? (
-                    <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 '>
+                    <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 '>
                         {cartItems.map((item, index) => {
                             const totalAmount = cartItems.reduce((acc, item) => {
                                 const itemCost = item.price * item.quantity;
@@ -1269,7 +1269,8 @@ const CheckoutPage = () => {
                                     </td>
                                     <td>
                                         <div>
-                                            <p className='text-end'>₹{totalDiscount.toFixed(0)}</p>
+                                            <p className='text-end text-green-500'>
+                                             <span className="mr-1 font-semibold">-</span> ₹{totalDiscount.toFixed(0)}</p>
                                             <p className='text-gray-400 text-end'>₹{discountByPayment.toFixed(0)}</p>
                                             <p className='text-gray-400 text-end'>₹{discountByCoupon.toFixed(0)}</p>
                                         </div>
@@ -1332,10 +1333,11 @@ const CheckoutPage = () => {
                                     <td className='pb-2'>₹{walletBalance.toFixed(0)}</td>
                                     <td style={{ textAlign: 'end' }} className='pb-2'>
                                         <div className="text-right">
+                                          <span className="mr-1 font-semibold">-</span>
                                             <input
                                                 type="text"
                                                 placeholder="Amount"
-                                                className={`w-24 border rounded-md text-right px-1 ${walletError ? 'border-red-500' : 'border-gray-300'
+                                                className={`w-20 border rounded-md text-green-500 text-right px-1 ${walletError ? 'border-red-500' : 'border-gray-300'
                                                     }`}
                                                 value={walletUsed === 0 ? '' : walletUsed}
                                                 onChange={handleWalletChange}

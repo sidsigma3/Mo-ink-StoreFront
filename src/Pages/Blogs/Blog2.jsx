@@ -46,7 +46,7 @@ const Blog2 = () => {
 
             <div className="prose prose-lg max-w-none">
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Yarn isn't just spun—it’s engineered. At Mo Ink & Dyes, we believe in quality from the first strand. Our yarn manufacturing process is a finely tuned combination of craftsmanship and innovation, designed to produce yarns that deliver strength, consistency, and visual perfection.
+                Yarn isn't just spun—it’s engineered. At Ink n Dyes, we believe in quality from the first strand. Our yarn manufacturing process is a finely tuned combination of craftsmanship and innovation, designed to produce yarns that deliver strength, consistency, and visual perfection.
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Step 1: Sourcing Premium Fibers</h2>

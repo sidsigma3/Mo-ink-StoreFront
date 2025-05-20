@@ -96,7 +96,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
    
   </div>
 
-  <div className= 'hidden sm:block col-span-9 md:col-span-1 flex flex-col items-start justify-center gap-2'>
+  <div className= 'hidden md:flex md:col-span-1 flex-col items-center justify-center gap-2'>
 
   {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
           <button 

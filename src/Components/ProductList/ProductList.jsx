@@ -1,44 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ProductDetailBox from './ProductDetailBox';
 import { fetchProducts } from '../../Services/ProductService';
-import KeenSlider from 'keen-slider';
-import 'keen-slider/keen-slider.min.css';
 
 const SlilderCard = ({ title, children }) => {
-  const sliderRef = useRef(null);
-  const instance = useRef(null);
+  const sliderRef = useRef(null); // ✅ added ref to UL
 
-  useEffect(() => {
-    if (sliderRef.current && children?.length > 0) {
-      // Destroy existing instance before creating a new one (important if children change)
-      if (instance.current) {
-        instance.current.destroy();
-      }
-
-      instance.current = new KeenSlider(sliderRef.current, {
-        loop: false,
-        slides: {
-          origin: "center",
-          perView: 4,
-          spacing: 8,
-        },
-        breakpoints: {
-          "(min-width: 1024px)": {
-            slides: {
-              origin: "auto",
-              perView: 4,
-              spacing: 16,
-            },
-          },
-        },
+  const handlePrevious = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({
+        left: -500, 
+        behavior: 'smooth',
       });
     }
+  };
 
-    return () => instance.current?.destroy(); // clean up on unmount
-  }, [children]);
-
-  const handlePrevious = () => instance.current?.prev();
-  const handleNext = () => instance.current?.next();
+  const handleNext = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({
+        left: 500, 
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <>
@@ -47,7 +30,7 @@ const SlilderCard = ({ title, children }) => {
         <div className="mb-2 flex gap-4">
           <button
             onClick={handlePrevious}
-            className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+            className="rounded-full border-1 border-violet-800 p-3 text-violet-800 transition hover:bg-violet-800  hover:text-white"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -65,8 +48,8 @@ const SlilderCard = ({ title, children }) => {
             </svg>
           </button>
           <button
-            onClick={handleNext}
-            className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+            onClick={handleNext} 
+            className="rounded-full border-1 border-violet-800 p-3 text-violet-800 transition hover:bg-violet-800 hover:text-white"
           >
             <svg
               className="size-5 rtl:rotate-180"
@@ -86,14 +69,15 @@ const SlilderCard = ({ title, children }) => {
         </div>
       </div>
 
-      <ul ref={sliderRef} className="keen-slider mt-2">
+      <ul
+        ref={sliderRef}
+        className="flex flex-nowrap gap-4 overflow-x-auto p-0 m-0 list-none scroll-smooth snap-x snap-mandatory"
+      >
         {children}
       </ul>
     </>
   );
 };
-
-
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -118,14 +102,12 @@ const ProductList = () => {
     }
   }, [products]);
 
-  
-
   const aggregateProductData = (productData) => {
     return productData.map((product) => {
       const groupedVariants = product.variants.reduce((acc, variant) => {
         const { size, color, availableWeight, id, variantType, pricePerKg } = variant;
         const key = `${size}_${variantType}`;
-  
+
         if (!acc[key]) {
           acc[key] = {
             id,
@@ -135,7 +117,7 @@ const ProductList = () => {
             totalWeight: 0,
           };
         }
-  
+
         acc[key].variants.push({
           colorName: color.colorName,
           hexCode: color.hexCode || '#ccc',
@@ -143,11 +125,11 @@ const ProductList = () => {
           price: pricePerKg,
           id: id,
         });
-  
+
         acc[key].totalWeight += Number(availableWeight);
         return acc;
       }, {});
-  
+
       return {
         productId: product.id,
         productName: product.productName,
@@ -164,41 +146,35 @@ const ProductList = () => {
       };
     });
   };
-  
-  console.log(finalData)
 
   return (
-<div className="space-y-12">
-  {products.map((product) => (
-    <div key={product.id} className="relative flex flex-col bg-gray-100 p-4 rounded-lg shadow-sm">
-      <SlilderCard title={product.productName}>
-        <ul className="flex flex-nowrap gap-4 overflow-x-auto p-0 m-0 list-none">
-          {product.variants.map((variant) => (
-            <li
-              key={`${product.id}-${variant.id}`}
-              className="bg-white rounded-xl shadow p-4 flex-shrink-0"
-              style={{ minWidth: '250px' }}
-            >
-              <ProductDetailBox
-                productName={product.productName}
-                size={variant.size}
-                color={variant.color.colorName}
-                price={variant.pricePerKg}
-                variantId={variant.id}
-                navigateCart={true}
-                hexCode={variant.color.hexCode || '#ccc'}
-                variantType={variant.variantType}
-                imageUrl={product.productImage}
-              />
-            </li>
-          ))}
-        </ul>
-      </SlilderCard>
+    <div className="space-y-12">
+      {products.map((product) => (
+        <div key={product.id} className="relative flex flex-col bg-gray-100 p-4 rounded-lg shadow-sm">
+          <SlilderCard title={product.productName}>
+            {product.variants.map((variant) => (
+              <li
+                key={`${product.id}-${variant.id}`}
+                className="snap-start bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col items-center flex-shrink-0"
+                style={{ minWidth: '250px', padding: '1rem' }} 
+              >
+                <ProductDetailBox
+                  productName={product.productName}
+                  size={variant.size}
+                  color={variant.color.colorName}
+                  price={variant.pricePerKg}
+                  variantId={variant.id}
+                  navigateCart={true}
+                  hexCode={variant.color.hexCode || '#ccc'}
+                  variantType={variant.variantType}
+                  imageUrl={product.productImage}
+                />
+              </li>
+            ))}
+          </SlilderCard>
+        </div>
+      ))}
     </div>
-  ))}
-</div>
-
-
   );
 };
 

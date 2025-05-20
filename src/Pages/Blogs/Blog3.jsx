@@ -45,7 +45,7 @@ const Blog3 = () => {
 
             <div className="prose prose-lg max-w-none">
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Color isn't just added—it’s curated. At Mo Ink & Dyes, the yarn dyeing process is an artful fusion of chemical mastery and creative vision. With over 1,000 vibrant yarn colors, we empower textile designers and manufacturers to bring imagination to life—one strand at a time.
+                Color isn't just added—it’s curated. At Ink n Dyes the yarn dyeing process is an artful fusion of chemical mastery and creative vision. With over 1,000 vibrant yarn colors, we empower textile designers and manufacturers to bring imagination to life—one strand at a time.
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Choosing the Right Dye for Every Fiber</h2>
@@ -87,7 +87,7 @@ const Blog3 = () => {
 
               <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Bringing Yarn to Life</h2>
               <p className="text-gray-600 mb-6">
-                Color adds emotion, identity, and market appeal. At Mo Ink & Dyes, our yarn isn't just dyed—it’s designed to inspire. Trust our expertise to bring your fabrics the vivid touch they deserve.
+                Color adds emotion, identity, and market appeal. At Ink n Dyes, our yarn isn't just dyed—it’s designed to inspire. Trust our expertise to bring your fabrics the vivid touch they deserve.
               </p>
 
               <p className="text-gray-600 font-semibold mt-8">

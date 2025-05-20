@@ -133,12 +133,11 @@ const ProductDetailBox = ({
           </span>
   
           {/* Image with Color Overlay */}
-          <div className="relative rounded-lg">
+          <div className="relative rounded-lg aspect-square ">
             <img
               src={`${backendUrl}${imageUrl}`}
-              alt=""
-              className="h-80 w-full rounded-lg object-cover"
-              style={{ height: '10rem' }}
+              alt="Product Image"
+              className="w-full h-full rounded-lg object-cover"
             />
             <div
               className="absolute inset-0 rounded-lg"
@@ -189,7 +188,7 @@ const ProductDetailBox = ({
             </div>
   
             {/* Price & Rating */}
-            <div className="mt-2 d-flex justify-content-between rounded">
+            <div className="mt-3 d-flex justify-content-between rounded">
               <div className="d-flex gap-2 align-items-center">
                 <h4 className="purple-text font-semibold text-2xl">₹{price}</h4>
                 <p className="text-slate-400">
@@ -206,7 +205,7 @@ const ProductDetailBox = ({
             </div>
   
             {/* Buttons */}
-            <div className="d-flex gap-2 mt-3 justify-between">
+            <div className="d-flex gap-2 mt-4 justify-between">
               {showCart && location.pathname !== "/shoppingCart" && (
                 <button
                   onClick={handleCartButtonClick}

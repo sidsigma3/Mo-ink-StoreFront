@@ -53,7 +53,7 @@ const Blog1 = () => {
         {/* Article Content */}
         <div className="prose prose-lg max-w-none">
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-          Yarn plays a crucial role in the textile industry, serving as the foundation for countless fabrics and garments. But have you ever wondered how raw fiber transforms into the premium-quality yarn used in large-scale textile production? At Mo Ink N Dyes, we take pride in our meticulous process that ensures durability, consistency, and excellence in every strand.
+          Yarn plays a crucial role in the textile industry, serving as the foundation for countless fabrics and garments. But have you ever wondered how raw fiber transforms into the premium-quality yarn used in large-scale textile production? At Ink N Dyes, we take pride in our meticulous process that ensures durability, consistency, and excellence in every strand.
           </p>
 
           <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">

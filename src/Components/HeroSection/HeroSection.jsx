@@ -5,7 +5,7 @@ const HeroSection = ({ productName, breadcrumbs = [] }) => {
     <div className=''>
         <div className=''>
       <div
-        className='p-5 rounded-5 h-[8rem] md:h-[15rem] flex flex-col items-center justify-center'
+        className='p-2 rounded-5 h-[8rem] md:h-[15rem] flex flex-col items-center justify-center'
         style={{
           backgroundImage: "url('/images/cta-bg.png')",
           backgroundSize: 'cover',

@@ -19,7 +19,7 @@ const BlogBox2 = () => {
                 </a>
 
                 <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                At Mo Ink & Dyes, we believe in quality from the first strand. Our yarn manufacturing process is a finely tuned combination of craftsmanship and innovation, designed to produce yarns that deliver strength, consistency, and visual perfection.                </p>
+                At Ink n Dyes, we believe in quality from the first strand. Our yarn manufacturing process is a finely tuned combination of craftsmanship and innovation, designed to produce yarns that deliver strength, consistency, and visual perfection.                </p>
 
                 <a href="/Blog2" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
                 Read more

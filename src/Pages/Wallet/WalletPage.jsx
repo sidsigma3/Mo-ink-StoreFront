@@ -104,8 +104,9 @@ const WalletPage = () => {
             <span>Loading...</span>
           </div>
         ) : transactions.length > 0 ? (
-          <div className="overflow-x-auto">
+          <div>
             <h3 className="text-xl font-bold my-3">Last Transactions</h3>
+            <div className="overflow-x-auto">
             <table className="w-full border-collapse border border-gray-300 ">
               <thead>
                 <tr className="bg-gray-100 text-center">
@@ -126,7 +127,7 @@ const WalletPage = () => {
                       <span class="text-sm font-medium text-gray-700">INV-10234</span>
                     </td> */}
                     <td
-                      className="border border-gray-300 p-2 font-semibold"
+                      className="border border-gray-300 p-2 text-sm font-semibold"
                       style={{ color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000" }}
                     >
                       {item.type}
@@ -153,6 +154,7 @@ const WalletPage = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         ) : (
           <div className="flex flex-col h-80 items-center justify-center gap-3 text-gray-400">

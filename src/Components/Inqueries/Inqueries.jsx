@@ -5,12 +5,13 @@ import { ImWhatsapp } from "react-icons/im";
 import { MdOutlineMailOutline } from "react-icons/md";
 import BottomNav from '../BottomNav/BottomNav';
 import { sendInquiryEmail } from '../../Services/CustomerService';
-
+import Toast from '../Toast/Toast';
 
 
 const Inqueries = ({ show }) => {
   const [location, setLocation] = useState([20.296059, 85.824539]); // Default coordinates
   const [zoom, setZoom] = useState(13);
+  const [toasts, setToasts] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -21,9 +22,14 @@ const Inqueries = ({ show }) => {
 
   const sendEmail = async () => {
     const { name, email, phoneNumber, message } = formData;
+    const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
 
     if (!name || !email || !phoneNumber || !message) {
-      alert("Please fill out all required fields.");
+      showToast("Please fill out all required fields.", "error");
       return;
     }
 
@@ -42,7 +48,7 @@ const Inqueries = ({ show }) => {
       console.log("Response from sendEmail:", data);
 
       if (response.ok && data?.success !== false) {
-        alert("Message sent successfully. Our team will reach out soon.");
+        showToast("Message sent successfully.", "success");
         setFormData({
           name: '',
           email: '',
@@ -50,11 +56,11 @@ const Inqueries = ({ show }) => {
           message: ''
         });
       } else {
-        alert(data?.message || "Failed to send message. Please try again.");
+        showToast(data?.message || "Failed to send message. Please try again.", "error");
       }
 
     } catch (error) {
-      alert("Something went wrong! Please try again later.");
+      showToast("Something went wrong! Please try again later.", "error");
       console.error("Error in sendEmail:", error);
     }
   };
@@ -178,30 +184,34 @@ return (
           SEND
         </button>
         <div className='grid grid-cols-4 lg:grid-cols-3 gap-y-6'>
-          <div className='d-flex col-span-2 lg:col-span-1 align-items-center gap-2 justify-content-center'>
+          {/* PHONE */}
+          <div className='flex col-span-2 lg:col-span-1 items-center gap-2 justify-start text-center'>
             <span><FiPhoneCall size={30} /></span>
             <div>
-              <h4 className='text-lg font-medium'>PHONE</h4>
+              <h4 className='text-lg text-left  font-medium'>PHONE</h4>
               <p className='purple-text font-medium'>74069 44477</p>
             </div>
           </div>
 
-          <div className='d-flex col-span-2 lg:col-span-1 align-items-center gap-2 justify-content-center'>
+          {/* WHATSAPP */}
+          <div className='flex col-span-2 lg:col-span-1 items-center gap-2 justify-start text-center'>
             <span><ImWhatsapp size={30} /></span>
             <div>
-              <h4 className='text-lg font-medium'>WhatsApp</h4>
+              <h4 className='text-lg text-left  font-medium'>WhatsApp</h4>
               <p className='purple-text font-medium'>74069 44477</p>
             </div>
           </div>
 
-          <div className='d-flex col-span-2 lg:col-span-1 align-items-center gap-2 justify-content-center'>
+          {/* EMAIL */}
+          <div className='flex col-span-4 lg:col-span-1 items-center gap-2 justify-start text-center'>
             <span><MdOutlineMailOutline size={33} /></span>
             <div>
-              <h4 className='text-lg font-medium'>EMAIL</h4>
+              <h4 className='text-lg text-left  font-medium'>EMAIL</h4>
               <p className='purple-text font-medium'>support@inkndyes.com</p>
             </div>
           </div>
         </div>
+
 
       </div>
 
@@ -222,8 +232,25 @@ return (
     </div>
 
     <BottomNav></BottomNav>
+
+      {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-9999 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
+
   </div>
 )
 }
 
 export default Inqueries
+

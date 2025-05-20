@@ -10,11 +10,13 @@ const Toast = ({ message, onClose, type = "success" }) => {
   const isSuccess = type === "success";
 
   return (
-    <div
-      className={`${
-        isSuccess ? 'bg-[#0DA40D]' : 'bg-[#DB3232]'
-      } text-white px-4 py-3 rounded-lg flex items-center shadow-lg mb-2 w-fit min-w-[350px]`}
-    >
+ <div
+  className={`${
+    isSuccess
+      ? 'text-[#0DA40D] border-2 border-[#0DA40D] bg-[#0DA40D]/10'
+      : 'text-[#DB3232] border-2 border-[#DB3232] bg-[#DB3232]/10'
+  } backdrop-blur-xl px-4 py-3 rounded-lg flex items-center shadow-lg mb-2 w-fit min-w-[350px]`}
+>
       {isSuccess ? (
         <FaCheckCircle className="w-6 h-6 mr-2" />
       ) : (

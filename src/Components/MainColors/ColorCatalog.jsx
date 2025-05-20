@@ -91,7 +91,7 @@ const ColorCatalog = () => {
   {products.map((item, index) => (
     <div
       key={index}
-      className="flex flex-col items-center p-4 rounded-2xl border border-gray-100 shadow-lg bg-white"
+      className="flex flex-col items-center p-3 rounded-2xl border border-gray-100 shadow-lg bg-white"
     >
       <div className="w-full h-full rounded-md overflow-hidden">
         <Image

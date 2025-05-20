@@ -82,7 +82,7 @@ const FAQs = () => {
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Welcome to Mo Ink n Dyes, your trusted partner in high-quality yarn manufacturing. Below, you’ll find answers to some common questions about our products, ordering process, shipping, and policies.
+            Welcome to Ink n Dyes, your trusted partner in high-quality yarn manufacturing. Below, you’ll find answers to some common questions about our products, ordering process, shipping, and policies.
             </p>
           </div>
 

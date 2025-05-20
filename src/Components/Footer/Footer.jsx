@@ -11,7 +11,7 @@ const Footer = () => {
         <div className=" ">
           <div className="text-teal-600 flex justify-center md:block">
           <a href="/home">
-  <img src="/images/logo.png" alt="Mo Ink & Dyes Logo" />
+  <img src="/images/logo.png" alt="Ink n Dyes Logo" />
 </a>          </div>
   
           <p className="mt-4 sm:text-center md:text-left text-gray-500">
@@ -200,7 +200,7 @@ const Footer = () => {
     Made with ❤️ in India by <a href="https://www.aivorntech.com" target="_blank" rel="noopener noreferrer" className="text-black hover:underline font-semibold">Aivorn Tech</a>
   </p>
   <p className="text-sm text-gray-500 mt-1">
-    &copy; 2025. Mo Ink n Dyes. All rights reserved.
+    &copy; 2025. Ink n Dyes. All rights reserved.
   </p>
 </div>
 

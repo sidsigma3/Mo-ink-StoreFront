@@ -55,7 +55,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                 >
                     &larr; Back to HomePage
                 </button>
-                <h3 className="text-center text-2xl font-bold mb-4">Welcome to Mo Ink N Dyes!</h3>
+                <h3 className="text-center text-2xl font-bold mb-4">Welcome to Ink N Dyes!</h3>
 
                 <div className="flex justify-center mb-4 bg-white rounded-full overflow-hidden w-full max-w-xs mx-auto">
                     <button className="w-1/2 py-2 bg-purple-800 text-white font-medium text-l rounded-full">

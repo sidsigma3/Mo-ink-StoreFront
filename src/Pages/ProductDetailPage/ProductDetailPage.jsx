@@ -543,7 +543,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                             <div
                                 ref={modalRef}
-                                className={`fixed top-0 right-0 w-74 h-full bg-white shadow-lg transform z-50 ${isModalOpen ? "translate-x-0" : "translate-x-full"
+                                className={`fixed top-0 right-0 w-80 md:w-1/2 lg:w-1/4 h-full bg-white shadow-lg transform z-50 ${isModalOpen ? "translate-x-0" : "translate-x-full"
                                     } transition-transform duration-300 ease-in-out p-4`}
                             >
                                 <button

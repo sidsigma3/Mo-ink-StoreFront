@@ -84,18 +84,7 @@ const handleSubmit = async (e) => {
                 />
             </div>
 
-            {/* Toast Notification */}
-            {showToast && (
-                <div className=" flex items-center justify-center gap-2 absolute top-6 right-6 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50 text-l font-semibold">
-                <img
-            src="/images/tick-circle.svg"
-            alt="Success"
-            className="w-8 h-8"
-        />
-                 Password reset successful.
-                    
-                </div>
-            )}
+          
 
             {/* Reset Password Box */}
             <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 w-full max-w-md sm:max-w-lg text-white backdrop-blur-md">

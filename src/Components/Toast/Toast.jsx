@@ -13,8 +13,8 @@ const Toast = ({ message, onClose, type = "success" }) => {
  <div
   className={`${
     isSuccess
-      ? 'text-[#0DA40D] border-2 border-[#0DA40D] bg-[#0DA40D]/10'
-      : 'text-[#DB3232] border-2 border-[#DB3232] bg-[#DB3232]/10'
+      ? 'text-[#0DA40D] border-2 border-[#0DA40D] bg-[#FFFFFF]/80'
+      : 'text-[#DB3232] border-2 border-[#DB3232] bg-[#FFFFFF]/80'
   } backdrop-blur-xl px-4 py-3 rounded-lg flex items-center shadow-lg mb-2 w-fit min-w-[350px]`}
 >
       {isSuccess ? (

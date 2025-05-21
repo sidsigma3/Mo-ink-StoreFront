@@ -6,7 +6,7 @@ import Toast from "../../../Components/Toast/Toast";
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState("");
-    const userType = "CUSTOMER"; 
+    const accountType = "CUSTOMER"; 
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -24,7 +24,7 @@ const ForgotPasswordPage = () => {
         // setError("");
 
         try {
-            await forgotPassword({ email, userType });
+            await forgotPassword({ email, accountType });
             showToast("Password reset link sent to your email.", "success");
         } catch (err) {
             showToast("Email doesn't exist, Try another.", "error");

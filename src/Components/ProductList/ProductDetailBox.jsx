@@ -125,7 +125,7 @@ const ProductDetailBox = ({
       <div>
         <a
           className="relative block bg-white rounded-lg border border-gray-100 rounded"
-          style={{ width: '19rem' }}
+          style={{ width: '15rem' }}
         >
           {/* SALE Badge */}
           <span className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black z-20">
@@ -153,17 +153,17 @@ const ProductDetailBox = ({
   
             {/* Quantity Row */}
             <div className="d-flex align-items-center justify-content-between mt-3">
-              <div className="border px-3 py-2 rounded col-4">
+              <div className="border w-2/5 px-3 py-2 rounded col-4">
                 <h5>50 Kg</h5>
               </div>
   
               <div className="col-4">
                 <label htmlFor="Quantity" className="sr-only">Quantity</label>
-                <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border border-gray-300 rounded">
+                <div className="flex items-center  justify-between w-20 sm:w-32 md:w-20 h-9 border border-grey-400 rounded">
                   <button
                     type="button"
                     onClick={handleDecrease}
-                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
+                    className="w-8  h-full text-lg  text-gray-600 hover:opacity-75 transition"
                   >
                     &minus;
                   </button>
@@ -179,7 +179,7 @@ const ProductDetailBox = ({
                   <button
                     type="button"
                     onClick={handleIncrease}
-                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
+                    className="w-8 h-full text-lg text-gray-600 hover:opacity-75 transition"
                   >
                     +
                   </button>
@@ -236,7 +236,7 @@ const ProductDetailBox = ({
       </div>
   
       {/* Toast Notification*/}
-      {/* <div className="fixed top-4 right-4 z-50 space-y-2">
+      <div className="fixed top-4 right-4 z-50 space-y-2">
         {toasts.map((toast) => (
           <Toast
             key={toast.id}
@@ -247,7 +247,7 @@ const ProductDetailBox = ({
             }
           />
         ))}
-      </div> */}
+      </div>
     </>
   );
   

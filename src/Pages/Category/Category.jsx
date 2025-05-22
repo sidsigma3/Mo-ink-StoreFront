@@ -269,7 +269,7 @@ const counters = [
             {/* Counter Filter Section - Multi-selection */}
             {selectedCategory && (
           <div className="border rounded p-3 my-3">
-            <h4 className="text-xl font-semibold mb-3">Counter</h4>
+            <h4 className="text-xl font-semibold mb-3">Count</h4>
             <ul className="space-y-2">
               {derivedCounters.map((counter, index) => {
                 const isSelected = selectedCounters.includes(counter.name);
@@ -434,7 +434,7 @@ const counters = [
 
               {selectedCategory && (
           <div className="border rounded p-3 my-3">
-            <h4 className="text-xl font-semibold mb-3">Counter</h4>
+            <h4 className="text-xl font-semibold mb-3">Count</h4>
             <ul className="space-y-2">
               {derivedCounters.map((counter, index) => {
                 const isSelected = selectedCounters.includes(counter.name);

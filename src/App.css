@@ -71,3 +71,14 @@ body{font-family:"Open Sans , sans-serif" ; background-color: #ffffff !important
   -ms-overflow-style: none; 
   scrollbar-width: none;   
 }
+
+
+
+@keyframes progressBar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.animate-progressBar {
+  animation: progressBar 3s linear backwards;
+}

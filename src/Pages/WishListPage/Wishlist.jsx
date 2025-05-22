@@ -79,7 +79,7 @@ console.log(wishlistItems)
                 size={item.size}
                 color={item.colorName}
                 price={item.price}
-                variantId={item.variantId}
+                // variantId={item.variantId}
                 isWishlist={wishlistIds.has(item.variantId)}
                 onWishlistToggle={fetchWishlistData}
                 hexCode={item.hexCode}

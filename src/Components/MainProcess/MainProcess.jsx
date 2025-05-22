@@ -10,7 +10,7 @@ const steps = [
   {
     title: '2.  Customize Your Order',
     description:
-      'Choose the yarn counter, your preferred shade from 1000+ colors, and enter the bulk quantity required.',
+      'Choose the yarn count, your preferred shade from 1000+ colors, and enter the bulk quantity required.',
     image: '/images/Step2.png',
   },
   {

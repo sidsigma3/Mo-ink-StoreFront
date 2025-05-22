@@ -31,7 +31,7 @@ const CategoryBox = ({ size, color, price , product , variantType ,markupPrice }
 
       <div className="flex flex-col items-center gap-2"> 
         <span className="text-violet-800"><LuPencilRuler size={40}/></span>
-        <h4 className="text-xl font-bold">Counter - {size}</h4>
+        <h4 className="text-xl font-bold">Count - {size}</h4>
         <h4 className="text-xl font-bold">
           Total color - {Array.isArray(color) ? color.length : 1}
         </h4>

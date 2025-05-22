@@ -23,7 +23,7 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
       <span
         className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black"
       >
-        Best Seller
+        Premium Yarn
       </span>
 
       <div className="size-64 bg-gray-100 rounded-lg flex items-center justify-start overflow-hidden mb-2">

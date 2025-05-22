@@ -13,11 +13,12 @@ import { updateOrderStatuses } from '../../Services/OrderService';
 import Toast from '../../Components/Toast/Toast';
 import { initiatePayment } from '../../Services/PaymentService';
 import { removeFromCart } from '../../Services/CartService';
-
+import { useAppContext } from '../../Utils/commoncontext';
 
 const PaymentFailure = () => {
 
   const { state } = useLocation();
+  const { updateCartAndWishlistCounts } = useAppContext();
   const navigate = useNavigate()
   const [toasts, setToasts] = useState([]);
   const [retryCount, setRetryCount] = useState(state?.retryCount || 0);
@@ -81,6 +82,8 @@ const PaymentFailure = () => {
                 removeFromCart(customerId, item.variantId)
               )
             );
+
+            updateCartAndWishlistCounts() 
   
             navigate('/paymentSuccess');
           } catch (error) {
@@ -123,6 +126,8 @@ const PaymentFailure = () => {
           removeFromCart(customerId, item.variantId)
         )
       );
+
+      updateCartAndWishlistCounts()
   
       // Navigate to orders page
       navigate('/orders');

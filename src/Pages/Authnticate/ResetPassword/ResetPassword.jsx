@@ -7,7 +7,7 @@ import Toast from "../../../Components/Toast/Toast";
 
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState("");
+  const [newPassword, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toasts, setToasts] = useState([]); 
@@ -28,12 +28,12 @@ const handleSubmit = async (e) => {
           };
   console.log("hello");
 
-  if (!password || !confirmPassword) {
+  if (!newPassword || !confirmPassword) {
     showToast("Please fill out both fields.", "error");
     return;
   }
 
-  if (password !== confirmPassword) {
+  if (newPassword !== confirmPassword) {
     showToast("Passwords do not match.", "error");
     return;
   }
@@ -44,7 +44,7 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const payload = { token, password, accountType };
+    const payload = { token, newPassword, accountType };
     const data = await resetPassword(payload);
     console.log("Response from resetPassword:", data);
 
@@ -101,7 +101,7 @@ const handleSubmit = async (e) => {
                         type="password"
                         placeholder="Create a strong password"
                         className="w-full px-4 py-1 rounded-full mb-2 text-black focus:outline-none"
-                        value={password}
+                        value={newPassword}
                         onChange={(e) => setPassword(e.target.value)}
                     />
 

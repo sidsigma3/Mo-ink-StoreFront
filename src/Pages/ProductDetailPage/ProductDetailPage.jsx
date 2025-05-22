@@ -253,9 +253,6 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           return;
         }
       
-      
-
-      
         try {
           const response = await fetchProductsById(product.id);
           const productData = response.data;
@@ -272,21 +269,58 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             return { size, variantType };
           });
       
-          // Generate new variants for each custom color across all size + variantType combos
-          const newVariants = tempCustomColors.flatMap((color) =>
-            sizeVariantTypeCombos.map(({ size, variantType }) => ({
-              size,
-              variantType,
-              color: {
-                colorName: color.colorName,
-                hexCode: color.hexCode,
-              },
-              availableWeight: 100,
-              pricePerKg: 150,
-              costPerKg: 200,
-              markupPricePerKg: 250,
-            }))
-          );
+       
+            //creating a new variant payload with average 
+            const averagePriceMap = {};
+
+            sizeVariantTypeCombos.forEach(({ size, variantType }) => {
+            const matchingVariants = existingVariants.filter(
+                (v) => v.size === size && v.variantType === variantType
+            );
+
+            const count = matchingVariants.length;
+            if (count === 0) return;
+
+            const total = matchingVariants.reduce(
+                (acc, v) => ({
+                pricePerKg: acc.pricePerKg + (v.pricePerKg || 0),
+                costPerKg: acc.costPerKg + (v.costPerKg || 0),
+                markupPricePerKg: acc.markupPricePerKg + (v.markupPricePerKg || 0),
+                }),
+                { pricePerKg: 0, costPerKg: 0, markupPricePerKg: 0 }
+            );
+
+            averagePriceMap[`${size}__${variantType}`] = {
+                pricePerKg: +(total.pricePerKg / count).toFixed(2),
+                costPerKg: +(total.costPerKg / count).toFixed(2),
+                markupPricePerKg: +(total.markupPricePerKg / count).toFixed(2),
+            };
+            });
+
+            // Generate new variants with average prices
+            const newVariants = tempCustomColors.flatMap((color) =>
+            sizeVariantTypeCombos.map(({ size, variantType }) => {
+                const avg = averagePriceMap[`${size}__${variantType}`] || {
+                pricePerKg: 150,
+                costPerKg: 200,
+                markupPricePerKg: 250,
+                };
+
+                return {
+                size,
+                variantType,
+                color: {
+                    colorName: color.colorName,
+                    hexCode: color.hexCode,
+                },
+                availableWeight: 0,
+                pricePerKg: avg.pricePerKg,
+                costPerKg: avg.costPerKg,
+                markupPricePerKg: avg.markupPricePerKg,
+                };
+            })
+            );
+
       
           // Filter out variants that already exist
           const isNewVariant = (variant) => {

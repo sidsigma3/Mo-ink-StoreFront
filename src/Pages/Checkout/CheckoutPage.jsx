@@ -35,6 +35,7 @@ import Toast from '../../Components/Toast/Toast';
 
 const CheckoutPage = () => {
 
+
     const navigate = useNavigate()
 
     const { updateCartAndWishlistCounts } = useAppContext();
@@ -679,6 +680,7 @@ const CheckoutPage = () => {
             )
           );
       
+        updateCartAndWishlistCounts()
         //   alert("Order placed successfully!");
         setIsOrderSuccessOpen(true);
         setTimeout(() => {
@@ -792,6 +794,8 @@ const CheckoutPage = () => {
                     removeFromCart(customerId, item.variantId)
                   )
                 );
+
+                updateCartAndWishlistCounts()
       
                 navigate('/paymentSuccess');
               } catch (error) {

@@ -5,7 +5,7 @@ import ProductDetailBox from "../../Components/ProductList/ProductDetailBox";
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
-  const [wishlistIds, setWishlistIds] = useState(new Set());
+  const [wishlistIds, setWishlistIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
 
@@ -20,7 +20,7 @@ const Wishlist = () => {
           const wishlistId = wishlistResponse.wishlistId
 
           // Store variant IDs in state for quick lookup
-          setWishlistIds(new Set(wishlistVariantIds));
+          setWishlistIds(wishlistVariantIds);
           console.log(wishlistVariantIds)
 
           let allProducts = JSON.parse(localStorage.getItem("allProducts"));
@@ -30,7 +30,7 @@ const Wishlist = () => {
               localStorage.setItem("allProducts", JSON.stringify(allProducts));
           }
 
-          console.log(allProducts)
+          
 
           // Filter products that match the wishlist variants
           const wishlistProducts = allProducts.flatMap((product) =>
@@ -44,6 +44,7 @@ const Wishlist = () => {
                       variantId: variant.id,
                       hexCode:variant.color.hexCode,
                       productImage: product.productImage[0],
+                      variantType:variant.variantType,
                       wishlistId,
                   }))
           );
@@ -64,8 +65,9 @@ const Wishlist = () => {
     fetchWishlistData();
 }, []);
 
-
 console.log(wishlistItems)
+console.log(wishlistIds)
+
   return (
     <div className="">
       {loading ? (
@@ -79,11 +81,12 @@ console.log(wishlistItems)
                 size={item.size}
                 color={item.colorName}
                 price={item.price}
-                // variantId={item.variantId}
-                isWishlist={wishlistIds.has(item.variantId)}
+                variantId={item.variantId}
+                isWishlist={wishlistIds.includes(item.variantId)}
                 onWishlistToggle={fetchWishlistData}
                 hexCode={item.hexCode}
                 imageUrl={item.productImage}
+                variantType={item.variantType}
               />
             </li>
           ))}

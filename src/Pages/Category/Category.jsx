@@ -22,6 +22,8 @@ const Category = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
+  
+
   useEffect(() => {
     const getProducts = async () => {
       const response = await fetchProducts();
@@ -64,7 +66,7 @@ const [selectedVariantType, setSelectedVariantType] = useState([]);
 
 
   const [selectedCounter, setSelectedCounter] = useState(null);
-const [selectedCounters, setSelectedCounters] = useState([]);
+   const [selectedCounters, setSelectedCounters] = useState([]);
 
 const handleCounterSelection = (counterName) => {
   const isSelected = selectedCounters.includes(counterName);
@@ -277,13 +279,13 @@ const counters = [
                   <li
                     key={index}
                     className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
-                    onClick={() => {
-                      const updatedSelection = isSelected
-                        ? selectedCounters.filter(c => c !== counter.name)
-                        : [...selectedCounters, counter.name];
-                      setSelectedCounters(updatedSelection);
-                    }}
-                  >
+                   onClick={() => {
+              const updatedSelection = isSelected
+                ? []
+                : [counter.name]; 
+              setSelectedCounters(updatedSelection);
+            }}
+          >
                     <h5 className="text-base font-medium">{counter.name}</h5>
                   </li>
                 );
@@ -361,8 +363,8 @@ const counters = [
         <div className='hidden lg:block col-span-2 lg:col-span-1 '>
           <div className='border rounded p-3 max-w-xs'>
             <h4 className='text-xl font-semibold'>Category</h4>
-            <ul>
-
+            <ul>      
+              
               {products.length > 0 ? (
                 finalData.map((product, index) => (
                   <li
@@ -379,7 +381,6 @@ const counters = [
               ) : (
                 <p>No products available</p>
               )}
-
 
               {/* <li className='p-2 border border-1 rounded mt-2'>
                              <div className='flex justify-content-between font-medium'>
@@ -442,13 +443,13 @@ const counters = [
                   <li
                     key={index}
                     className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
-                    onClick={() => {
-                      const updatedSelection = isSelected
-                        ? selectedCounters.filter(c => c !== counter.name)
-                        : [...selectedCounters, counter.name];
-                      setSelectedCounters(updatedSelection);
-                    }}
-                  >
+                   onClick={() => {
+              const updatedSelection = isSelected
+                ? []
+                : [counter.name]; 
+              setSelectedCounters(updatedSelection);
+            }}
+          >
                     <h5 className="text-base font-medium">{counter.name}</h5>
                   </li>
                 );

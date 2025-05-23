@@ -140,7 +140,8 @@ const CheckoutPage = () => {
       
         // Sum total weight from cart items
         const totalWeight = cartItems.reduce((acc, item) => {
-          const weight = Number(item.quantity) * 50 || 0; // assuming 1 quantity = 1kg
+          const unitWeight = item.variantType === 'CONE'? 50 : 10; 
+          const weight = Number(item.quantity) * unitWeight || 0; // assuming 1 quantity = 1kg
           return acc + weight;
         }, 0);
       
@@ -198,7 +199,7 @@ const CheckoutPage = () => {
         totalDiscountPercentage,
         handlingCharges
       } = useMemo(() => {
-        const unitWeight = 50;
+       
         let totalProductCost = 0;
         let discountByPayment = 0;
         let discountByCoupon = 0;
@@ -208,6 +209,7 @@ const CheckoutPage = () => {
         
       
         selectedCartItems.forEach(item => {
+          const unitWeight = item.variantType === 'CONE'? 50 : 10; 
           const itemTotal = item.price * item.quantity * unitWeight;
           const gstRate = item.gstRate || 0;
           totalProductCost += itemTotal;
@@ -488,7 +490,7 @@ const CheckoutPage = () => {
       
 
       const buildDetailedOrderVariants = (cartItems) => {
-        const unitWeight = 50;
+      
         const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
         const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
       
@@ -500,11 +502,18 @@ const CheckoutPage = () => {
         const ratePerKg = customerState === "odisha" ? 3 : 5;
       
         // Total weight for proportional handling charge calculation
-        const totalWeight = cartItems.reduce((acc, item) => acc + (item.quantity * unitWeight), 0);
+        const totalWeight = cartItems.reduce((acc, item) => {
+            if (!item.variantId || item.quantity <= 0) return acc;
+          
+            const unitWeight = item.variantType === "CONE" ? 50 : 10; // grams
+            return acc + item.quantity * unitWeight;
+          }, 0);
+          
       
         return cartItems
           .filter(item => item.variantId && item.quantity > 0)
           .map(item => {
+            const unitWeight = item.variantType === "CONE" ? 50 : 10 ;
             const itemWeight = Number(item.quantity) * unitWeight;
             const itemTotal = item.price * item.quantity * unitWeight;
             const gstRate = item.gstRate || 0;
@@ -558,11 +567,17 @@ const CheckoutPage = () => {
         const ratePerKg = customerState === "odisha" ? 3 : 5;
       
         // Total weight for proportional handling charge calculation
-        const totalWeight = cartItems.reduce((acc, item) => acc + (item.quantity * unitWeight), 0);
+        const totalWeight = cartItems.reduce((acc, item) => {
+            if (!item.variantId || item.quantity <= 0) return acc;
+          
+            const unitWeight = item.variantType === "CONE" ? 50 : 10; // grams
+            return acc + item.quantity * unitWeight;
+          }, 0);
       
         return cartItems
           .filter(item => item.variantId && item.quantity > 0)
           .map(item => {
+            const unitWeight = item.variantType === "CONE" ? 50 : 10 ;
             const itemWeight = Number(item.quantity) * unitWeight;
             const itemTotal = item.price * item.quantity * unitWeight;
             const gstRate = item.gstRate || 0;
@@ -671,7 +686,7 @@ const CheckoutPage = () => {
             orderVariants,
           };
       
-          console.log(orderData);
+         
           const response = await createOrder(orderData);
       
           await Promise.all(

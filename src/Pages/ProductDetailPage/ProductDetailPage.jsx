@@ -241,88 +241,75 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
       };
       
 
-
       const handleAddColor = async () => {
         const showToast = (message, type = "error") => {
-            setToasts([{ message, type }]);
-            setTimeout(() => setToasts([]), 3000);
-          };
-
+          setToasts([{ message, type }]);
+          setTimeout(() => setToasts([]), 3000);
+        };
+      
+        const { product, size, variantType: selectedVariantType } = location.state || {};
+      
         if (tempCustomColors.length === 0) {
-            showToast("Please add at least one color before saving.", "error");
+          showToast("Please add at least one color before saving.", "error");
           return;
         }
       
         try {
           const response = await fetchProductsById(product.id);
           const productData = response.data;
-      
           const existingVariants = productData.variants || [];
       
-          // Get unique combinations of size + variantType
-          const sizeVariantTypeCombos = [
-            ...new Set(
-              existingVariants.map((v) => `${v.size}__${v.variantType}`)
-            ),
-          ].map((combo) => {
-            const [size, variantType] = combo.split("__");
-            return { size, variantType };
-          });
+          const typesToCreate = ["CONE", "HANK"];
       
-       
-            //creating a new variant payload with average 
-            const averagePriceMap = {};
-
-            sizeVariantTypeCombos.forEach(({ size, variantType }) => {
+          const averagePriceMap = {};
+      
+          typesToCreate.forEach((variantType) => {
             const matchingVariants = existingVariants.filter(
-                (v) => v.size === size && v.variantType === variantType
+              (v) => v.size === size && v.variantType === variantType
             );
-
+      
             const count = matchingVariants.length;
             if (count === 0) return;
-
+      
             const total = matchingVariants.reduce(
-                (acc, v) => ({
+              (acc, v) => ({
                 pricePerKg: acc.pricePerKg + (v.pricePerKg || 0),
                 costPerKg: acc.costPerKg + (v.costPerKg || 0),
                 markupPricePerKg: acc.markupPricePerKg + (v.markupPricePerKg || 0),
-                }),
-                { pricePerKg: 0, costPerKg: 0, markupPricePerKg: 0 }
+              }),
+              { pricePerKg: 0, costPerKg: 0, markupPricePerKg: 0 }
             );
-
-            averagePriceMap[`${size}__${variantType}`] = {
-                pricePerKg: +(total.pricePerKg / count).toFixed(2),
-                costPerKg: +(total.costPerKg / count).toFixed(2),
-                markupPricePerKg: +(total.markupPricePerKg / count).toFixed(2),
+      
+            averagePriceMap[variantType] = {
+              pricePerKg: +(total.pricePerKg / count).toFixed(2),
+              costPerKg: +(total.costPerKg / count).toFixed(2),
+              markupPricePerKg: +(total.markupPricePerKg / count).toFixed(2),
             };
-            });
-
-            // Generate new variants with average prices
-            const newVariants = tempCustomColors.flatMap((color) =>
-            sizeVariantTypeCombos.map(({ size, variantType }) => {
-                const avg = averagePriceMap[`${size}__${variantType}`] || {
+          });
+      
+          const newVariants = tempCustomColors.flatMap((color) =>
+            typesToCreate.map((variantType) => {
+              const avg = averagePriceMap[variantType] || {
                 pricePerKg: 150,
                 costPerKg: 200,
                 markupPricePerKg: 250,
-                };
-
-                return {
+              };
+      
+              return {
                 size,
                 variantType,
                 color: {
-                    colorName: color.colorName,
-                    hexCode: color.hexCode,
+                  colorName: color.colorName,
+                  hexCode: color.hexCode,
                 },
                 availableWeight: 0,
-                pricePerKg: avg.pricePerKg,
+                pricePerKg: avg.pricePerKg.toFixed(0),
                 costPerKg: avg.costPerKg,
-                markupPricePerKg: avg.markupPricePerKg,
-                };
+                markupPricePerKg: avg.markupPricePerKg.toFixed(0),
+              };
             })
-            );
-
+          );
       
-          // Filter out variants that already exist
           const isNewVariant = (variant) => {
             return !existingVariants.some(
               (existing) =>
@@ -354,14 +341,11 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             deletedVariantIds: [],
           };
       
-          // Save new variants
           await updateProduct(product.id, formattedData);
       
-          // Refetch updated product
           const updatedProductRes = await fetchProductsById(product.id);
           const updatedVariants = updatedProductRes.data.variants || [];
       
-          // Get newly added color variants by matching hex codes
           const seenHexCodes = new Set();
           const updatedColorsWithIds = [];
       
@@ -370,19 +354,17 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             const colorName = variant.color.colorName.toLowerCase();
             const variantTypeData = variant.variantType;
             const sizeData = variant.size;
-          
-            // Use all 4 keys to form a unique match string
-            const key = `${hexCode}__${colorName}__${variantType}__${size}`;
-          
+      
+            const key = `${hexCode}__${colorName}__${variantTypeData}__${sizeData}`;
+      
             if (!seenHexCodes.has(key)) {
               const match = tempCustomColors.find(
                 (temp) =>
                   temp.hexCode.toLowerCase() === hexCode &&
                   temp.colorName.toLowerCase() === colorName &&
-                  variantType === variantTypeData &&
                   size === sizeData
               );
-          
+      
               if (match) {
                 updatedColorsWithIds.push({
                   id: variant.id,
@@ -391,31 +373,33 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                     colorName: variant.color.colorName,
                     hexCode: variant.color.hexCode,
                   },
-                  variantType,
+                  variantType: variant.variantType,
                   size,
                 });
-          
+      
                 seenHexCodes.add(key);
               }
             }
           });
-          
+      
+          const filteredBySelectedVariant = updatedColorsWithIds.filter(
+            (variant) => variant.variantType === selectedVariantType
+          );
       
           const allProductsResponse = await fetchProducts();
           const allProductsData = allProductsResponse.data || [];
+          localStorage.setItem("allProducts", JSON.stringify(allProductsData));
       
-          localStorage.setItem('allProducts', JSON.stringify(allProductsData));
-      
-          setCustomColors((prev) => [...prev, ...updatedColorsWithIds]);
+          setCustomColors((prev) => [...prev, ...filteredBySelectedVariant]);
           setTempCustomColors([]);
           setIsAddingColor(false);
-          setIsModalOpen(true)
-        
+          setIsModalOpen(true);
         } catch (error) {
           console.error("Error adding color variants:", error);
           showToast("Failed to add color variants. Please try again.", "error");
         }
       };
+      
       
 
     if (!product) return <p>No product details available</p>;

@@ -115,7 +115,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
                       <button
 
 
-                        onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "CANCELLED")}
+                        onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "cancelled")}
                         className=' bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48 rounded items-center'
 
 
@@ -125,7 +125,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
                       </button>
                     )}
     
-                    {
+                    {/* {
                       order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
                         <button
 
@@ -137,7 +137,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
                           <TbFileInvoice size={20} />
                           <h5 className='text-sm md:text-md'>Return Receipt</h5>
                         </button>
-                     )}
+                     )} */}
   </div>
 
 

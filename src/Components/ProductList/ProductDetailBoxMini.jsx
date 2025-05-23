@@ -136,7 +136,13 @@ console.log(hexCode);
 
           <div className='flex justify-right gap-4 items-center mt-3'>
             <div className='border py-2 rounded col-5 sm:text-sm md:text-sm w-20 sm:w-20 md:w-20 h-9 text-center'>
-              <p>50 Kg</p>
+              {variantType === "CONE" ? (
+                <p>50 Kg</p>
+              ):(
+                <p>10 Kg</p>
+              )
+            }
+             
             </div>
 
             <div className='col-4'>

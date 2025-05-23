@@ -3,6 +3,8 @@ import { fetchProductsById } from '../../Services/ProductService';
 import { Undo2 } from 'lucide-react';
 import ReturnModal from '../Modal/ReturnModal';
 import { updateOrderVariantStatuses } from '../../Services/OrderService';
+import { downloadCreditReceipt } from '../../Services/InvoiceService';
+import { TbFileInvoice } from "react-icons/tb";
 
 const statusClassMap = {
   "New Order": "bg-blue-100 border border-blue-400 text-blue-600",
@@ -62,7 +64,7 @@ const OrderListBox = ({ item , status , orderId}) => {
 
   const handleConfirmReturn = async ({ reason, comment ,returnWeight}) => {
     try {
-      await updateOrderVariantStatuses(orderId, [
+      await updateOrderVariantStatuses(orderId, 
         {
           orderVariantId: item.orderVariantId,
           status: "RETURN_REQUESTED",
@@ -70,7 +72,7 @@ const OrderListBox = ({ item , status , orderId}) => {
           returnWeight,
           remark: comment || "Customer initiated return",
         },
-      ]);
+      );
 
       setReturnRequested(true);
       alert("Return request submitted successfully!");
@@ -83,7 +85,15 @@ const OrderListBox = ({ item , status , orderId}) => {
   };
 
 
-  console.log(productImage)
+  const handleDownloadCreditReceipt = async (orderId,type,orderVariantId) => {
+    try {
+      
+      await downloadCreditReceipt(orderId, type, orderVariantId);
+    } catch (error) {
+      console.error("Failed to download credit receipt:", error);
+    }
+  };
+
 
   const statusOptions = {
     NEW: "New Order" ,
@@ -110,6 +120,7 @@ const OrderListBox = ({ item , status , orderId}) => {
   };
   
   
+  console.log(item)
 
   return (
     <div className="grid grid-cols-10 gap-2 relative  justify-center rounded-lg bg-white">
@@ -210,6 +221,19 @@ const OrderListBox = ({ item , status , orderId}) => {
           </div>
         )}
       </div>
+
+       {
+         (item.status === 'RETURNED') && (
+           <div className='flex flex-column justify-center'>
+            <button
+              onClick={() => handleDownloadCreditReceipt(orderId, "returned",item.orderVariantId)}
+              className=' bg-green-100 text-green-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
+            >
+              <TbFileInvoice size={20} />
+              <h5>Return Receipt</h5>
+            </button>
+            </div>
+          )}
 
       {/* Return Modal */}
       <ReturnModal

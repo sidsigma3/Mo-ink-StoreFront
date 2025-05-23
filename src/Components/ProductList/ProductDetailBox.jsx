@@ -34,6 +34,8 @@ const ProductDetailBox = ({
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 3000);
   };
+  
+  console.log(isWishlisted,variantId)
 
   const handleIncrease = () => setQuantity(prev => prev + 1);
   const handleDecrease = () => quantity > 1 && setQuantity(prev => prev - 1);
@@ -42,8 +44,13 @@ const ProductDetailBox = ({
     if (!customer?.customerId) return;
   
     try {
+      const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  
       if (isWishlisted) {
         await removeFromWishlist(customer.customerId, variantId);
+        const updatedWishlist = wishlistItems.filter(item => item.variantId !== variantId);
+        localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
         setIsWishlisted(false);
         setJustRemoved(true);
         setToasts(prev => [...prev, { message: "Removed from wishlist!", type: "error" }]);
@@ -51,11 +58,15 @@ const ProductDetailBox = ({
         const inCart = cartItems.some(item => item.variantId === variantId);
         if (inCart) {
           await removeFromCart(customer.customerId, variantId);
+          const updatedCart = cartItems.filter(item => item.variantId !== variantId);
+          localStorage.setItem("cartItems", JSON.stringify(updatedCart));
           setIsInCart(false);
-          setCartItems(prev => prev.filter(item => item.variantId !== variantId));
+          setCartItems(updatedCart);
         }
   
         await addToWishlist(customer.customerId, variantId);
+        const updatedWishlist = [...wishlistItems, { variantId }];
+        localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
         setIsWishlisted(true);
         setJustRemoved(false);
         setToasts(prev => [...prev, { message: "Item added to wishlist" }]);
@@ -69,6 +80,7 @@ const ProductDetailBox = ({
       showToast("Failed to update wishlist.", "error");
     }
   };
+   
   
 
   const handleAddToCart = async () => {
@@ -78,8 +90,10 @@ const ProductDetailBox = ({
     }
   
     try {
-      const alreadyInCart = cartItems.some(item => item.variantId === variantId);
+      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+      const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
   
+      const alreadyInCart = cartItems.some(item => item.variantId === variantId);
       if (alreadyInCart) {
         setIsInCart(true);
         showToast("Item is already in your Cart!");
@@ -87,13 +101,18 @@ const ProductDetailBox = ({
       }
   
       await removeFromWishlist(customer.customerId, variantId);
+      const updatedWishlist = wishlistItems.filter(item => item.variantId !== variantId);
+      localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
       setIsWishlisted(false);
       setJustRemoved(true);
       onWishlistToggle?.();
   
       await addToCart(customer.customerId, variantId, quantity);
+      const updatedCart = [...cartItems, { variantId, quantity }];
+      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
       setIsInCart(true);
-      setCartItems(prev => [...prev, { variantId, quantity }]);
+      setCartItems(updatedCart);
+  
       updateCartAndWishlistCounts();
       showToast("Item is moved to cart!");
     } catch (error) {
@@ -101,6 +120,7 @@ const ProductDetailBox = ({
       showToast("Failed to add item to cart!", "error");
     }
   };
+  
   
 
   const handleCartButtonClick = () => {
@@ -125,7 +145,7 @@ const ProductDetailBox = ({
       <div>
         <a
           className="relative block bg-white rounded-lg border border-gray-100 rounded"
-          style={{ width: '15rem' }}
+          style={{ width: '19rem' }}
         >
           {/* SALE Badge */}
           <span className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black z-20">
@@ -133,11 +153,12 @@ const ProductDetailBox = ({
           </span>
   
           {/* Image with Color Overlay */}
-          <div className="relative rounded-lg aspect-square ">
+          <div className="relative rounded-lg">
             <img
               src={`${backendUrl}${imageUrl}`}
-              alt="Product Image"
-              className="w-full h-full rounded-lg object-cover"
+              alt=""
+              className="h-80 w-full rounded-lg object-cover"
+              style={{ height: '10rem' }}
             />
             <div
               className="absolute inset-0 rounded-lg"
@@ -148,22 +169,24 @@ const ProductDetailBox = ({
           {/* Card Body */}
           <div className="p-3">
             <h5 className="font-medium">
-              {productName}-{size} ({color}) ({variantType})
+              {productName}-{size} ({color}) ({variantType}) 
             </h5>
+
+            <h5></h5>
   
             {/* Quantity Row */}
             <div className="d-flex align-items-center justify-content-between mt-3">
-              <div className="border w-2/5 px-3 py-2 rounded col-4">
+              <div className="border px-3 py-2 rounded col-4">
                 <h5>50 Kg</h5>
               </div>
   
               <div className="col-4">
                 <label htmlFor="Quantity" className="sr-only">Quantity</label>
-                <div className="flex items-center  justify-between w-20 sm:w-32 md:w-20 h-9 border border-grey-400 rounded">
+                <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border border-gray-300 rounded">
                   <button
                     type="button"
                     onClick={handleDecrease}
-                    className="w-8  h-full text-lg  text-gray-600 hover:opacity-75 transition"
+                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
                   >
                     &minus;
                   </button>
@@ -179,7 +202,7 @@ const ProductDetailBox = ({
                   <button
                     type="button"
                     onClick={handleIncrease}
-                    className="w-8 h-full text-lg text-gray-600 hover:opacity-75 transition"
+                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
                   >
                     +
                   </button>
@@ -188,7 +211,7 @@ const ProductDetailBox = ({
             </div>
   
             {/* Price & Rating */}
-            <div className="mt-3 d-flex justify-content-between rounded">
+            <div className="mt-2 d-flex justify-content-between rounded">
               <div className="d-flex gap-2 align-items-center">
                 <h4 className="purple-text font-semibold text-2xl">₹{price}</h4>
                 <p className="text-slate-400">
@@ -205,7 +228,7 @@ const ProductDetailBox = ({
             </div>
   
             {/* Buttons */}
-            <div className="d-flex gap-2 mt-4 justify-between">
+            <div className="d-flex gap-2 mt-3 justify-between">
               {showCart && location.pathname !== "/shoppingCart" && (
                 <button
                   onClick={handleCartButtonClick}

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const MainWhyUs = () => {
+  const navigate = useNavigate(); 
     return (
       <section id="why-us" className="bg-[#21133a] text-white py-28 bg-cover bg-center relative"
       style={{
@@ -41,8 +44,10 @@ const MainWhyUs = () => {
               <p className="text-gray-400 mb-8">
               Every yarn we produce is available in bulk and crafted with the reliability and care that your business deserves.
               </p>
-              <button className="bg-[#FFEE9A] text-purple-800 font-medium py-3 px-8 rounded-full border hover:bg-transparent transition-all">
-                Learn more
+              <button className="bg-[#FFEE9A] text-purple-800 font-medium py-3 px-8 rounded-full border hover:bg-transparent transition-all"
+              onClick={() => navigate('/signup')}
+              >
+                Sign Up
               </button>
             </div>
           </div>

@@ -10,7 +10,7 @@ import { useAppContext } from '../../Utils/commoncontext';
 import Toast from '../Toast/Toast';
 
 const ProductDetailBox = ({
-  productName, price, size, color, itemQuantity, variantId,
+  productName, price, size, color, markupPrice, itemQuantity, variantId,
   isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,variantType,imageUrl,
   isWishlistPage = false,
   showCart = true,
@@ -190,10 +190,8 @@ const ProductDetailBox = ({
             {/* Price & Rating */}
             <div className="mt-3 d-flex justify-content-between rounded">
               <div className="d-flex gap-2 align-items-center">
-                <h4 className="purple-text font-semibold text-2xl">₹{price}</h4>
-                <p className="text-slate-400">
-                  <s>₹542.85</s>
-                </p>
+                <h4 className="purple-text font-semibold text-2xl">₹{Math.round(price)}</h4>
+                <p className="text-slate-400 font-medium"><s>₹{Math.round(markupPrice)}</s></p>
               </div>
   
               <div className="bg-yellow-100 d-flex gap-2 align-items-center h-50 p-1 rounded-md">

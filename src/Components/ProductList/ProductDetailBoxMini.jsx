@@ -123,7 +123,7 @@ console.log(hexCode);
           
           <div className='mt-2 d-flex justify-content-between rounded'>
             <div className='d-flex gap-2 align-items-center'>
-              <h4 className='purple-text font-semibold text-2xl'>₹{price}</h4>
+              <h4 className='purple-text font-semibold text-2xl'>₹{Math.round(price)}</h4>
               <p className='text-slate-400'><s>₹542.85</s></p>
             </div>
 

@@ -104,7 +104,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [isModalOpen]);
+    }, [isModalOpen]);  
+
 
 
     const ColorCard = ({ item, onSelect, selected = false, disabled }) => {
@@ -514,10 +515,12 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             </div>
                         </div>
                         <div className='d-flex gap-2 align-items-center mt-3'>
-                            <h4 className="purple-text font-bold text-2xl md:text-4xl">₹{price}</h4>
+                            <h4 className="purple-text font-bold text-2xl md:text-4xl">₹{Math.round(price)}</h4>
                             <div>
-                                <p className='text-yellow-500 font-medium text-sm'>26% Off</p>
-                                <p className="text-slate-400 font-medium"><s>₹{markupPrice}</s></p>
+                                <p className='text-green-600 font-semibold text-sm'>
+                                {Math.round(((markupPrice - price) / markupPrice) * 100)}% Off
+                                </p>
+                                <p className="text-slate-400 font-medium"><s>₹{Math.round(markupPrice)}</s></p>
                             </div>
 
                         </div>

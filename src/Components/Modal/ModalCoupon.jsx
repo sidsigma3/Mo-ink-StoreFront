@@ -72,7 +72,7 @@ const ModalCoupon = ({ isOpen, onClose, savings, discount,discountCode }) => {
 
         {/* Coupon Info */}
         <h2 className="text-4xl font-bold text-gray-800 mb-4 relative z-20">
-          ₹{discount.toFixed(2)}/-
+            ₹{Math.round(discount)}/-
         </h2>
 
           <p className="text-md text-gray-500 mb-2 relative z-20">

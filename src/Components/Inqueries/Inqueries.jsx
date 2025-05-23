@@ -19,13 +19,18 @@ const Inqueries = ({ show }) => {
     message: ""
   });
 
+   const [loading, setLoading] = useState(false);
+
   const sendEmail = async () => {
+    setLoading(true); 
     const { name, email, phoneNumber, message } = formData;
+
 
     const showToast = (message, type ) => {
       const toastId = Date.now(); 
       setToasts([{ id: toastId, message, type }]);
       setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== toastId)), 3000); 
+      setLoading(false);
     };
 
     if (!name || !email || !phoneNumber || !message) {
@@ -104,11 +109,12 @@ const Inqueries = ({ show }) => {
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
           />
 
-          <button
-            className="p-2 bg-violet-800 text-white rounded"
+           <button
+            className="p-2 bg-violet-800 text-white rounded disabled:opacity-80"
             onClick={sendEmail}
+            disabled={loading} 
           >
-            SEND
+            {loading ? "Sending..." : "SEND"} 
           </button>
 
           <div className='grid grid-cols-4 lg:grid-cols-3 gap-y-6'>

@@ -1,16 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { TbFileInvoice } from "react-icons/tb";
 import { CiStar } from "react-icons/ci";
 import { MdArrowForwardIos } from "react-icons/md";
 import { downloadInvoice } from '../../Services/InvoiceService';
 import { downloadCreditReceipt } from '../../Services/InvoiceService';
+import Toast from '../Toast/Toast';
+
 
 const OrderBox = ({order}) => {
 
+  const [toasts, setToasts] = useState([]);
+
     const handleDownloadInvoice = async(orderId) => {
+      
         const result = await downloadInvoice(orderId);
+        const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
+
         if (!result.success) {
-          alert("Failed to download invoice.");
+          showToast("Failed to download invoice.", "error");
         }
       };
     
@@ -144,7 +155,19 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
         <div className='flex items-center justify-end hidden md:flex'>
             <span className='text-gray-400'><MdArrowForwardIos size={20}/></span>
         </div>
-
+  {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
     </div>
   )
 }

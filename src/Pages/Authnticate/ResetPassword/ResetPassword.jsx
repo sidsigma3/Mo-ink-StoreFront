@@ -43,21 +43,26 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  try {
-    const payload = { token, newPassword, accountType };
-    const data = await resetPassword(payload);
-    console.log("Response from resetPassword:", data);
+try {
+  const payload = { token, newPassword, accountType };
+  const response = await resetPassword(payload);
+  const data = response.data;
 
-    if (data?.success) {
-      showToast("Password successfully reset!", "success");
-      setTimeout(() => navigate("/login"), 3000);
-    } else {
-      showToast(data?.message || "Something went wrong.", "error");
-    }
-  } catch (error) {
-    showToast("Failed to reset password. Please try again.", "error");
-    console.error(error);
-  }
+  console.log("Response from resetPassword:", data);
+
+        if (data?.success) {
+          showToast(data?.message || "Password successfully reset!", "success");
+          setTimeout(() => navigate("/login"), 3000);
+        } else {
+          showToast(data?.message || "Something went wrong.", "error");
+        }
+      } catch (error) {
+        showToast(
+          error.response?.data?.message || "Failed to reset password. Please try again.",
+          "error"
+        );
+        console.error("Error in resetPassword:", error);
+      }
 };
 
 

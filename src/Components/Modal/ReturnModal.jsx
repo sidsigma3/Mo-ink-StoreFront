@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import Toast from '../Toast/Toast';
 
 // 🔸 Added `weight` prop
 const ReturnModal = ({ isOpen, onClose, onConfirm, weight }) => {
   const [reason, setReason] = useState("");
   const [comment, setComment] = useState("");
   const [returnWeight, setReturnWeight] = useState("");
+const [toasts, setToasts] = useState([]);
+
 
   if (!isOpen) return null;
 
   const handleWeightChange = (e) => {
+    
     const value = e.target.value;
     // Allow empty string to let user fully clear input
     setReturnWeight(value === "" ? "" : Number(value));
@@ -17,8 +21,12 @@ const ReturnModal = ({ isOpen, onClose, onConfirm, weight }) => {
   const isSubmitDisabled = !reason || returnWeight <= 0 || returnWeight > weight;
 
   const handleConfirm = () => {
+     const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
     if (!reason) {
-      alert("Please select a reason.");
+      showToast("Please select a reason.", "error");
       return;
     }
 
@@ -120,6 +128,19 @@ const ReturnModal = ({ isOpen, onClose, onConfirm, weight }) => {
           </button>
         </div>
       </div>
+        {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
     </div>
   );
 };

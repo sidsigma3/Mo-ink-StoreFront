@@ -4,14 +4,17 @@ import ProductDetailBox from "../../Components/ProductList/ProductDetailBox";
 import { fetchProducts } from "../../Services/ProductService";
 import { RxCross2 } from "react-icons/rx";
 import { removeFromCart } from "../../Services/CartService";
+import Toast from "../../Components/Toast/Toast";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [toasts, setToasts] = useState([]);
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
 
   // Function to fetch cart data
   const fetchCartData = useCallback(async () => {
+    
     if (!customer?.customerId) return;
 
     setLoading(true);
@@ -63,17 +66,21 @@ const Cart = () => {
   }, [fetchCartData]);
 
   const handleRemoveFromCart = async (variantId) =>{
+     const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
     if (!customer?.customerId) {
-      alert("Please log in to add items to your cart.");
+      showToast("Please log in to add items to your cart.", "error");
       return;
     }
   
     try {
       await removeFromCart(customer.customerId, variantId);
       fetchCartData();
-      alert("Item removed from cart successfully!"); // Success message
+      showToast("Item removed from cart successfully!", "success"); // Success message
     } catch (error) {
-      alert("Failed to remove item from cart!");
+      showToast("Failed to remove item from cart!", "error");
     }
   }
 
@@ -110,6 +117,21 @@ const Cart = () => {
       ) : (
         <p>No cart items found</p>
       )}
+
+       {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
     </div>
   );
 };

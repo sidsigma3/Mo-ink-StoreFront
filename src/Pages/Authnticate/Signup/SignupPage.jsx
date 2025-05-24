@@ -3,6 +3,8 @@ import './SignupPage.css';
 import { useNavigate } from "react-router-dom";
 import ToggleBtn from '../../../Components/Buttons/ToggleButton/ToggleBtn';
 import { createCustomer , otpSend } from '../../../Services/CustomerService';
+import Toast from '../../../Components/Toast/Toast';
+
 
 
 const SignupPage = ({ togglePage, isLogin }) => {
@@ -32,6 +34,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
   });
 
   const [loading, setLoading] = useState(false);
+const [toasts, setToasts] = useState([]);
 
    const [isVerifying, setIsVerifying] = useState(false);
 
@@ -106,12 +109,17 @@ const SignupPage = ({ togglePage, isLogin }) => {
   };
 
   const verifyGstNumber = async (gstNumber) => {
+
+    const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
   try {
     const response = await fetch("https://api.bulkpe.in/client/verifyGstin", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "Authorization": "Bearer aWSVQNyt+z3IiJHV+YX9UgyVVGvsw7WKbYHBMvfjwQu8B4ZH0TDo5/foe26Zf/Qj4idKNyezUG3ux15YcAHqaKyAIyGvXVP5Wap/YcqusaqUvpabVex0BKwk+CTPqH9tka9xfjHYM2wHwPSWUCXZOw==",
+    "Authorization": "Bearer aWSVQNyt+z3IiJHV+YX9UgyVVGvsw7WKbYHBMvfjwQu8B4ZH0TDo5/foe26Zf/Qj4idKNyezUG3ux15YcAHqaKyAIyGvXVP5Wap/YcqusarvqwJO8gbXAdtntfwhjG2XJeY2cGbPzRpLV2Y5O4ZwdQ==",
   },
   body: JSON.stringify({
     gstin: formData.gstNumber.trim(),
@@ -133,15 +141,19 @@ const SignupPage = ({ togglePage, isLogin }) => {
         ...prev,
         gstVerified: false,
       }));
-      alert("Invalid GST number");
+      showToast("Invalid GST number", "error");
     }
   } catch (error) {
     console.error("Error verifying GST:", error);
-    alert("Failed to verify GST number. Try again.");
+    showToast("Failed to verify GST number. Try again.", "error");
   }
 };
 
   const handleSubmit = async (e) => {
+    const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
     e.preventDefault();
     setLoading(true);
   
@@ -193,7 +205,7 @@ const SignupPage = ({ togglePage, isLogin }) => {
         },
       });
     } catch (error) {
-      alert("Failed to send OTP!");
+      showToast("Failed to send OTP!", "error");
       console.error(error);
     } finally {
       setLoading(false);
@@ -381,6 +393,20 @@ const SignupPage = ({ togglePage, isLogin }) => {
                     </button>
         </form>
       </div>
+       {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
     </div>
   );
 };

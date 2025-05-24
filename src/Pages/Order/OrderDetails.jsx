@@ -19,6 +19,8 @@ import { getDiscountById } from '../../Services/DiscountService'
 import { Link } from 'react-router-dom'
 import { downloadCreditReceipt } from '../../Services/InvoiceService'
 import moment from 'moment-timezone';
+import BottomNav from '../../Components/BottomNav/BottomNav'
+import Toast from '../../Components/Toast/Toast'
 
 
 const OrderDetails = () => {
@@ -32,6 +34,8 @@ const OrderDetails = () => {
     const billingAddress = customer.addresses?.find(addr => addr.addressType === 'HOME');
 
     const [appliedCoupon, setAppliedCoupon] = useState(null);
+
+    const [toasts, setToasts] = useState([]);
 
     const [summary, setSummary] = useState(null);
 
@@ -101,9 +105,14 @@ const OrderDetails = () => {
       const selectedPayment = order.paymentTypeDiscount;
 
       const handleDownloadInvoice = async(orderId) => {
+         const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
         const result = await downloadInvoice(orderId);
         if (!result.success) {
-          alert("Failed to download invoice.");
+          showToast("Failed to download invoice.", "error");
         }
       };
 
@@ -337,26 +346,26 @@ const OrderDetails = () => {
 
   return (
     <div>
-        <div className='px-6 md:px-14 py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-6 md:px-14 py-3'> <Navbar></Navbar></div>
-        <div className='px-6 md:px-14 py-3 mt-10'>  <HeroSection productName={"Order Details"}  breadcrumbs={breadcrumbs}></HeroSection></div>
+         <div className='px-6 lg:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
+            <div className='px-6 lg:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
+        <div className='px-6 lg:px-14 py-3'>  <HeroSection productName={"Order Details"}  breadcrumbs={breadcrumbs}></HeroSection></div>
 
         
 
 
         <div className='px-6 md:px-14 py-3 mt-10'>
 
-            <div className='flex justify-between border-bottom pb-6'>
+            <div className= 'd-flex flex-wrap gap-4 justify-between border-bottom pb-6'>
                 <div>
                     <h4 className='font-bold text-2xl'>Order ID: {order.orderId}</h4>
-                    <div className='flex divide-x-4 mt-6 gap-6'>
+                    <div className='d-flex flex-wrap divide-x-4 mt-6 gap-6'>
                         <h5>Order date:  <span className='font-semibold'>{orderDate}</span></h5>
-                        <h4 className='ps-6 text-violet-800 font-medium flex items-center gap-2'>
+                        <h4 className='ps-6 text-violet-800 font-medium flex items-center gap-4'>
       <span><HiOutlineTruck size={22} /></span> Estimated delivery {estimatedDeliveryDate}</h4>                    
       </div>
                 </div>
 
-                <div className='flex flex-row items-end gap-2'>
+                <div className='d-flex flex-wrap justify-start items-end gap-3'>
                 {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
                   <div className='flex items-center g-2'>
                     <button 
@@ -376,7 +385,7 @@ const OrderDetails = () => {
                 {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
                 order?.payment?.totalRefundAmount > 0 && (
                   <button
-                    onClick={() => handleDownloadCreditReceipt(order.orderId, "cancelled")}
+                    onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
                     className='bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
                   >
                     <TbFileInvoice size={20} />
@@ -384,7 +393,7 @@ const OrderDetails = () => {
                   </button>
                 )}
 
-                {/* {
+                {
                   order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
                     <button
                       onClick={() => handleDownloadCreditReceipt(order.orderId, "RETURNED")}
@@ -393,7 +402,7 @@ const OrderDetails = () => {
                       <TbFileInvoice size={20} />
                       <h5>Return Receipt</h5>
                     </button>
-                 )} */}
+                 )}
             
                  </div>
             </div>
@@ -403,7 +412,7 @@ const OrderDetails = () => {
             </div>
 
 
-            <div className='mt-20 border-bottom pb-6 px-40'>
+            <div className='mt-20 border-bottom pb-6 lg:px-40'>
                 <ul className="flex flex-col gap-5">
                     {order?.orderVariantResponse.map((item, idx) => (
                     <li key={idx}>
@@ -415,26 +424,27 @@ const OrderDetails = () => {
             </div>
 
 
-            <div className="grid grid-cols-3 mt-10 border-bottom pb-10 px-24">
-            <div>
-            <h5 className='font-semibold text-lg'>Payment</h5>
-            <p className='text-gray-600 mt-2'>{paymentDescriptions[selectedPayment]}</p>
-            </div>
+            <div className="flex flex-wrap gap-4 mt-10 border-b pb-10  md:px-24">
 
-            <div className='flex flex-col items-start'>
+              <div className="flex-1 min-w-[250px] text-left">
+                <h5 className="font-semibold text-lg">Payment</h5>
+                <p className="text-gray-600 mt-2">{paymentDescriptions[selectedPayment]}</p>
+              </div>
+
+              <div className="flex-1 min-w-[250px] text-left">
                 <h5 className="font-semibold text-lg">Billing Address</h5>
                 <p className="text-gray-500 font-medium whitespace-pre-line">{order.billingAddress}</p>
-                </div>
+              </div>
 
-                <div className="flex flex-col items-end">
+              <div className="flex-1 min-w-[250px] text-left">
                 <h5 className="font-semibold text-lg">Shipping Address</h5>
-                <p className="text-gray-500 font-medium whitespace-pre-line text-right">{order.shippingAddress}</p>
+                <p className="text-gray-500 font-medium whitespace-pre-line">{order.shippingAddress}</p>
+              </div>
+              
             </div>
 
-            </div>
 
-
-            <div className='grid grid-cols-2 mt-6 px-10'>
+            <div className='flex flex-col-reverse md:grid md:grid-cols-2 mt-6  gap-6'>
 
                 <div className=''>
 
@@ -469,22 +479,22 @@ const OrderDetails = () => {
                 </div>
 
                 
-
-                <div className='border-1 rounded-md p-3 '>                  
+                <div>
+                <div className='border-1 rounded-md p-3 mt-10 '>                  
                 <table className='w-100 rounded mt-2 font-semibold'>
                     <tbody className='leading-8'>
                         <tr>
                         <td>Total Cost</td>
                         <td></td>
-                        <td className='text-end'>₹{(totalCost).toFixed(0)}</td>
+                        <td style={{ textAlign: 'end' }}>₹{(totalCost).toFixed(0)}</td>
                         </tr>
 
                         <tr className='border-b-2'>
                         <td>
                             <div>
                             <p>Total Discount</p>
-                            <p className='text-gray-400 pl-12'>By payment Type</p>
-                            <p className='text-gray-400 pl-12'>By coupon Code</p>
+                            <p className='text-gray-400 pl-6'>By payment Type</p>
+                            <p className='text-gray-400 pl-6'>By coupon Code</p>
                             </div>
                         </td>
                         <td>
@@ -500,7 +510,8 @@ const OrderDetails = () => {
                         </td>
                         <td>
                             <div>
-                            <p className='text-end'>₹{Math.round(totalDiscount)}</p>
+                            <p className='text-end text-green-500'>
+                            <span className="mr-1 font-semibold">-</span> ₹{totalDiscount.toFixed(0)}</p>
                             <p className='text-gray-400 text-end'>₹{Math.round(discountByPayment)}</p>
                             <p className='text-gray-400 text-end'>₹{Math.round(discountByCoupon)}</p>
                             </div>
@@ -509,7 +520,7 @@ const OrderDetails = () => {
 
                         <tr>
                         <td className='pb-2'>Final Cost</td>
-                        <td></td>
+                        <td className='pb-2'></td>
                         <td className='text-end pb-2'>₹{Math.round(finalTotal)}</td>
                         </tr>
 
@@ -519,12 +530,12 @@ const OrderDetails = () => {
 
                         <tr>
                         <td className='pb-2'>CGST</td>
-                        <td></td>
+                        <td className='pb-2'></td>
                         <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(0)}</td>
                         </tr>
                         <tr>
                         <td className='pb-2'>SGST</td>
-                        <td></td>
+                        <td className='pb-2'></td>
                         <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(0)}</td>
                         </tr>
 
@@ -540,32 +551,34 @@ const OrderDetails = () => {
 
                         <tr>
                         <td className='pb-2'>Handling Charges</td>
-                        <td></td>
+                        <td className='pb-2'></td>
                         <td className='text-end pb-2'>₹{handlingCharges}</td>
                         </tr>
 
                         <tr className='border-b-2'>
                         <td className='pb-2'>Platform Fees</td>
-                        <td></td>
+                        <td className='pb-2'></td>
                         <td className='text-end pb-2'>₹49</td>
                         </tr>
 
                         <tr>
                         <td className='pt-2'>Net Pay</td>
-                        <td></td>
+                        <td className='pt-2'></td>
                         <td className='text-end pt-2'>₹{Math.round(netPayable).toLocaleString()}</td>
                         </tr>
 
                         <tr className='border-b-2'>
                             <td className='pb-2'>Wallet</td>
-                            <td></td>
-                            <td className='text-end pb-2'>₹{order.walletAmount || 0}</td>
+                            <td className='pb-2'></td>
+                            <td className='text-end text-green-500 pb-2'>
+                            <span className="mr-1 font-semibold">-</span>₹{order.walletAmount || 0}
+                            </td>
                         </tr>
 
 
                         <tr className='border-b-2'>
                         <td className='pt-2 pb-2'>To pay</td>
-                        <td></td>
+                        <td className='pt-2'></td>
                         <td className='text-end pt-2 pb-2'>₹{Math.round(adjustedNetPay).toLocaleString()}</td>
                         </tr>
 
@@ -577,28 +590,39 @@ const OrderDetails = () => {
 
                         <tr>
                         <td className='pt-2'>Balance Due</td>
-                        <td>{cod}%</td>
+                        <td className='pt-2'>{cod}%</td>
                         <td className='text-end pt-2'>₹{ order?.payment.codAmount.toFixed(0)-order?.payment.totalAdjustedAmount.toFixed(0)}</td>
                         </tr>
                     </tbody>
                     </table>
-       
+  
        
                    </div>
+                     <div className="md:col-start-2 mt-2">
+                    <div className="d-flex flex-wrap items-center gap-2 text-black font-medium">
+                      <span>
+                       Want to repeat order?
+                      </span>
+                      <a
+                        href="#"
+                        className="text-violet-800 font-bold underline hover:text-violet-900"
+                      >
+                        Buy Again
+                      </a>
+                    </div>
+                  </div>
+                   </div>
+                  
+
+             <div>
+                       
+         </div>
 
 
-                  <div>
-                </div>
 
+    </div>
 
-               <div class="flex items-center mt-2 gap-2 text-black font-medium">
-  <span>Happy with your previous purchase and want to repeat order?</span>
-  <a href="#" class="text-violet-800 font-bold underline hover:text-violet-900">Buy Again</a>
-</div>
-
-
-
-            </div>
+              
 
 
 
@@ -607,6 +631,23 @@ const OrderDetails = () => {
 
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
+                    <BottomNav></BottomNav>
+        
+
+          {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
     </div>
   )
 }

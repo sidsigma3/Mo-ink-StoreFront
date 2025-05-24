@@ -9,6 +9,7 @@ import { RxExit } from "react-icons/rx";
 import { getCustomerDetails, updateCustomerDetails } from '../../Services/CustomerService'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { useNavigate } from 'react-router-dom'
+import Toast from '../../Components/Toast/Toast'
 
 const SettingPage = () => {
 
@@ -18,6 +19,8 @@ const SettingPage = () => {
   const customerData = JSON.parse(localStorage.getItem('userData') || '{}');
   const [originalCustomer, setOriginalCustomer] = useState({});
   const [isModified, setIsModified] = useState(false); 
+  const [toasts, setToasts] = useState([]);
+
 
 
   useEffect(() => {
@@ -70,6 +73,10 @@ const SettingPage = () => {
 
   // Save changes
   const handleSaveChanges = async () => {
+     const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
     const updatedCustomerData = {
       customerName: customer.fullName,
       phoneNumber: customer.mobile,
@@ -93,7 +100,7 @@ const SettingPage = () => {
 
     try {
       await updateCustomerDetails(customerData.customerId, updatedCustomerData);
-      alert("✅ Changes saved successfully!");
+      showToast("Changes saved successfully!" , "success");
       setOriginalCustomer(customer); // Reset original to current
     } catch (error) {
       console.error("❌ Failed to save changes:", error);
@@ -227,6 +234,23 @@ const SettingPage = () => {
       <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
       <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
       <BottomNav></BottomNav>
+
+
+
+        {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
+
 
     </div>
   )

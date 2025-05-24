@@ -5,6 +5,8 @@ import ReturnModal from '../Modal/ReturnModal';
 import { updateOrderVariantStatuses } from '../../Services/OrderService';
 import { downloadCreditReceipt } from '../../Services/InvoiceService';
 import { TbFileInvoice } from "react-icons/tb";
+import Toast from '../Toast/Toast';
+
 
 const statusClassMap = {
   "New Order": "bg-blue-100 border border-blue-400 text-blue-600",
@@ -23,6 +25,7 @@ const OrderListBox = ({ item , status , orderId}) => {
   const [pricePerKg, setPricePerKg] = useState(0);
   const [gstRate, setGstRate] = useState(0);
   const [productFetched, setProductFetched] = useState(false);
+  const [toasts, setToasts] = useState([]);
   const [productImage,setProductImage] = useState()
   const backendUrl = process.env.REACT_APP_IMAGE_URL
 
@@ -63,6 +66,12 @@ const OrderListBox = ({ item , status , orderId}) => {
 
 
   const handleConfirmReturn = async ({ reason, comment ,returnWeight}) => {
+
+     const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
     try {
       await updateOrderVariantStatuses(orderId, 
         {
@@ -75,10 +84,10 @@ const OrderListBox = ({ item , status , orderId}) => {
       );
 
       setReturnRequested(true);
-      alert("Return request submitted successfully!");
+      showToast("Return request submitted successfully!", "success");
     } catch (error) {
       console.error("Failed to submit return request", error);
-      alert("Failed to submit return request");
+      showToast("Failed to submit return request", "error");
     } finally {
       setIsModalOpen(false);
     }
@@ -109,7 +118,7 @@ const OrderListBox = ({ item , status , orderId}) => {
 
   const statusClassMap = {
     NEW: "bg-blue-100 border border-blue-400 text-blue-600",
-    CONFIRMED: "bg-cyan-300 border-cyan-800" ,
+    CONFIRMED: "bg-lime-100 border border-lime-400 text-lime-600" ,
     SHIPPED: "bg-yellow-100 border border-yellow-400 text-yellow-700",
     MANUFACTURING: "bg-purple-100 border border-purple-400 text-purple-700",
     DELIVERED: "bg-green-100 border border-green-400 text-green-600",
@@ -181,12 +190,12 @@ const OrderListBox = ({ item , status , orderId}) => {
               Weight: {weight}KG
             </p>
 
-            {returnRequested && (
+            {/* {returnRequested && (
               <span className="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
                 <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
                 Return Requested
               </span>
-            )}
+            )} */}
           </div>
 
           {status === 'DELIVERED' && item.status !== 'RETURNED' && item.status!=='CANCELLED' && (
@@ -243,7 +252,23 @@ const OrderListBox = ({ item , status , orderId}) => {
         weight={item.orderWeight}
 
       />
+
+        {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
     </div>
+
+    
   );
 };
 

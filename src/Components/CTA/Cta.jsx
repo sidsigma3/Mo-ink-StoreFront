@@ -1,15 +1,23 @@
 import React , {useState}from 'react'
 import { FaRegPaperPlane } from "react-icons/fa6";
-
+import Toast from '../Toast/Toast';
 
 const Cta = () => {
 
   const [email, setEmail] = useState("");  // State for email input
   const [showPopup, setShowPopup] = useState(false);  // State for popup
+  const [toasts, setToasts] = useState([]);
+
 
   const handleSubscribe = () => {
+    const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+
+
     if (!email) {
-      alert("Please enter your email!");
+      showToast("Please enter your email!", "error");
       return;
     }
 
@@ -109,6 +117,20 @@ const Cta = () => {
             </div>
           </div>
         )}
+
+{/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
 
 
     </div>

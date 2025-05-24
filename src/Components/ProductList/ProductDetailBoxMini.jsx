@@ -4,6 +4,8 @@ import { FaHeart } from "react-icons/fa";
 import { addToWishlist, removeFromWishlist } from "../../Services/WishlistService";
 import { getCart, removeFromCart } from "../../Services/CartService"
 import { useAppContext } from '../../Utils/commoncontext';
+import Toast from '../Toast/Toast';
+
 
 
 
@@ -15,6 +17,8 @@ const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, v
   onVariantTypeChange = () => {},
 }) => {
   const { updateCartAndWishlistCounts } = useAppContext();
+const [toasts, setToasts] = useState([]);
+
   const backendUrl = process.env.REACT_APP_IMAGE_URL
 
   const [quantity, setQuantity] = useState(itemQuantity || 1);
@@ -49,6 +53,10 @@ const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, v
 
 
   const handleWishlistClick = async () => {
+     const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     if (!customer?.customerId) return;
 
@@ -58,7 +66,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, v
         setIsWishlisted(false);
         setJustRemoved(true);
         updateCartAndWishlistCounts();
-        alert("Item is removed from wishlist");
+        showToast("Item is removed from wishlist", "error");
       } else {
         const cart = await getCart(customer.customerId);
 
@@ -77,7 +85,7 @@ const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, v
         updateCartAndWishlistCounts();
         setIsWishlisted(true);
         setJustRemoved(false);
-        alert("Item is added back to wishlist");
+        showToast("Item is added back to wishlist", "success");
       }
       window.location.reload();
       onWishlistToggle?.();
@@ -203,6 +211,19 @@ console.log(hexCode);
 
         </div>
       </a>
+        {/* Toast Notification */}
+     <div className="fixed top-4 right-4 z-50 space-y-2">
+                {toasts.map((toast) => (
+                    <Toast
+                        key={toast.id}
+                        message={toast.message}
+                        type={toast.type}
+                        onClose={() =>
+                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
+                        }
+                    />
+                ))}
+            </div>
     </div>
   )
 }

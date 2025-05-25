@@ -177,7 +177,12 @@ const ProductDetailBox = ({
             {/* Quantity Row */}
             <div className="d-flex align-items-center justify-content-between mt-3">
               <div className="border px-3 py-2 rounded col-4">
+                 {variantType === "CONE" ? (
                 <h5>50 Kg</h5>
+              ):(
+                <h5>10 Kg</h5>
+              )
+            }
               </div>
   
               <div className="col-4">

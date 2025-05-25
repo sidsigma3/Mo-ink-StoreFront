@@ -344,6 +344,8 @@ const OrderDetails = () => {
   const isOdisha = billingState?.toLowerCase() === "odisha";
 
 
+  console.log(order)
+
   return (
     <div>
          <div className='px-6 lg:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
@@ -382,8 +384,7 @@ const OrderDetails = () => {
                 )}
 
 
-                {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
-                order?.payment?.totalRefundAmount > 0 && (
+                {order.cancelCreditReceiptGenerated === "true" && (
                   <button
                     onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
                     className='bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'

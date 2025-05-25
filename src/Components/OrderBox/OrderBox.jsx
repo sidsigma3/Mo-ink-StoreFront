@@ -109,27 +109,24 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
 
   <div className= 'hidden md:flex md:col-span-1 flex-col items-center justify-center gap-2'>
 
-  {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
-          <button 
-            onClick={(e) => {
-              e.stopPropagation()
-              handleDownloadInvoice(order.orderId)
-            }}
-            className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48  rounded items-center'
-          >
-            <span><TbFileInvoice size={20}/></span>
-            <h5>Order Invoice</h5>
-          </button>
-           )}
-     {order.orderVariantResponse?.some(variant => variant.status === 'CANCELLED') &&
-                    order?.payment?.totalRefundAmount > 0 && (
+                  {(order.status === 'SHIPPED' || order.status === 'DELIVERED' || order.status === 'RETURNED') && (
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDownloadInvoice(order.orderId)
+                      }}
+                      className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48  rounded items-center'
+                    >
+                      <span><TbFileInvoice size={20}/></span>
+                      <h5>Order Invoice</h5>
+                    </button>
+                    )}
+
+
+                   {order.cancelCreditReceiptGenerated === "true" && (
                       <button
-
-
                         onClick={(e) => handleDownloadCreditReceipt(e,order.orderId, "cancelled")}
                         className=' bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48 rounded items-center'
-
-
                       >
                         <TbFileInvoice size={20} />
                         <h5>Cancel Receipt</h5>

@@ -28,6 +28,10 @@ const NavbarHeader = () => {
 
   const [accountOpen, setAccountOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [customer, setCustomer] = useState({});  // <-- Added
+
+  const customerData = JSON.parse(localStorage.getItem('userData') || '{}');
   
   
   const handleWishlist = () => {
@@ -95,6 +99,8 @@ const NavbarHeader = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [accountOpen]);
+
+
 
   return (
   // Only showing updated JSX portion for visual improvements (same logic retained)
@@ -204,11 +210,10 @@ const NavbarHeader = () => {
         <div className="absolute top-full right-0 w-64 mt-2 z-50 bg-white rounded-lg shadow-lg overflow-hidden">
           
           {/* User Info */}
-          <div className="px-4 py-3 border-b border-gray-200">
-            <p className="font-bold text-gray-800">User Name</p>
-            <p className="text-sm text-gray-500">useremail@gmail.com</p>
-          </div>
-
+           <div className="px-4 py-3 border-b border-gray-200">
+      <p className="font-bold text-gray-800">{ customerData.customerName || "Guest User"}</p>
+      <p className="text-sm text-gray-500">{ customerData.email || "No Email"}</p>
+    </div>
           {/* Navigation Items */}
           <ul className="text-sm py-2">
             <li onClick={() => navigate("/account")}

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { CreditCard } from 'lucide-react';
 import axios from "axios"; 
 import { resetPassword } from "../../../Services/CustomerService";
+import { Eye, EyeOff } from "lucide-react";
 import Toast from "../../../Components/Toast/Toast";
 
 
@@ -18,6 +19,8 @@ const ResetPassword = () => {
   const token = queryParams.get("token");
   const accountType = "CUSTOMER"; 
 
+  const [showNewPassword, setShowNewPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
 
 
 const handleSubmit = async (e) => {
@@ -49,22 +52,17 @@ try {
   const data = response.data;
 
   console.log("Response from resetPassword:", data);
+  showToast(data?.message || "Password successfully reset!", "success");
+  setTimeout(() => navigate("/login"), 3000);
+    } catch (error) {
+      showToast(
+        error.response?.data?.message || "Failed to reset password. Please try again.",
+        "error"
+      );
+      console.error("Error in resetPassword:", error);
+    }
 
-        if (data?.success) {
-          showToast(data?.message || "Password successfully reset!", "success");
-          setTimeout(() => navigate("/login"), 3000);
-        } else {
-          showToast(data?.message || "Something went wrong.", "error");
-        }
-      } catch (error) {
-        showToast(
-          error.response?.data?.message || "Failed to reset password. Please try again.",
-          "error"
-        );
-        console.error("Error in resetPassword:", error);
-      }
 };
-
 
     return (
         <div
@@ -102,22 +100,38 @@ try {
 
                 <form onSubmit={handleSubmit}>
                     <label className="block text-l mb-1">New password</label>
-                    <input
-                        type="password"
-                        placeholder="Create a strong password"
-                        className="w-full px-4 py-1 rounded-full mb-2 text-black focus:outline-none"
-                        value={newPassword}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                      <div className="relative"> 
+                        <input
+                          type={showNewPassword ? "text" : "password"} 
+                          placeholder="Create a strong password"
+                          className="w-full px-4 py-1 rounded-full mb-2 text-black focus:outline-none pr-10"
+                          value={newPassword}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <span
+                          className="absolute right-3 top-1.5 cursor-pointer text-gray-600" 
+                          onClick={() => setShowNewPassword((prev) => !prev)} 
+                        >
+                          {showNewPassword ?<EyeOff size={22} /> : <Eye size={22} />}
+                        </span>
+                      </div>
 
                     <label className="block text-l mb-1">Confirm password</label>
-                    <input
-                        type="password"
+                    <div className="relative"> 
+                      <input
+                        type={showConfirmPassword ? "text" : "password"} 
                         placeholder="Re-enter the password"
-                        className="w-full px-4 py-1 rounded-full mb-2 text-black focus:outline-none"
+                        className="w-full px-4 py-1 rounded-full mb-2 text-black focus:outline-none pr-10" 
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
+                      />
+                      <span
+                          className="absolute right-3 top-1.5 cursor-pointer text-gray-600" 
+                        onClick={() => setShowConfirmPassword((prev) => !prev)} 
+                      >
+                        {showConfirmPassword ? <EyeOff size={22} /> : <Eye size={22} />   }    
+                      </span>
+                    </div>
 
                     <button
                         type="submit"

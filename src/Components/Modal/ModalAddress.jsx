@@ -46,7 +46,7 @@ const ModalAddress = ({
 
     const isDisabled = (type) => usedAddressTypes?.has(type) && !selectedAddress;
     const [toasts, setToasts] = useState([]);
-    
+    const [isSaveClicked, setIsSaveClicked] = useState(false); 
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -57,57 +57,67 @@ const ModalAddress = ({
         setFormData({ ...formData, addressType: type });
     };
 
-    
-    const handleSave = async () => {
-        const showToast = (message, type = "error") => {
-            setToasts([{ message, type }]);
-            setTimeout(() => setToasts([]), 3000);
-          };
 
-        if (!formData.addressType) {
-            showToast("Please select address type", "error");
-            return;
-        }
     
-        const existingAddresses = customer.addresses || [];
+
     
-        const exactMatch = existingAddresses.find((addr) =>
-            addr.customerAddress === formData.customerAddress &&
-            addr.street === formData.street &&
-            addr.city === formData.city &&
-            addr.state === formData.state &&
-            addr.country === formData.country &&
-            addr.zipcode === formData.zipcode &&
-            addr.addressType !== formData.addressType
+      const handleSave = async () => {
+          setIsSaveClicked(true); 
+    const showToast = (message, type = "error") => {
+        setToasts([{ message, type, id: Date.now() }]); // 🔥 unique toast
+        setTimeout(() => setToasts([]), 3000);
+    };
+
+    // 🔥 Required fields validation
+    const requiredFields = ['customerAddress', 'street', 'city', 'state', 'country', 'zipcode', 'addressType'];
+    const emptyFields = requiredFields.filter(field => !formData[field] || formData[field].trim() === '');
+    if (emptyFields.length > 0) {
+        showToast("Please fill all required fields.", "error");
+        return;
+    }
+
+    if (!formData.addressType) {
+        showToast("Please select address type", "error");
+        return;
+    }
+
+    const existingAddresses = customer.addresses || [];
+
+    const exactMatch = existingAddresses.find((addr) =>
+        addr.customerAddress === formData.customerAddress &&
+        addr.street === formData.street &&
+        addr.city === formData.city &&
+        addr.state === formData.state &&
+        addr.country === formData.country &&
+        addr.zipcode === formData.zipcode &&
+        addr.addressType !== formData.addressType
+    );
+
+    if (exactMatch && !selectedAddress) {
+        showToast(`Same address "${exactMatch.addressType}" in use. Add a new one`, "error");
+        return;
+    }
+
+    const alreadyExists = existingAddresses.some(
+        (addr) => addr.addressType === formData.addressType
+    );
+
+    if (alreadyExists && !selectedAddress) {
+        showToast(`${formData.addressType} address already exists.`, "error");
+        return;
+    }
+
+    let updatedAddresses;
+
+    if (selectedAddress) {
+        updatedAddresses = existingAddresses.map((addr) =>
+            addr.addressType === selectedAddress.addressType ? { ...addr, ...formData } : addr
         );
-    
-        if (exactMatch && !selectedAddress) {
-            showToast(`Same address "${exactMatch.addressType}" in use. Add a new one`, "error");
-            return;
-        }
-    
-        const alreadyExists = existingAddresses.some(
-            (addr) => addr.addressType === formData.addressType
-        );
-    
-        if (alreadyExists && !selectedAddress) {
-            showToast(`${formData.addressType} address already exists.`, "error");
-            return;
-        }
-    
-        let updatedAddresses;
-    
-        if (selectedAddress) {
-            // Edit mode: keep ID and update address
-            updatedAddresses = existingAddresses.map((addr) =>
-                addr.addressType === selectedAddress.addressType ? { ...addr, ...formData } : addr
-            );
-        } else {
-            // Add mode: push new address
-            updatedAddresses = [...existingAddresses, { ...formData }];
-        }
-    
-        const payload = {
+    } else {
+        updatedAddresses = [...existingAddresses, { ...formData }];
+    }
+
+   const payload = {
             customerId: customer.customerId,
             customerName: customer.customerName,
             phoneNumber: customer.phoneNumber,
@@ -119,20 +129,36 @@ const ModalAddress = ({
             customerStatus: customer.customerStatus,
             segmentIds: customer.segments?.map((s) => s.segmentId) || [],
             addresses: updatedAddresses,
-    
-            // Important for new addresses
             customerAddress: formData.customerAddress,
             zipcode: formData.zipcode,
         };
-    
+
         try {
             await updateCustomerDetails(customer.customerId, payload);
-            handleClose();
+
+            setToasts([{ message: "Address saved successfully!", type: "success", id: Date.now() }]);
+            setTimeout(() => setToasts([]), 3000);
+
+                    const onClose = () => {
+            setToasts([]);
+            handleClose(); 
+            };
+
         } catch (error) {
             console.error("Failed to update customer address:", error);
             showToast("Something went wrong while saving address.", "error");
         }
     };
+
+
+// const handleModalClose = () => {
+//         if (isSaveClicked) {
+//             handleClose();
+//         } else {
+//             setToasts([]); 
+//             handleClose();
+//         }
+//     };
     
     
     return (

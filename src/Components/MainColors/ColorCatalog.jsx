@@ -51,7 +51,9 @@ const colorData = [
     { name: "BLACK", image: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Color%20Palette_MoINK/BLACK.png?updatedAt=1745923389252" },
     { name: "GHEE", image: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Color%20Palette_MoINK/GHEE.png?updatedAt=1745923398605" },
     { name: "CHANDAN", image: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Color%20Palette_MoINK/CHANDAN.png?updatedAt=1745923389379" },
-    { name: "SHYAMOCY", image: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Color%20Palette_MoINK/SHYAMOCY.png?updatedAt=1745923424821" }
+    { name: "SHYAMOCY", image: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Color%20Palette_MoINK/SHYAMOCY.png?updatedAt=1745923424821" },
+    // { name: "TEST PIC", image: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/SK-3318-S023_8080e946-f030-4ea1-removebg-preview.png?updatedAt=1747997886235" }
+
   
 
 ];
@@ -93,6 +95,7 @@ const ColorCatalog = () => {
       key={index}
       className="flex flex-col items-center p-3 rounded-2xl border border-gray-100 shadow-lg bg-white"
     >
+    
       <div className="w-full h-full rounded-md overflow-hidden">
         <Image
           src={item.image}
@@ -102,6 +105,31 @@ const ColorCatalog = () => {
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
       </div>
+
+
+
+{/* <div className="w-full h-full rounded-md overflow-hidden bg-white flex items-center justify-center">
+  <div
+    className="w-[400px] h-[160px] mask-image bg-[#EF4444]/40"
+    style={{
+      WebkitMaskImage: `url(${item.image})`,
+      WebkitMaskRepeat: 'no-repeat',
+      WebkitMaskSize: 'contain',
+      WebkitMaskPosition: 'center',
+      maskImage: `url(${item.image})`,
+      maskRepeat: 'no-repeat',
+      maskSize: 'contain',
+      maskPosition: 'center',
+    }}
+  />
+</div> */}
+
+
+
+
+
+
+      
       <h3 className="text-sm md:text-lg font-semibold text-gray-900 mt-4 w-full text-center">
       {item.name}
       </h3>

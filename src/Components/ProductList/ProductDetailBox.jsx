@@ -157,7 +157,7 @@ const ProductDetailBox = ({
             <img
               src={`${backendUrl}${imageUrl}`}
               alt=""
-              className="h-80 w-full rounded-lg object-cover"
+              className="h-80 w-full rounded-lg object-contain"
               style={{ height: '10rem' }}
             />
             <div
@@ -166,6 +166,28 @@ const ProductDetailBox = ({
             ></div>
           </div>
   
+
+{/* Image with Hex Color Overlay using Mask */}
+        {/* <div className="relative rounded-lg w-[303px] h-[160px]">
+          <div
+            className="w-full h-full"
+            style={{
+              // backgroundColor: hexCode,
+              // WebkitMaskImage: `url(${backendUrl}${imageUrl})`,
+              // WebkitMaskRepeat: 'no-repeat',
+              // WebkitMaskSize: 'contain',
+              // WebkitMaskPosition: 'center',
+              maskImage: `url(${backendUrl}${imageUrl})`,
+              maskRepeat: 'no-repeat',
+              maskSize: 'contain',
+              maskPosition: 'center',
+            }}
+          />
+        </div> */}
+
+
+
+
           {/* Card Body */}
           <div className="p-3">
             <h5 className="font-medium">

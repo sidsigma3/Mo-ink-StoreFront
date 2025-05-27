@@ -41,7 +41,7 @@ const Wishlist = () => {
                       size: variant.size,
                       colorName: variant.color.colorName,
                       price: variant.pricePerKg,
-                      markupPrice: variant.markrupPrice,
+                      markupPrice: variant.markupPricePerKg,
                       variantId: variant.id,
                       hexCode:variant.color.hexCode,
                       productImage: product.productImage[0],
@@ -82,7 +82,7 @@ console.log(wishlistItems)
                 size={item.size}
                 color={item.colorName}
                 price={item.price}
-                markupPrice={item.markrupPrice}
+                markupPrice={item.markupPrice}
                 variantId={item.variantId}
                 isWishlist={wishlistIds.includes(item.variantId)}
                 onWishlistToggle={fetchWishlistData}

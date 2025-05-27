@@ -9,7 +9,7 @@ import Toast from '../Toast/Toast';
 
 
 
-const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,
+const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,markupPrice,
   isSelected = false,
   showCart = true,
   onSelectChange = () => { },
@@ -132,7 +132,7 @@ console.log(hexCode);
           <div className='mt-2 d-flex justify-content-between rounded'>
             <div className='d-flex gap-2 align-items-center'>
               <h4 className='purple-text font-semibold text-2xl'>₹{Math.round(price)}</h4>
-              <p className='text-slate-400'><s>₹542.85</s></p>
+              <p className='text-slate-400'><s>₹{markupPrice}</s></p>
             </div>
 
             <div className='bg-yellow-100 d-flex gap-2 rounded-lg align-items-center h-50 p-1'>

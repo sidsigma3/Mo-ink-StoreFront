@@ -35,7 +35,7 @@ const ProductDetailBox = ({
     }, 3000);
   };
   
-  console.log(isWishlisted,variantId)
+  
 
   const handleIncrease = () => setQuantity(prev => prev + 1);
   const handleDecrease = () => quantity > 1 && setQuantity(prev => prev - 1);

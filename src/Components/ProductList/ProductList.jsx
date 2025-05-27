@@ -23,6 +23,9 @@ const SlilderCard = ({ title, children }) => {
     }
   };
 
+
+  
+
   return (
     <>
       <div className="flex justify-between items-end mr-2">
@@ -147,6 +150,8 @@ const ProductList = () => {
     });
   };
 
+console.log(products)
+
   return (
     <div className="space-y-12">
       {products.map((product) => (
@@ -164,6 +169,7 @@ const ProductList = () => {
                   color={variant.color.colorName}
                   price={variant.pricePerKg}
                   variantId={variant.id}
+                  markupPrice={variant.markupPricePerKg}
                   navigateCart={true}
                   hexCode={variant.color.hexCode || '#ccc'}
                   variantType={variant.variantType}

@@ -375,6 +375,7 @@ const CheckoutPage = () => {
                     colorName: variant.color?.colorName,
                     hexCode:variant.color?.hexCode,
                     price: variant.pricePerKg,
+                    markupPrice:variant.markupPricePerKg,
                     variantId: variant.id,
                     quantity: item.quantity || 1,
                     productImage: product.productImage?.[0] || "/images/default.png",
@@ -908,7 +909,7 @@ const CheckoutPage = () => {
                                                 onSelectChange={handleCheckboxChange}
                                                 // onQuantityChange={(variantId, newQty) => handleQuantityUpdate(variantId, newQty)}
                                                 onVariantTypeChange={handleVariantTypeChange}
-
+                                                markupPrice={item.markupPrice}
                                                 itemQuantity={item.quantity} // ✅ use internal state first
                                                 onQuantityChange={handleQuantityChange}
                                             />

@@ -55,6 +55,7 @@ const SettingPage = () => {
       state: firstAddress.state || "",
       city: firstAddress.city || "",
       landmark: firstAddress.street || "",
+      gstNumber: customerDetails.gstNumber ||  "",
     };
 
     setCustomer(formattedCustomer);
@@ -82,11 +83,10 @@ const SettingPage = () => {
       phoneNumber: customer.mobile,
       whatsappNumber: customer.whatsapp,
       email: customer.email,
-      company: customer.company || "", // Add this if company is needed
+      // company: customer.company || "", // Add this if company is needed
       gstNumber: customer.gstNumber || "",
-      panNumber: customer.panNumber || "",
-      cancelledCheque: customer.cancelledCheque || "",
-      customerAddress: customer.address || "",
+      // cancelledCheque: customer.cancelledCheque || "",
+      // customerAddress: customer.address || "",
       street: customer.landmark, // Mapping to street
       city: customer.city, // Mapping to city
       state: customer.state,

@@ -296,7 +296,16 @@ const CheckoutPage = () => {
                 setWalletUsed(numericValue);
             }
         }
-    };
+
+         const maxUsable = Math.min(walletBalance, netPayable);
+
+        if (value > maxUsable) {
+            setWalletError(`Amount should not exceed ₹${Math.round(maxUsable).toLocaleString()}`);
+        } else {
+            setWalletUsed(value);
+            setWalletError('');
+        }
+        };
 
 
   
@@ -1363,14 +1372,13 @@ const CheckoutPage = () => {
                                             <input
                                                 type="text"
                                                 placeholder="Amount"
-                                                className={`w-20 border rounded-md text-green-500 text-right px-1 ${walletError ? 'border-red-500' : 'border-gray-300'
-                                                    }`}
+                                                className={`w-20 border rounded-md text-green-500 text-right px-1 ${walletError ? 'border-red-500' : 'border-gray-300'}`}
                                                 value={walletUsed === 0 ? '' : walletUsed}
                                                 onChange={handleWalletChange}
-                                            />
-                                            {walletError && (
+                                                />
+                                                {walletError && (
                                                 <p className="text-red-500 text-xs mt-1">{walletError}</p>
-                                            )}
+                                                )}
                                         </div>
                                     </td>
                                 </tr>

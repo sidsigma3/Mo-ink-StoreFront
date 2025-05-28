@@ -387,7 +387,7 @@ const CheckoutPage = () => {
                     markupPrice:variant.markupPricePerKg,
                     variantId: variant.id,
                     quantity: item.quantity || 1,
-                    productImage: product.productImage?.[0] || "/images/default.png",
+                    productImage: product.productImage || "/images/default.png",
                     gstRate: product.gstOnProduct || 0,
                     variantType: variant.variantType || "Cone", // ← Now pulled directly from variant
                 };

@@ -116,17 +116,18 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
               selected ? "border-blue-500" : "border-gray-300"
             }`}
           >
-            <div className="relative h-20 overflow-hidden">
-              <img
-               src={`${backendUrl}${product.productImage}`}
+           <div className="relative h-20 overflow-hidden">
+            <img
+                src={`${backendUrl}${product.productImage?.find(img => img.includes('hank')) || product.productImage?.[0]}`}
                 className="w-full h-full object-cover"
                 alt="Product"
-              />
-              <div
+            />
+            <div
                 className="absolute inset-0 opacity-50 mix-blend-multiply"
                 style={{ backgroundColor: item.color?.hexCode }}
-              ></div>
+            ></div>
             </div>
+
             <div className="flex flex-col items-center mt-2">
               <h5 className="text-black font-bold">{item.color?.colorName}</h5>
               <h5 className="text-gray-600">{item.color?.hexCode}</h5>
@@ -463,24 +464,38 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                 <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-8 mt-6">
                    <div class="lg:col-span-3">
-  <div class="grid sm:grid-cols-3 gap-2 text-center">
-    
-     <div class="sm:col-span-2 bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-      <img   src={`${backendUrl}${product.productImage}`} alt="Product" class="w-full h-full object-contain rounded-lg" />
-    </div>
+                    <div className="grid sm:grid-cols-3 gap-2 text-center">
+                    {/* Main Image: Prefer Hank if exists, else fallback */}
+                    <div className="sm:col-span-2 bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+                        <img
+                        src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
+                        alt="Main Product"
+                        className="w-full h-full object-contain rounded-lg"
+                        />
+                    </div>
 
-    {/* <!-- Two Smaller Images --> */}
-    <div class="sm:space-y-2 w-full h-full max-sm:grid max-sm:grid-cols-2 max-sm:gap-2">
-      <div class="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-        <img src={`${backendUrl}${product.productImage}`} alt="Product" class="w-full h-full object-contain rounded-lg" />
-      </div>
+                    {/* Two Smaller Images */}
+                    <div className="sm:space-y-2 w-full h-full max-sm:grid max-sm:grid-cols-2 max-sm:gap-2">
+                        {/* Show Cone image */}
+                        <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+                        <img
+                            src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[1]}`}
+                            alt="Cone Product"
+                            className="w-full h-full object-contain rounded-lg"
+                        />
+                        </div>
 
-      <div class="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-        <img src={`${backendUrl}${product.productImage}`} alt="Product" class="w-full h-full object-contain rounded-lg" />
-      </div>
-    </div>
+                        {/* Optional: Fallback image or duplicate */}
+                        <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+                        <img
+                             src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
+                            alt="Fallback Product"
+                            className="w-full h-full object-contain rounded-lg"
+                        />
+                        </div>
+                    </div>
+                    </div>
 
-  </div>
 </div>
 
 
@@ -800,7 +815,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             <div key={color.color.id} className="border-2 rounded-md overflow-hidden relative">
                                 <div className="relative h-20 w-full">
                                 <img
-                                   src={`${backendUrl}${product.productImage}`}
+                                   src={`${backendUrl}${product.productImage?.find(img => img.includes('hank')) || product.productImage?.[0]}`}
                                     className="w-full h-full object-cover"
                                     alt="Product"
                                 />

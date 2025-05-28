@@ -137,11 +137,12 @@ const OrderListBox = ({ item , status , orderId}) => {
       {/* Product Image */}
       <div className="col-span-3 lg:col-span-2 flex items-center justify-end">
         <img
-          src={`${backendUrl}${productImage}`}
+          src={`${backendUrl}${productImage?.find(img => img.includes('hank')) || productImage?.[0]}`}
           className="rounded-md size-32"
           alt="Product"
         />
       </div>
+
 
       {/* Product Info */}
       <div className="col-span-4 lg:col-span-3 flex flex-col justify-between">

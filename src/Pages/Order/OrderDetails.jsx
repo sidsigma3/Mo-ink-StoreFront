@@ -394,7 +394,7 @@ const OrderDetails = () => {
                   </button>
                 )}
 
-                {
+                {/* {
                   order.orderVariantResponse?.some(variant => variant.status === 'RETURNED') && (
                     <button
                       onClick={() => handleDownloadCreditReceipt(order.orderId, "RETURNED")}
@@ -403,7 +403,7 @@ const OrderDetails = () => {
                       <TbFileInvoice size={20} />
                       <h5>Return Receipt</h5>
                     </button>
-                 )}
+                 )} */}
             
                  </div>
             </div>

@@ -95,7 +95,10 @@ const [toasts, setToasts] = useState([]);
     }
   };
 
-console.log(hexCode);
+const getImageByVariantType = (variantType, imageUrls) => {
+  if (!imageUrls || imageUrls.length === 0) return '';
+  return imageUrls.find(url => url.includes(variantType.toLowerCase())) || '';
+};
 
   return (
     <div className='relative  justify-center items-center '>
@@ -110,19 +113,18 @@ console.log(hexCode);
       <a className="flex relative block bg-white divide-y divide-dotted w-full">
      
         <div className="relative flex items-center justify-center ps-3 rounded-lg">
-              <div className="relative w-full h-40 rounded-lg overflow-hidden">
-                <img
-                  
-                  src={`${backendUrl}${productImage}`}
-                  alt=""
-                  className="w-full h-full object-cover z-0" 
-                />
-                <div
-                  className="absolute inset-0 z-10 rounded-lg" 
-                  style={{ backgroundColor: hexCode, opacity: 0.4 }}
-                ></div>
-              </div>
-            </div>
+          <div className="relative w-full h-40 rounded-lg overflow-hidden">
+            <img
+              src={`${backendUrl}${getImageByVariantType(variantType, productImage)}`}
+              alt=""
+              className="w-full h-full object-cover z-0"
+            />
+            <div
+              className="absolute inset-0 z-10 rounded-lg"
+              style={{ backgroundColor: hexCode, opacity: 0.4 }}
+            ></div>
+          </div>
+        </div>
 
                 
 

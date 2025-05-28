@@ -35,7 +35,7 @@ const ProductDetailBox = ({
     }, 3000);
   };
   
-  
+
 
   const handleIncrease = () => setQuantity(prev => prev + 1);
   const handleDecrease = () => quantity > 1 && setQuantity(prev => prev - 1);
@@ -139,6 +139,16 @@ const ProductDetailBox = ({
   }, [customer?.customerId]);
   
 
+  const getImageByVariantType = (variantType) => {
+  if (!imageUrl || imageUrl.length === 0) return '';
+
+  const match = imageUrl.find((url) =>
+    url.includes(variantType.toLowerCase())
+  );
+
+  return match || '';
+};
+
   return (
     <>
       {/* Product Card */}
@@ -155,7 +165,7 @@ const ProductDetailBox = ({
           {/* Image with Color Overlay */}
           <div className="relative rounded-lg">
             <img
-              src={`${backendUrl}${imageUrl}`}
+              src={`${backendUrl}${getImageByVariantType(variantType)}`}
               alt=""
               className="h-80 w-full rounded-lg object-contain"
               style={{ height: '10rem' }}

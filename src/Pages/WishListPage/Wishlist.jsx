@@ -44,7 +44,7 @@ const Wishlist = () => {
                       markupPrice: variant.markupPricePerKg,
                       variantId: variant.id,
                       hexCode:variant.color.hexCode,
-                      productImage: product.productImage[0],
+                      productImage: product.productImage,
                       variantType:variant.variantType,
                       wishlistId,
                   }))

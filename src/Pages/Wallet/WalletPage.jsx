@@ -144,7 +144,16 @@ const WalletPage = () => {
                     >
                       {item.type}
                     </td>
-                    <td className="border border-gray-300 p-2">₹{item.amount.toFixed(0)}</td>
+
+                    <td className="border border-gray-300 p-2"
+                        style={{
+                          color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000", 
+                        }}
+                      >
+                        {item.type === "DEBIT" ? "−" : ""}
+                        ₹{item.amount.toFixed(0)} 
+                      </td>
+                         
                     <td className="border border-gray-300 p-2">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>

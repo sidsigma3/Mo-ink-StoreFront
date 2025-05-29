@@ -129,7 +129,16 @@ const OrderListBox = ({ item , status , orderId}) => {
   };
   
   
-  console.log(item)
+const getImageByVariantType = (variantType) => {
+  if (!productImage || productImage.length === 0) return '';
+
+  const match = productImage.find((url) =>
+    url.includes(variantType.toLowerCase())
+  );
+
+  return match || '';
+};
+
 
   return (
     <div className="grid grid-cols-10 gap-2 relative  justify-center rounded-lg bg-white">
@@ -137,7 +146,7 @@ const OrderListBox = ({ item , status , orderId}) => {
       {/* Product Image */}
       <div className="col-span-3 lg:col-span-2 flex items-center justify-end">
         <img
-          src={`${backendUrl}${productImage?.find(img => img.includes('hank')) || productImage?.[0]}`}
+          src={`${backendUrl}${getImageByVariantType(item.variantType)}`}
           className="rounded-md size-32"
           alt="Product"
         />
@@ -191,12 +200,12 @@ const OrderListBox = ({ item , status , orderId}) => {
               Weight: {weight}KG
             </p>
 
-            {/* {returnRequested && (
+            {returnRequested && (
               <span className="mt-2 inline-flex items-center gap-1 bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded">
                 <span className="w-2 h-2 me-2 rounded-full bg-yellow-600"></span>
                 Return Requested
               </span>
-            )} */}
+            )}
           </div>
 
           {status === 'DELIVERED' && item.status !== 'RETURNED' && item.status!=='CANCELLED' && (

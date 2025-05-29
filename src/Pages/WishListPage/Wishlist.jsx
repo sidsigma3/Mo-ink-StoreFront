@@ -11,52 +11,47 @@ const Wishlist = () => {
 
   // Fetch wishlist data
   const fetchWishlistData = useCallback(async () => {
-      if (!customer?.customerId) return;
+  if (!customer?.customerId) return;
 
-      setLoading(true);
-      try {
-          const wishlistResponse = await getWishlist(customer.customerId);
-          const wishlistVariantIds = wishlistResponse?.variantIds || [];
-          const wishlistId = wishlistResponse.wishlistId
+  setLoading(true);
+  try {
+    const wishlistResponse = await getWishlist(customer.customerId);
+    const wishlistVariantIds = wishlistResponse?.variantIds || [];
+    const wishlistId = wishlistResponse.wishlistId;
 
-          // Store variant IDs in state for quick lookup
-          setWishlistIds(wishlistVariantIds);
-          console.log(wishlistVariantIds)
+    // Store variant IDs in state for quick lookup
+    setWishlistIds(wishlistVariantIds);
 
-          let allProducts = JSON.parse(localStorage.getItem("allProducts"));
-          if (!allProducts) {
-              const productResponse = await fetchProducts();
-              allProducts = productResponse?.data || [];
-              localStorage.setItem("allProducts", JSON.stringify(allProducts));
-          }
+    // Always fetch fresh product data from the API
+    const productResponse = await fetchProducts();
+    const allProducts = productResponse?.data || [];
 
-          
+    // Filter products that match the wishlist variants
+    const wishlistProducts = allProducts.flatMap((product) =>
+      product.variants
+        .filter((variant) => wishlistVariantIds.includes(variant.id))
+        .map((variant) => ({
+          productName: product.productName,
+          size: variant.size,
+          colorName: variant.color.colorName,
+          price: variant.pricePerKg,
+          markupPrice: variant.markupPricePerKg,
+          variantId: variant.id,
+          hexCode: variant.color.hexCode,
+          productImage: product.productImage,
+          variantType: variant.variantType,
+          wishlistId,
+        }))
+    );
 
-          // Filter products that match the wishlist variants
-          const wishlistProducts = allProducts.flatMap((product) =>
-              product.variants
-                  .filter((variant) => wishlistVariantIds.includes(variant.id))
-                  .map((variant) => ({
-                      productName: product.productName,
-                      size: variant.size,
-                      colorName: variant.color.colorName,
-                      price: variant.pricePerKg,
-                      markupPrice: variant.markupPricePerKg,
-                      variantId: variant.id,
-                      hexCode:variant.color.hexCode,
-                      productImage: product.productImage,
-                      variantType:variant.variantType,
-                      wishlistId,
-                  }))
-          );
+    setWishlistItems(wishlistProducts);
+  } catch (error) {
+    console.error("Error fetching wishlist:", error);
+  } finally {
+    setLoading(false);
+  }
+}, [customer.customerId]);
 
-          setWishlistItems(wishlistProducts);
-      } catch (error) {
-          console.error("Error fetching wishlist:", error);
-      } finally {
-          setLoading(false);
-      }
-  }, [customer.customerId]);
 
   useEffect(() => {
       fetchWishlistData();

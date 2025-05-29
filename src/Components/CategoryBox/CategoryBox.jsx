@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 const CategoryBox = ({ size, color, price , product , variantType ,markupPrice }) => {
   const navigate = useNavigate();
+  const variant = variantType?.toLowerCase();
+
 
   const handleClick = () => {
     navigate("/productDetails", {
@@ -30,7 +32,15 @@ const CategoryBox = ({ size, color, price , product , variantType ,markupPrice }
       </div> */}
 
       <div className="flex flex-col items-center gap-2"> 
-        <span className="text-violet-800"><LuPencilRuler size={40}/></span>
+       <span className="text-violet-800">
+        {variant  === "hank" ? (
+          <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/yarn%20(1).png?updatedAt=1748516744330" alt="Hank" className="w-10 h-10" />
+        ) : variantType === "cone" ? (
+          <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/balls.png?updatedAt=1748517272738" alt="Cone" className="w-10 h-10" />
+        ) : (
+          <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/balls.png?updatedAt=1748517272738" alt="Default" className="w-10 h-10" />
+        )}
+      </span>
         <h4 className="text-xl font-bold">Count - {size}</h4>
         <h4 className="text-xl font-bold">
           Total color - {Array.isArray(color) ? color.length : 1}

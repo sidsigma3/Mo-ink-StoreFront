@@ -32,7 +32,7 @@ const Blog4 = () => {
       <main className="max-w-7xl mx-auto py-12">
   <div className="bg-white rounded-5 p-6 md:p-10">
     <div className="mb-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
+      <h1 className="text-xl md:text-2xl font-semibold  text-gray-900 mb-6">
         Cone vs. Hank: Choosing the Right Yarn Format for Your Weaving Needs
       </h1>
 
@@ -49,7 +49,7 @@ const Blog4 = () => {
           Not all yarn formats are created equal. The choice between a yarn cone and a hank may seem minor, but it can greatly impact your production efficiency, dyeing precision, and weaving style.
         </p>
 
-        <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">What is a Yarn Cone?</h2>
+        <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">What is a Yarn Cone?</h2>
         <p className="text-gray-600 mb-6">
           A yarn cone is a tightly wound spool designed for high-speed machines and continuous weaving. It provides consistent tension, which is ideal for:
         </p>
@@ -62,7 +62,7 @@ const Blog4 = () => {
           Cones are efficient, tangle-free, and reduce downtime in large-scale manufacturing setups.
         </p>
 
-        <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">What is a Yarn Hank?</h2>
+        <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">What is a Yarn Hank?</h2>
         <p className="text-gray-600 mb-6">
           A yarn hank is a loosely coiled bundle that is more flexible and ideal for manual use. Hanks are perfect for:
         </p>
@@ -75,7 +75,7 @@ const Blog4 = () => {
           They offer easier handling for specialty applications, and they allow dyes to penetrate more evenly in small batches.
         </p>
 
-        <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Cone vs. Hank: Which One Should You Choose?</h2>
+        <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">Cone vs. Hank: Which One Should You Choose?</h2>
         <p className="text-gray-600 mb-4">
           <strong>Choose cones if:</strong>
         </p>
@@ -94,7 +94,7 @@ const Blog4 = () => {
           <li>You prefer flexibility and traditional dyeing</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Why It Matters for Weavers and Manufacturers</h2>
+        <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">Why It Matters for Weavers and Manufacturers</h2>
         <p className="text-gray-600 mb-6">
           The correct yarn format directly influences dye uptake, weaving flow, and fabric quality. At Ink n Dyes, we offer both formats so you can choose what best suits your business model—whether you're mass-producing fabrics or crafting exclusive textiles.
         </p>

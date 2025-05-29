@@ -882,7 +882,7 @@ const CheckoutPage = () => {
             </div>
 
             <div className='px-6 md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
-                <h5 className='font-bold text-2xl'>Review your cart</h5>
+                <h5 className='font-semibold text-xl md:text-2xl'>Review your cart</h5>
                 {cartItems.length > 0 ? (
                     <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 '>
                         {cartItems.map((item, index) => {
@@ -939,7 +939,7 @@ const CheckoutPage = () => {
                 <div className=' flex-1 mt-10'>
 
                     <div className='flex justify-between'>
-                        <h5 className='font-bold text-2xl'>Shipping Address</h5>
+                        <h5 className='font-semibold text-xl md:text-2xl'>Shipping Address</h5>
                         <button onClick={() => navigate('/address')} className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-sm font-semibold'>ADD NEW ADDRESS</button>
                     </div>
 
@@ -1063,7 +1063,7 @@ const CheckoutPage = () => {
 
                     <div className='mt-5 grid grid-cols-1 md:grid-cols-2 gap-3'>
                         <div className=''>
-                            <h5 className='font-bold text-2xl'>Payment</h5>
+                            <h5 className='font-semibold text-xl md:text-2xl'>Payment</h5>
                             <Dropdown onSelect={handleSelectPayment} size="sm" className='mt-2 md:text-sm'>
                                 <Dropdown.Toggle variant="light" id="dropdown-basic" className="d-flex align-items-center justify-content-between gap-2 w-100">
                                     <p className="m-0">{selectedPayment}</p>
@@ -1114,7 +1114,7 @@ const CheckoutPage = () => {
                         </div>
 
                         <div className="">
-                            <h5 className="font-bold text-2xl">Discounts</h5>
+                            <h5 className="font-semibold text-xl md:text-2xl">Discounts</h5>
                             <Button
                                 variant="light"
 
@@ -1269,7 +1269,7 @@ const CheckoutPage = () => {
 
                     </div> */}
                 </div>
-                <div className='p-2 flex-1'>
+                <div className=' flex-1'>
                     <div className='border-1 rounded-md p-3 mt-10'>
                         <table className='w-100 rounded mt-2 font-semibold'>
                             <tbody className='leading-8'>
@@ -1283,8 +1283,8 @@ const CheckoutPage = () => {
                                     <td>
                                         <div>
                                             <p>Total Discount</p>
-                                            <p className='text-gray-400 pl-6'>By payment Type</p>
-                                            <p className='text-gray-400 pl-6'>By coupon Code</p>
+                                            <p className='text-gray-400 pl-6'>Pay type</p>
+                                            <p className='text-gray-400 pl-6'>Coupon</p>
                                         </div>
                                     </td>
                                     <td>

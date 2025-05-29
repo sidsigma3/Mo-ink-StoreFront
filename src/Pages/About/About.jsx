@@ -6,7 +6,9 @@ import Cta from '../../Components/CTA/Cta';
 import Footer from '../../Components/Footer/Footer';
 import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
-import {  LinkedinIcon, TwitterIcon } from 'lucide-react';
+import { FiLinkedin } from "react-icons/fi";
+import { FaInstagram } from "react-icons/fa";
+
 
 const About = () => {
   const breadcrumbs = [
@@ -31,7 +33,7 @@ const About = () => {
           {/* Story Sections */}
           <div className="">
               <section>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4">Our Story</h3>
+                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">Our Story</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
                 Ink n Dyes is a tech-enabled platform that facilitates raw material procurement for SMEs in the weaving and handloom sectors. It integrates technology to SME's buying behaviour to make available better products, at better prices, in better timelines with a comprehensive online and offline support. </p>
 
@@ -47,21 +49,21 @@ const About = () => {
             <div className="relative aspect-[1/1] lg:aspect-1:1">
               <img
                 src="https://images.pexels.com/photos/28442318/pexels-photo-28442318/free-photo-of-confident-businessman-in-formal-suit-portrait.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                alt="Rejesh Sharma - CEO"
+                alt="Avinash Mohanty - CEO"
                 className="rounded-lg object-cotain w-full h-full"
               />
               <div className="absolute bottom-4 right-4 flex space-x-3">
-                <a href="#" className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors">
-                  <LinkedinIcon className="w-5 h-5 text-blue-600" />
+                <a href="https://www.linkedin.com/in/avinashmohanty/" className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors">
+                  <FiLinkedin  className="w-5 h-5 text-blue-600"/>
                 </a>
                 <a href="#" className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors">
-                  <TwitterIcon className="w-5 h-5 text-blue-400" />
+                  <FaInstagram  className="w-5 h-5 text-red-600" />
                 </a>
               </div>
             </div>
             
             <div className="flex flex-col justify-center">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Rejesh Sharma</h2>
+              <h2 className="text-2xl md:text-3xl  font-bold text-gray-900 mb-3">Avinash Mohanty</h2>
               <p className="text-lg text-purple-800 mb-6">Founder & CEO</p>
               <div className="prose prose-lg text-gray-600">
                 <p className="mb-4">
@@ -91,7 +93,7 @@ const About = () => {
               </div>
 
               <section>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4">Our Mission</h3>
+                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">Our Mission</h3>
                 <p className="text-gray-600 leading-relaxed">
                 Our mission is to provide premium-quality yarns that meet the evolving needs of the textile industry while ensuring ethical and sustainable business practices. We believe in:
                 </p>
@@ -103,7 +105,7 @@ const About = () => {
               </section>
 
               <section>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4">Looking Forward</h3>
+                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">Looking Forward</h3>
                 <p className="text-gray-600 leading-relaxed">
                 The future of textile manufacturing is dynamic, and we are committed to innovation. From adopting the latest technology to expanding our production capabilities, we continuously strive to enhance the efficiency, quality, and sustainability of our yarns. Our goal is to remain at the forefront of the industry while maintaining the trust and satisfaction of our valued customers.
                 </p>

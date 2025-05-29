@@ -55,7 +55,7 @@ const BlogList = () => {
             )}
 
             <div className="w-full overflow-hidden">
-                <h3 className="text-2xl md:text-2xl font-medium">Read Article</h3>
+                <h3 className="text-2xl md:text-3xl font-semibold">Read Article</h3>
                 <ul ref={scrollRef} className="flex overflow-x-auto gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-3 scrollbar-hide">
                     <li><BlogBox1 /></li>
                     <li><BlogBox2 /></li>

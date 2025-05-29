@@ -46,16 +46,16 @@ const Testimonial = () => {
 
   return (
     <section className="bg-gray-200">
-      <div className="w-100  px-16 py-12 sm:px-6 lg:me-0 lg:py-16 lg:pe-12 lg:ps-12 xl:py-24" style={{width:'100%'}}>
+      <div className="w-100 px-6 md:px-14 py-12 sm:px-6 lg:me-0 lg:py-16 lg:pe-12 lg:ps-12 xl:py-24" style={{width:'100%'}}>
         <div className="w-full items-end justify-between sm:flex ">
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
             Read trusted reviews from our customers
           </h2>
           <div className="mt-8 flex justify-end gap-4 lg:mt-0">
             <button
               aria-label="Previous slide"
               onClick={handlePrevious}
-              className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+              className="rounded-full border-1 border-violet-800 p-3 text-violet-800  transition hover:bg-violet-800 hover:text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ const Testimonial = () => {
             <button
               aria-label="Next slide"
               onClick={handleNext}
-              className="rounded-full border border-rose-600 p-3 text-rose-600 transition hover:bg-rose-600 hover:text-white"
+              className="rounded-full border-1 border-violet-800 p-3 text-violet-800 transition hover:bg-violet-800 hover:text-white"
             >
               <svg
                 className="size-5 rtl:rotate-180"
@@ -98,7 +98,7 @@ const Testimonial = () => {
                     className="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12"
                 >
                     <div>
-                    <div className="flex gap-0.5 text-green-500">
+                    <div className="flex gap-0.5 text-amber-200">
                         <svg
                         className="size-5"
                         fill="currentColor"
@@ -156,10 +156,10 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-2xl font-bold text-rose-600 sm:text-2xl">Stayin' Alive</p>
+                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Stayin' Alive</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
-                        No, Rose, they are not breathing. And they have no arms or legs … Where are they?
+                        No, violet, they are not breathing. And they have no arms or legs … Where are they?
                         You know what? If we come across somebody with no arms or legs, do we bother
                         resuscitating them? I mean, what quality of life do we have there?
                         </p>
@@ -176,7 +176,7 @@ const Testimonial = () => {
                     className="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12"
                 >
                     <div>
-                    <div className="flex gap-0.5 text-green-500">
+                    <div className="flex gap-0.5 text-amber-200">
                         <svg
                         className="size-5"
                         fill="currentColor"
@@ -234,10 +234,10 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-2xl font-bold text-rose-600 sm:text-2xl">Stayin' Alive</p>
+                        <p className="text-xl md:text-2xl font-bold text-violet-800 ">Stayin' Alive</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
-                        No, Rose, they are not breathing. And they have no arms or legs … Where are they?
+                        No, violet, they are not breathing. And they have no arms or legs … Where are they?
                         You know what? If we come across somebody with no arms or legs, do we bother
                         resuscitating them? I mean, what quality of life do we have there?
                         </p>
@@ -254,7 +254,7 @@ const Testimonial = () => {
                     className="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12"
                 >
                     <div>
-                    <div className="flex gap-0.5 text-green-500">
+                    <div className="flex gap-0.5 text-amber-200">
                         <svg
                         className="size-5"
                         fill="currentColor"
@@ -312,10 +312,10 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-2xl font-bold text-rose-600 sm:text-2xl">Stayin' Alive</p>
+                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Stayin' Alive</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
-                        No, Rose, they are not breathing. And they have no arms or legs … Where are they?
+                        No, violet, they are not breathing. And they have no arms or legs … Where are they?
                         You know what? If we come across somebody with no arms or legs, do we bother
                         resuscitating them? I mean, what quality of life do we have there?
                         </p>

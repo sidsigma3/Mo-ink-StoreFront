@@ -125,7 +125,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             <div
                 className="absolute inset-0 opacity-50 mix-blend-multiply"
                 style={{ backgroundColor: item.color?.hexCode }}
-            ></div>
+              ></div>
+               
+
             </div>
 
             <div className="flex flex-col items-center mt-2">
@@ -654,6 +656,15 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                                         className="absolute inset-0 opacity-50"
                                                                         style={{ backgroundColor: item.hexCode }}
                                                                     ></div>
+                                                                     <button
+                                                                        onClick={() => {
+                                                                            setTempCustomColors((prev) => prev.filter((c) => c !== item));
+                                                                        }}
+                                                                        className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full p-1"
+                                                                        >
+                                                                        <RxCross2 size={16} />
+                                                                        </button>
+
                                                                 </div>
                                                                 <h5 className="text-black font-bold text-center">{item.colorName}</h5>
                                                                 <h5 className="text-black font-bold text-center">{item.hexCode}</h5>

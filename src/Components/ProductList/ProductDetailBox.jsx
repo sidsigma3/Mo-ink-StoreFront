@@ -162,7 +162,7 @@ const ProductDetailBox = ({
             Sale
           </span>
   
-          {/* Image with Color Overlay */}
+          {/* Image with Color Overlay original*/}
           <div className="relative rounded-lg">
             <img
               src={`${backendUrl}${getImageByVariantType(variantType)}`}
@@ -177,24 +177,62 @@ const ProductDetailBox = ({
           </div>
   
 
-{/* Image with Hex Color Overlay using Mask */}
-        {/* <div className="relative rounded-lg w-[303px] h-[160px]">
-          <div
-            className="w-full h-full"
-            style={{
-              // backgroundColor: hexCode,
-              // WebkitMaskImage: `url(${backendUrl}${imageUrl})`,
-              // WebkitMaskRepeat: 'no-repeat',
-              // WebkitMaskSize: 'contain',
-              // WebkitMaskPosition: 'center',
-              maskImage: `url(${backendUrl}${imageUrl})`,
-              maskRepeat: 'no-repeat',
-              maskSize: 'contain',
-              maskPosition: 'center',
-            }}
-          />
-        </div> */}
 
+
+
+{/* <div className="relative rounded-lg overflow-hidden bg-white w-full h-40"> */}
+  {/* White background container */}
+  {/* <div className="absolute inset-0 bg-white"> */}
+  
+  {/* Original image with color overlay */}
+  {/* <div 
+    className="relative w-full h-full"
+    style={{
+      backgroundColor: hexCode,
+      backgroundImage: `url(${backendUrl}${imageUrl})`,
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      backgroundBlendMode: 'multiply',
+    }}
+  > */}
+    {/* Fallback for browsers that don't support blend modes */}
+    {/* <img
+      src={`${backendUrl}${imageUrl}`}
+      alt="Product image"
+      className="w-full h-full object-contain opacity-0"
+      aria-hidden="true"
+    /> */}
+    {/* </div>
+  </div>
+</div> */}
+
+
+
+
+{/* <div className="relative rounded-lg overflow-hidden bg-white w-full h-40">
+  <div className="relative w-full h-full">
+
+    <div className="absolute inset-0 bg-white"></div>
+    
+    <div 
+      className="absolute inset-0"
+      style={{
+        backgroundColor: hexCode,
+        WebkitMaskImage: `url(${backendUrl}${imageUrl})`,
+        WebkitMaskSize: 'contain',
+        WebkitMaskPosition: 'center',
+        WebkitMaskRepeat: 'no-repeat',
+        maskImage: `url(${backendUrl}${imageUrl})`,
+        maskSize: 'contain',
+        maskPosition: 'center',
+        maskRepeat: 'no-repeat',
+        maskPosition: 'center',
+      }}
+    ></div>
+    
+  </div>
+</div> */}
 
 
 

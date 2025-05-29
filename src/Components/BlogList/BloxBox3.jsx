@@ -13,7 +13,7 @@ const BloxBox3 = () => {
 
             <div className="p-3">
                 <a href="#">
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-xl font-semibold text-gray-900">
                 The Art of Dyeing: How Color Brings Yarn to Life                </h3>
                 </a>
 

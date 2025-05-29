@@ -25,7 +25,7 @@ const AddressBox = ({ address, name, company, phone, onDelete }) => {
     <div className='grid grid-cols-6 border-1 rounded p-3 relative'>
       <div className='col-span-5'>
         <div className='flex gap-4 items-start'>
-          <h3 className='text-xl font-bold'>{name}</h3>
+          <h3 className='text-lg md:text-xl font-bold'>{name}</h3>
 
           <div className='flex gap-2 items-center rounded-full border-1 border-violet-800 text-violet-800 px-3 h-1/2 font-semibold'>
             {address.addressType === 'HOME' ? (

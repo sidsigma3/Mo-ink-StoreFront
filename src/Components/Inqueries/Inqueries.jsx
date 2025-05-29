@@ -73,7 +73,7 @@ const Inqueries = ({ show }) => {
     <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
       <div>
         {show && (
-          <h4 className='font-semibold text-2xl'>Any Enquiries</h4>
+          <h4 className='font-semibold text-2xl md:text-3xl'>Any Inquiries</h4>
         )}
 
         {show === false && (

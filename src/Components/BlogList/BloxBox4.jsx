@@ -13,7 +13,7 @@ const BloxBox4 = () => {
 
             <div className="p-3">
                 <a href="#">
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-xl font-semibold text-gray-900">
                 Cone vs. Hank: Choosing the Right Yarn Format for Your Needs   </h3>
                 </a>
 

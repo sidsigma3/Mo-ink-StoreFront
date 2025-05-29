@@ -35,7 +35,7 @@ const Blog1 = () => {
       {/* Article Header */}
           <div className="mb-8">
           
-          <h1 className="text-2xl font-bold text-gray-900 mb-6">
+          <h1 className="text-xl font-semibold md:text-2xl text-gray-900 mb-6">
           The Journey of Yarn: From Raw Fiber to High-Quality Thread</h1>
           {/* <span className="inline-block px-4 py-1 rounded-full bg-purple-700 text-white text-sm font-medium mb-4">
             Yarn Manufaturing
@@ -56,7 +56,7 @@ const Blog1 = () => {
           Yarn plays a crucial role in the textile industry, serving as the foundation for countless fabrics and garments. But have you ever wondered how raw fiber transforms into the premium-quality yarn used in large-scale textile production? At Ink N Dyes, we take pride in our meticulous process that ensures durability, consistency, and excellence in every strand.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">
+          <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">
           1. Sourcing the Finest Raw Materials
           </h2>
           <p className="text-gray-600 mb-6">
@@ -77,19 +77,19 @@ const Blog1 = () => {
           </div>
 
 
-          <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">
+          <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">
           2. Cleaning and Processing          </h2>
           <p className="text-gray-600 mb-6">
           Once the raw fibers are sourced, they go through an intensive cleaning process to remove impurities, dirt, and natural oils. This ensures that the final product maintains a smooth and even texture. Our advanced fiber processing techniques allow us to maintain the integrity of the fibers while preparing them for the spinning stage.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">
+          <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">
           3. Spinning: Crafting the Perfect Yarn</h2>
           <p className="text-gray-600 mb-6">
           Spinning is where raw fibers are transformed into yarn. We employ state-of-the-art spinning technologies, including ring spinning, open-end spinning, and air-jet spinning, to produce yarns of various counts and textures. This stage determines the strength, twist, and fineness of the yarn, tailored to meet the demands of different textile applications.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">
+          <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">
           4. Quality Control: Ensuring Perfection
           </h2>
           <p className="text-gray-600 mb-6">
@@ -101,13 +101,13 @@ const Blog1 = () => {
             <li>Color fastness checks for dyed yarns.</li>
           </ul>
 
-          <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">
+          <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">
           5. Customization and Bulk Orders          </h2>
           <p className="text-gray-600 mb-6">
           we understand that every business has unique requirements. That’s why we offer customized yarn solutions, including specialized blends, custom dyeing, and varying thickness options. Whether you need yarn for weaving, knitting, or industrial applications, we cater to bulk orders with precision and reliability.
           </p>
 
-          <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">
+          <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">
           6. Packaging and Delivery         </h2>
           <p className="text-gray-600 mb-6">
           Once our yarn passes all quality tests, it is carefully packaged to prevent contamination and damage during transit. We ship our products to clients worldwide, ensuring timely delivery and seamless logistics support.

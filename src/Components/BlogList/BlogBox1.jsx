@@ -13,7 +13,7 @@ const BlogBox1 = () => {
 
             <div className="p-3">
                 <a href="#">
-                <h3 className="text-lg font-medium text-gray-900">
+                <h3 className="text-xl font-semibold text-gray-900">
                 The Journey of Yarn: From Raw Fiber to High-Quality Thread.
                 </h3>
                 </a>

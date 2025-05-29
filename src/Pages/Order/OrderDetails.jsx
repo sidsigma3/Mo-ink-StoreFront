@@ -359,7 +359,7 @@ const OrderDetails = () => {
 
             <div className= 'd-flex flex-wrap gap-4 justify-between border-bottom pb-6'>
                 <div>
-                    <h4 className='font-bold text-2xl'>Order ID: {order.orderId}</h4>
+                    <h4 className='font-semibold text-xl md:text-2xl'>Order ID: {order.orderId}</h4>
                     <div className='d-flex flex-wrap divide-x-4 mt-6 gap-6'>
                         <h5>Order date:  <span className='font-semibold'>{orderDate}</span></h5>
                         <h4 className='ps-6 text-violet-800 font-medium flex items-center gap-4'>
@@ -428,18 +428,18 @@ const OrderDetails = () => {
             <div className="flex flex-wrap gap-4 mt-10 border-b pb-10  md:px-24">
 
               <div className="flex-1 min-w-[250px] text-left">
-                <h5 className="font-semibold text-lg">Payment</h5>
+                <h5 className="font-semibold text-xl md:text-2xl">Payment</h5>
                 <p className="text-gray-600 mt-2">{paymentDescriptions[selectedPayment]}</p>
               </div>
 
               <div className="flex-1 min-w-[250px] text-left">
-                <h5 className="font-semibold text-lg">Billing Address</h5>
-                <p className="text-gray-500 font-medium whitespace-pre-line">{order.billingAddress}</p>
+                <h5 className="font-semibold text-xl md:text-2xl">Billing Address</h5>
+                <p className="text-gray-500 font-medium whitespace-pre-line mt-2">{order.billingAddress}</p>
               </div>
 
               <div className="flex-1 min-w-[250px] text-left">
-                <h5 className="font-semibold text-lg">Shipping Address</h5>
-                <p className="text-gray-500 font-medium whitespace-pre-line">{order.shippingAddress}</p>
+                <h5 className="font-semibold text-xl md:text-2xl">Shipping Address</h5>
+                <p className="text-gray-500 font-medium whitespace-pre-line mt-2">{order.shippingAddress}</p>
               </div>
               
             </div>
@@ -494,8 +494,8 @@ const OrderDetails = () => {
                         <td>
                             <div>
                             <p>Total Discount</p>
-                            <p className='text-gray-400 pl-6'>By payment Type</p>
-                            <p className='text-gray-400 pl-6'>By coupon Code</p>
+                            <p className='text-gray-400 pl-6'>Pay type</p>
+                            <p className='text-gray-400 pl-6'>Coupon </p>
                             </div>
                         </td>
                         <td>

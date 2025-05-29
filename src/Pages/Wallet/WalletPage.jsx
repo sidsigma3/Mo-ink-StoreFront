@@ -117,7 +117,7 @@ const WalletPage = () => {
           </div>
         ) : transactions.length > 0 ? (
           <div>
-            <h3 className="text-xl font-bold my-3">Last Transactions</h3>
+            <h3 className="text-xl md:text-2xl font-semibold my-3">Last Transactions</h3>
             <div className="overflow-x-auto">
             <table className="w-full border-collapse border border-gray-300 ">
               <thead>

@@ -21,7 +21,7 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
       style={{ width: '18rem', padding: '1rem' }}
     >
       <span
-        className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black"
+        className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black text-sm md:text-md "
       >
         Premium Yarn
       </span>

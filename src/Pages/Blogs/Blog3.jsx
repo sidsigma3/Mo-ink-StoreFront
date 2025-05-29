@@ -31,7 +31,7 @@ const Blog3 = () => {
       <main className="max-w-7xl mx-auto py-12">
         <div className="bg-white rounded-5 p-6 md:p-10">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">
+            <h1 className="text-xl font-semibold md:text-2xl text-gray-900 mb-6">
               The Art of Dyeing: How Color Brings Yarn to Life
             </h1>
 
@@ -48,7 +48,7 @@ const Blog3 = () => {
                 Color isn't just added—it’s curated. At Ink n Dyes the yarn dyeing process is an artful fusion of chemical mastery and creative vision. With over 1,000 vibrant yarn colors, we empower textile designers and manufacturers to bring imagination to life—one strand at a time.
               </p>
 
-              <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Choosing the Right Dye for Every Fiber</h2>
+              <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">Choosing the Right Dye for Every Fiber</h2>
               <p className="text-gray-600 mb-6">
                 Our dyeing experts use specialized dye types tailored to each fiber:
               </p>
@@ -61,17 +61,17 @@ const Blog3 = () => {
                 This ensures optimal penetration, long-lasting colorfastness, and consistent results across batches.
               </p>
 
-              <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Laboratory Precision Meets Bulk Dyeing</h2>
+              <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">Laboratory Precision Meets Bulk Dyeing</h2>
               <p className="text-gray-600 mb-6">
                 Every shade starts in our dye lab, where expert technicians develop exact formulas to match your custom requirements. Once perfected, the recipe is scaled to production levels using jet dyeing machines and high-efficiency dye baths, ensuring uniformity and reducing waste.
               </p>
 
-              <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Eco-Conscious Coloration</h2>
+              <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">Eco-Conscious Coloration</h2>
               <p className="text-gray-600 mb-6">
                 We're committed to sustainable yarn dyeing. Our facility follows stringent water treatment protocols, and we use low-impact dyes to reduce environmental stress. By optimizing temperatures and cycle times, we minimize resource use without compromising color brilliance.
               </p>
 
-              <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Use Cases: From Fashion to Furnishing</h2>
+              <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">Use Cases: From Fashion to Furnishing</h2>
               <p className="text-gray-600 mb-6">
                 Our colored yarns are used across:
               </p>
@@ -85,7 +85,7 @@ const Blog3 = () => {
                 Whether you need a Pantone match or a completely new palette, our team delivers with speed and accuracy.
               </p>
 
-              <h2 className="text-2xl font-semibold text-gray-900 mt-12 mb-6">Bringing Yarn to Life</h2>
+              <h2 className="text-xl md:text-2xl  font-semibold text-gray-900 mt-12 mb-6">Bringing Yarn to Life</h2>
               <p className="text-gray-600 mb-6">
                 Color adds emotion, identity, and market appeal. At Ink n Dyes, our yarn isn't just dyed—it’s designed to inspire. Trust our expertise to bring your fabrics the vivid touch they deserve.
               </p>

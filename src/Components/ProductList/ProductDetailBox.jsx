@@ -143,7 +143,7 @@ const ProductDetailBox = ({
   if (!imageUrl || imageUrl.length === 0) return '';
 
   const match = imageUrl.find((url) =>
-    url.includes(variantType.toLowerCase())
+    url.includes(variantType?.toLowerCase())
   );
 
   return match || '';

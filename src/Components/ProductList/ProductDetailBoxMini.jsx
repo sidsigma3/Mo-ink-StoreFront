@@ -129,7 +129,14 @@ const getImageByVariantType = (variantType, imageUrls) => {
                 
 
         <div className="p-3 w-4/5">
-          <h5 className='font-medium'>{productName}-{size} ({color})</h5>
+          {/* Card Body */}
+            <h5 className="font-medium flex items-center flex-wrap">
+            {productName}
+            <span className="mx-1 text-xl leading-none px-1">•</span>
+            {size}
+            <span className="mx-1 text-xl leading-none px-1">•</span>
+              {color}
+          </h5>
           
           <div className='mt-2 d-flex justify-content-between rounded'>
             <div className='d-flex gap-2 align-items-center'>

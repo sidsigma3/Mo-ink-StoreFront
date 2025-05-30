@@ -238,9 +238,18 @@ const ProductDetailBox = ({
 
           {/* Card Body */}
           <div className="p-3">
-            <h5 className="font-medium">
-              {productName}-{size} ({color}) ({variantType}) 
-            </h5>
+            <h5 className="font-medium flex items-center flex-wrap">
+            {productName}
+            <span className="mx-1 text-xl leading-none px-1">•</span>
+            {size}
+            <span className="flex items-center gap-1">
+               <span className="mx-1 text-xl leading-none px-1">•</span>
+              {color}
+            </span>
+            <span className="mx-1 text-xl leading-none px-1">•</span>
+            {variantType}
+          </h5>
+
 
             <h5></h5>
   

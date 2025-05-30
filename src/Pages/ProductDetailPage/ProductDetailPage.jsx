@@ -53,14 +53,18 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     
 
     const filteredColorsTemp = useMemo(() => {
-        if (!product?.variants?.length) return [];
-        return product.variants.filter(
-          (variant) => variant.size === size && variant.variantType === variantType
-        );
-      }, [product, size, variantType]);
-      
+  if (!product?.variants?.length) return [];
 
-      console.log(filteredColorsTemp)
+  return product.variants
+    .filter((variant) => variant.size === size && variant.variantType === variantType)
+    .filter(
+      (variant) =>
+        variant.color.colorName.toLowerCase().includes(searchColor) ||
+        variant.color.hexCode.toLowerCase().includes(searchColor)
+    );
+}, [product, size, variantType, searchColor]);
+
+
 
     const handleColorSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
@@ -678,7 +682,12 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 ) : (
                                     <div>
                                         <div>
-                                            <input onChange={(e) => handleColorSearch(e)} className='border w-full rounded-md p-2 mt-2' placeholder='Search by name or hexcode'></input>
+                                           <input
+                                                onChange={(e) => setSearchColor(e.target.value.toLowerCase())}
+                                                className="border w-full rounded-md p-2 mt-2"
+                                                placeholder="Search by name or hexcode"
+                                            />
+
                                         </div>
 
                                         <div className='flex justify-between items-center mt-3 mb-3 border-b-2 pb-3'>

@@ -252,30 +252,31 @@ const [toasts, setToasts] = useState([]);
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex flex-col w-full">
-              <label className="">First Name</label>
-              <input
-                className="login-input rounded-full text-black px-4 py-1"
-                placeholder="First name"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-            </div>
+        <div className="flex gap-3 w-full">
+        <div className="flex flex-col basis-1/2">
+          <label>First Name</label>
+          <input
+            className="login-input rounded-full text-black px-4 py-1 w-full"
+            placeholder="First name"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-            <div className="flex flex-col w-full">
-              <label className="">Last Name</label>
-              <input
-                className="login-input rounded-full text-black px-4 py-1"
-                placeholder="Last name"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+        <div className="flex flex-col basis-1/2">
+          <label>Last Name</label>
+          <input
+            className="login-input rounded-full text-black px-4 py-1 w-full"
+            placeholder="Last name"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
 
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex flex-col w-full">
@@ -304,69 +305,68 @@ const [toasts, setToasts] = useState([]);
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex flex-col w-full">
-              <label className="">Phone</label>
-              <input
-                className="login-input rounded-full text-black px-4 py-1"
-                placeholder="Phone number"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="flex flex-col w-full">
-              <label className="">WhatsApp</label>
-              <input
-                className="login-input rounded-full text-black px-4 py-1"
-                placeholder="WhatsApp number"
-                name="whatsappNumber"
-                value={formData.whatsappNumber}
-                onChange={handleChange}
-              />
-            </div>
+          <div className="flex gap-3 w-full">
+        <div className="flex flex-col basis-1/2">
+            <label>Phone</label>
+            <input
+              className="login-input rounded-full text-black px-4 py-1 w-full"
+              placeholder="Phone number"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-          
-            {/* GST Number Field */}
-      <div className="flex flex-col w-full relative">
-        <label>GST Number</label>
-        <input
-          className="login-input rounded-full text-black px-4 py-1"
-          placeholder="GST number"
-          name="gstNumber"
-          value={formData.gstNumber}
-          onChange={handleChange}
-          disabled={!formData.hasGst}
-          maxLength={15}
-        />
-        {formData.gstNumber.length === 15 && (
-          <span className="absolute right-3 top-7 text-lg">
-            {isVerifying ? (
-              <span className=" text-center text-yellow-500">⏳</span> 
-            ) : formData.gstVerified ? (
-              <span className=" text-center text-green-600">✔️</span>
-            ) : (
-              <span className=" text-center text-red-500">❌</span>
-            )}
-          </span>
-        )}
-      </div>
-
-        {/* Company Field */}
-        <div className="flex flex-col w-full">
-          <label className="">Company</label>
-          <input
-            className="login-input rounded-full text-black px-4 py-1"
-            placeholder="Company"
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
-          />
+          <div className="flex flex-col basis-1/2">
+            <label>WhatsApp</label>
+            <input
+              className="login-input rounded-full text-black px-4 py-1 w-full"
+              placeholder="WhatsApp number"
+              name="whatsappNumber"
+              value={formData.whatsappNumber}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-      </div>
+
+           <div className="flex gap-3 w-full">
+        <div className="flex flex-col basis-1/2">
+              <label>GST Number</label>
+              <input
+                className="login-input rounded-full text-black px-4 py-1 w-full"
+                placeholder="GST number"
+                name="gstNumber"
+                value={formData.gstNumber}
+                onChange={handleChange}
+                disabled={!formData.hasGst}
+                maxLength={15}
+              />
+              {formData.gstNumber.length === 15 && (
+                <span className="absolute right-3 top-7 text-lg">
+                  {isVerifying ? (
+                    <span className="text-center text-yellow-500">⏳</span>
+                  ) : formData.gstVerified ? (
+                    <span className="text-center text-green-600">✔️</span>
+                  ) : (
+                    <span className="text-center text-red-500">❌</span>
+                  )}
+                </span>
+              )}
+            </div>
+
+          {/* Company Field */}
+          <div className="flex flex-col basis-1/2">
+            <label>Company</label>
+            <input
+              className="login-input rounded-full text-black px-4 py-1 w-full"
+              placeholder="Company"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+
 
 
               <div className="flex flex-row justify-between items-center text-sm text-gray-300 mb-4">

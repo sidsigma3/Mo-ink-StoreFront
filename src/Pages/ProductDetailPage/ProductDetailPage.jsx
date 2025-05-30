@@ -42,7 +42,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [customColors, setCustomColors] = useState([]);
     const [selectedColors, setSelectedColors] = useState([]);
     const [isColorSelected, setIsColorSelected] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchText, setSearchText] = useState("");
     const [presetColors, setPresetColors] = useState([]);
     const customer = JSON.parse(localStorage.getItem("userData") || "{}");
     const [modalSelectedColors, setModalSelectedColors] = useState([]);
@@ -62,23 +62,28 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
       console.log(filteredColorsTemp)
 
-    const handleColorSearch = (e) => {
-        const searchText = e.target.value.toLowerCase();
-        setSearchTerm(searchText);
 
-        const filtered = customColors.filter(
-            (color) =>
-                color.colorName.toLowerCase().includes(searchText) ||
-                color.hexCode.toLowerCase().includes(searchText)
-        );
-
-        setFilteredColors(filtered);
-    };
-
-    useEffect(() => {
+      useEffect(() => {
         setFilteredColors(customColors);
     }, [customColors]);
 
+//     const handleColorSearch = (e) => {
+//             const searchText = e.target.value.toLowerCase();
+//             setSearchTerm(searchText);
+
+//             const filtered = filteredColorsTemp.filter(
+//                 (color) =>
+//                     color.colorName.toLowerCase().includes(searchText) ||
+//                     color.hexCode.toLowerCase().includes(searchText)
+//             );
+
+//             setFilteredColors(filtered);
+        
+//         };
+
+//   console.log(filteredColors)
+
+    
     const handleSubmitSelectedColor = () => {
         setSelectedColors(modalSelectedColors); // FULLY REPLACE
         setModalSelectedColors([]);
@@ -437,15 +442,15 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
       };
       
       
-    // const handleColorSearch = (e) => {
-    //     const searchText = e.target.value.toLowerCase();
-    //     const filtered = customColors.filter(
-    //         (color) =>
-    //             color.colorName.toLowerCase().includes(searchText) ||
-    //             color.hexCode.toLowerCase().includes(searchText)
-    //     );
-    //     setFilteredColors(filtered);
-    // };
+    const handleColorSearch = (e) => {
+        const searchText = e.target.value.toLowerCase();
+        const filtered = customColors.filter(
+            (color) =>
+                color.colorName.toLowerCase().includes(searchText) ||
+                color.hexCode.toLowerCase().includes(searchText)
+        );
+        setFilteredColors(filtered);
+    };
 
    
        
@@ -678,7 +683,13 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 ) : (
                                     <div>
                                         <div>
-                                            <input onChange={(e) => handleColorSearch(e)} className='border w-full rounded-md p-2 mt-2' placeholder='Search by name or hexcode'></input>
+                                            <input
+                                            onChange={handleColorSearch}
+                                            value={searchText}
+                                            className="border w-full rounded-md p-2 mt-2"
+                                            placeholder="Search by name or hexcode"
+                                        />
+                                         
                                         </div>
 
                                         <div className='flex justify-between items-center mt-3 mb-3 border-b-2 pb-3'>
@@ -922,33 +933,33 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         <li
                             class="text-gray-800 font-bold text-sm bg-gray-100 py-3 px-8 border-b-2 border-gray-800 cursor-pointer transition-all">
                             Description</li>
-                        <li class="text-gray-600 font-bold text-sm hover:bg-gray-100 py-3 px-8 cursor-pointer transition-all">Reviews</li>
+                        {/* <li class="text-gray-600 font-bold text-sm hover:bg-gray-100 py-3 px-8 cursor-pointer transition-all">Reviews</li> */}
                     </ul>
 
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Product Description</h3>
-                        <p class="text-md text-gray-600 mt-4">Step up your footwear game with our premium men's shoes. Designed for comfort and crafted with a contemporary aesthetic, these versatile shoes are a must-have addition to your wardrobe. The supple and breathable materials ensure all-day comfort, making them perfect for everyday wear.</p>
-                    </div>
+                  <div class="mt-8">
+    <h3 class="text-md md:text-lg font-bold text-gray-800">Product Description</h3>
+    <p class="text-md text-gray-600 mt-4">Our premium yarns are spun from the finest quality natural and synthetic fibers including cotton, silk, nylon, and polyester. Ideal for weaving, knitting, and textile production, our yarns offer consistent strength, vibrant color retention, and a smooth finish that ensures durability and elegance in every stitch.</p>
+    </div>
 
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Packaging & Delivery</h3>
-                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
-                    </div>
+    <div class="mt-8">
+        <h3 class="text-md md:text-lg font-bold text-gray-800">Packaging & Delivery</h3>
+        <p class="text-md text-gray-600 mt-4">Each yarn cone is securely packed in moisture-resistant, eco-friendly packaging to preserve fiber quality during transport. Orders are dispatched within 2–4 business days and bulk deliveries are managed with care using trusted logistics partners to ensure timely arrival and minimal handling damage.</p>
+    </div>
 
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Suggested Use</h3>
-                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
-                    </div>
+    <div class="mt-8">
+        <h3 class="text-md md:text-lg font-bold text-gray-800">Suggested Use</h3>
+        <p class="text-md text-gray-600 mt-4">Suitable for a wide range of textile applications including apparel manufacturing, handloom weaving, machine knitting, and home furnishings. Choose cotton or silk yarns for breathable, luxury garments, while nylon and polyester offer strength and elasticity ideal for sportswear and industrial fabrics.</p>
+    </div>
 
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingrediets</h3>
-                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
-                    </div>
+    <div class="mt-8">
+        <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingredients</h3>
+        <p class="text-md text-gray-600 mt-4">Our yarns are produced using high-quality raw fibers such as long-staple cotton, reeled mulberry silk, virgin polyester, and industrial-grade nylon. Some variants may include eco-dyes, silicone softeners, or anti-pilling treatments depending on customer requirements.</p>
+    </div>
 
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
-                        <p class="text-md text-gray-600 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias atque asperiores blanditiis eligendi tenetur. Nostrum esse quibusdam temporibus porro. Totam dolorem qui alias omnis excepturi nam magnam, soluta inventore, possimus iste commodi et, deserunt eius facere ipsam voluptates nesciunt beatae ducimus explicabo incidunt molestias similique assumenda. Quae doloribus consequuntur dolorum.</p>
-                    </div>
+    <div class="mt-8">
+        <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
+        <p class="text-md text-gray-600 mt-4">Store yarns in a dry, cool place away from direct sunlight to prevent discoloration and fiber degradation. Keep packaging sealed to avoid dust accumulation. Not recommended for use with open flames or high-heat machinery without appropriate processing treatments.</p>
+    </div>
 
 
                 </div>

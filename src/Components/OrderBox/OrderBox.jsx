@@ -50,6 +50,17 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
       }
     };
 
+    const orderDateObj = new Date(order.createdAt); 
+
+    const estimatedDeliveryDateObj = new Date(orderDateObj);
+    estimatedDeliveryDateObj.setDate(orderDateObj.getDate() + 18);
+
+     const estimatedDeliveryDate = estimatedDeliveryDateObj.toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
         <div className='col-span-3 md:col-span-2 lg:col-span-1'>
@@ -66,7 +77,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
 
         <h5 className='mt-2'>Weight: {totalWeight}Kg</h5>
 
-        <h4 className='mt-2'>Your order <span className='text-green-600'>Delivered</span> on Sunday, 05 February</h4>
+        <h4 className='mt-2'> <span className='font-semibold text-green-600'>Delivery expected</span> before <span className='font-semibold text-dark-600'>{estimatedDeliveryDate}</span></h4>
 
         <div className='flex mt-2 gap-2'>
             <div className='flex'>

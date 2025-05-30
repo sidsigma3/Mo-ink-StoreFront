@@ -43,8 +43,8 @@ const BottomNav = () => {
           selected === "home" ? "text-violet-800 border-t-4 border-violet-800 bg-gradient-to-b from-violet-200 to-white rounded-md" : " hover:text-purple-700"
         }`}
       >
-        <img src="/images/logo-icon.png"></img>
-        <span className="text-sm font-semibold">Home</span>
+        <img src="/images/NavLogo.png" width="30" height="30" alt="Logo" />       
+         <span className="text-sm font-semibold">Home</span>
       </button>
 
       {/* Search */}

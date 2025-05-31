@@ -63,10 +63,10 @@ const AddressPage = () => {
         fetchCustomerData();
 
         const id = Date.now();
-        setToasts(prev => [...prev, { id, message: 'Address saved successfully' }]);
-        setTimeout(() => {
-            setToasts(prev => prev.filter(t => t.id !== id));
-        }, 3000);
+        // setToasts(prev => [...prev, { id, message: 'Address saved successfully' }]);
+        // setTimeout(() => {
+        //     setToasts(prev => prev.filter(t => t.id !== id));
+        // }, 3000);
     };
 
     const breadcrumbs = [

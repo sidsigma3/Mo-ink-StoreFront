@@ -132,16 +132,16 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                 alt="Product"
             />
             <div
-                className="absolute inset-0 opacity-50 mix-blend-multiply"
+                className="absolute inset-0  opacity-50 mix-blend-multiply"
                 style={{ backgroundColor: item.color?.hexCode }}
               ></div>
                
 
             </div>
 
-            <div className="flex flex-col items-center mt-2">
+            <div className="flex flex-col text-center items-center mx-1 my-2">
               <h5 className="text-black font-bold">{item.color?.colorName}</h5>
-              <h5 className="text-gray-600">{item.color?.hexCode}</h5>
+              {/* <h5 className="text-gray-600">{item.color?.hexCode}</h5> */}
             </div>
           </div>
         );
@@ -675,8 +675,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                                         </button>
 
                                                                 </div>
-                                                                <h5 className="text-black font-bold text-center">{item.colorName}</h5>
-                                                                <h5 className="text-black font-bold text-center">{item.hexCode}</h5>
+                                                                <h5 className="text-black font-bold mx-1 my-2 text-center">{item.colorName}</h5>
+                                                                {/* <h5 className="text-black font-bold text-center">{item.hexCode}</h5> */}
                                                             </div>
                                                         ))}
                                                     </div>
@@ -943,30 +943,29 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                     </ul>
 
                   <div class="mt-8">
-    <h3 class="text-md md:text-lg font-bold text-gray-800">Product Description</h3>
-    <p class="text-md text-gray-600 mt-4">Our premium yarns are spun from the finest quality natural and synthetic fibers including cotton, silk, nylon, and polyester. Ideal for weaving, knitting, and textile production, our yarns offer consistent strength, vibrant color retention, and a smooth finish that ensures durability and elegance in every stitch.</p>
-    </div>
+                    <h3 class="text-md md:text-lg font-bold text-gray-800">Product Description</h3>
+                    <p class="text-md text-gray-600 mt-4">Our premium yarns are spun from the finest quality natural and synthetic fibers including cotton, silk, nylon, and polyester. Ideal for weaving, knitting, and textile production, our yarns offer consistent strength, vibrant color retention, and a smooth finish that ensures durability and elegance in every stitch.</p>
+                    </div>
 
-    <div class="mt-8">
-        <h3 class="text-md md:text-lg font-bold text-gray-800">Packaging & Delivery</h3>
-        <p class="text-md text-gray-600 mt-4">Each yarn cone is securely packed in moisture-resistant, eco-friendly packaging to preserve fiber quality during transport. Orders are dispatched within 2–4 business days and bulk deliveries are managed with care using trusted logistics partners to ensure timely arrival and minimal handling damage.</p>
-    </div>
+                    <div class="mt-8">
+                        <h3 class="text-md md:text-lg font-bold text-gray-800">Packaging & Delivery</h3>
+                        <p class="text-md text-gray-600 mt-4">Each yarn cone is securely packed in moisture-resistant, eco-friendly packaging to preserve fiber quality during transport. Orders are dispatched within 2–4 business days and bulk deliveries are managed with care using trusted logistics partners to ensure timely arrival and minimal handling damage.</p>
+                    </div>
 
-    <div class="mt-8">
-        <h3 class="text-md md:text-lg font-bold text-gray-800">Suggested Use</h3>
-        <p class="text-md text-gray-600 mt-4">Suitable for a wide range of textile applications including apparel manufacturing, handloom weaving, machine knitting, and home furnishings. Choose cotton or silk yarns for breathable, luxury garments, while nylon and polyester offer strength and elasticity ideal for sportswear and industrial fabrics.</p>
-    </div>
+                    <div class="mt-8">
+                        <h3 class="text-md md:text-lg font-bold text-gray-800">Suggested Use</h3>
+                        <p class="text-md text-gray-600 mt-4">Suitable for a wide range of textile applications including apparel manufacturing, handloom weaving, machine knitting, and home furnishings. Choose cotton or silk yarns for breathable, luxury garments, while nylon and polyester offer strength and elasticity ideal for sportswear and industrial fabrics.</p>
+                    </div>
 
-    <div class="mt-8">
-        <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingredients</h3>
-        <p class="text-md text-gray-600 mt-4">Our yarns are produced using high-quality raw fibers such as long-staple cotton, reeled mulberry silk, virgin polyester, and industrial-grade nylon. Some variants may include eco-dyes, silicone softeners, or anti-pilling treatments depending on customer requirements.</p>
-    </div>
+                    <div class="mt-8">
+                        <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingredients</h3>
+                        <p class="text-md text-gray-600 mt-4">Our yarns are produced using high-quality raw fibers such as long-staple cotton, reeled mulberry silk, virgin polyester, and industrial-grade nylon. Some variants may include eco-dyes, silicone softeners, or anti-pilling treatments depending on customer requirements.</p>
+                    </div>
 
-    <div class="mt-8">
-        <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
-        <p class="text-md text-gray-600 mt-4">Store yarns in a dry, cool place away from direct sunlight to prevent discoloration and fiber degradation. Keep packaging sealed to avoid dust accumulation. Not recommended for use with open flames or high-heat machinery without appropriate processing treatments.</p>
-    </div>
-
+                    <div class="mt-8">
+                        <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
+                        <p class="text-md text-gray-600 mt-4">Store yarns in a dry, cool place away from direct sunlight to prevent discoloration and fiber degradation. Keep packaging sealed to avoid dust accumulation. Not recommended for use with open flames or high-heat machinery without appropriate processing treatments.</p>
+                    </div>
 
                 </div>
             </div>

@@ -95,7 +95,7 @@ const Testimonial = () => {
           <div ref={sliderRef} className="keen-slider">
             <div className="keen-slider__slide">
                     <blockquote
-                    className="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12"
+                    className="flex h-full flex-col rounded-lg justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12"
                 >
                     <div>
                     <div className="flex gap-0.5 text-amber-200">
@@ -156,24 +156,22 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Stayin' Alive</p>
+                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Ideal for Custom Dyeing Projects</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
-                        No, violet, they are not breathing. And they have no arms or legs … Where are they?
-                        You know what? If we come across somebody with no arms or legs, do we bother
-                        resuscitating them? I mean, what quality of life do we have there?
+                        We ordered the natural white cotton yarn, and it took dye beautifully. Even after multiple washes, the colors stayed vibrant and the structure held up perfectly.
                         </p>
                     </div>
                     </div>
 
                     <footer className="mt-4 text-sm font-medium text-gray-700 sm:mt-6">
-                    &mdash; Michael Scott
+                    &mdash; Rohit Varma
                     </footer>
                 </blockquote>
             </div>
             <div className="keen-slider__slide">
                     <blockquote
-                    className="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12"
+                    className="flex h-full flex-col justify-between rounded-lg bg-white p-6 shadow-sm sm:p-8 lg:p-12"
                 >
                     <div>
                     <div className="flex gap-0.5 text-amber-200">
@@ -234,24 +232,22 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 ">Stayin' Alive</p>
+                        <p className="text-xl md:text-2xl font-bold text-violet-800 ">Superior Quality Yarn</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
-                        No, violet, they are not breathing. And they have no arms or legs … Where are they?
-                        You know what? If we come across somebody with no arms or legs, do we bother
-                        resuscitating them? I mean, what quality of life do we have there?
+                        I’ve been sourcing yarn for over a year, and this is by far one of the best I've used. The fibers are consistent, smooth, and easy to work with. My clients love the feel of the final product!
                         </p>
                     </div>
                     </div>
 
                     <footer className="mt-4 text-sm font-medium text-gray-700 sm:mt-6">
-                    &mdash; Michael Scott
+                    &mdash; Arjun Patel
                     </footer>
                 </blockquote>
             </div>
             <div className="keen-slider__slide">
                     <blockquote
-                    className="flex h-full flex-col justify-between bg-white p-6 shadow-sm sm:p-8 lg:p-12"
+                    className="flex h-full flex-col justify-between rounded-lg bg-white p-6 shadow-sm sm:p-8 lg:p-12"
                 >
                     <div>
                     <div className="flex gap-0.5 text-amber-200">
@@ -312,18 +308,18 @@ const Testimonial = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Stayin' Alive</p>
+                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Perfect for Large-Scale Production</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
-                        No, violet, they are not breathing. And they have no arms or legs … Where are they?
-                        You know what? If we come across somebody with no arms or legs, do we bother
-                        resuscitating them? I mean, what quality of life do we have there?
+                        We used this yarn for a bulk garment order and were impressed by the strength and uniformity across all spools. Zero breakage, and the dye absorption was excellent.
+
+
                         </p>
                     </div>
                     </div>
 
                     <footer className="mt-4 text-sm font-medium text-gray-700 sm:mt-6">
-                    &mdash; Michael Scott
+                    &mdash; Vikram Shah
                     </footer>
                 </blockquote>
             </div>

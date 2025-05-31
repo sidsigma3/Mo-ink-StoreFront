@@ -20,12 +20,12 @@ const MainFeatures = () => {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-20 gap-x-5 mt-32">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-y-20 gap-x-5 mt-32">
 
           {/* Card 1 */}
           <div className="p-8 relative rounded-3xl border-1 border-grey-50 bg-gradient-to-b from-white/5 to-purple-100">
           <div className="rounded-full border-2 border-purple-800 bg-gray-50 p-4 w-[100px] h-[100px] flex items-center justify-center absolute -top-14 left-1/2 transform -translate-x-1/2 shadow-lg">
-               <Image src="/images/industry.png" alt="feature-icon" width={80} height={80} />
+               <Image src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/services.png?updatedAt=1748693908505" alt="feature-icon" width={80} height={80} />
           </div>
             <h3 className="text-2xl text-black font-semibold text-center mt-10">
               Industrial-Grade Quality
@@ -38,7 +38,7 @@ const MainFeatures = () => {
           {/* Card 2 */}
           <div className="p-8 relative rounded-3xl border-1 border-grey-50 bg-gradient-to-b from-white/5 to-purple-100">
           <div className="rounded-full border-2 border-purple-800 bg-gray-50 p-4 w-[100px] h-[100px] flex items-center justify-center absolute -top-14 left-1/2 transform -translate-x-1/2 shadow-lg">
-               <Image src="/images/sustainable-agriculture (1).png" alt="feature-icon" width={100} height={100} />
+               <Image src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/save-the-world.png?updatedAt=1748693908541" alt="feature-icon" width={100} height={100} />
           </div>
             <h3 className="text-2xl text-black font-semibold text-center mt-10">
               Eco-Friendly Materials
@@ -51,7 +51,7 @@ const MainFeatures = () => {
           {/* Card 3 */}
           <div className="p-8 relative rounded-3xl border-1 border-grey-50 bg-gradient-to-b from-white/5 to-purple-100">
           <div className="rounded-full border-2 border-purple-800 bg-gray-50 p-4 w-[100px] h-[100px] flex items-center justify-center absolute -top-14 left-1/2 transform -translate-x-1/2 shadow-lg">
-               <Image src="/images/social.png" alt="feature-icon" width={100} height={100} />
+               <Image src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/charity.png?updatedAt=1748693908510" alt="feature-icon" width={100} height={100} />
           </div>
             <h3 className="text-2xl text-black font-semibold text-center mt-10">
               Customization Options
@@ -64,13 +64,39 @@ const MainFeatures = () => {
           {/* Card 4 */}
           <div className="p-8 relative rounded-3xl border-1 border-grey-50 bg-gradient-to-b from-white/5 to-purple-100">
           <div className="rounded-full border-2 border-purple-800 bg-gray-50 p-4 w-[100px] h-[100px] flex items-center justify-center absolute -top-14 left-1/2 transform -translate-x-1/2 shadow-lg">
-               <Image src="/images/delivery.png" alt="feature-icon" width={100} height={100} />
+               <Image src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/delivery-service.png?updatedAt=1748693908545" alt="feature-icon" width={100} height={100} />
           </div>
             <h3 className="text-2xl text-black font-semibold text-center mt-10">
-              Fast Global Delivery
+              Faster National Delivery
             </h3>
             <p className="text-md font-normal text-black/60 text-center mt-2 mb-2">
               Reliable worldwide shipping ensures timely delivery for all orders.
+            </p>
+          </div>
+
+            {/* Card 5 */}
+          <div className="p-8 relative rounded-3xl border-1 border-grey-50 bg-gradient-to-b from-white/5 to-purple-100">
+          <div className="rounded-full border-2 border-purple-800 bg-gray-50 p-4 w-[100px] h-[100px] flex items-center justify-center absolute -top-14 left-1/2 transform -translate-x-1/2 shadow-lg">
+               <Image src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/risk-management.png?updatedAt=1748693908531 " alt="feature-icon" width={100} height={100} />
+          </div>
+            <h3 className="text-2xl text-black font-semibold text-center mt-10">
+              No MOQ Required
+            </h3>
+            <p className="text-md font-normal text-black/60 text-center mt-2 mb-2">
+              Order any quantity you need. No bulk commitment required.
+            </p>
+          </div>
+
+            {/* Card 6 */}
+          <div className="p-8 relative rounded-3xl border-1 border-grey-50 bg-gradient-to-b from-white/5 to-purple-100">
+          <div className="rounded-full border-2 border-purple-800 bg-gray-50 p-4 w-[100px] h-[100px] flex items-center justify-center absolute -top-14 left-1/2 transform -translate-x-1/2 shadow-lg">
+               <Image src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/receiving%20(1).png?updatedAt=1748693908508" alt="feature-icon" width={100} height={100} />
+          </div>
+            <h3 className="text-2xl text-black font-semibold text-center mt-10">
+              Buy Back Facility
+            </h3>
+            <p className="text-md font-normal text-black/60 text-center mt-2 mb-2">
+              Simplifying excess inventory with smart buyback solutions.
             </p>
           </div>
 

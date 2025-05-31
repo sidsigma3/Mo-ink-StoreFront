@@ -47,6 +47,8 @@ const ModalAddress = ({
     const isDisabled = (type) => usedAddressTypes?.has(type) && !selectedAddress;
     const [toasts, setToasts] = useState([]);
     const [isSaveClicked, setIsSaveClicked] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
+    
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -60,9 +62,11 @@ const ModalAddress = ({
 
     
 
-    
-      const handleSave = async () => {
-          setIsSaveClicked(true); 
+            
+    const handleSave = async () => {
+        setIsSaveClicked(true);         // Mark save clicked
+        setShowModal(false);            // Close modal
+
     const showToast = (message, type = "error") => {
         setToasts([{ message, type, id: Date.now() }]); // 🔥 unique toast
         setTimeout(() => setToasts([]), 3000);

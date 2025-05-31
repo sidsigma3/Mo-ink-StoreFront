@@ -18,7 +18,7 @@ const MainHero = () => {
           rounded-3xl 
           overflow-hidden 
           z-0
-           sm:bg-center bg-[position:right_30%_center] bg-no-repeat bg-cover
+           sm:bg-center bg-[position:right_40%_center] bg-no-repeat bg-cover
         "
         style={{
            
@@ -56,12 +56,12 @@ const MainHero = () => {
               <h1 className="text-start text-5xl lg:text-7xl font-bold text-black mb-6">
                 Yarn is What We Do. <br />And We Do It Best.
               </h1>
-              <p className="text-start text-gray-800 text-lg mb-8">
+              <p className="text-center text-gray-800 text-lg mb-8">
                 We spin strength, reliability, and performance into every strand. <br />
                 Made for manufacturers.
               </p>
 
-              <div className="flex flex-col sm:flex-row  items-center justify-center md:justify-start gap-4">
+              <div className="flex flex-col sm:flex-row  items-center justify-center md:justify-center gap-4">
                   <a
                     href="/login"
                     className="text-base sm:text-lg font-medium rounded-full text-white py-2 px-10

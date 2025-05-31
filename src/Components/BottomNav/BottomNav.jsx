@@ -10,10 +10,22 @@ import { RiSearch2Fill } from "react-icons/ri";
 import { GiPlagueDoctorProfile } from "react-icons/gi";
 import { FaHeart } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi2";
+import { useAppContext } from '../../Utils/commoncontext';
+import { PiShoppingCart } from "react-icons/pi";
+import { deepPurple } from '@mui/material/colors';
+import { FaRegHeart } from "react-icons/fa";
+
+
+
 // import "./BottomNav.css"
+import Badge from '@mui/material/Badge';
+
+
 
 const BottomNav = () => {
   const navigate = useNavigate();
+   const { cartCount , wishlistCount, updateCartAndWishlistCounts} = useAppContext();
+   const purpuleColor = deepPurple[500]
 
   const location = useLocation();
 
@@ -66,8 +78,17 @@ const BottomNav = () => {
         }`}
       >
         {/* <FaHeart size={20} /> */}
-        <FiHeart size={20}></FiHeart>
-        <span className="text-sm font-semibold">Wishlist</span>
+         <Badge badgeContent={wishlistCount} sx={{
+                '& .MuiBadge-badge': {
+                  backgroundColor: purpuleColor,
+                  color: '#fff',
+                  top: '-6px',
+                  right: '-6px',
+                }
+              }}>
+                <FaRegHeart size={20} />
+              </Badge>
+               <span className="text-sm font-semibold">Wishlist</span>
       </button>
 
       {/* Cart */}
@@ -78,7 +99,16 @@ const BottomNav = () => {
         }`}
       >
         {/* <HiShoppingCart size={20} /> */}
-        <BsCart3 size={20}></BsCart3>
+         <Badge badgeContent={cartCount} sx={{
+        '& .MuiBadge-badge': {
+          backgroundColor: purpuleColor,
+          color: '#fff',
+          top: '-4px',
+          right: '-4px',
+        }
+      }}>
+        <PiShoppingCart size={22} />
+      </Badge>
         <span className="text-sm font-semibold">Cart</span>
       </button>
 
@@ -90,7 +120,7 @@ const BottomNav = () => {
         }`}
       >
         {/* <GiPlagueDoctorProfile size={20} /> */}
-        <GoPerson size={20}></GoPerson>
+        <GoPerson size={22}></GoPerson>
         <span className="text-sm font-semibold">Profile</span>
       </button>
     </div>

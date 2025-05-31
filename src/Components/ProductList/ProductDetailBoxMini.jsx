@@ -151,8 +151,8 @@ const getImageByVariantType = (variantType, imageUrls) => {
           </div>
 
 
-          <div className='flex justify-right gap-4 items-center mt-3'>
-            <div className='border py-2 rounded col-5 sm:text-sm md:text-sm w-20 sm:w-20 md:w-20 h-9 text-center'>
+          <div className='flex justify-right gap-4 align-items-center mt-3'>
+            <div className='border rounded w-20 h-9 flex items-center justify-center sm:text-sm md:text-sm '>
               {variantType === "CONE" ? (
                 <p>50 Kg</p>
               ):(

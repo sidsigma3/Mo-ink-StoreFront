@@ -48,7 +48,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="relative aspect-[1/1] lg:aspect-1:1">
               <img
-                src="https://images.pexels.com/photos/28442318/pexels-photo-28442318/free-photo-of-confident-businessman-in-formal-suit-portrait.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="/images/avi.jpeg"
                 alt="Avinash Mohanty - CEO"
                 className="rounded-lg object-cotain w-full h-full"
               />

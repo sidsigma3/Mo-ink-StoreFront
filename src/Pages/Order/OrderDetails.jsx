@@ -217,35 +217,36 @@ const OrderDetails = () => {
         discountByPayment = paymentDiscountAmount;
         const totalDiscount = discountByCoupon + discountByPayment;
       
-        // Step 3: GST calculation based on final discounted value
-        for (const variant of orderVariants) {
-          const weight = Number(variant.orderWeight) || 0;
-          const productId = variant.productId;
-          const size = variant.size;
-          const colorId = variant.color.id;
-      
-          const productData = productDataMap.get(productId);
-          if (!productData) continue;
-      
-          const matchedVariant = productData.variants.find(
-            (v) => v.size === size && v.color?.id === colorId
-          );
-          const pricePerKg = matchedVariant?.pricePerKg || 0;
-          const gstRate = Number(productData.gstOnProduct || 0);
-      
-          const cost = weight * pricePerKg;
-          const couponReduced =
-            couponDiscountType === "Percentage"
-              ? cost - (cost * couponDiscountPercent) / 100
-              : cost - (couponDiscountAmount * cost) / baseTotal;
-      
-          const finalReduced =
-            couponReduced -
-            (paymentDiscountAmount * couponReduced) / subtotalAfterCoupon;
-      
-          const gstForItem = (finalReduced * gstRate) / 100;
-          gstAmount += gstForItem;
-        }
+       
+       for (const variant of orderVariants) {
+            const weight = Number(variant.orderWeight) || 0;
+            const productId = variant.productId;
+            const size = variant.size;
+            const colorId = variant.color.id;
+            const varinatType = variant.variantType
+
+            const productData = productDataMap.get(productId);
+            if (!productData) continue;
+
+            const matchedVariant = productData.variants.find(
+              (v) => v.size === size && v.color?.id === colorId && v.variantType === varinatType
+            );
+            if (!matchedVariant) continue;
+
+            const pricePerKg = matchedVariant.pricePerKg || 0;
+            const gstRate = Number(productData.gstOnProduct || 0);
+
+     
+            const cost = weight * pricePerKg;
+
+            const combinedDiscountPercent =
+              couponDiscountPercent + paymentDiscountPercent -
+              (couponDiscountPercent * paymentDiscountPercent) / 100;
+
+            const discountedPrice = cost - (cost * combinedDiscountPercent) / 100;
+            const gstForItem = (discountedPrice * gstRate) / 100;
+            gstAmount += gstForItem;
+          }
       
         // Step 4: Final amounts
         const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
@@ -386,7 +387,7 @@ const OrderDetails = () => {
 
                 {order.cancelCreditReceiptGenerated === "true" && (
                   <button
-                    onClick={() => handleDownloadCreditReceipt(order.orderId, "CANCELLED")}
+                    onClick={() => handleDownloadCreditReceipt(order.orderId, "cancelled")}
                     className='bg-red-100 text-red-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
                   >
                     <TbFileInvoice size={20} />
@@ -586,13 +587,13 @@ const OrderDetails = () => {
                         <tr>
                         <td>Advance Paid</td>
                         <td>{online}%</td>
-                        <td className='text-end'>₹{order?.payment.onlineAmount.toFixed(0)}</td>
+                        <td className='text-end'>₹{order?.payment.totalAmountPaid.toFixed(0)}</td>
                         </tr>
 
                         <tr>
                         <td className='pt-2'>Balance Due</td>
                         <td className='pt-2'>{cod}%</td>
-                        <td className='text-end pt-2'>₹{ order?.payment.codAmount.toFixed(0)-order?.payment.totalAdjustedAmount.toFixed(0)}</td>
+                        <td className='text-end pt-2'>₹{ order?.payment.pendingAmount.toFixed(0)-order?.payment.totalAdjustedAmount.toFixed(0)}</td>
                         </tr>
                     </tbody>
                     </table>

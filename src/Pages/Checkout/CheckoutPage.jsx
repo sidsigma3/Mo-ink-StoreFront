@@ -665,6 +665,8 @@ const CheckoutPage = () => {
       
           const totalCgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantCgst || 0), 0);
           const totalSgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantSgst || 0), 0);
+          const totalIgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantIgst || 0), 0);
+
           const totalDiscount = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0);
           const totalHandlingCharges = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0);
       
@@ -691,6 +693,7 @@ const CheckoutPage = () => {
               totalDiscount,
               totalSgst,
               totalCgst,
+              totalIgst,
               totalHandlingCharges,
             },
             orderVariants,
@@ -769,8 +772,9 @@ const CheckoutPage = () => {
               pendingAmount: codPay,
               paymentStatus: "UNPAID",
               totalDiscount: orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0),
-              totalSgst: (gstAmount / 2).toFixed(2),
-              totalCgst: (gstAmount / 2).toFixed(2),
+              totalIgst: isOdisha ? "0.00" : gstAmount.toFixed(2),
+              totalSgst: isOdisha ?  (gstAmount / 2).toFixed(2) : "0.00",
+              totalCgst:  isOdisha ?  (gstAmount / 2).toFixed(2) : "0.00",
               totalHandlingCharges: orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0),
             },
             orderVariants,

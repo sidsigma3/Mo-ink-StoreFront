@@ -64,18 +64,18 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
         <div className='col-span-3 md:col-span-2 lg:col-span-1'>
-        <img src='/images/wool-item-1.png' className='w-5/4 aspect-square object-cover rounded-md' alt='Wool Item' />
+        <img src='https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/unur73unur73unur.png?updatedAt=1748863098691' className='w-5/4 aspect-square object-cover rounded-md' alt='Wool Item' />
         </div>
 
         <div className='col-span-6 md:col-span-3 lg:col-span-2 flex flex-col items-start justify-center text-gray-500 font-medium'>
 
         <div className='flex justify-between'>
-            <h5>Order ID: <span className='text-black font-bold'>{order.orderId}</span></h5>
+            <h5>Order ID: <span className='text-dark font-bold'>{order.orderId}</span></h5>
         </div>
 
-        <h5 className='mt-2'>Total: ₹{order.totalAmount.toFixed(0)}</h5>
+        <h5 className='mt-2'>Total: <span className='text-dark-400 font-bold'>₹{order.totalAmount.toFixed(0)}</span></h5>
 
-        <h5 className='mt-2'>Weight: {totalWeight}Kg</h5>
+        <h5 className='mt-2'>Weight: <span className='text-dark-400 font-bold'>{totalWeight}Kg</span></h5>
 
         <h4 className='mt-2'> <span className='font-semibold text-green-600'>Delivery expected</span> before <span className='font-semibold text-dark-600'>{estimatedDeliveryDate}</span></h4>
 

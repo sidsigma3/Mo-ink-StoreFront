@@ -11,7 +11,7 @@ const Footer = () => {
         <div className=" ">
           <div className="text-teal-600 flex justify-center md:block">
           <a href="/home">
-  <img src="/images/logo.png" alt="Ink n Dyes Logo" />
+  <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/image%202.png?updatedAt=1746846159615" width="80" height="80" alt="Ink n Dyes Logo" />
 </a>          </div>
   
           <p className="mt-4 sm:text-center md:text-left text-gray-500">

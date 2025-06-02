@@ -18,7 +18,7 @@ const MainHero = () => {
           rounded-3xl 
           overflow-hidden 
           z-0
-           sm:bg-center bg-[position:right_40%_center] bg-no-repeat bg-cover
+           sm:bg-center bg-[position:right_38%_center] bg-no-repeat bg-cover
         "
         style={{
            

@@ -38,9 +38,9 @@ const SettingPage = () => {
   useEffect(() => {
     if (!customerDetails || Object.keys(customerDetails).length === 0) return;
 
-    const firstAddress = (customerDetails.addresses && customerDetails.addresses.length > 0)
-      ? customerDetails.addresses[0]
-      : {};
+    const workAddressIndex = customerDetails.addresses.findIndex(addr => addr.addressType === "HOME");
+    const firstAddress = customerDetails.addresses[workAddressIndex];
+
 
     const formattedCustomer = {
       fullName: customerDetails.customerName || "",
@@ -56,6 +56,7 @@ const SettingPage = () => {
       city: firstAddress.city || "",
       landmark: firstAddress.street || "",
       gstNumber: customerDetails.gstNumber ||  "",
+      customerStatus:customerDetails.customerStatus,
     };
 
     setCustomer(formattedCustomer);
@@ -74,38 +75,61 @@ const SettingPage = () => {
 
   // Save changes
   const handleSaveChanges = async () => {
-     const showToast = (message, type = "error") => {
-            setToasts([{ message, type }]);
-            setTimeout(() => setToasts([]), 3000);
-          };
-    const updatedCustomerData = {
-      customerName: customer.fullName,
-      phoneNumber: customer.mobile,
-      whatsappNumber: customer.whatsapp,
-      email: customer.email,
-      // company: customer.company || "", // Add this if company is needed
-      gstNumber: customer.gstNumber || "",
-      // cancelledCheque: customer.cancelledCheque || "",
-      // customerAddress: customer.address || "",
-      street: customer.landmark, // Mapping to street
-      city: customer.city, // Mapping to city
-      state: customer.state,
-      country: customer.country,
-      zipcode: customer.pincode,
-      //   addressType: "WORK", // Hardcoded value (Change if dynamic)
-      //   customerStatus: "ACTIVE", // Hardcoded value (Change if dynamic)
-      //   customerTypes: "WEAVER", // Hardcoded value (Change if dynamic)
-      //   segmentIds: [1, 2, 3], // Hardcoded array (Change if dynamic)
-    };
-
-    try {
-      await updateCustomerDetails(customerData.customerId, updatedCustomerData);
-      showToast("Changes saved successfully!" , "success");
-      setOriginalCustomer(customer); // Reset original to current
-    } catch (error) {
-      console.error("❌ Failed to save changes:", error);
-    }
+  const showToast = (message, type = "error") => {
+    setToasts([{ message, type }]);
+    setTimeout(() => setToasts([]), 3000);
   };
+
+  if (!customerDetails) {
+    showToast("Customer details not loaded.");
+    return;
+  }
+
+  // Extract first address or create new
+  const existingAddresses = [...(customerDetails.addresses || [])];
+  const workAddressIndex = existingAddresses.findIndex(addr => addr.addressType === "HOME");
+  const existingAddress = existingAddresses[workAddressIndex];
+
+  const updatedAddress = {
+    ...(existingAddress?.id ? { id: existingAddress.id } : {}),
+    customerAddress: customer.landmark, // or full address field
+    street: customer.landmark,
+    city: customer.city,
+    state: customer.state,
+    country: customer.country,
+    zipcode: customer.pincode,
+    addressType: "HOME", // assumed fixed for this edit form
+  };
+
+  if (workAddressIndex !== -1) {
+    existingAddresses[workAddressIndex] = updatedAddress;
+  } else {
+    existingAddresses.push(updatedAddress);
+  }
+
+  const updatedCustomerData = {
+    customerName: customer.fullName,
+    phoneNumber: customer.mobile,
+    whatsappNumber: customer.whatsapp,
+    email: customer.email,
+    gstNumber: customer.gstNumber || "",
+    customerAddress: customer.landmark, // top-level field
+    zipcode: customer.pincode,
+    addresses: existingAddresses.slice(0, 3), // maximum of 3
+    customerStatus:customerDetails.customerStatus,
+  };
+
+  try {
+    console.log(updatedCustomerData)
+    await updateCustomerDetails(customerDetails.customerId, updatedCustomerData);
+    showToast("Changes saved successfully!", "success");
+    setOriginalCustomer(customer); // reset after save
+  } catch (error) {
+    console.error("❌ Failed to save changes:", error);
+    showToast("Failed to save changes.");
+  }
+};
+
 
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
@@ -119,6 +143,9 @@ const SettingPage = () => {
     { label: "Account", link: "/account" },
     { label: "Profile", link: "/setting" },
   ];
+
+
+  
 
   return (
     <div>

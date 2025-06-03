@@ -5,11 +5,12 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
 
   const categoryImages = {
     "Cotton": "/images/Yarn3.jpg",
-    "Silk": "/images/Yarn7.jpg",
-    // "Silk Yarn": "/images/silk-yarn.jpg",
-    // "Polyester Yarn": "/images/polyester-yarn.jpg",
-    // "Nylon Yarn": "/images/nylon-yarn.jpg",
-   
+    // "Silk": "/images/Yarn7.jpg",
+    // "Combed Compact Cotton": "/images/Yarn1.jpg",
+    "Excel": "/images/Yarn2.jpg",
+    "Micro Modal": "/images/Yarn5.jpg",
+    "Bamboo": "/images/Yarn4.jpg",
+  
   };
 
   const imageSrc = imageUrl || categoryImages[productName] || '';

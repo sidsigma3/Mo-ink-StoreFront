@@ -70,7 +70,7 @@ const MainFeatures = () => {
               Faster National Delivery
             </h3>
             <p className="text-md font-normal text-black/60 text-center mt-2 mb-2">
-              Reliable worldwide shipping ensures timely delivery for all orders.
+              Reliable nation wide shipping ensures timely delivery for all orders.
             </p>
           </div>
 

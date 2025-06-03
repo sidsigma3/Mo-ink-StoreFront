@@ -291,17 +291,28 @@ const [toasts, setToasts] = useState([]);
               />
             </div>
 
-            <div className="flex flex-col w-full">
-              <label className="">Password</label>
+            <div className="flex flex-col w-full relative">
+              <label>GST Number</label>
               <input
-                type="password"
-                className="login-input rounded-full text-black px-4 py-1"
-                placeholder="Password"
-                name="password"
-                value={formData.password}
+                className="login-input rounded-full text-black px-4 py-1 w-full  pr-10"
+                placeholder="GST number"
+                name="gstNumber"
+                value={formData.gstNumber}
                 onChange={handleChange}
-                required
+                disabled={!formData.hasGst}
+                maxLength={15}
               />
+              {formData.gstNumber.length === 15 && (
+                <span className="absolute right-3 top-7 text-lg">
+                  {isVerifying ? (
+                    <span className="text-center text-yellow-500">⏳</span>
+                  ) : formData.gstVerified ? (
+                    <span className="text-center text-green-600">✔️</span>
+                  ) : (
+                    <span className="text-center text-red-500">❌</span>
+                  )}
+                </span>
+              )}
             </div>
           </div>
 
@@ -331,27 +342,16 @@ const [toasts, setToasts] = useState([]);
 
            <div className="flex gap-3 w-full">
         <div className="flex flex-col basis-1/2">
-              <label>GST Number</label>
+              <label className="">Password</label>
               <input
-                className="login-input rounded-full text-black px-4 py-1 w-full"
-                placeholder="GST number"
-                name="gstNumber"
-                value={formData.gstNumber}
+                type="password"
+              className="login-input rounded-full text-black px-4 py-1 w-full"
+                placeholder="Password"
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
-                disabled={!formData.hasGst}
-                maxLength={15}
+                required
               />
-              {formData.gstNumber.length === 15 && (
-                <span className="absolute right-3 top-7 text-lg">
-                  {isVerifying ? (
-                    <span className="text-center text-yellow-500">⏳</span>
-                  ) : formData.gstVerified ? (
-                    <span className="text-center text-green-600">✔️</span>
-                  ) : (
-                    <span className="text-center text-red-500">❌</span>
-                  )}
-                </span>
-              )}
             </div>
 
           {/* Company Field */}

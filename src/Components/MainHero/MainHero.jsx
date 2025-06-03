@@ -18,7 +18,7 @@ const MainHero = () => {
           rounded-3xl 
           overflow-hidden 
           z-0
-           sm:bg-center bg-[position:right_38%_center] bg-no-repeat bg-cover
+           sm:bg-center bg-[position:right_35%_center] bg-no-repeat bg-cover
         "
         style={{
            
@@ -35,8 +35,7 @@ const MainHero = () => {
             Yarn is What We Do. <br />And We Do It Best.
           </h1>
           <p className="text-center text-gray-800 text-base mb-8">
-            We spin strength, reliability, and performance into every strand. <br />
-            Made for manufacturers.
+            We spin strength, reliability, and performance into every strand.
           </p>
 
           <div className="flex flex-col sm:flex-row  items-center justify-center md:justify-start gap-4">

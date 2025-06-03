@@ -27,40 +27,41 @@ const FeturedList = () => {
   }
 
 
-  const aggregateProductData = (productData) => {
-    return productData.map((product) => {
-      const groupedVariants = product.variants.reduce((acc, variant) => {
-        const { size, color, availableWeight, id } = variant;
+ const aggregateProductData = (productData) => {
+  return productData
+    .filter(product => product.availableStatus === "ACTIVE") // ✅ Only ACTIVE products
+    .map((product) => {
+      const groupedVariants = product.variants
+        .filter(variant => variant.availableStatus === "ACTIVE") // ✅ Only ACTIVE variants
+        .reduce((acc, variant) => {
+          const { size, color, availableWeight, id } = variant;
 
-        if (!acc[size]) {
-          acc[size] = {
-            id,
-            size,
-            variants: [],
-            totalWeight: 0,
-          };
-        }
+          if (!acc[size]) {
+            acc[size] = {
+              id,
+              size,
+              variants: [],
+              totalWeight: 0,
+            };
+          }
 
+          // Add unique colors for this size
+          if (!acc[size].variants.some((v) => v.colorName === color.colorName)) {
+            acc[size].variants.push({
+              colorName: color.colorName,
+              hexCode: color.hexCode || "#ccc",
+              available: availableWeight,
+              price: variant.pricePerKg,
+              id: id,
+            });
+          }
 
+          // Accumulate availableWeight for this size
+          acc[size].totalWeight += Number(availableWeight);
 
-        // Add unique colors for this size
-        if (!acc[size].variants.some((v) => v.colorName === color.colorName)) {
-          acc[size].variants.push({
-            colorName: color.colorName,
-            hexCode: color.hexCode || "#ccc",
-            available: variant.availableWeight,
-            price: variant.pricePerKg,
-            id: variant.id,
-          });
-        }
+          return acc;
+        }, {});
 
-        // Accumulate availableWeight for this size
-        acc[size].totalWeight += Number(availableWeight);
-
-        return acc;
-      }, {});
-
-      // Return the aggregated product with grouped variants
       return {
         productId: product.id,
         productName: product.productName,
@@ -74,13 +75,14 @@ const FeturedList = () => {
         groupedVariants: Object.values(groupedVariants),
       };
     });
-  };
+};
+
 
 
   return (
     <div className='mt-2 bg-violet-100 px-6 md:px-14 pb-10'>
 
-      <h3 className='text-2xl font-semibold md:text-3xl pt-14'>Featured Categories</h3>
+      <h3 className='text-xl md:2xl font-medium pt-14'>Featured Categories</h3>
 
       {/* <ul className='overflow-auto m-0 d-flex gap-3 justify-content-around mt-5'>
             <li><FeturedBox productName={'Cotton Yran'} number={2}></FeturedBox></li>
@@ -98,7 +100,9 @@ const FeturedList = () => {
               <li key={index} onClick={handleNavigation}>
                 <FeturedBox productName={product.productName} color={product.groupedVariants.map((group) => group.variants.length).reduce(
                   (accumulator, currentValue) => accumulator + currentValue, 0,
-                )} number={product.groupedVariants.length} />
+                )} number={product.groupedVariants.length} 
+                
+                />
               </li>)
           })
         ) : (

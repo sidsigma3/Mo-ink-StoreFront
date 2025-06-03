@@ -127,7 +127,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           >
            <div className="relative h-20 overflow-hidden">
             <img
-                src={`${backendUrl}${product.productImage?.find(img => img.includes('hank')) || product.productImage?.[0]}`}
+                src={`${backendUrl}${product.productImage?.find(img => img.includes(item.variantType.toLowerCase())) || product.productImage?.[0]}`}
                 className="w-full h-full object-cover"
                 alt="Product"
             />
@@ -843,7 +843,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             <div key={color.color.id} className="border-2 rounded-md overflow-hidden relative">
                                 <div className="relative h-20 w-full">
                                 <img
-                                   src={`${backendUrl}${product.productImage?.find(img => img.includes('hank')) || product.productImage?.[0]}`}
+                                   src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
                                     className="w-full h-full object-cover"
                                     alt="Product"
                                 />

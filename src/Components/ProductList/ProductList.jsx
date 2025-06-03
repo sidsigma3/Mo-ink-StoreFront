@@ -87,16 +87,20 @@ const ProductList = () => {
   const [finalData, setFinalData] = useState([]);
 
   useEffect(() => {
-    const getProducts = async () => {
-      const response = await fetchProducts();
-      if (response.success) {
-        setProducts(response.data);
-      } else {
-        console.error(response.message);
-      }
-    };
-    getProducts();
-  }, []);
+  const getProducts = async () => {
+    const response = await fetchProducts();
+    if (response.success) {
+      const activeProducts = response.data.filter(
+        (product) => product.availableStatus === "ACTIVE"
+      );
+      setProducts(activeProducts);
+    } else {
+      console.error(response.message);
+    }
+  };
+  getProducts();
+}, []);
+
 
   useEffect(() => {
     if (products.length > 0) {

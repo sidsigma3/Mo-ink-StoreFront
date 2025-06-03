@@ -10,6 +10,7 @@ import { getCustomerDetails, updateCustomerDetails } from '../../Services/Custom
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { useNavigate } from 'react-router-dom'
 import Toast from '../../Components/Toast/Toast'
+import SelectState from '../../Components/SelectState copy/SelectState'
 
 const SettingPage = () => {
 
@@ -224,7 +225,8 @@ const SettingPage = () => {
 
         <div className="flex flex-col">
           <label className="font-medium">State</label>
-          <input className="border-1 p-1 rounded mt-2" name="state" value={customer.state} onChange={handleInputChange} />
+          {/* <input className="border-1 p-1 rounded mt-2" name="state" value={customer.state} onChange={handleInputChange} /> */}
+          <SelectState value={customer.state} onChange={handleInputChange}></SelectState>
         </div>
 
         <div className="flex flex-col">

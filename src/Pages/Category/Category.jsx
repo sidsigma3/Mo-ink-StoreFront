@@ -24,32 +24,43 @@ const Category = () => {
 
   
 
-  useEffect(() => {
-    const getProducts = async () => {
-      const response = await fetchProducts();
-      if (response.success) {
-        const fetchedProducts = response.data;
-        setProducts(fetchedProducts);
-  
-        if (fetchedProducts.length > 0) {
-          const firstProduct = fetchedProducts[0];
-          setSelectedCategory(firstProduct.productName);
-  
-          // 🧠 Extract unique sizes (counters) and variant types
-          const sizes = Array.from(new Set(firstProduct.variants.map(v => v.size)));
-          const types = Array.from(new Set(firstProduct.variants.map(v => v.variantType)));
-  
-          // ✅ Preselect first available size and type
-          setSelectedCounters(sizes.length > 0 ? [sizes[0]] : []);
-          setSelectedVariantType(types.length > 0 ? types[0] : "");
-        }
-      } else {
-        console.error(response.message);
+ useEffect(() => {
+  const getProducts = async () => {
+    const response = await fetchProducts();
+    if (response.success) {
+      const fetchedProducts = response.data;
+
+      console.log(fetchedProducts)
+      // ✅ Filter only ACTIVE products
+      const activeProducts = fetchedProducts.filter(
+        (product) => product.availableStatus === "ACTIVE"
+      );
+
+      setProducts(activeProducts);
+      console.log(activeProducts)
+
+      if (activeProducts.length > 0) {
+        const firstProduct = activeProducts[0];
+        setSelectedCategory(firstProduct.productName);
+
+        // 🧠 Optionally extract variant types (skip sizes if you're removing count filter)
+        const types = Array.from(
+          new Set(firstProduct.variants
+            .filter((v) => v.availableStatus === "ACTIVE") // Only ACTIVE variants
+            .map((v) => v.variantType))
+        );
+
+        // ✅ Preselect first available type if needed
+        // setSelectedVariantType(types.length > 0 ? types[0] : "");
       }
-    };
-  
-    getProducts();
-  }, []);
+    } else {
+      console.error(response.message);
+    }
+  };
+
+  getProducts();
+}, []);
+
   
 
   // const [selectedTypes, setSelectedTypes] = useState([]);
@@ -62,11 +73,11 @@ const Category = () => {
   ];
   ;
 
-const [selectedVariantType, setSelectedVariantType] = useState([]);
+const [selectedVariantType, setSelectedVariantType] = useState('CONE');
 
 
-  const [selectedCounter, setSelectedCounter] = useState(null);
-   const [selectedCounters, setSelectedCounters] = useState([]);
+const [selectedCounter, setSelectedCounter] = useState(null);
+const [selectedCounters, setSelectedCounters] = useState([]);
 
 const handleCounterSelection = (counterName) => {
   const isSelected = selectedCounters.includes(counterName);
@@ -89,9 +100,14 @@ const counters = [
 
 
   const aggregateProductData = (productData) => {
-    return productData.map((product) => {
+  return productData
+    .filter((product) => product.availableStatus === "ACTIVE") // Only include ACTIVE products
+    .map((product) => {
       const groupedVariants = product.variants.reduce((acc, variant) => {
-        const { size, color, availableWeight, id } = variant;
+        const { size, color, availableWeight, id, availableStatus, pricePerKg } = variant;
+
+        // Only include ACTIVE variants
+        if (availableStatus !== "ACTIVE") return acc;
 
         if (!acc[size]) {
           acc[size] = {
@@ -102,16 +118,14 @@ const counters = [
           };
         }
 
-
-
         // Add unique colors for this size
         if (!acc[size].variants.some((v) => v.colorName === color.colorName)) {
           acc[size].variants.push({
             colorName: color.colorName,
             hexCode: color.hexCode || "#ccc",
-            available: variant.availableWeight,
-            price: variant.pricePerKg,
-            id: variant.id,
+            available: availableWeight,
+            price: pricePerKg,
+            id,
           });
         }
 
@@ -121,7 +135,6 @@ const counters = [
         return acc;
       }, {});
 
-      // Return the aggregated product with grouped variants
       return {
         productId: product.id,
         productName: product.productName,
@@ -134,8 +147,9 @@ const counters = [
         availableStatus: product.availableStatus,
         groupedVariants: Object.values(groupedVariants),
       };
-    });
-  };
+    })
+    .filter((product) => product.groupedVariants.length > 0); // Keep only products with at least 1 ACTIVE variant
+};
 
 
 
@@ -164,14 +178,13 @@ const counters = [
     );
     if (!selectedProduct) return [];
 
-    const matchingVariants = selectedProduct.variants.filter((variant) => {
-      const sizeMatch =
-        selectedCounters.length === 0 ||
-        selectedCounters.includes(variant.size);
-      const typeMatch =
-        !selectedVariantType || variant.variantType === selectedVariantType;
-      return sizeMatch && typeMatch;
-    });
+   const matchingVariants = selectedProduct.variants.filter((variant) => {
+  const sizeMatch = true;
+  const typeMatch =
+    !selectedVariantType || variant.variantType === selectedVariantType;
+  return sizeMatch && typeMatch;
+});
+
 
     // Group by size + variantType
     const grouped = {};
@@ -204,8 +217,6 @@ const counters = [
   ];
 
 
-  console.log(finalData)
-  console.log(filteredVariants)
 
   return (
     <div>
@@ -269,7 +280,7 @@ const counters = [
             <div className='w-full max-w-xs'>
 
             {/* Counter Filter Section - Multi-selection */}
-            {selectedCategory && (
+            {/* {selectedCategory && (
           <div className="border rounded p-3 my-3">
             <h4 className="text-xl font-semibold mb-3">Count</h4>
             <ul className="space-y-2">
@@ -292,7 +303,7 @@ const counters = [
               })}
             </ul>
           </div>
-        )}
+        )} */}
 
 
 
@@ -433,7 +444,7 @@ const counters = [
 
           <div className='w-full max-w-xs'>
 
-              {selectedCategory && (
+              {/* {selectedCategory && (
           <div className="border rounded p-3 my-3">
             <h4 className="text-xl font-semibold mb-3">Count</h4>
             <ul className="space-y-2">
@@ -456,7 +467,7 @@ const counters = [
               })}
             </ul>
           </div>
-        )}
+        )} */}
 
 
         

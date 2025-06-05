@@ -9,16 +9,25 @@ import Footer from '../../Components/Footer/Footer'
 import Cart from './Cart'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from "react";
+
 
 const ShopingCartPage = () => {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+
 
   const breadcrumbs = [
     { label: "Home", link: "/home" },
     { label: "Account", link: "/account" },
     { label: "Shopping cart", link: "/shoppingCart" },
   ];
+
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   return (
     <div>

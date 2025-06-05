@@ -22,9 +22,14 @@ const FeturedList = () => {
   }, []);
 
 
-  const handleNavigation = () => {
-    navigate("/category")
-  }
+const handleNavigation = (selectedCategory) => {
+  navigate(`/category?name=${encodeURIComponent(selectedCategory)}`);
+};
+
+
+
+
+  
 
 
  const aggregateProductData = (productData) => {
@@ -82,7 +87,7 @@ const FeturedList = () => {
   return (
     <div className='mt-2 bg-violet-100 px-6 md:px-14 pb-10'>
 
-      <h3 className='text-xl md:2xl font-medium pt-14'>Featured Categories</h3>
+      <h3 className='text-2xl font-semibold md:text-3xl pt-14'>Featured Categories</h3>
 
       {/* <ul className='overflow-auto m-0 d-flex gap-3 justify-content-around mt-5'>
             <li><FeturedBox productName={'Cotton Yran'} number={2}></FeturedBox></li>
@@ -97,7 +102,7 @@ const FeturedList = () => {
         {products.length > 0 ? (
           aggregateProductData(products).map((product, index) => {
             return (
-              <li key={index} onClick={handleNavigation}>
+              <li key={index} onClick={() => handleNavigation(product.productName)}>
                 <FeturedBox productName={product.productName} color={product.groupedVariants.map((group) => group.variants.length).reduce(
                   (accumulator, currentValue) => accumulator + currentValue, 0,
                 )} number={product.groupedVariants.length} 

@@ -63,6 +63,10 @@ const CheckoutPage = () => {
     const [walletBalance, setWalletBalance] = useState(0);
     const platformFees = 49;
     const [toasts, setToasts] = useState([]);
+
+     useEffect(() => {
+          window.scrollTo(0, 0);
+        }, []);
     
 
     const paymentDiscountMap = {

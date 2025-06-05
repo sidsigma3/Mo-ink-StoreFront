@@ -3,12 +3,23 @@ import axios from "axios";
 const URL = process.env.REACT_APP_BASE_URL;
 const API_BASE_URL = `${URL}/orders`;
 
-export const getCustomerOrderDetails = async (customerId) => {
+// export const getCustomerOrderDetails = async (customerId) => {
+//   try {
+//     const response = await axios.get(`${API_BASE_URL}/customer/${customerId}`);
+//     return response.data; // Return the fetched order data
+//   } catch (error) {
+//     console.error("Error fetching order details:", error);
+//     throw error;
+//   }
+// };
+
+
+export const getPaginatedCustomerOrders = async (customerId, page = 1, size = 10) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/customer/${customerId}`);
-    return response.data; // Return the fetched order data
+    const response = await axios.get(`${API_BASE_URL}/customer/${customerId}/paginated?page=${page}&size=${size}`);
+    return response.data;
   } catch (error) {
-    console.error("Error fetching order details:", error);
+    console.error("Error fetching paginated orders:", error);
     throw error;
   }
 };

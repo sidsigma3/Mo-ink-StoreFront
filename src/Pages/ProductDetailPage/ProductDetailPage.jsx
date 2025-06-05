@@ -863,11 +863,11 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 </button>
                                 </div>
 
-                                <div className="flex flex-col items-center p-1">
+                                <div className="flex flex-col items-center px-1 py-2">
                                 <p className="text-black text-sm font-semibold">
                                     {color.color.colorName}
                                 </p>
-                                <p className="text-gray-600 text-xs">{color.color.hexCode}</p>
+                                {/* <p className="text-gray-600 text-xs">{color.color.hexCode}</p> */}
                                 </div>
                             </div>
                             ))}
@@ -925,8 +925,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         <div className='grid grid-cols-2 gap-3 mt-8 text-sm md:text-md'>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Organic</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>SKU:</span> FWM15VKT</h5>
-                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2022</h5>
-                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Stocks:</span> 8 Items in stock</h5>
+                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2025</h5>
+                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Stocks:</span> Available</h5>
                         </div>
 
 

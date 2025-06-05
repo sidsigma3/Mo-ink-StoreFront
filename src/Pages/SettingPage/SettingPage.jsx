@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import Toast from '../../Components/Toast/Toast'
 import SelectState from '../../Components/SelectState copy/SelectState'
 
+
 const SettingPage = () => {
 
   const navigate = useNavigate()
@@ -22,6 +23,10 @@ const SettingPage = () => {
   const [isModified, setIsModified] = useState(false); 
   const [toasts, setToasts] = useState([]);
 
+
+useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
 
   useEffect(() => {
@@ -144,6 +149,7 @@ const SettingPage = () => {
     { label: "Account", link: "/account" },
     { label: "Profile", link: "/setting" },
   ];
+
 
 
   

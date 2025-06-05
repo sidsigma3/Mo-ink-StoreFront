@@ -1,44 +1,67 @@
-import React , {useState,useEffect}from 'react'
-import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
-import Navbar from '../../Components/Navbar/Navbar'
-import HeroSection from '../../Components/HeroSection/HeroSection'
-import Cta from '../../Components/CTA/Cta'
-import Footer from '../../Components/Footer/Footer'
-import OrderBox from '../../Components/OrderBox/OrderBox'
-import BottomNav from '../../Components/BottomNav/BottomNav'
-import { getCustomerOrderDetails, getOrderDetails } from '../../Services/OrderService'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader';
+import Navbar from '../../Components/Navbar/Navbar';
+import HeroSection from '../../Components/HeroSection/HeroSection';
+import Cta from '../../Components/CTA/Cta';
+import Footer from '../../Components/Footer/Footer';
+import OrderBox from '../../Components/OrderBox/OrderBox';
+import BottomNav from '../../Components/BottomNav/BottomNav';
+import { getPaginatedCustomerOrders } from '../../Services/OrderService';
+import { useNavigate } from 'react-router-dom';
+import { IoIosArrowForward, IoIosArrowBack  } from "react-icons/io";
+
 
 const OrderPage = () => {
-
   const navigate = useNavigate();
-
-
   const [orders, setOrders] = useState([]);
-  const user = JSON.parse(localStorage.getItem("userData"))
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  const user = JSON.parse(localStorage.getItem("userData"));
+  const customerId = user?.customerId;
 
   useEffect(() => {
+    if (!customerId) return;
+
     const fetchOrders = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const data = await getCustomerOrderDetails(user.customerId);
-        setOrders(data); 
-      } catch (error) {
-        console.error("Failed to fetch orders:", error);
+        const data = await getPaginatedCustomerOrders(user.customerId, currentPage, 10);
+        setOrders(data || []);
+        setTotalPages(data.totalPages || 3); //Facing Issues: TotalPages is directly proportional to the totalOrder count, should not a fixed number like here is 3
+      } catch (err) {
+        setError("Failed to load orders");
+        console.error(err);
+    
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [user.customerId, currentPage]);
+
+
+  //  useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     try {
+  //       const data = await getCustomerOrderDetails(user.customerId);
+  //       setOrders(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch orders:", error);
+  //     }
+  //   };
+
+  //   fetchOrders();
+  // }, []);
+
+
 
   const handleOrderClick = (order) => {
     navigate(`/orderDetails`, { state: { order } });
   };
-  
 
-
- 
-  console.log(orders)
   const breadcrumbs = [
     { label: "Home", link: "/home" },
     { label: "Account", link: "/account" },
@@ -47,34 +70,65 @@ const OrderPage = () => {
 
   return (
     <div>
-        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
-        <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
-        <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>  <HeroSection productName={"Your Orders"} breadcrumbs={breadcrumbs}></HeroSection></div>
-
-
-        <div className="px-6 md:px-14 py-3">
-        <ul className="flex flex-col gap-3">
-            {orders.filter(order => order.status !== 'PENDING').length > 0 ? (
-              [...orders]
-                .reverse()
-                .filter(order => order.status !== 'PENDING')
-                .map((order, index) => (
-                  <li key={index} onClick={() => handleOrderClick(order)} className="cursor-pointer">
-                    <OrderBox order={order} />
-                  </li>
-                ))
-            ) : (
-              <p>No orders found</p>
-            )}
-        </ul>
+      <div className='px-6 md:px-14 py-1 md:py-3'><NavbarHeader /></div>
+      <div className='px-6 md:px-14 py-3 hidden md:block'><Navbar /></div>
+      <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>
+        <HeroSection productName={"Your Orders"} breadcrumbs={breadcrumbs} />
       </div>
 
+      <div className="px-6 md:px-14 py-3">
+        <ul className="flex flex-col gap-3">
+          {orders.length > 0 ? (
+            orders.map((order, index) => (
+              <li key={index} onClick={() => handleOrderClick(order)} className="cursor-pointer">
+                <OrderBox order={order} />
+              </li>
+            ))
+          ) : (
+            <p>No orders found</p>
+          )}
+        </ul>
 
-        <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
-        <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
-        <BottomNav></BottomNav>
+       <div className="mt-6 flex justify-end">
+          <nav className="inline-flex space-x-1">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className={`px-1 py-1 rounded-md border ${currentPage === 1 ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-violet-800 border-violet-800 hover:bg-violet-100'}`}
+            >
+              <IoIosArrowBack />
+            </button>
+
+            {[...Array(totalPages).keys()].map((number) => {
+              const page = number + 1;
+              return (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`px-3 py-1 rounded-md border ${currentPage === page ? 'bg-violet-800 text-white border-blue-600' : 'text-violet-800 border-violet-800 hover:bg-violet-100'}`}
+                >
+                  {page}
+                </button>
+              );
+            })}
+
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className={`px-1 py-1 rounded-md border ${currentPage === totalPages ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-violet-800 border-violet-800 hover:bg-violet-100'}`}
+            >
+              <IoIosArrowForward />
+            </button>
+          </nav>
+        </div>
+
+      </div>
+
+      <div className='px-6 md:px-14 py-3 mt-10'><Cta /></div>
+      <div className='px-6 md:px-14 py-3'><Footer /></div>
+      <BottomNav />
     </div>
-  )
-}
+  );
+};
 
-export default OrderPage
+export default OrderPage;

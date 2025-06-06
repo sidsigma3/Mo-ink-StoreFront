@@ -168,6 +168,23 @@ const [toasts, setToasts] = useState([]);
           };
     e.preventDefault();
     setLoading(true);
+
+  const requiredFields = [
+      formData.firstName,
+      formData.lastName,
+      formData.phoneNumber,
+      formData.email,
+      formData.password,
+      // formData.gstNumber,
+      formData.company,
+    ];
+
+    if (requiredFields.some((field) => !field || field.trim() === "")) {
+      showToast("Please fill in all required fields.", "error");
+      setLoading(false);
+      return;
+    }
+
   
     const customerData = {
       customerName: `${formData.firstName} ${formData.lastName}`.trim(),

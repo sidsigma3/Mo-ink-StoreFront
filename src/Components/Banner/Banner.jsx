@@ -66,24 +66,25 @@ const Banner = () => {
 
 
 
-<div className="block md:block lg:hidden">
+<div className="block md:block lg:hidden h-full"> {/* ✅ Added h-full */}
   <Swiper
     spaceBetween={10}
     slidesPerView={1}
     autoplay={{ delay: 2000, disableOnInteraction: false }}
     pagination={{ clickable: true }}
     modules={[Pagination, Autoplay]}
+    className="h-full" 
   >
     {bannerItems.map((item, index) => (
-      <SwiperSlide key={index}>
-        <div className="relative bg-gray-50 rounded-3 min-h-[300px] sm:min-h-[300px] md:min-h-[200px] lg:min-h-[500px] flex flex-col justify-center">
+      <SwiperSlide key={index} className="h-full"> {/* ✅ Ensures slide fills full height */}
+        <div className="relative bg-gray-50 rounded-3 min-h-[300px] sm:max-h-[300px] md:min-h-[200px] lg:min-h-[500px] flex flex-col justify-center h-full"> {/* ✅ Added h-full */}
           <div
             className="absolute inset-0 bg-cover bg-center rounded-lg"
             style={{ backgroundImage: `url('/images/${item.img}')` }}
           ></div>
           <div className="relative z-10 p-4 text-black rounded-3 flex flex-col justify-center h-full text-left">
             <div>
-              <h2 className={item.title[0] === 'W' ? "text-2xl font-bold text-black" : "text-2xl font-bold"}>
+              <h2 className={item.title[0] === 'W' ? "text-2xl w-4/5  font-bold text-black " : "text-2xl  font-bold"}>
                 {item.title}
               </h2>
               <p className={item.desc[0] === 'C' ? "mt-2 font-medium text-black" : "mt-2 font-medium"}>
@@ -99,6 +100,7 @@ const Banner = () => {
     ))}
   </Swiper>
 </div>
+
 
 
 

@@ -13,6 +13,8 @@ import { IoFilterSharp } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'
 import { MdOutlineShoppingCart } from 'react-icons/md'
+import { useSearchParams } from "react-router-dom";
+
 
 
 const Category = () => {
@@ -21,8 +23,9 @@ const Category = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-
-  
+  const [searchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("name");
+  console.log("Selected Category from URL:", categoryFromUrl);
 
  useEffect(() => {
   const getProducts = async () => {
@@ -309,7 +312,7 @@ const counters = [
 
               {/* Type Filter - Multi-selection */}
               {selectedCategory && (
-          <div className="border rounded p-3">
+          <div className="border rounded mt-3 p-3">
             <h4 className="text-xl font-semibold mb-3">Type</h4>
             <ul className="space-y-2">
               {variantType.map((variant, index) => {
@@ -472,7 +475,7 @@ const counters = [
 
         
               {selectedCategory && (
-          <div className="border rounded p-3">
+          <div className="border rounded mt-3 p-3">
             <h4 className="text-xl font-semibold mb-3">Type</h4>
             <ul className="space-y-2">
               {variantType.map((variant, index) => {

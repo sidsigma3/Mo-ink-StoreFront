@@ -8,6 +8,8 @@ import Cta from '../../Components/CTA/Cta'
 import Footer from '../../Components/Footer/Footer'
 import Wishlist from './Wishlist'
 import BottomNav from '../../Components/BottomNav/BottomNav'
+import { useEffect } from "react";
+
 
 const WishlistPage = () => {
 
@@ -16,6 +18,11 @@ const WishlistPage = () => {
     { label: "Account", link: "/account" },
     { label: "Wishlist", link: "/wishlist" },
   ];
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   return (
     <div>

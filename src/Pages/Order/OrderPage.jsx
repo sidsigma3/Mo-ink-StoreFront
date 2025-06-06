@@ -78,16 +78,19 @@ const OrderPage = () => {
 
       <div className="px-6 md:px-14 py-3">
         <ul className="flex flex-col gap-3">
-          {orders.length > 0 ? (
-            orders.map((order, index) => (
-              <li key={index} onClick={() => handleOrderClick(order)} className="cursor-pointer">
-                <OrderBox order={order} />
-              </li>
-            ))
+          {orders.filter(order => order.status !== "PENDING").length > 0 ? (
+            orders
+              .filter(order => order.status !== "PENDING")
+              .map((order, index) => (
+                <li key={index} onClick={() => handleOrderClick(order)} className="cursor-pointer">
+                  <OrderBox order={order} />
+                </li>
+              ))
           ) : (
             <p>No orders found</p>
           )}
         </ul>
+
 
        <div className="mt-6 flex justify-end">
           <nav className="inline-flex space-x-1">

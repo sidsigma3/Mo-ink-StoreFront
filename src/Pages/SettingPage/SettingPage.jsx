@@ -24,9 +24,13 @@ const SettingPage = () => {
   const [toasts, setToasts] = useState([]);
 
 
+  const userData = JSON.parse(localStorage.getItem('userData'))
+
+
 useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
 
 
   useEffect(() => {
@@ -105,6 +109,7 @@ useEffect(() => {
     country: customer.country,
     zipcode: customer.pincode,
     addressType: "HOME", // assumed fixed for this edit form
+   
   };
 
   if (workAddressIndex !== -1) {
@@ -123,6 +128,7 @@ useEffect(() => {
     zipcode: customer.pincode,
     addresses: existingAddresses.slice(0, 3), // maximum of 3
     customerStatus:customerDetails.customerStatus,
+    company: userData.company,
   };
 
   try {

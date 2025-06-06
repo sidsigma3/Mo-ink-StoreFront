@@ -661,7 +661,7 @@ const CheckoutPage = () => {
             return;
           }
       
-          const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
+          const walletUsedAmount = walletUsed || 0;
       
           const totalCgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantCgst || 0), 0);
           const totalSgst = orderVariants.reduce((sum, v) => sum + Number(v.orderVariantSgst || 0), 0);
@@ -749,7 +749,7 @@ const CheckoutPage = () => {
           }
       
           const totalAmount = Number(adjustedNetPay).toFixed(0);
-          const walletUsedAmount = Math.min(walletUsed || 0, totalAmount);
+          const walletUsedAmount = walletUsed || 0;
       
           const orderData = {
             customer: {

@@ -39,56 +39,68 @@ const [toasts, setToasts] = useState([]);
    const [isVerifying, setIsVerifying] = useState(false);
 
   // Watch GST field and trigger API when 15 characters are entered
-  useEffect(() => {
-    const validateGST = async () => {
-      setIsVerifying(true);
-      try {
-        const response = await fetch("https://api.bulkpe.in/client/verifyGstin", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            gstin: formData.gstNumber,
-            reference: `REF-${Date.now()}`, // unique
-          }),
-        });
+ useEffect(() => {
+  const GST_REGEX = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 
-        const data = await response.json();
+  const validateGST = async () => {
+    setIsVerifying(true);
+    try {
+      const response = await fetch("https://api.bulkpe.in/client/verifyGstin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer aWSVQNyt+z3IiJHV+YX9UgyVVGvsw7WKbYHBMvfjwQu8B4ZH0TDo5/foe26Zf/Qj4idKNyezUG3ux15YcAHqaKyAIyGvXVP5Wap/YcqusarvqwJO8gbXAdtntfwhjG2XJeY2cGbPzRpLV2Y5O4ZwdQ==",
+        },
+        body: JSON.stringify({
+          gstin: formData.gstNumber,
+          reference: `REF-${Date.now()}`,
+        }),
+      });
 
-        if (data.success) {
-          setFormData((prev) => ({
-            ...prev,
-            gstVerified: true,
-            company: data.data?.lgnm || "",
-          }));
-        } else {
-          setFormData((prev) => ({
-            ...prev,
-            gstVerified: false,
-          }));
-        }
-      } catch (err) {
-        console.error("GST validation failed:", err);
+      const data = await response.json();
+
+      if (data.statusCode === 200) {
+        setFormData((prev) => ({
+          ...prev,
+          gstVerified: true,
+          company: data.data?.lgnm || "",
+        }));
+      } else {
         setFormData((prev) => ({
           ...prev,
           gstVerified: false,
         }));
-      } finally {
-        setIsVerifying(false);
       }
-    };
-
-    if (formData.gstNumber.length === 15) {
-      validateGST();
-    } else if (formData.gstNumber.length < 15) {
+    } catch (err) {
+      console.error("GST validation failed:", err);
       setFormData((prev) => ({
         ...prev,
-        gstVerified: null,
+        gstVerified: false,
+      }));
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  if (formData.gstNumber.length === 15) {
+    if (GST_REGEX.test(formData.gstNumber.toUpperCase())) {
+      validateGST();
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        gstVerified: false,
         company: "",
       }));
     }
-  }, [formData.gstNumber]);
+  } else {
+    setFormData((prev) => ({
+      ...prev,
+      gstVerified: null,
+      company: "",
+    }));
+  }
+}, [formData.gstNumber]);
+
 
 
   const handleChange = (e) => {

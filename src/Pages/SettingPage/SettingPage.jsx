@@ -22,7 +22,7 @@ const SettingPage = () => {
   const [isModified, setIsModified] = useState(false); 
   const [toasts, setToasts] = useState([]);
 
-
+  const userData = JSON.parse(localStorage.getItem('userData'))
 
   useEffect(() => {
     const fetchCustomerData = async () => {
@@ -100,6 +100,7 @@ const SettingPage = () => {
     country: customer.country,
     zipcode: customer.pincode,
     addressType: "HOME", // assumed fixed for this edit form
+   
   };
 
   if (workAddressIndex !== -1) {
@@ -118,6 +119,7 @@ const SettingPage = () => {
     zipcode: customer.pincode,
     addresses: existingAddresses.slice(0, 3), // maximum of 3
     customerStatus:customerDetails.customerStatus,
+    company: userData.company,
   };
 
   try {

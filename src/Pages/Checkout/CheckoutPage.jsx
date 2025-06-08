@@ -653,9 +653,6 @@ const CheckoutPage = () => {
           }
 
          
-        
-
-      
           const orderVariants = buildDetailedOrderVariants(selectedCartItems);
           const totalQuantity = orderVariants.length;
           const totalAmount = Number(adjustedNetPay).toFixed(0);
@@ -683,22 +680,22 @@ const CheckoutPage = () => {
             status: "NEW",
             totalAmount: Number(totalAmount),
             discountId: appliedCoupon?.discountId || null,
-            walletAmount: walletUsedAmount,
             quantity: totalQuantity,
             paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
             payment: {
-              totalAmount: Number(totalAmount),
-              codAmount: codPay,
-              onlineAmount: onlinePay,
-              transactionId: "COD" + Date.now(),
-              paidAmount: onlinePay,
-              pendingAmount: codPay,
-              paymentStatus: "UNPAID",
-              totalDiscount,
-              totalSgst,
-              totalCgst,
-              totalIgst,
-              totalHandlingCharges,
+                totalAmount: Number(totalAmount),
+                codAmount: Number(codPay.toFixed(2)),
+                onlineAmount: Number(onlinePay.toFixed(2)),
+                transactionId: "COD" + Date.now(),
+                paidAmount: Number(onlinePay.toFixed(2)),
+                pendingAmount: Number(codPay.toFixed(2)),
+                paymentStatus: "UNPAID",
+                totalDiscount: totalDiscount.toFixed(2),
+                totalSgst: Number(totalSgst.toFixed(2)),
+                totalCgst: Number(totalCgst.toFixed(2)),
+                totalIgst: Number(totalIgst.toFixed(2)),
+                totalHandlingCharges: Number(totalHandlingCharges.toFixed(2)),
+                walletAmount: walletUsedAmount,
             },
             orderVariants,
           };
@@ -764,23 +761,33 @@ const CheckoutPage = () => {
             status: "PENDING",
             totalAmount: Number(totalAmount),
             discountId: appliedCoupon?.discountId || null,
-            walletAmount: walletUsedAmount,
             quantity: orderVariants.length,
             paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
             payment: {
-              totalAmount: Number(totalAmount),
-              codAmount: codPay,
-              onlineAmount: onlinePay,
-              transactionId: "COD" + Date.now(),
-              paidAmount: onlinePay,
-              pendingAmount: codPay,
-              paymentStatus: "UNPAID",
-              totalDiscount: orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0),
-              totalIgst: isOdisha ? "0.00" : gstAmount.toFixed(2),
-              totalSgst: isOdisha ?  (gstAmount / 2).toFixed(2) : "0.00",
-              totalCgst:  isOdisha ?  (gstAmount / 2).toFixed(2) : "0.00",
-              totalHandlingCharges: orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0),
-            },
+                totalAmount: Number(totalAmount),
+                codAmount: Number(codPay.toFixed(2)),
+                onlineAmount: Number(onlinePay.toFixed(2)),
+                transactionId: "COD" + Date.now(),
+                paidAmount: Number(onlinePay.toFixed(2)),
+                pendingAmount: Number(codPay.toFixed(2)),
+                paymentStatus: "UNPAID",
+                walletAmount: walletUsedAmount,
+                totalDiscount: Number(
+                    orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0).toFixed(2)
+                ),
+                totalIgst: isOdisha
+                    ? 0.00
+                    : Number(gstAmount.toFixed(2)),
+                totalSgst: isOdisha
+                    ? Number((gstAmount / 2).toFixed(2))
+                    : 0.00,
+                totalCgst: isOdisha
+                    ? Number((gstAmount / 2).toFixed(2))
+                    : 0.00,
+                totalHandlingCharges: Number(
+                    orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0).toFixed(2)
+                ),
+                },
             orderVariants,
           };
       

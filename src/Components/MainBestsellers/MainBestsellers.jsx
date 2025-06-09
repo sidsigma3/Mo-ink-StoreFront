@@ -51,7 +51,7 @@ const MainBestsellers = () => {
               </span>
             </div>
             <a
-              href="#"
+              href="/login"
               className="text-purple-800 text-lg font-bold mt-3 hover:underline"
             >
               View

@@ -16,6 +16,8 @@ import MainMap from '../../Components/MainMap/MainMap'
 import MainCone from '../../Components/MainCone/MainCone'
 import MainHeader from '../../Components/MainHeader/MainHeader'
 import MainMarketing from '../../Components/MainMarketing/MainMarketing'
+import Inqueries from '../../Components/Inqueries/Inqueries'
+
 
 const MainHomepage = () => {
   
@@ -36,6 +38,7 @@ const MainHomepage = () => {
         <div className='py-28 bg-[#fffbed]'> <MainFAQ></MainFAQ> </div>
         <div className='pt-28 pb-6'> <MainParallax></MainParallax> </div>
         <div className='py-3 px-6 md:px-14 mt-10'> <FeturesList></FeturesList></div>
+        <div className='px-6 md:px-14 py-3 mt-10 '> <Inqueries show={true} /></div>
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
         

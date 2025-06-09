@@ -121,7 +121,7 @@ const BottomNav = () => {
       >
         {/* <GiPlagueDoctorProfile size={20} /> */}
         <GoPerson size={22}></GoPerson>
-        <span className="text-sm font-semibold">Profile</span>
+        <span className="text-sm font-semibold">Account</span>
       </button>
     </div>
   );

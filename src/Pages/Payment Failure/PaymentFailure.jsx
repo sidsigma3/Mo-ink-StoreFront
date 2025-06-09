@@ -14,6 +14,8 @@ import Toast from '../../Components/Toast/Toast';
 import { initiatePayment } from '../../Services/PaymentService';
 import { removeFromCart } from '../../Services/CartService';
 import { useAppContext } from '../../Utils/commoncontext';
+import { useEffect } from "react";
+
 
 const PaymentFailure = () => {
 
@@ -34,6 +36,11 @@ const PaymentFailure = () => {
     setToasts([{ message, type }]);
     setTimeout(() => setToasts([]), 3000);
   };
+
+      useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
 
   const handleRetryPayment = async () => {
     if (retryCount >= 2) return;

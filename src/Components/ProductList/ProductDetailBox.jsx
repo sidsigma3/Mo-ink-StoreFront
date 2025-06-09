@@ -149,6 +149,9 @@ const ProductDetailBox = ({
   return match || '';
 };
 
+
+console.log(isWishlist,isWishlistPage,justRemoved)
+
   return (
     <>
       {/* Product Card */}
@@ -328,8 +331,8 @@ const ProductDetailBox = ({
                 onClick={handleWishlistClick}
               >
                 {isWishlistPage && justRemoved ? (
-                  <FaHeart color="white" />
-                ) : isWishlisted ? (
+                  <FaHeart  />
+                ) : isWishlist ? (
                   <FaHeart color="red" />
                 ) : (
                   <FaRegHeart />

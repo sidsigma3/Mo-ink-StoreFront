@@ -84,6 +84,7 @@ console.log(wishlistItems)
                 hexCode={item.hexCode}
                 imageUrl={item.productImage}
                 variantType={item.variantType}
+                isWishlistPage={true}
               />
             </li>
           ))}

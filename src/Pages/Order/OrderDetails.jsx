@@ -39,7 +39,12 @@ const OrderDetails = () => {
 
     const [summary, setSummary] = useState(null);
 
-   
+    const walletAmount = order?.payment?.walletAmount || 0;
+    const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
+
+    const [walletDeduction, setWalletDeduction] = useState(
+      walletAmount > cancelRefundAmount ? walletAmount - cancelRefundAmount : 0
+    );
 
     useEffect(() => {
         const fetchDiscount = async () => {
@@ -573,7 +578,7 @@ const OrderDetails = () => {
                             <td className='pb-2'>Wallet</td>
                             <td className='pb-2'></td>
                             <td className='text-end text-green-500 pb-2'>
-                            <span className="mr-1 font-semibold">-</span>₹{order.walletAmount || 0}
+                            <span className="mr-1 font-semibold">-</span>₹{ walletDeduction || 0}
                             </td>
                         </tr>
 

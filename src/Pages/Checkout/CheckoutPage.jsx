@@ -557,12 +557,12 @@ const CheckoutPage = () => {
               variantId: item.variantId,
               orderWeight: itemWeight,
               variantType: item.variantType || "Cone",
-              orderVariantCgst: Number(cgst.toFixed(2)),
-              orderVariantSgst: Number(sgst.toFixed(2)),
-              orderVariantIgst: Number(igst.toFixed(2)),
-              orderVariantDiscount: Number(itemDiscount.toFixed(2)),
-              orderVariantHandlingCharges: Number(handlingCharges.toFixed(2)),
-              orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(2)),
+              orderVariantCgst: Number(cgst.toFixed(0)),
+              orderVariantSgst: Number(sgst.toFixed(0)),
+              orderVariantIgst: Number(igst.toFixed(0)),
+              orderVariantDiscount: Number(itemDiscount.toFixed(0)),
+              orderVariantHandlingCharges: Number(handlingCharges.toFixed(0)),
+              orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(0)),
               status: "NEW",
               statusReason: null,
               statusRemark: null,
@@ -621,12 +621,12 @@ const CheckoutPage = () => {
               variantId: item.variantId,
               orderWeight: itemWeight,
               variantType: item.variantType || "Cone",
-              orderVariantCgst: Number(cgst.toFixed(2)),
-              orderVariantSgst: Number(sgst.toFixed(2)),
-              orderVariantIgst: Number(igst.toFixed(2)),
-              orderVariantDiscount: Number(itemDiscount.toFixed(2)),
-              orderVariantHandlingCharges: Number(handlingCharges.toFixed(2)),
-              orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(2)),
+              orderVariantCgst: Number(cgst.toFixed(0)),
+              orderVariantSgst: Number(sgst.toFixed(0)),
+              orderVariantIgst: Number(igst.toFixed(0)),
+              orderVariantDiscount: Number(itemDiscount.toFixed(0)),
+              orderVariantHandlingCharges: Number(handlingCharges.toFixed(0)),
+              orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(0)),
               status: "PENDING",
               statusReason: null,
               statusRemark: null,
@@ -685,17 +685,17 @@ const CheckoutPage = () => {
             paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
             payment: {
                 totalAmount: Number(totalAmount),
-                codAmount: Number(codPay.toFixed(2)),
-                onlineAmount: Number(onlinePay.toFixed(2)),
+                codAmount: Number(codPay.toFixed(0)),
+                onlineAmount: Number(onlinePay.toFixed(0)),
                 transactionId: "COD" + Date.now(),
-                paidAmount: Number(onlinePay.toFixed(2)),
-                pendingAmount: Number(codPay.toFixed(2)),
+                paidAmount: Number(onlinePay.toFixed(0)),
+                pendingAmount: Number(codPay.toFixed(0)),
                 paymentStatus: "UNPAID",
-                totalDiscount: totalDiscount.toFixed(2),
-                totalSgst: Number(totalSgst.toFixed(2)),
-                totalCgst: Number(totalCgst.toFixed(2)),
-                totalIgst: Number(totalIgst.toFixed(2)),
-                totalHandlingCharges: Number(totalHandlingCharges.toFixed(2)),
+                totalDiscount: totalDiscount.toFixed(0),
+                totalSgst: Number(totalSgst.toFixed(0)),
+                totalCgst: Number(totalCgst.toFixed(0)),
+                totalIgst: Number(totalIgst.toFixed(0)),
+                totalHandlingCharges: Number(totalHandlingCharges.toFixed(0)),
                 walletAmount: walletUsedAmount,
             },
             orderVariants,
@@ -766,27 +766,27 @@ const CheckoutPage = () => {
             paymentTypeDiscount: extractPaymentTypeDiscount(selectedPayment) || "",
             payment: {
                 totalAmount: Number(totalAmount),
-                codAmount: Number(codPay.toFixed(2)),
-                onlineAmount: Number(onlinePay.toFixed(2)),
+                codAmount: Number(codPay.toFixed(0)),
+                onlineAmount: Number(onlinePay.toFixed(0)),
                 transactionId: "COD" + Date.now(),
-                paidAmount: Number(onlinePay.toFixed(2)),
-                pendingAmount: Number(codPay.toFixed(2)),
+                paidAmount: Number(onlinePay.toFixed(0)),
+                pendingAmount: Number(codPay.toFixed(0)),
                 paymentStatus: "UNPAID",
                 walletAmount: walletUsedAmount,
                 totalDiscount: Number(
-                    orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0).toFixed(2)
+                    orderVariants.reduce((sum, v) => sum + Number(v.orderVariantDiscount || 0), 0).toFixed(0)
                 ),
                 totalIgst: isOdisha
                     ? 0.00
-                    : Number(gstAmount.toFixed(2)),
+                    : Number(gstAmount.toFixed(0)),
                 totalSgst: isOdisha
-                    ? Number((gstAmount / 2).toFixed(2))
+                    ? Number((gstAmount / 2).toFixed(0))
                     : 0.00,
                 totalCgst: isOdisha
-                    ? Number((gstAmount / 2).toFixed(2))
+                    ? Number((gstAmount / 2).toFixed(0))
                     : 0.00,
                 totalHandlingCharges: Number(
-                    orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0).toFixed(2)
+                    orderVariants.reduce((sum, v) => sum + Number(v.orderVariantHandlingCharges || 0), 0).toFixed(0)
                 ),
                 },
             orderVariants,

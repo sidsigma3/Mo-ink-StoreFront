@@ -6,11 +6,19 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import BottomNav from '../BottomNav/BottomNav';
 import { sendInquiryEmail } from '../../Services/CustomerService';
 import Toast from '../Toast/Toast';
+import Dropdown from 'react-bootstrap/Dropdown';
+import L from 'leaflet';
+
 
 const Inqueries = ({ show }) => {
-  const [location, setLocation] = useState([20.296059, 85.824539]); // Default coordinates
-  const [zoom, setZoom] = useState(13);
+  const [location, setLocation] = useState([20.28791285719732, 85.80958984305737]); // Default coordinates
+  const [zoom, setZoom] = useState(16);
   const [toasts, setToasts] = useState([]);
+
+  const customIcon = L.icon({
+  iconUrl: '/images/MapIcon.png',
+  iconSize: [42, 52],
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,6 +32,8 @@ const Inqueries = ({ show }) => {
   const sendEmail = async () => {
     setLoading(true); 
     const { name, email, phoneNumber, message } = formData;
+
+
 
 
     const showToast = (message, type ) => {
@@ -81,27 +91,85 @@ const Inqueries = ({ show }) => {
         )}
 
         <div className='d-flex flex-column gap-3 mt-3'>
-          <input
-            className="p-2 rounded border-1"
-            placeholder="Name *"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
+         <div className="flex  gap-3">
+            <input
+              className="p-2 rounded border border-gray-300 w-full md:w-1/2"
+              placeholder="Name *"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+
+            <input
+              className="p-2 rounded border border-gray-300 w-full md:w-1/2"
+              placeholder="Comapny *"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+          </div>
+        <div className='w-full'>
+          <Dropdown onSelect={(value) => setFormData({ ...formData, interest: value })}>
+            <Dropdown.Toggle
+              variant="light"
+              id="dropdown-basic"
+              className="w-full d-flex align-items-center justify-between gap-2  border border-gray-300 p-2 rounded "
+            >
+              <p className="m-0">
+                {formData.interest ? formData.interest : 'Interested in *'}
+              </p>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className='w-full'>
+              <Dropdown.Item eventKey="Sell Products">
+                <div className='p-2 border-bottom'>
+                  <h4 className='text-lg font-medium '>
+                    Want to <span className='text-violet-800'>Sell</span>
+                  </h4>
+                  <h5 className='md:text-sm'>Post your products or services for buyers.</h5>
+                </div>
+              </Dropdown.Item>
+
+              <Dropdown.Item eventKey="Buy Products">
+                <div className='p-2 flex flex-wrap items-start gap-1 justify-between'>
+                  <div>
+                    <h4 className='text-lg font-medium'>
+                      Want to <span className='text-violet-800'>Buy </span>
+                    </h4>
+                    <h5 className='md:text-sm'>Explore listings and contact sellers.</h5>
+                  </div>
+                </div>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
 
           <input
-            className="p-2 rounded border-1"
-            placeholder="Email *"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
+              className="p-2 rounded border border-gray-300 w-full"
+              placeholder="Email *"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
 
-          <input
-            className="p-2 rounded border-1"
+            <div className="flex  gap-3">
+            <input
+              className="p-2 rounded border border-gray-300 w-full md:w-1/2"
+              placeholder="Designation *"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+
+             <input
+            className="p-2 rounded border border-gray-300 w-full md:w-1/2"
             placeholder="Calling Number *"
             value={formData.phoneNumber}
             onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} 
           />
-
+          </div>
+          <input
+              className="p-2 rounded border border-gray-300 w-full"
+              placeholder="Location *"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
           <textarea
             className="p-2 rounded border border-gray-300 w-full h-32 resize-none"
             placeholder="Message *"
@@ -154,7 +222,7 @@ const Inqueries = ({ show }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker position={location}>
+          <Marker position={location} icon={customIcon}>
             <Popup>You are here</Popup>
           </Marker>
         </MapContainer>

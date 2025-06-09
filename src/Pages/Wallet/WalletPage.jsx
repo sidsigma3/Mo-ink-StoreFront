@@ -124,7 +124,7 @@ const WalletPage = () => {
                 <tr className="bg-gray-100 text-center">
                   <th className="border border-gray-300 p-2">Source</th>
                   {/* <th className="border border-gray-300 p-2">Invoice No.</th> */}
-                  <th className="border border-gray-300 p-2">Type</th>
+                  {/* <th className="border border-gray-300 p-2">Type</th> */}
                   <th className="border border-gray-300 p-2">Amount</th>
                   <th className="border border-gray-300 p-2">Date</th>
                   <th  className="border border-gray-300 p-2" >Credit Note</th>
@@ -138,12 +138,12 @@ const WalletPage = () => {
                     {/* <td class="text-center border border-gray-300">
                       <span class="text-sm font-medium text-gray-700">INV-10234</span>
                     </td> */}
-                    <td
+                    {/* <td
                       className="border border-gray-300 p-2 text-sm font-semibold"
                       style={{ color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000" }}
                     >
                       {item.type}
-                    </td>
+                    </td> */}
 
                     <td className="border border-gray-300 p-2"
                         style={{

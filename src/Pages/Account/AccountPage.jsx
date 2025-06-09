@@ -15,10 +15,18 @@ import { FaRegHeart } from "react-icons/fa";
 import { SlLocationPin } from "react-icons/sl";
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from "react";
+
 
 const AccountPage = () => {
 
   const navigate = useNavigate()
+
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
 
   const breadcrumbs = [
     { label: "Home", link: "/home" },

@@ -39,10 +39,11 @@ const CheckoutPage = () => {
     const navigate = useNavigate()
 
     const { updateCartAndWishlistCounts } = useAppContext();
+    
 
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [selectedPayment, setSelectedPayment] = useState('Select Payment type')
+    const [selectedPayment, setSelectedPayment] = useState("100% Online and 0% COD");
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [discounts, setDiscounts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -899,7 +900,7 @@ const CheckoutPage = () => {
             <div className='px-6 md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
                 <h5 className='font-semibold text-xl md:text-2xl'>Review your cart</h5>
                 {cartItems.length > 0 ? (
-                    <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 '>
+                    <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 '>
                         {cartItems.map((item, index) => {
                             const totalAmount = cartItems.reduce((acc, item) => {
                                 const itemCost = item.price * item.quantity;
@@ -1091,20 +1092,20 @@ const CheckoutPage = () => {
                                         </div>
                                     </Dropdown.Item>
                                     <Dropdown.Item eventKey={"50% Online and 50% COD"}>
-                                        <div className='p-2 border-bottom'>
+                                        <div className='p-2 border-bottom flex flex-wrap items-start gap-1 justify-between'>
                                             <div>
                                                 <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>50%</span> in Online & <span className='text-violet-800'>50%</span> COD</h4>
                                                 <h5 className='md:text-sm'>0.50% discount applied.</h5>
                                             </div>
 
-                                            <div className='lg:text-xl md:text-sm'>
+                                            {/* <div className=' lg:text-lg text-white text-bold border bg-violet-800 rounded-full px-2 py-1 text-xs'>
                                                 Recommended
-                                            </div>
+                                            </div> */}
 
                                         </div>
                                     </Dropdown.Item>
 
-                                    <Dropdown.Item eventKey={"30% Online and 70% COD"}>
+                                    {/* <Dropdown.Item eventKey={"30% Online and 70% COD"}>
                                         <div className='p-2 border-bottom'>
                                             <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>30%</span> in Online & <span className='text-violet-800'>70%</span> COD</h4>
                                             <h5 className='md:text-sm'>0.30% discount applied.</h5>
@@ -1116,10 +1117,10 @@ const CheckoutPage = () => {
                                             <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>25%</span>in Online & <span className='text-violet-800'>75%</span> COD</h4>
                                             <h5 className='md:text-sm'>0.50% discount applied.</h5>
                                         </div>
-                                    </Dropdown.Item>
+                                    </Dropdown.Item> */}
 
                                     <Dropdown.Item eventKey={"0% Online and 100% COD"}>
-                                        <div className='p-2 border-bottom'>
+                                        <div className='p-2 '>
                                             <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>0%</span> in Online & <span className='text-violet-800'>100%</span> COD</h4>
                                             <h5 className='md:text-sm'>No discount on COD.</h5>
                                         </div>

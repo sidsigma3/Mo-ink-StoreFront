@@ -140,7 +140,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
             </div>
 
             <div className="flex flex-col text-center items-center mx-1 my-2">
-              <h5 className="text-black font-bold">{item.color?.colorName}</h5>
+              <h5 className="text-black text-sm font-medium ">{item.color?.colorName}</h5>
               {/* <h5 className="text-gray-600">{item.color?.hexCode}</h5> */}
             </div>
           </div>
@@ -675,7 +675,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                                         </button>
 
                                                                 </div>
-                                                                <h5 className="text-black font-bold mx-1 my-2 text-center">{item.colorName}</h5>
+                                                                <h5 className="text-black text-sm font-medium mx-1 my-2 text-center">{item.colorName}</h5>
                                                                 {/* <h5 className="text-black font-bold text-center">{item.hexCode}</h5> */}
                                                             </div>
                                                         ))}
@@ -923,7 +923,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         </div>
 
                         <div className='grid grid-cols-2 gap-3 mt-8 text-sm md:text-md'>
-                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Organic</h5>
+                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Natural</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>SKU:</span> FWM15VKT</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2025</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Stocks:</span> Available</h5>

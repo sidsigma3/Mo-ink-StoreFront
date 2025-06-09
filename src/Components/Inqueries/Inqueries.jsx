@@ -17,7 +17,7 @@ const Inqueries = ({ show }) => {
 
   const customIcon = L.icon({
   iconUrl: '/images/MapIcon.png',
-  iconSize: [42, 52],
+  iconSize: [42, 56],
   });
 
   const [formData, setFormData] = useState({
@@ -228,7 +228,6 @@ const Inqueries = ({ show }) => {
         </MapContainer>
       </div>
 
-      <BottomNav />
 
       {/* Toast Notification */}
       <div className="fixed top-4 right-4 z-9999 space-y-2">

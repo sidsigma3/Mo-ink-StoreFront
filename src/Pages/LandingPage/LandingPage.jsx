@@ -65,7 +65,7 @@ const LandingPage = () => {
       <div className='px-6 md:px-14 py-3 mt-10 overflow-auto'> <CtaCard /></div>
       <div className='mt-10'> <Testimonial /></div>
       <div className='px-6 md:px-14 py-3 mt-10'> <BlogList /></div>
-      <div className='px-6 md:px-14 py-3 mt-10 hidden lg:block'> <Inqueries show={true} /></div>
+      <div className='px-6 md:px-14 py-3 mt-10 '> <Inqueries></Inqueries></div>
       <div className='px-6 md:px-14 py-3 mt-10'><Cta /></div>
       <div className='px-6 md:px-14 py-3'> <Footer /></div>
       <BottomNav />

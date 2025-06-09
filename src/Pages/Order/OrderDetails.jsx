@@ -255,7 +255,7 @@ const OrderDetails = () => {
       
         // Step 4: Final amounts
         const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
-        const walletUsed = Number(order.walletAmount) || 0;
+        const walletUsed = Number(order.payment.walletAmount) || 0;
         const adjustedNetPay = netPayable - walletUsed;
       
         const online = Number(order.paymentTypeDiscount?.replace('%', '')) || 0;

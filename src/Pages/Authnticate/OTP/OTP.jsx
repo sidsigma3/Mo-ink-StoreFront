@@ -1,30 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Toast from "../../../Components/Toast/Toast";
-import { otpVerify ,otpSend} from "../../../Services/CustomerService";
+import { otpVerify, otpSend } from "../../../Services/CustomerService";
 import { useLocation } from "react-router-dom";
 import { createCustomer } from "../../../Services/CustomerService";
 import ModalOTPVerified from "../../../Components/Modal/ModalOTPVerified";
 
 const OTP = () => {
-    const location = useLocation();
-    const customerData = location.state?.customerData;
-    const [message, setMessage] = useState("");
-    const navigate = useNavigate();
-    const [emailCode, setEmailCode] = useState("");
-    const [phoneCode, setPhoneCode] = useState("");
-    const [error, setError] = useState(""); 
-    const [toasts, setToasts] = useState([]); 
-    const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const location = useLocation();
+  const customerData = location.state?.customerData;
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const [emailCode, setEmailCode] = useState("");
+  const [phoneCode, setPhoneCode] = useState("");
+  const [error, setError] = useState("");
+  const [toasts, setToasts] = useState([]);
+  const [isOtpVerified, setIsOtpVerified] = useState(false); 
 
-    const showToast = (message, type = "error") => {
-      setToasts([{ message, type }]);
-      setTimeout(() => setToasts([]), 3000);
-    };
-  
+  const showToast = (message, type = "error") => {
+    setToasts([{ message, type }]);
+    setTimeout(() => setToasts([]), 3000);
+  };
 
-    const handleNumericInput = (e, setter) => {
-    let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+  const handleNumericInput = (e, setter) => {
+    let value = e.target.value.replace(/\D/g, "");
 
     if (value.length > 6) {
       showToast("Only 6 digits are allowed", "error");
@@ -33,87 +32,90 @@ const OTP = () => {
     setter(value);
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!customerData) {
-    showToast("Missing customer data. Please register again.", "error");
-    navigate("/");
-    return;
-  }
-
-  try {
-    // Verify Phone OTP
-    await otpVerify({
-      emailOrPhone: customerData.phoneNumber,
-      otp: phoneCode,
-      accountType: "CUSTOMER",
-      otpType: "PHONE",
-    });
-
-    // Verify Email OTP
-    await otpVerify({
-      emailOrPhone: customerData.email,
-      otp: emailCode,
-      accountType: "CUSTOMER",
-      otpType: "EMAIL",
-    });
-
-    // Create customer
-    await createCustomer(customerData);
-    setIsOtpVerified(true);
-
-  } catch (error) {
-    console.error("Error:", error);
-    showToast("OTP verification failed.", "error");
-  }
-};
-
-
-const resendEmailOTP = async (e) => {
-  e.preventDefault();
-  try {
-    if (customerData.email) {
-      await otpSend({
-        emailOrPhone: customerData.email,
-        accountType: "CUSTOMER",
-        otpType: "EMAIL",
-      });
-      showToast("Email OTP resent successfully!", "success");
-    } else {
-      showToast("Missing email address.", "error");
+    if (!customerData) {
+      showToast("Missing customer data. Please register again.", "error");
+      // navigate("/");
+      return;
     }
-  } catch (error) {
-    console.error("Resend email OTP error:", error);
-    showToast("Failed to resend Email OTP.", "error");
-  }
-};
 
-const resendPhoneOTP = async (e) => {
-  e.preventDefault();
-  try {
-    if (customerData.phoneNumber) {
-      await otpSend({
+    try {
+      await otpVerify({
         emailOrPhone: customerData.phoneNumber,
+        otp: phoneCode,
         accountType: "CUSTOMER",
         otpType: "PHONE",
       });
-      showToast("Phone OTP resent successfully!", "success");
-    } else {
-      showToast("Missing phone number.", "error");
+
+      await otpVerify({
+        emailOrPhone: customerData.email,
+        otp: emailCode,
+        accountType: "CUSTOMER",
+        otpType: "EMAIL",
+      });
+
+      await createCustomer(customerData);
+      setIsOtpVerified(true); 
+
+    } catch (error) {
+      console.error("Error:", error);
+      showToast("OTP verification failed.", "error");
     }
-  } catch (error) {
-    console.error("Resend phone OTP error:", error);
-    showToast("Failed to resend Phone OTP.", "error");
-  }
-};
+  };
 
-  
-    return (
-        <div
-            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
-            <div
+  const resendEmailOTP = async (e) => {
+    e.preventDefault();
+    try {
+      if (customerData.email) {
+        await otpSend({
+          emailOrPhone: customerData.email,
+          accountType: "CUSTOMER",
+          otpType: "EMAIL",
+        });
+        showToast("Email OTP resent successfully!", "success");
+      } else {
+        showToast("Missing email address.", "error");
+      }
+    } catch (error) {
+      console.error("Resend email OTP error:", error);
+      showToast("Failed to resend Email OTP.", "error");
+    }
+  };
 
+  const resendPhoneOTP = async (e) => {
+    e.preventDefault();
+    try {
+      if (customerData.phoneNumber) {
+        await otpSend({
+          emailOrPhone: customerData.phoneNumber,
+          accountType: "CUSTOMER",
+          otpType: "PHONE",
+        });
+        showToast("Phone OTP resent successfully!", "success");
+      } else {
+        showToast("Missing phone number.", "error");
+      }
+    } catch (error) {
+      console.error("Resend phone OTP error:", error);
+      showToast("Failed to resend Phone OTP.", "error");
+    }
+  };
+
+  useEffect(() => {
+    if (isOtpVerified) {
+      const timer = setTimeout(() => {
+        setIsOtpVerified(false);
+        navigate("/login");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isOtpVerified, navigate]); 
+
+  return (
+    <div className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
+      <div
         className="absolute inset-0 bg-center bg-cover filter blur-sm z-0"
         style={{
           backgroundImage:
@@ -131,7 +133,7 @@ const resendPhoneOTP = async (e) => {
       </div>
 
       {/* Toast messages */}
-      <div className="absolute top-4 right-4 z-50"> 
+      <div className="absolute top-4 right-4 z-50">
         {toasts.map((toast) => (
           <Toast key={toast.id} message={toast.message} type={toast.type} />
         ))}
@@ -156,7 +158,7 @@ const resendPhoneOTP = async (e) => {
             <label className="text-l">Email OTP</label>
             <button
               className="text-sm text-white cursor-pointer"
-              onClick={resendEmailOTP} 
+              onClick={resendEmailOTP}
             >
               Resend
             </button>
@@ -173,7 +175,7 @@ const resendPhoneOTP = async (e) => {
             <label className="text-l">Phone OTP</label>
             <button
               className="text-sm text-white cursor-pointer"
-              onClick={resendPhoneOTP} 
+              onClick={resendPhoneOTP}
             >
               Resend
             </button>
@@ -225,15 +227,8 @@ const resendPhoneOTP = async (e) => {
           </button>
         </div>
       </div>
-      {isOtpVerified && (
-  <ModalOTPVerified
-    onClose={() => {
-      setIsOtpVerified(false);
-      navigate("/login");
-    }}
-  />
-)}
 
+       {isOtpVerified && <ModalOTPVerified />}
     </div>
   );
 };

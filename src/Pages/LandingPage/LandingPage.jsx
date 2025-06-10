@@ -50,6 +50,11 @@ const LandingPage = () => {
       fetchAndStoreCartAndWishlist(customer.customerId);
     }
   }, [customer?.customerId]);
+
+  
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   
 
 

@@ -10,7 +10,7 @@ export default function TextileSplitSection() {
             <p className="text-purple-800 text-lg font-bold lg:mt-3 mb-3 tracking-widest uppercase">
               Yarn In Cone
             </p>
-            <h2 className="text-4xl font-bold mb-3 text-gray-900 leading-tight">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-black mb-3 leading-tight">
               Engineered for Efficiency
             </h2>
             <p className="text-gray-600 text-base">
@@ -30,7 +30,7 @@ export default function TextileSplitSection() {
             <p className="text-purple-800 text-lg font-bold mb-3 tracking-widest uppercase">
               Yarn In Hank
             </p>
-            <h2 className="text-4xl font-bold mb-3 text-gray-900 leading-tight">
+            <h2 className="text-3xl lg:text-5xl font-semibold text-black mb-3 leading-tight">
               Crafted for Flexibility
             </h2>
             <p className="text-gray-600 text-base">

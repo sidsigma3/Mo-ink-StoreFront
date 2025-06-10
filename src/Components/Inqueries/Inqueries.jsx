@@ -22,8 +22,12 @@ const Inqueries = ({ show }) => {
 
   const [formData, setFormData] = useState({
     name: "",
+    company: "",
+    interest: "",
     email: "",
+    designation: "",
     phoneNumber: "", 
+    location: "",
     message: ""
   });
 
@@ -31,7 +35,7 @@ const Inqueries = ({ show }) => {
 
   const sendEmail = async () => {
     setLoading(true); 
-    const { name, email, phoneNumber, message } = formData;
+    const { name, company, interest, email, designation, phoneNumber, location, message } = formData;
 
 
 
@@ -43,7 +47,7 @@ const Inqueries = ({ show }) => {
       setLoading(false);
     };
 
-    if (!name || !email || !phoneNumber || !message) {
+    if (!name || !company || !interest || !email || !designation || !phoneNumber || !location || !message) {
       showToast("Please fill out all required fields.", "error");
       return;
     }
@@ -68,8 +72,12 @@ const Inqueries = ({ show }) => {
     );
     setFormData({
       name: "",
+      company: "",
+      interest: "",
       email: "",
+      designation: "",
       phoneNumber: "",
+      location: "",
       message: ""
     });
     
@@ -102,8 +110,8 @@ const Inqueries = ({ show }) => {
             <input
               className="p-2 rounded border border-gray-300 w-full md:w-1/2"
               placeholder="Comapny *"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              value={formData.company}
+              onChange={(e) => setFormData({ ...formData, company: e.target.value })}
             />
           </div>
         <div className='w-full'>
@@ -153,8 +161,8 @@ const Inqueries = ({ show }) => {
             <input
               className="p-2 rounded border border-gray-300 w-full md:w-1/2"
               placeholder="Designation *"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              value={formData.designation}
+              onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
             />
 
              <input
@@ -167,8 +175,8 @@ const Inqueries = ({ show }) => {
           <input
               className="p-2 rounded border border-gray-300 w-full"
               placeholder="Location *"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              value={formData.location}
+              onChange={(e) => setFormData({ ...formData, location: e.target.value })}
             />
           <textarea
             className="p-2 rounded border border-gray-300 w-full h-32 resize-none"
@@ -216,7 +224,7 @@ const Inqueries = ({ show }) => {
         </div>
       </div>
 
-      <div style={{ height: "40rem", width: "100%" }}>
+      <div style={{ height: "40rem", width: "100%", zIndex:"0"  }}>
         <MapContainer center={location} zoom={zoom} style={{ height: "100%", width: "100%" }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -12,8 +12,8 @@ const MainWhyUs = () => {
     backgroundImage: `url('/images/Pattern.png')`,
   }}
       >
-        <div className="container mx-auto lg:max-w-screen-xl px-6 md:px-14 ">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+        <div className="container mx-auto lg:max-w-screen-xl px-8 md:px-14 ">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             {/* Left Column - Image */}
             <div className="w-full flex justify-center ">
@@ -44,10 +44,26 @@ const MainWhyUs = () => {
               <p className="text-gray-400 mb-8">
               Every yarn we produce is available in bulk and crafted with the reliability and care that your business deserves.
               </p>
-              <button className="bg-[#FFEE9A] text-purple-800 font-medium py-3 px-8 rounded-full border hover:bg-transparent transition-all"
-              onClick={() => navigate('/signup')}
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-left mb-10">
+                <div>
+                  <p className="text-3xl md:text-4xl font-bold text-[#FFEE9A]">₹ 10+ Cr</p>
+                  <p className="text-white mt-1">Yarn Sold</p>
+                </div>
+                <div>
+                  <p className="text-3xl md:text-4xl font-bold text-[#FFEE9A]">₹ 1L+</p>
+                  <p className="text-white mt-1">Average Order</p>
+                </div>
+                <div>
+                  <p className="text-3xl md:text-4xl font-bold text-[#FFEE9A]">1.5L+ Kg</p>
+                  <p className="text-white mt-1">Yarn Sourced</p>
+                </div>
+              </div>
+
+              <button className="bg-[#FFEE9A] text-purple-800 font-medium py-3 px-12 rounded-full border hover:bg-transparent transition-all"
+              onClick={() => navigate('/KnowMore')}
               >
-                Sign Up
+                Know More
               </button>
             </div>
           </div>

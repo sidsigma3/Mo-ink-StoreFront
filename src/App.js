@@ -52,6 +52,7 @@ import Blog2 from './Pages/Blogs/Blog2';
 import Blog3 from './Pages/Blogs/Blog3';
 import Blog4 from './Pages/Blogs/Blog4';
 import ColorPalette from './Pages/ColorPalette/ColorPalette';
+import MainKnowMore from './Pages/Main Homepage/MainKnowMore';
 
 
 
@@ -99,6 +100,14 @@ function App() {
       <Route path="/refundPolicy" element={<RefundPolicy/>}/>
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/FAQs" element={<FAQs/>}/>
+      <Route path="/blogs" element={<Blogs/>}/>
+      <Route path="/blog1" element={<Blog1/>}/>
+      <Route path="/blog2" element={<Blog2/>}/>
+      <Route path="/blog3" element={<Blog3/>}/>
+      <Route path="/blog4" element={<Blog4/>}/>
+      <Route path="/KnowMore" element={<MainKnowMore/>}/>
+
+      MainKnowMore
 
 
 
@@ -126,11 +135,6 @@ function App() {
                   <Route path="/returnPolicy" element={<ReturnPolicy/>}/>
                   <Route path="/refundPolicy" element={<RefundPolicy/>}/>
                   <Route path="/product/:id" element={<ProductDetailPage />} />
-                  <Route path="/blogs" element={<Blogs/>}/>
-                  <Route path="/blog1" element={<Blog1/>}/>
-                  <Route path="/blog2" element={<Blog2/>}/>
-                  <Route path="/blog3" element={<Blog3/>}/>
-                  <Route path="/blog4" element={<Blog4/>}/>
                   <Route path="*" element={<ErrorPage />} />
                   
                   <Route path="/paymentSuccess" element={<PaymentSuccess/>} />

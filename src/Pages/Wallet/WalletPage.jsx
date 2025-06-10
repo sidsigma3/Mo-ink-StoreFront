@@ -95,6 +95,11 @@ const WalletPage = () => {
     { label: "Wallet", link: "/wallet" },
   ];
 
+  
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
   return (
     <div>
        <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>

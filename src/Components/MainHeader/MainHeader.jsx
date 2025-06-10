@@ -12,7 +12,8 @@ const MainHeader = () => {
     { name: "Features", path: "/#features" },
     { name: "Why us", path: "/#why-us" },
     { name: "Products", path: "/#products" },
-    { name: "FAQs", path: "/#faqs" }
+    { name: "FAQs", path: "/#faqs" },
+    { name: "Blogs", path: "/blogs" }
   ];
   
 

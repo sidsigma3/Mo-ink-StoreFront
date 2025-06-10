@@ -50,7 +50,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [toasts, setToasts] = useState([]);
     
 
-    
+     useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+  
 
     const filteredColorsTemp = useMemo(() => {
   if (!product?.variants?.length) return [];
@@ -461,7 +464,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     console.log(product)
     console.log(selectedColors)
     console.log(modalSelectedColors)
-  
+
+    
+
 
     return (
         <div>
@@ -526,12 +531,12 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         </div>
                         <div className='d-flex gap-2 align-items-center mt-3'>
                             <h4 className="purple-text font-bold text-2xl md:text-4xl">₹{Math.round(price)}</h4>
-                            <div>
+                            {/* <div>
                                 <p className='text-green-600 font-semibold text-sm'>
                                 {Math.round(((markupPrice - price) / markupPrice) * 100)}% Off
                                 </p>
                                 <p className="text-slate-400 font-medium"><s>₹{Math.round(markupPrice)}</s></p>
-                            </div>
+                            </div> */}
 
                         </div>
 
@@ -957,10 +962,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         <p class="text-md text-gray-600 mt-4">Suitable for a wide range of textile applications including apparel manufacturing, handloom weaving, machine knitting, and home furnishings. Choose cotton or silk yarns for breathable, luxury garments, while nylon and polyester offer strength and elasticity ideal for sportswear and industrial fabrics.</p>
                     </div>
 
-                    <div class="mt-8">
+                    {/* <div class="mt-8">
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingredients</h3>
                         <p class="text-md text-gray-600 mt-4">Our yarns are produced using high-quality raw fibers such as long-staple cotton, reeled mulberry silk, virgin polyester, and industrial-grade nylon. Some variants may include eco-dyes, silicone softeners, or anti-pilling treatments depending on customer requirements.</p>
-                    </div>
+                    </div> */}
 
                     <div class="mt-8">
                         <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>

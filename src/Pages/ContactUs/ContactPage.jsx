@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from "react";
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
 import HeroSection from '../../Components/HeroSection/HeroSection'
@@ -8,6 +8,11 @@ import Inqueries from '../../Components/Inqueries/Inqueries'
 import BottomNav from '../../Components/BottomNav/BottomNav'
 
 const ContactPage = () => {
+
+      useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
   return (
     <div>
         <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>

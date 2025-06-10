@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from "react";
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -17,6 +17,11 @@ const DeliveryInfo = () => {
       { label: "Delivery Information", link: "/deliveryinfo" },
     ];
   
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
+    
     return (
       <div>
 

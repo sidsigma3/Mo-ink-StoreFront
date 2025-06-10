@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TopNavigation from '../../Components/TopNavigation/TopNavigation';
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader';
 import Navbar from '../../Components/Navbar/Navbar';
@@ -18,6 +18,10 @@ const Blog2 = () => {
     { label: "Blogs", link: "/Blogs" },
     { label: "Behind the Thread", link: "/Blog2" },
   ];
+
+      useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   return (
     <div>

@@ -47,6 +47,10 @@ const OrderDetails = () => {
     );
 
     useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const fetchDiscount = async () => {
             if (order?.discountId) {
             try {
@@ -326,12 +330,17 @@ const OrderDetails = () => {
       }
     };
 
+    
+
   const breadcrumbs = [
     { label: "Home", link: "/home" },
     { label: "Account", link: "/account" },
     { label: "Orders", link: "/orders" },
     { label: "Order Details", link: "/orderDetails" },
   ];
+
+
+    
 
 
   const getStateFromBillingAddress = (billingAddress) => {

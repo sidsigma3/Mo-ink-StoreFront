@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TopNavigation from '../../Components/TopNavigation/TopNavigation'
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader'
 import Navbar from '../../Components/Navbar/Navbar'
@@ -18,6 +18,10 @@ const PrivacyPolicy = () => {
       { label: "Privacy Policy", link: "/privacyPolicy" },
     ];
     
+    
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   
     return (
       <div>

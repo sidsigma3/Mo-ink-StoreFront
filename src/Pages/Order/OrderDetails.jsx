@@ -21,12 +21,13 @@ import { downloadCreditReceipt } from '../../Services/InvoiceService'
 import moment from 'moment-timezone';
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import Toast from '../../Components/Toast/Toast'
-
+import { addToCart } from '../../Services/CartService'
+import { useAppContext } from '../../Utils/commoncontext'
 
 const OrderDetails = () => {
 
     const {state} = useLocation()
-
+    const { updateCartAndWishlistCounts } = useAppContext();
     const order =state?.order || {};
 
     const customer = JSON.parse(localStorage.getItem('userData'))
@@ -65,13 +66,17 @@ const OrderDetails = () => {
     fetchDiscount();
     }, [order?.discountId]);
 
-    console.log(appliedCoupon)
+   
     const orderDateObj = new Date(order.createdAt); // RAW Date object
 
     const orderDate = moment.utc(order.createdAt).tz("Asia/Kolkata").format("D MMM YYYY, h:mm A");
-    console.log(orderDate);
 
-    
+
+     const showToast = (message, type = "error") => {
+            setToasts([{ message, type }]);
+            setTimeout(() => setToasts([]), 3000);
+          };
+          
     // const orderDate = new Date(order.createdAt).toLocaleString("en-IN", {
     //     timeZone: "Asia/Kolkata",
     //     year: "numeric",
@@ -259,7 +264,9 @@ const OrderDetails = () => {
       
         // Step 4: Final amounts
         const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
-        const walletUsed = Number(order.payment.walletAmount) || 0;
+        const walletAmount = order?.payment?.walletAmount || 0;
+        const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
+        const walletUsed = Number((walletAmount > cancelRefundAmount ? walletAmount - cancelRefundAmount : 0)).toFixed(0) || 0;
         const adjustedNetPay = netPayable - walletUsed;
       
         const online = Number(order.paymentTypeDiscount?.replace('%', '')) || 0;
@@ -356,10 +363,45 @@ const OrderDetails = () => {
   };
   
   const billingState = getStateFromBillingAddress(order?.billingAddress)
+
   const isOdisha = billingState?.toLowerCase() === "odisha";
 
+  const handleBuyAgain = async (order) => {
 
-  console.log(order)
+  const customerId = customer?.customerId;
+  if (!customerId || !order?.orderVariantResponse?.length) return;
+
+  for (const item of order.orderVariantResponse) {
+    try {
+      const { productId, size, color, variantType, orderWeight } = item;
+
+      const res = await fetchProductsById(productId);
+      if (!res.success) continue;
+
+      const product = res.data;
+      const matchedVariant = product.variants.find(
+        (v) =>
+          v.size === size &&
+          v.color?.id === color?.id &&
+          (variantType ? v.variantType === variantType : true)
+      );
+
+      if (!matchedVariant) continue;
+
+      const variantId = matchedVariant.id;
+      const quantity = Number(orderWeight); // assuming weight == quantity
+
+      await addToCart(customerId, variantId, quantity);
+    } catch (err) {
+      console.error("Failed to add item to cart:", err);
+    }
+    }
+
+    // Optional: show a toast or redirect to cart
+    showToast("All items added to cart!", "success");
+    updateCartAndWishlistCounts()
+  };
+
 
   return (
     <div>
@@ -587,7 +629,7 @@ const OrderDetails = () => {
                             <td className='pb-2'>Wallet</td>
                             <td className='pb-2'></td>
                             <td className='text-end text-green-500 pb-2'>
-                            <span className="mr-1 font-semibold">-</span>₹{ walletDeduction || 0}
+                            <span className="mr-1 font-semibold">-</span>₹{ walletDeduction.toFixed(0) || 0}
                             </td>
                         </tr>
 
@@ -621,10 +663,15 @@ const OrderDetails = () => {
                       </span>
                       <a
                         href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleBuyAgain(order);
+                        }}
                         className="text-violet-800 font-bold underline hover:text-violet-900"
                       >
                         Buy Again
                       </a>
+
                     </div>
                   </div>
                    </div>

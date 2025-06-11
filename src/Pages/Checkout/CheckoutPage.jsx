@@ -956,7 +956,16 @@ const CheckoutPage = () => {
 
                     <div className='flex justify-between'>
                         <h5 className='font-semibold text-xl md:text-2xl'>Shipping Address</h5>
-                        <button onClick={() => navigate('/address')} className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-sm font-semibold'>ADD NEW ADDRESS</button>
+                        <button 
+                        onClick={() => navigate('/address')} 
+                        className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-sm font-semibold'
+                    >
+                        {/* Full text hidden on small screens, shown on `sm` and above */}
+                        <span className='hidden sm:inline'>ADD NEW ADDRESS</span>
+                        
+                        {/* Short version ("Add+") shown only on small screens */}
+                        <FaPlus  className='h-5 w-5 sm:hidden' /> 
+                    </button>
                     </div>
 
 

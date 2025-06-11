@@ -88,15 +88,14 @@ const Inqueries = ({ show }) => {
   };
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
+    <section id="contact" className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
       <div>
-        {show && (
-          <h4 className='font-semibold text-2xl md:text-3xl'>Any Inquiries</h4>
-        )}
-
-        {show === false && (
+       
+          <h4 className='text-3xl lg:text-5xl text-center font-semibold'>Get in <span className='text-violet-800 font-semibold'>Touch</span></h4>
+          
+        {/* {show === false && (
           <h4 className='font-bold text-4xl'>Get in <span className='text-violet-800 font-bold'>Touch</span></h4>
-        )}
+        )} */}
 
         <div className='d-flex flex-column gap-3 mt-3'>
          <div className="flex  gap-3">
@@ -250,7 +249,7 @@ const Inqueries = ({ show }) => {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

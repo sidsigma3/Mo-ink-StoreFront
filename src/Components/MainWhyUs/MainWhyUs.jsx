@@ -47,7 +47,7 @@ const MainWhyUs = () => {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-left mb-10">
                 <div>
-                  <p className="text-3xl md:text-4xl font-bold text-[#FFEE9A]">₹ 10+ Cr</p>
+                  <p className="text-3xl md:text-4xl font-bold text-[#FFEE9A]">₹ 10 Cr+</p>
                   <p className="text-white mt-1">Yarn Sold</p>
                 </div>
                 <div>

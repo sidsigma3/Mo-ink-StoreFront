@@ -21,7 +21,7 @@ import { downloadCreditReceipt } from '../../Services/InvoiceService'
 import moment from 'moment-timezone';
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import Toast from '../../Components/Toast/Toast'
-import { addToCart } from '../../Services/CartService'
+import { addToCart , getCart ,removeFromCart } from '../../Services/CartService'
 import { useAppContext } from '../../Utils/commoncontext'
 
 const OrderDetails = () => {
@@ -366,41 +366,61 @@ const OrderDetails = () => {
 
   const isOdisha = billingState?.toLowerCase() === "odisha";
 
-  const handleBuyAgain = async (order) => {
-
+const handleBuyAgain = async (order) => {
   const customerId = customer?.customerId;
   if (!customerId || !order?.orderVariantResponse?.length) return;
 
-  for (const item of order.orderVariantResponse) {
-    try {
-      const { productId, size, color, variantType, orderWeight } = item;
+  try {
+    // Step 1: Get current cart items
+    const cartResponse = await getCart(customerId);
+    const cartItems = cartResponse?.cartItems || cartResponse?.data?.cartItems || [];
 
-      const res = await fetchProductsById(productId);
-      if (!res.success) continue;
-
-      const product = res.data;
-      const matchedVariant = product.variants.find(
-        (v) =>
-          v.size === size &&
-          v.color?.id === color?.id &&
-          (variantType ? v.variantType === variantType : true)
+    // Step 2: Remove all items from the cart
+    if (Array.isArray(cartItems) && cartItems.length > 0) {
+      await Promise.all(
+        cartItems.map((item) =>
+          removeFromCart(customerId, item.variantId)
+        )
       );
-
-      if (!matchedVariant) continue;
-
-      const variantId = matchedVariant.id;
-      const quantity = Number(orderWeight); // assuming weight == quantity
-
-      await addToCart(customerId, variantId, quantity);
-    } catch (err) {
-      console.error("Failed to add item to cart:", err);
-    }
     }
 
-    // Optional: show a toast or redirect to cart
+    // Step 3: Add items from the selected order
+    for (const item of order.orderVariantResponse) {
+      try {
+        const { productId, size, color, variantType, orderWeight } = item;
+
+        const res = await fetchProductsById(productId);
+        if (!res.success) continue;
+
+        const product = res.data;
+        const matchedVariant = product.variants.find(
+          (v) =>
+            v.size === size &&
+            v.color?.id === color?.id &&
+            (!variantType || v.variantType === variantType)
+        );
+
+        if (!matchedVariant) continue;
+
+        const variantId = matchedVariant.id;
+        const quantity = Number(orderWeight);
+
+        await addToCart(customerId, variantId, quantity);
+      } catch (err) {
+        console.error("Failed to add item to cart:", err);
+      }
+    }
+
+    // Step 4: Notify user
     showToast("All items added to cart!", "success");
-    updateCartAndWishlistCounts()
-  };
+    updateCartAndWishlistCounts();
+  } catch (err) {
+    console.error("Error in Buy Again flow:", err);
+    showToast("Something went wrong. Please try again.", "error");
+  }
+};
+
+
 
 
   return (

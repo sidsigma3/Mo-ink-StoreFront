@@ -13,7 +13,8 @@ const MainHeader = () => {
     { name: "Why us", path: "/#why-us" },
     { name: "Products", path: "/#products" },
     { name: "FAQs", path: "/#faqs" },
-    { name: "Blogs", path: "/blogs" }
+    { name: "Blogs", path: "/blogs" },
+    { name: "Contact Us", path: "/#contact" }
   ];
   
 

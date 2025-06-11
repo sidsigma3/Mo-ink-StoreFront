@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 const SelectState = ({ value, onChange }) => {
   const states = [
-     "Jammu & Kashmir", "Himachal Pradesh", "Punjab", "Chandigarh", "Uttarakhand",
-  "Haryana", "Delhi", "Rajasthan", "Uttar Pradesh", "Bihar", "Sikkim",
-  "Arunachal Pradesh", "Nagaland", "Manipur", "Mizoram", "Tripura",
-  "Meghalaya", "Assam", "West Bengal", "Jharkhand", "Odisha", "Chhattisgarh",
-  "Madhya Pradesh", "Gujarat", "Daman & Diu", "Dadra & Nagar Haveli",
-  "Maharashtra", "Karnataka", "Goa", "Lakshadweep", "Kerala",
-  "Tamil Nadu", "Puducherry", "Andaman & Nicobar Islands", "Telangana",
-  "Andhra Pradesh", "Ladakh", "Other Territory", "Centre Jurisdiction"
-  
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
+    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands",
+    "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Lakshadweep", "Delhi", "Puducherry"
   ];
 
   const [query, setQuery] = useState(value || '');
@@ -18,7 +15,7 @@ const SelectState = ({ value, onChange }) => {
 
   useEffect(() => {
     if (value !== query) {
-      setQuery(value);
+      setQuery(value); // keep internal input in sync with external value
     }
   }, [value]);
 
@@ -38,24 +35,23 @@ const SelectState = ({ value, onChange }) => {
   };
 
   return (
-    <div className="position-relative">
+    <div className="relative">
       <input
         type="text"
         name="state"
         value={query}
         onChange={handleInputChange}
-        className="form-control"
+        className="border border-gray-300 rounded p-1 w-full"
         placeholder="Search state"
         autoComplete="off"
       />
       {filteredStates.length > 0 && query && (
-        <ul className="list-group position-absolute w-100 mt-1 border rounded shadow-sm" style={{ zIndex: 1050, maxHeight: '160px', overflowY: 'auto' }}>
+        <ul className="absolute z-10 bg-white border border-gray-300 mt-1 w-full max-h-40 overflow-y-auto rounded shadow">
           {filteredStates.map((state) => (
             <li
               key={state}
-              className="list-group-item list-group-item-action"
+              className="p-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => handleSelect(state)}
-              style={{ cursor: 'pointer' }}
             >
               {state}
             </li>

@@ -48,6 +48,52 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [modalSelectedColors, setModalSelectedColors] = useState([]);
     const [showAddColorModal, setShowAddColorModal] = useState(false);
     const [toasts, setToasts] = useState([]);
+     const [activeIndex, setActiveIndex] = useState(null);
+    
+      const toggleAccordion = (index) => {
+        setActiveIndex((prev) => (prev === index ? null : index));
+      };
+    
+      const accordionData = [
+        {
+          title: "Product Description",
+          content: (
+            <p className="text-md text-gray-600 mt-4">
+              {product.productDescription || "No description available."}
+            </p>
+          ),
+        },
+        {
+          title: "Packaging & Delivery",
+          content: (
+            <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
+              <li>Carton Box with moisture resistant gunny bag packing.</li>
+              <li>Orders are dispatched within 7 business days of the Purchase Order.</li>
+              <li>Timely delivery to the doorstep / nearest transport godown.</li>
+            </ul>
+          ),
+        },
+        {
+          title: "Suggested Use",
+          content: (
+            <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
+              <li>Suitable for handloom and power loom weaving for warp & weft application.</li>
+              <li>Customized processing available on pre-order basis</li>
+            </ul>
+          ),
+        },
+        {
+          title: "Precautions",
+          content: (
+            <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
+              <li>Store yarns in a dry, cool place away from direct sunlight</li>
+              <li>Keep packaging sealed to avoid dust accumulation.</li>
+              <li>Storage area to be rodent-free & regular pest control should be done.</li>
+            </ul>
+          ),
+        },
+      ];
+    
     
 
      useEffect(() => {
@@ -541,9 +587,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         </div>
 
 
-                        <div className='mt-6'>
+                        {/* <div className='mt-6'>
                             <p>{product.productDescription}</p>
-                        </div>
+                        </div> */}
 
                         {/* <div className='flex mt-6 text-gray-500 gap-2 items-center'>
                     <h5>Size/Weight:</h5>
@@ -933,45 +979,34 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2025</h5>
                             <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Stocks:</span> Available</h5>
                         </div>
-
-
-
+                        
+                        <div className="divide-y-2 divide-purple-100 mt-4 rounded-lg">
+      {accordionData.map((section, index) => (
+        <div key={index} className="py-4">
+          <button
+            onClick={() => toggleAccordion(index)}
+            className="flex justify-between items-center w-full text-left text-md md:text-lg font-semibold text-gray-800"
+          >
+            <span>{section.title}</span>
+            <svg
+              className={`w-5 h-5 transition-transform ${
+                activeIndex === index ? "rotate-180" : ""
+              }`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          {activeIndex === index && (
+            <div className="mt-3 animate-fadeIn">{section.content}</div>
+          )}
+        </div>
+      ))}
+    </div>
                     </div>
-                </div>
-
-                <div class="mt-8">
-                    <ul class="flex border-b">
-                        <li
-                            class="text-gray-800 font-bold text-sm bg-gray-100 py-3 px-8 border-b-2 border-gray-800 cursor-pointer transition-all">
-                            Description</li>
-                        {/* <li class="text-gray-600 font-bold text-sm hover:bg-gray-100 py-3 px-8 cursor-pointer transition-all">Reviews</li> */}
-                    </ul>
-
-                  <div class="mt-8">
-                    <h3 class="text-md md:text-lg font-bold text-gray-800">Product Description</h3>
-                    <p class="text-md text-gray-600 mt-4">Our premium yarns are spun from the finest quality natural and synthetic fibers including cotton, silk, nylon, and polyester. Ideal for weaving, knitting, and textile production, our yarns offer consistent strength, vibrant color retention, and a smooth finish that ensures durability and elegance in every stitch.</p>
-                    </div>
-
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Packaging & Delivery</h3>
-                        <p class="text-md text-gray-600 mt-4">Each yarn cone is securely packed in moisture-resistant, eco-friendly packaging to preserve fiber quality during transport. Orders are dispatched within 2–4 business days and bulk deliveries are managed with care using trusted logistics partners to ensure timely arrival and minimal handling damage.</p>
-                    </div>
-
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Suggested Use</h3>
-                        <p class="text-md text-gray-600 mt-4">Suitable for a wide range of textile applications including apparel manufacturing, handloom weaving, machine knitting, and home furnishings. Choose cotton or silk yarns for breathable, luxury garments, while nylon and polyester offer strength and elasticity ideal for sportswear and industrial fabrics.</p>
-                    </div>
-
-                    {/* <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Other Ingredients</h3>
-                        <p class="text-md text-gray-600 mt-4">Our yarns are produced using high-quality raw fibers such as long-staple cotton, reeled mulberry silk, virgin polyester, and industrial-grade nylon. Some variants may include eco-dyes, silicone softeners, or anti-pilling treatments depending on customer requirements.</p>
-                    </div> */}
-
-                    <div class="mt-8">
-                        <h3 class="text-md md:text-lg font-bold text-gray-800">Warnings</h3>
-                        <p class="text-md text-gray-600 mt-4">Store yarns in a dry, cool place away from direct sunlight to prevent discoloration and fiber degradation. Keep packaging sealed to avoid dust accumulation. Not recommended for use with open flames or high-heat machinery without appropriate processing treatments.</p>
-                    </div>
-
                 </div>
             </div>
 
@@ -997,7 +1032,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                 ))}
             </div>
 
-            <div className='px-6 md:px-14 py-3'> <ProductList></ProductList></div>
+            <div className='py-3'> <ProductList></ProductList></div>
             <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
             <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
             <BottomNav></BottomNav>

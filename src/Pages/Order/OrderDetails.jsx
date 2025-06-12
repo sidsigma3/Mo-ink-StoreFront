@@ -23,6 +23,7 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 import Toast from '../../Components/Toast/Toast'
 import { addToCart , getCart ,removeFromCart } from '../../Services/CartService'
 import { useAppContext } from '../../Utils/commoncontext'
+import ModalConfirmReplaceCart from '../../Components/Modal/ModalConfirmReplaceCart'
 
 const OrderDetails = () => {
 
@@ -39,6 +40,9 @@ const OrderDetails = () => {
     const [toasts, setToasts] = useState([]);
 
     const [summary, setSummary] = useState(null);
+
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [pendingOrder, setPendingOrder] = useState(null);
 
     const walletAmount = order?.payment?.walletAmount || 0;
     const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
@@ -366,29 +370,44 @@ const OrderDetails = () => {
 
   const isOdisha = billingState?.toLowerCase() === "odisha";
 
-const handleBuyAgain = async (order) => {
-  const customerId = customer?.customerId;
-  if (!customerId || !order?.orderVariantResponse?.length) return;
+const handleBuyAgain = async (orderToBuy) => {
+    const customerId = customer?.customerId;
+    if (!customerId || !orderToBuy?.orderVariantResponse?.length) return;
 
-  try {
-    // Step 1: Get current cart items
-    const cartResponse = await getCart(customerId);
-    const cartItems = cartResponse?.cartItems || cartResponse?.data?.cartItems || [];
+    try {
+      const cartResponse = await getCart(customerId);
+      const cartItems = cartResponse?.cartItems || cartResponse?.data?.cartItems || [];
 
-    // Step 2: Remove all items from the cart
-    if (Array.isArray(cartItems) && cartItems.length > 0) {
-      await Promise.all(
-        cartItems.map((item) =>
-          removeFromCart(customerId, item.variantId)
-        )
-      );
+      if (cartItems.length > 0) {
+        setPendingOrder(orderToBuy);
+        setShowConfirmModal(true);
+        return;
+      }
+
+      await proceedWithBuyAgain(orderToBuy);
+    } catch (err) {
+      console.error("Error fetching cart:", err);
+      showToast("Something went wrong.", "error");
     }
+  };
 
-    // Step 3: Add items from the selected order
-    for (const item of order.orderVariantResponse) {
-      try {
+  const proceedWithBuyAgain = async (orderToBuy) => {
+    const customerId = customer?.customerId;
+
+    try {
+      const cartResponse = await getCart(customerId);
+      const cartItems = cartResponse?.cartItems || cartResponse?.data?.cartItems || [];
+
+      if (Array.isArray(cartItems) && cartItems.length > 0) {
+        await Promise.all(
+          cartItems.map((item) =>
+            removeFromCart(customerId, item.variantId)
+          )
+        );
+      }
+
+      for (const item of orderToBuy.orderVariantResponse) {
         const { productId, size, color, variantType, orderWeight } = item;
-
         const res = await fetchProductsById(productId);
         if (!res.success) continue;
 
@@ -402,23 +421,29 @@ const handleBuyAgain = async (order) => {
 
         if (!matchedVariant) continue;
 
-        const variantId = matchedVariant.id;
-        const quantity = Number(orderWeight);
-
-        await addToCart(customerId, variantId, quantity);
-      } catch (err) {
-        console.error("Failed to add item to cart:", err);
+        await addToCart(customerId, matchedVariant.id, Number(orderWeight));
       }
-    }
 
-    // Step 4: Notify user
-    showToast("All items added to cart!", "success");
-    updateCartAndWishlistCounts();
-  } catch (err) {
-    console.error("Error in Buy Again flow:", err);
-    showToast("Something went wrong. Please try again.", "error");
-  }
-};
+      showToast("All items added to cart!", "success");
+      updateCartAndWishlistCounts();
+    } catch (err) {
+      console.error("Buy again failed:", err);
+      showToast("Failed to add items to cart.", "error");
+    }
+  };
+
+  const handleModalConfirm = () => {
+    setShowConfirmModal(false);
+    if (pendingOrder) {
+      proceedWithBuyAgain(pendingOrder);
+      setPendingOrder(null);
+    }
+  };
+
+  const handleModalCancel = () => {
+    setShowConfirmModal(false);
+    setPendingOrder(null);
+  };
 
 
 
@@ -693,6 +718,13 @@ const handleBuyAgain = async (order) => {
                       </a>
 
                     </div>
+
+                        <ModalConfirmReplaceCart
+                          isOpen={showConfirmModal}
+                            onCancel={handleModalCancel}
+                            onConfirm={handleModalConfirm}
+                        ></ModalConfirmReplaceCart>
+
                   </div>
                    </div>
                   

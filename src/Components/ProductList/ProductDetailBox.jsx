@@ -332,7 +332,7 @@ console.log(isWishlist,isWishlistPage,justRemoved)
               >
                 {isWishlistPage && justRemoved ? (
                   <FaHeart  />
-                ) : isWishlist ? (
+                ) : isWishlisted ? (
                   <FaHeart color="red" />
                 ) : (
                   <FaRegHeart />

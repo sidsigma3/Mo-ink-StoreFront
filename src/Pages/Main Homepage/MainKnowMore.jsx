@@ -256,14 +256,14 @@ const MainKnowMore = () => {
     {/* 7. Key Metrics / Social Proof */}
       <section className="py-6 px-6 bg-amber-100">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-12 text-center">Our Global Impact</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-12 text-center">Our Impact</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8  mt-8">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-800 mb-2">100K+</div>
+                  <div className="text-4xl font-bold text-purple-800 mb-2">5K+</div>
                   <div className="text-gray-600">Happy Customers</div>
                 </div>
-                <div className="text-center">
+                <div className="text-center"> 
                   <div className="text-4xl font-bold text-purple-800 mb-2">25+</div>
                   <div className="text-gray-600">States We Cover</div>
                 </div>

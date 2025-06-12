@@ -38,9 +38,9 @@ const MainHero = () => {
           backgroundImage: "url('https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Banner.png?updatedAt=1745685185559')",
         }}
       >
-        <div className="w-full h-full flex items-center px-8">
+        <div className="w-full h-full flex items-center px-12">
           <div className="max-w-3xl">
-            <h1 className="text-start text-5xl lg:text-7xl font-bold text-black mb-6">
+            <h1 className="text-center text-5xl lg:text-6xl font-bold text-black mb-6">
               Yarn is What We Do. <br />And We Do It Best.
             </h1>
             <p className="text-center text-gray-800 text-lg mb-8">

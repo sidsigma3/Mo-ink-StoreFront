@@ -981,31 +981,31 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         </div>
                         
                         <div className="divide-y-2 divide-purple-100 mt-4 rounded-lg">
-      {accordionData.map((section, index) => (
-        <div key={index} className="py-4">
-          <button
-            onClick={() => toggleAccordion(index)}
-            className="flex justify-between items-center w-full text-left text-md md:text-lg font-semibold text-gray-800"
-          >
-            <span>{section.title}</span>
-            <svg
-              className={`w-5 h-5 transition-transform ${
-                activeIndex === index ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          {activeIndex === index && (
-            <div className="mt-3 animate-fadeIn">{section.content}</div>
-          )}
-        </div>
-      ))}
-    </div>
+                        {accordionData.map((section, index) => (
+                          <div key={index} className="py-4">
+                            <button
+                              onClick={() => toggleAccordion(index)}
+                              className="flex justify-between items-center w-full text-left text-md md:text-lg font-semibold text-gray-800"
+                            >
+                              <span>{section.title}</span>
+                              <svg
+                                className={`w-5 h-5 transition-transform ${
+                                  activeIndex === index ? "rotate-180" : ""
+                                }`}
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                              </svg>
+                            </button>
+                            {activeIndex === index && (
+                              <div className="mt-3 animate-fadeIn">{section.content}</div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                 </div>
             </div>

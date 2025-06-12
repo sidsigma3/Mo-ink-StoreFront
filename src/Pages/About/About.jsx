@@ -83,7 +83,7 @@ const About = () => {
           {/* Stats Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 my-8 border-y border-gray-200">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-800 mb-2">100K+</div>
+                  <div className="text-4xl font-bold text-purple-800 mb-2">5K+</div>
                   <div className="text-gray-600">Happy Customers</div>
                 </div>
                 <div className="text-center">

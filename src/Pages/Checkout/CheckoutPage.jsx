@@ -504,6 +504,8 @@ const CheckoutPage = () => {
       };
       
 
+      console.log(billingAddress,selectedAddress)
+
       const buildDetailedOrderVariants = (cartItems) => {
       
         const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
@@ -642,7 +644,9 @@ const CheckoutPage = () => {
             setToasts([{ message, type }]);
             setTimeout(() => setToasts([]), 3000);
           };
+
         try {
+
           if (!customerId) {
             showToast("Customer info missing!", "error");
             return;
@@ -652,6 +656,28 @@ const CheckoutPage = () => {
             showToast("Cart is empty!", "error");
             return;
           }
+
+          const isAddressValid = (address) => {
+            return (
+                address &&
+                address.id &&
+                address.customerAddress &&
+                address.city &&
+                address.state &&
+                address.country &&
+                address.zipcode
+            );
+            };
+
+            if (!isAddressValid(billingAddress)) {
+            showToast("Billing address is incomplete!", "error");
+            return;
+            }
+
+            if (!isAddressValid(selectedAddress)) {
+            showToast("Shipping address is incomplete!", "error");
+            return;
+            }
 
          
           const orderVariants = buildDetailedOrderVariants(selectedCartItems);
@@ -743,6 +769,28 @@ const CheckoutPage = () => {
             showToast("Cart is empty!", "error");
             return;
           }
+
+           const isAddressValid = (address) => {
+            return (
+                address &&
+                address.id &&
+                address.customerAddress &&
+                address.city &&
+                address.state &&
+                address.country &&
+                address.zipcode
+            );
+            };
+
+            if (!isAddressValid(billingAddress)) {
+            showToast("Billing address is incomplete!", "error");
+            return;
+            }
+
+            if (!isAddressValid(selectedAddress)) {
+            showToast("Shipping address is incomplete!", "error");
+            return;
+            }
       
           const orderVariants = buildDetailedOrderVariantsForPayment(selectedCartItems);
           if (orderVariants.length === 0) {

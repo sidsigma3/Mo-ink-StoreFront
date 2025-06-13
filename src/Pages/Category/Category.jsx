@@ -33,28 +33,26 @@ const Category = () => {
     if (response.success) {
       const fetchedProducts = response.data;
 
-      console.log(fetchedProducts)
-      // ✅ Filter only ACTIVE products
+      // Filter only ACTIVE products
       const activeProducts = fetchedProducts.filter(
         (product) => product.availableStatus === "ACTIVE"
       );
 
       setProducts(activeProducts);
-      console.log(activeProducts)
 
-      if (activeProducts.length > 0) {
-        const firstProduct = activeProducts[0];
-        setSelectedCategory(firstProduct.productName);
+      // Check if a category is provided via URL
+      const categoryFromUrlDecoded = decodeURIComponent(categoryFromUrl || "");
 
-        // 🧠 Optionally extract variant types (skip sizes if you're removing count filter)
-        const types = Array.from(
-          new Set(firstProduct.variants
-            .filter((v) => v.availableStatus === "ACTIVE") // Only ACTIVE variants
-            .map((v) => v.variantType))
-        );
+      // If a matching category exists in the fetched products, set it
+      const matchingProduct = activeProducts.find(
+        (product) => product.productName === categoryFromUrlDecoded
+      );
 
-        // ✅ Preselect first available type if needed
-        // setSelectedVariantType(types.length > 0 ? types[0] : "");
+      if (matchingProduct) {
+        setSelectedCategory(matchingProduct.productName);
+      } else if (activeProducts.length > 0) {
+        // Default to the first product
+        setSelectedCategory(activeProducts[0].productName);
       }
     } else {
       console.error(response.message);
@@ -62,7 +60,7 @@ const Category = () => {
   };
 
   getProducts();
-}, []);
+}, [categoryFromUrl]);
 
   
 

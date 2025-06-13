@@ -421,7 +421,7 @@ const handleBuyAgain = async (orderToBuy) => {
 
         if (!matchedVariant) continue;
 
-        await addToCart(customerId, matchedVariant.id, Number(orderWeight));
+        await addToCart(customerId, matchedVariant.id, 1);
       }
 
       showToast("All items added to cart!", "success");

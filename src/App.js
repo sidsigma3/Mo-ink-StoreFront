@@ -53,6 +53,7 @@ import Blog3 from './Pages/Blogs/Blog3';
 import Blog4 from './Pages/Blogs/Blog4';
 import ColorPalette from './Pages/ColorPalette/ColorPalette';
 import MainKnowMore from './Pages/Main Homepage/MainKnowMore';
+import MainNewsPage from './Pages/Main Homepage/MainNewsPage';
 
 
 
@@ -106,8 +107,12 @@ function App() {
       <Route path="/blog3" element={<Blog3/>}/>
       <Route path="/blog4" element={<Blog4/>}/>
       <Route path="/KnowMore" element={<MainKnowMore/>}/>
+      <Route path="/news" element={<MainNewsPage/>}/>
 
-      MainKnowMore
+      
+      
+
+      
 
 
 

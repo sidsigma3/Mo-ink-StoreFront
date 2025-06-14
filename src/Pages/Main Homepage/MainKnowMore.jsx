@@ -281,7 +281,7 @@ const MainKnowMore = () => {
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           <div className="lg:w-1/3">
             <img 
-              src="/images/avi.jpeg" 
+              src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Avi_CEO.png?updatedAt=1749872370942" 
               alt="Founder" 
               className="rounded-full w-64 h-64 object-cover mx-auto border-4 border-purple-200 shadow-lg"
             />

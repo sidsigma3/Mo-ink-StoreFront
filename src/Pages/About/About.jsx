@@ -52,9 +52,9 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="relative aspect-[1/1] lg:aspect-1:1">
               <img
-                src="/images/avi.jpeg"
+                src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Avi_CEO.png?updatedAt=1749872370942"
                 alt="Avinash Mohanty - CEO"
-                className="rounded-lg object-cotain w-full h-full"
+                className="rounded-lg object-cover w-full h-full"
               />
               <div className="absolute bottom-4 right-4 flex space-x-3">
                 <a href="https://www.linkedin.com/in/avinashmohanty/" className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors">

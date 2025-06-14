@@ -10,7 +10,7 @@ import { RiLock2Line } from "react-icons/ri";
 import { getCart } from '../../Services/CartService'
 import { fetchProducts } from '../../Services/ProductService'
 import { RxCross2 } from "react-icons/rx";
-import { removeFromCart } from '../../Services/CartService'
+import { removeFromCart , addToCart} from '../../Services/CartService'
 import { FaPlus } from "react-icons/fa6";
 import { Dropdown, DropdownHeader, DropdownToggle } from 'react-bootstrap'
 import BottomNav from '../../Components/BottomNav/BottomNav'
@@ -107,7 +107,7 @@ const CheckoutPage = () => {
      
     
 
-      const handleQuantityChange = (variantId, newQty) => {
+   const handleQuantityChange = (variantId, newQty) => {
         setCartItems((prevItems) =>
             prevItems.map((item) =>
                 item.variantId === variantId
@@ -116,6 +116,8 @@ const CheckoutPage = () => {
             )
         );
     };
+
+
     
 
     useEffect(() => {
@@ -233,7 +235,7 @@ const CheckoutPage = () => {
 
         const couponDiscountPercent = Number(appliedCoupon?.discountValue) || 0;
         const paymentDiscountPercent = Number(paymentDiscount) || 0;
-        console.log(paymentDiscountPercent)
+      
          
        
         // Step 1: Apply coupon discount
@@ -360,11 +362,15 @@ const CheckoutPage = () => {
     const fetchOrders = useCallback(async () => {
         if (!customer?.customerId) return;
     
+     
+
         setLoading(true);
         try {
             // 1. Fetch cart
             const cartResponse = await getCart(customer.customerId);
             const cartData = cartResponse?.cartItems || [];
+
+            console.log(cartData)
     
             // 2. Fetch all products fresh
             const productResponse = await fetchProducts();
@@ -446,6 +452,11 @@ const CheckoutPage = () => {
     // );
 
    
+     const showToast = (message, type = "error") => {
+          setToasts([{ message, type }]);
+          setTimeout(() => setToasts([]), 3000);
+    };
+
 
     const breadcrumbs = [
         { label: "Home", link: "/home" },
@@ -503,8 +514,6 @@ const CheckoutPage = () => {
         return paymentTypeLabel?.split(" ")[0] || "";
       };
       
-
-      console.log(billingAddress,selectedAddress)
 
       const buildDetailedOrderVariants = (cartItems) => {
       
@@ -639,6 +648,8 @@ const CheckoutPage = () => {
       
 
 
+
+
       const handleCreateOrder = async () => {
         const showToast = (message, type = "error") => {
             setToasts([{ message, type }]);
@@ -752,10 +763,7 @@ const CheckoutPage = () => {
       
 
       const handleOnlinePaymentFlow = async () => {
-        const showToast = (message, type = "error") => {
-          setToasts([{ message, type }]);
-          setTimeout(() => setToasts([]), 3000);
-        };
+       
       
         let orderId = null; // Declare here to use in catch
       
@@ -949,50 +957,46 @@ const CheckoutPage = () => {
                 <h5 className='font-semibold text-xl md:text-2xl'>Review your cart</h5>
                 {cartItems.length > 0 ? (
                     <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 '>
-                        {cartItems.map((item, index) => {
+                        {cartItems.map((item) => {
                             const totalAmount = cartItems.reduce((acc, item) => {
-                                const itemCost = item.price * item.quantity;
-                                const gstAmount = (itemCost * 12) / 100;
-                                return acc + itemCost + gstAmount;
+                            const itemCost = item.price * item.quantity;
+                            const gstAmount = (itemCost * 12) / 100;
+                            return acc + itemCost + gstAmount;
                             }, 0);
 
                             return (
-                                <li key={index} className={`border rounded-lg ${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
-
-
-                                    {item && item.productName ? (
-                                        <div className="position-relative">
-                                            <button
-                                                onClick={() => handleRemoveFromCart(item.variantId)}
-                                                className="rounded-full border-2 position-absolute -top-2 -right-2 z-20 border-violet-800 text-violet-800 font-bold"
-                                            >
-                                                <RxCross2 size={20} />
-                                            </button>
-                                            <ProductDetailBoxMini
-                                                productName={item.productName}
-                                                productImage={item.productImage}
-                                                price={item.price}
-                                                size={item.size}
-                                                color={item.colorName}
-                                                hexCode={item.hexCode}
-                                                variantType={item.variantType}
-                                                // itemQuantity={item.quantity}
-                                                variantId={item.variantId}
-                                                isSelected={selectedItems.includes(item.variantId)}
-                                                onSelectChange={handleCheckboxChange}
-                                                // onQuantityChange={(variantId, newQty) => handleQuantityUpdate(variantId, newQty)}
-                                                onVariantTypeChange={handleVariantTypeChange}
-                                                markupPrice={item.markupPrice}
-                                                itemQuantity={item.quantity} // ✅ use internal state first
-                                                onQuantityChange={handleQuantityChange}
-                                            />
-                                        </div>
-                                    ) : null}
-
-                                </li>
+                            <li key={item.variantId} className={`border rounded-lg ${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
+                                {item && item.productName ? (
+                                <div className="position-relative">
+                                    <button
+                                    onClick={() => handleRemoveFromCart(item.variantId)}
+                                    className="rounded-full border-2 position-absolute -top-2 -right-2 z-20 border-violet-800 text-violet-800 font-bold"
+                                    >
+                                    <RxCross2 size={20} />
+                                    </button>
+                                    <ProductDetailBoxMini
+                                    productName={item.productName}
+                                    productImage={item.productImage}
+                                    price={item.price}
+                                    size={item.size}
+                                    color={item.colorName}
+                                    hexCode={item.hexCode}
+                                    variantType={item.variantType}
+                                    variantId={item.variantId}
+                                    isSelected={selectedItems.includes(item.variantId)}
+                                    onSelectChange={handleCheckboxChange}
+                                    onVariantTypeChange={handleVariantTypeChange}
+                                    markupPrice={item.markupPrice}
+                                    itemQuantity={item.quantity}
+                                    onQuantityChange={handleQuantityChange}
+                                    />
+                                </div>
+                                ) : null}
+                            </li>
                             );
                         })}
-                    </ul>
+                        </ul>
+
                 ) : (
                     <div className='py-5'>
                         <p className='text-center text-xl font-medium'>No cart items found</p>

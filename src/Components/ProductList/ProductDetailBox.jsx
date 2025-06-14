@@ -83,44 +83,57 @@ const ProductDetailBox = ({
    
   
 
-  const handleAddToCart = async () => {
-    if (!customer?.customerId) {
-      showToast("Please log in to add items to your cart.", "error");
-      return;
-    }
+const handleAddToCart = async () => {
+  if (!customer?.customerId) {
+    showToast("Please log in to add items to your cart.", "error");
+    return;
+  }
+
+  try {
+   
+    const cartResponse = await getCart(customer.customerId);
+    const cartItems = cartResponse?.cartItems || [];
+
+    const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
+
+    const alreadyInCart = cartItems.some(item => item.variantId === variantId);
+
+ 
+    await removeFromWishlist(customer.customerId, variantId);
+    const updatedWishlist = wishlistItems.filter(item => item.variantId !== variantId);
+    localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
+    setIsWishlisted(false);
+    setJustRemoved(true);
+    onWishlistToggle?.();
+
   
-    try {
-      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-      const wishlistItems = JSON.parse(localStorage.getItem("wishlistItems") || "[]");
-  
-      const alreadyInCart = cartItems.some(item => item.variantId === variantId);
-      if (alreadyInCart) {
-        setIsInCart(true);
-        showToast("Item is already in your Cart!");
-        return;
-      }
-  
-      await removeFromWishlist(customer.customerId, variantId);
-      const updatedWishlist = wishlistItems.filter(item => item.variantId !== variantId);
-      localStorage.setItem("wishlistItems", JSON.stringify(updatedWishlist));
-      setIsWishlisted(false);
-      setJustRemoved(true);
-      onWishlistToggle?.();
-  
-      await addToCart(customer.customerId, variantId, quantity);
-      const updatedCart = [...cartItems, { variantId, quantity }];
-      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
-      setIsInCart(true);
-      setCartItems(updatedCart);
-  
-      updateCartAndWishlistCounts();
+    await addToCart(customer.customerId, variantId, quantity);
+
+ 
+    let updatedCart;
+    if (alreadyInCart) {
+      updatedCart = cartItems.map(item =>
+        item.variantId === variantId
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      );
+      showToast(`You already had this item. Increased quantity by ${quantity}.`);
+    } else {
+      updatedCart = [...cartItems, { variantId, quantity }];
       showToast("Item is moved to cart!");
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      showToast("Failed to add item to cart!", "error");
     }
-  };
-  
+
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+    setIsInCart(true);
+    setCartItems(updatedCart);
+    updateCartAndWishlistCounts();
+
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    showToast("Failed to add item to cart!", "error");
+  }
+};
+
   
 
   const handleCartButtonClick = () => {

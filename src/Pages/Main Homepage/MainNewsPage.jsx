@@ -1,16 +1,64 @@
-import { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import MainHeader from "../../Components/MainHeader/MainHeader";
 import MainKMHero from "../../Components/MainKMHero/MainKMHero";
 import Cta from "../../Components/CTA/Cta";
 import Footer from "../../Components/Footer/Footer";
 import { FiMail, FiPhone, FiMapPin, FiCheck, FiGlobe, FiAward } from 'react-icons/fi';
+import KeenSlider from "keen-slider";
+import "keen-slider/keen-slider.min.css";
 
 const MainNewsPage = () => {
     
      useEffect(() => {
       window.scrollTo(0, 0);
     }, []);
+
+    const sliderRef = useRef(null);
+const keenSliderInstance = useRef(null);
+
+useEffect(() => {
+  if (!sliderRef.current) return;
+
+  const slider = new KeenSlider(sliderRef.current, {
+    loop: true,
+    renderMode: "performance",
+    slides: {
+      origin: "center",
+      perView: 5,        
+      spacing: 10,
+    },
+    breakpoints: {
+      "(min-width: 768px)": {
+        slides: { perView: 4, spacing: 32 },
+      },
+      "(min-width: 1024px)": {
+        slides: { perView: 4, spacing: 10 }, 
+      },
+    },
+  });
+
+  keenSliderInstance.current = slider;
+
+  let interval = setInterval(() => {
+    slider.next();
+  }, 1000);
+
+  const pause = () => clearInterval(interval);
+  const resume = () => {
+    interval = setInterval(() => slider.next(), 3000);
+  };
+
+  sliderRef.current.addEventListener("mouseenter", pause);
+  sliderRef.current.addEventListener("mouseleave", resume);
+
+  return () => {
+    if (slider) slider.destroy();
+    pause();
+    sliderRef.current?.removeEventListener("mouseenter", pause);
+    sliderRef.current?.removeEventListener("mouseleave", resume);
+  };
+}, []);
 
     const navigate = useNavigate();
 
@@ -77,19 +125,60 @@ const MainNewsPage = () => {
       <section className="bg-white py-16 px-4 border-y">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
             {/* Left Text */}
-        <div className="text-center md:text-left md:w-1/3">
+        <div className="text-center md:text-left md:w-2/5">
           <p className="text-xl text-left font-semibold text-gray-800"> 
             Recognized by Government Authorities <br /> for Excellence in Yarn Trade
           </p>
         </div>
 
         {/* Logos */}
-        <div className="flex flex-wrap justify-center items-center gap-8 md:w-2/3">
-          <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/OSC2024.png?updatedAt=1749890493096" alt="Logo 1" className="h-24 w-auto " />
-          <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/startup_odisha_official_logo.png?updatedAt=1749890491698" alt="Logo 2" className="h-20 w-auto " />
-          <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/utkrsh-odisha-h-logo.png?updatedAt=1749890491528" alt="Logo 3" className="h-20 w-auto " />
-          <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/NITI_Aayog_logo.png?updatedAt=1749890491462" alt="Logo 4" className="h-24 w-auto " />
-        </div>
+     <div className="overflow-hidden">
+  <div
+    ref={sliderRef}
+    className="keen-slider md:w-3/5 flex items-center justify-start" 
+  >
+    <div className="keen-slider__slide flex justify-center items-center min-w-[180px] px-4">
+      <img
+        src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/utkrsh-odisha-h-logo.png?updatedAt=1749890491528"
+        alt="Logo 3"
+        className="h-24 w-auto object-contain"
+      />
+    </div>
+
+    <div className="keen-slider__slide flex justify-center items-center min-w-[180px] px-4">
+      <img
+        src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/startup_odisha_official_logo.png?updatedAt=1749890491698"
+        alt="Logo 2"
+        className="h-24 w-auto object-contain"
+      />
+    </div>
+
+    <div className="keen-slider__slide flex justify-center items-center min-w-[180px] px-4">
+      <img
+        src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/OSC2024.png?updatedAt=1749890493096"
+        alt="Logo 1"
+        className="h-20 w-auto object-contain"
+      />
+    </div>
+
+    <div className="keen-slider__slide flex justify-center items-center min-w-[180px] px-4">
+      <img
+        src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/NITI_Aayog_logo.png?updatedAt=1749890491462"
+        alt="Logo 4"
+        className="h-20 w-auto object-contain"
+      />
+    </div>
+
+    <div className="keen-slider__slide flex justify-center items-center min-w-[180px] px-4">
+      <img
+        src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Screenshot%202025-06-17%20114036.png?updatedAt=1750140701712"
+        alt="Logo 5"
+        className="h-20 w-auto object-contain"
+      />
+    </div>
+  </div>
+</div>
+
 
       </div>
     </section>

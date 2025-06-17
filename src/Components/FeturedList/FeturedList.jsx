@@ -85,7 +85,7 @@ const handleNavigation = (selectedCategory) => {
 
 
   return (
-    <div className='mt-2 bg-violet-100 px-6 md:px-14 pb-10'>
+<div className='mt-2 bg-gradient-to-b from-white via-purple-300 to-white px-6 md:px-14 pb-20'>
 
       <h3 className='text-2xl font-semibold md:text-3xl pt-14'>Featured Categories</h3>
 
@@ -98,7 +98,7 @@ const handleNavigation = (selectedCategory) => {
             <li><FeturedBox productName={'Wool Yarn'} number={12}></FeturedBox></li>
         </ul> */}
 
-      <ul className="overflow-auto m-0 d-flex gap-3 justify-content-around mt-5">
+      <ul className="grid grid-cols-2 sm:flex gap-3 justify-content-around mt-5">
         {products.length > 0 ? (
           aggregateProductData(products).map((product, index) => {
             return (

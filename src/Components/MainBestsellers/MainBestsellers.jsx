@@ -26,22 +26,22 @@ const MainBestsellers = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="max-w-screen-xl mx-auto flex flex-wrap justify-center gap-6 sm:gap-10 relative z-10">
+      <div className="max-w-7xl grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4  mx-auto flex flex-wrap justify-center gap-6 sm:gap-10 relative z-10">
         {products.map((item, index) => (
           <div
             key={index}
-            className="w-full sm:w-[280px] flex flex-col items-center p-4 rounded-2xl border border-gray-100 shadow-lg bg-white"
+            className="w-full sm:w-[280px] flex flex-col items-center p-1 rounded-2xl border border-gray-100 shadow-lg bg-white"
           >
-            <div className="w-full h-[240px] rounded-2xl overflow-hidden">
+            <div className="w-full h-[200px] rounded-2xl overflow-hidden">
               <Image
                 src={item.img}
                 alt={item.title}
                 width={400}
-                height={240}
+                height={200}
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mt-4">{item.title}</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mt-2">{item.title}</h3>
 
             {/* Counter + Type Row */}
             <div className="flex items-center justify-center gap-2 mt-2">

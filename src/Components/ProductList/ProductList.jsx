@@ -159,7 +159,7 @@ console.log(products)
   return (
     <div className="space-y-12">
       {products.map((product) => (
-        <div key={product.id} className="relative flex flex-col bg-gray-100 p-4 rounded-lg shadow-sm">
+        <div key={product.id} className="relative flex flex-col bg-white p-4 rounded-lg shadow-sm">
           <SlilderCard title={product.productName}>
             {product.variants.map((variant) => (
               <li

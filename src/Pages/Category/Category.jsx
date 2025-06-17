@@ -375,7 +375,7 @@ const counters = [
       </div>
 
 
-      <div className='grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  px-6 md:px-14 py-3 gap-5 mt-2 md:mt-10'>
+      <div className='grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4  px-6 md:px-14 py-3 gap-5 mt-2 md:mt-10'>
         <div className='hidden lg:block col-span-2 lg:col-span-1 '>
           <div className='border rounded p-3 max-w-xs'>
             <h4 className='text-xl font-semibold'>Category</h4>

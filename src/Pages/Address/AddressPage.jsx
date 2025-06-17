@@ -10,6 +10,7 @@ import AddressBox from '../../Components/AddressBox/AddressBox';
 import ModalAddress from '../../Components/Modal/ModalAddress';
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { getCustomerDetails , deleteCustomerAddress } from '../../Services/CustomerService';
+import { FaPlus } from "react-icons/fa6";
 import Toast from '../../Components/Toast/Toast';
 
 const AddressPage = () => {
@@ -125,14 +126,21 @@ const AddressPage = () => {
             </div>
 
             <div className='px-6 md:px-14 py-4'>
-                <div className='flex justify-center md:justify-end'>
+                <div className='flex justify-end'>
                     <div
-                        className={`flex font-semibold gap-2 ${isAddDisabled ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-violet-100 text-violet-800 cursor-pointer'
-                            } px-2 py-2 rounded`}
-                        onClick={() => !isAddDisabled && handleOpenModal(null)}
+                    className={`flex font-semibold gap-2 items-center ${
+                        isAddDisabled
+                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                        : 'bg-violet-100 text-violet-800 cursor-pointer'
+                    } px-2 py-2 rounded`}
+                    onClick={() => !isAddDisabled && handleOpenModal(null)}
                     >
-                        <h4>ADD NEW ADDRESS</h4>
+                    <h4 className="hidden sm:block">ADD NEW ADDRESS</h4>
+
+
+                  <FaPlus  className='h-5 w-5 sm:hidden' /> 
                     </div>
+
                 </div>
 
                 {addresses.length === 0 ? (

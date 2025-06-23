@@ -146,7 +146,8 @@ const getImageByVariantType = (variantType) => {
       {/* Product Image */}
       <div className="col-span-3 lg:col-span-2 flex items-center justify-end">
         <img
-          src={`${backendUrl}${getImageByVariantType(item.variantType)}`}
+          src={`${backendUrl}${item.color?.colorImage}`}
+          // src={`${backendUrl}${getImageByVariantType(item.variantType)}`}
           className="rounded-md size-32"
           alt="Product"
         />
@@ -160,10 +161,11 @@ const getImageByVariantType = (variantType) => {
             {productName} - {item.size} - {item.variantType.toLowerCase()}
           </h3>
           <div className="flex gap-2 items-center mt-2">
-            <div
+            {/* <div
               className="w-6 h-6 rounded-full border"
-              style={{ backgroundColor: item.color.hexCode }}
-            ></div>
+              style={{ backgroundColor: item.color.colorCode }}
+            ></div> */}
+            <h5 className="text-sm lg:text-lg font-bold text-gray-500">{item.color.colorCode}</h5>
             <h5 className="text-sm lg:text-lg font-bold text-gray-500">({item.color.colorName})</h5>
           </div>
           

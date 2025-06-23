@@ -10,7 +10,9 @@ import { FaTrash } from "react-icons/fa";
 
 
 
-const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,markupPrice, colorCode, onRemove,         
+
+const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,markupPrice,colorImage,colorCode, onRemove,
+
   isSelected = false,
    variants = [] ,
   showCart = true,
@@ -29,6 +31,10 @@ const [toasts, setToasts] = useState([]);
   const [isInCart, setIsInCart] = useState(true);
   const [justRemoved, setJustRemoved] = useState(false);
   
+
+  useEffect(() => {
+    setQuantity(itemQuantity);
+  }, [itemQuantity]);
 
   const handleIncrease = () => {
     const newQty = quantity + 1;
@@ -139,7 +145,8 @@ const getImageByVariantType = (variantType, imageUrls) => {
         <div className="relative flex items-center justify-center ps-3 rounded-lg">
           <div className="relative w-full h-40 rounded-lg overflow-hidden">
             <img
-              src={`${backendUrl}${getImageByVariantType(variantType, productImage)}`}
+              src={`${backendUrl}${colorImage}`}
+              // src={`${backendUrl}${getImageByVariantType(variantType, productImage)}`}
               alt=""
               className="w-full h-full object-cover z-0"
             />

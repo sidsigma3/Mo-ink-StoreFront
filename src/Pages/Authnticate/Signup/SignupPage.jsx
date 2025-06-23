@@ -234,7 +234,7 @@ const [toasts, setToasts] = useState([]);
         },
       });
     } catch (error) {
-      showToast("Failed to send OTP!", "error");
+      showToast(error.response.data.data.message, "error");
       console.error(error);
     } finally {
       setLoading(false);

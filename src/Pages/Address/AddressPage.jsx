@@ -131,7 +131,7 @@ const AddressPage = () => {
                     className={`flex font-semibold gap-2 items-center ${
                         isAddDisabled
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-violet-100 text-violet-800 cursor-pointer'
+                        : 'bg-purple-100 text-purple-800 cursor-pointer'
                     } px-2 py-2 rounded`}
                     onClick={() => !isAddDisabled && handleOpenModal(null)}
                     >

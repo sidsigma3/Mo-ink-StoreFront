@@ -61,7 +61,7 @@ useEffect(() => {
             <button
               aria-label="Previous slide"
               onClick={handlePrevious}
-              className="rounded-full border-1 border-violet-800 p-3 text-violet-800  transition hover:bg-violet-800 hover:text-white"
+              className="rounded-full border-1 border-purple-800 p-3 text-purple-800  transition hover:bg-purple-800 hover:text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ useEffect(() => {
             <button
               aria-label="Next slide"
               onClick={handleNext}
-              className="rounded-full border-1 border-violet-800 p-3 text-violet-800 transition hover:bg-violet-800 hover:text-white"
+              className="rounded-full border-1 border-purple-800 p-3 text-purple-800 transition hover:bg-purple-800 hover:text-white"
             >
               <svg
                 className="size-5 rtl:rotate-180"
@@ -162,7 +162,7 @@ useEffect(() => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Ideal for Custom Dyeing Projects</p>
+                        <p className="text-xl md:text-2xl font-bold text-purple-800 sm:text-2xl">Ideal for Custom Dyeing Projects</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         We ordered the natural white cotton yarn, and it took dye beautifully. Even after multiple washes, the colors stayed vibrant and the structure held up perfectly.
@@ -238,7 +238,7 @@ useEffect(() => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 ">Superior Quality Yarn</p>
+                        <p className="text-xl md:text-2xl font-bold text-purple-800 ">Superior Quality Yarn</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         I’ve been sourcing yarn for over a year, and this is by far one of the best I've used. The fibers are consistent, smooth, and easy to work with. My clients love the feel of the final product!
@@ -315,7 +315,7 @@ useEffect(() => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Perfect for Large-Scale Production</p>
+                        <p className="text-xl md:text-2xl font-bold text-purple-800 sm:text-2xl">Perfect for Large-Scale Production</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         We used this yarn for a bulk garment order and were impressed by the strength and uniformity across all spools. Zero breakage, and the dye absorption was excellent.
@@ -394,7 +394,7 @@ useEffect(() => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Durability That Withstands Rigorous Use</p>
+                        <p className="text-xl md:text-2xl font-bold text-purple-800 sm:text-2xl">Durability That Withstands Rigorous Use</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         Our products are often used in rugged environments, and this yarn held up remarkably well in both strength and elasticity. No fiber breakage during weaving or post-wash shrinkage.
@@ -473,7 +473,7 @@ useEffect(() => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Silk Blend That Feels Like Luxury</p>
+                        <p className="text-xl md:text-2xl font-bold text-purple-800 sm:text-2xl">Silk Blend That Feels Like Luxury</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                         We use silk blends in our high-end apparel line, and this yarn brought a smooth, lustrous finish that our customers loved. The softness and shine elevate the entire garment.
@@ -551,7 +551,7 @@ useEffect(() => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-xl md:text-2xl font-bold text-violet-800 sm:text-2xl">Custom Orders Handled Smoothly</p>
+                        <p className="text-xl md:text-2xl font-bold text-purple-800 sm:text-2xl">Custom Orders Handled Smoothly</p>
 
                         <p className="mt-4 leading-relaxed text-gray-700">
                        Our company needed a specific gauge of nylon yarn for a niche requirement, and the team delivered a custom batch with precision. Very impressed by their professionalism and speed.

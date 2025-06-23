@@ -38,7 +38,7 @@ const ShopingCartPage = () => {
         </div>
         <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'> <Cart></Cart>
         <div className='text-center mt-3'>
-        <button className='bg-violet-700 text-white p-2 rounded-md font-semibold' onClick={()=>navigate("/checkOut")}>Add to Checkout</button>
+        <button className='bg-purple-700 text-white p-2 rounded-md font-semibold' onClick={()=>navigate("/checkOut")}>Add to Checkout</button>
         </div>
        
         </div>

@@ -5,15 +5,25 @@ const MainHero = () => {
     <section id="home-section" className="relative w-full overflow-hidden">
 
       {/* Mobile View */}
-      <div
-        className="block sm:hidden w-full h-[87vh] bg-cover bg-left bg-no-repeat rounded-3xl z-0"
-        style={{
-          backgroundImage: "url('https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Mobile_Banner.png?updatedAt=1749534746101')",
-        }}
-      >
-        <div className="w-full h-full bg-opacity-0 flex items-start justify-center p-4 ">
+  
+      <div className="block sm:hidden relative w-full h-[87vh] overflow-hidden rounded-3xl">
+        {/* Optimized LCP image */}
+        <img
+          src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Mobile_Banner.png?updatedAt=1749534746101"
+          alt="Mobile Hero"
+          className="absolute inset-0 w-full h-full bg-[radial-gradient(circle,_rgba(0,0,0,0.5)_0%,_rgba(0,0,0,0)_80%)] object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
+          <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,245,234,0.9)_0%,_rgba(0,0,0,0)_80%)] pointer-events-none select-none"></div>
+
+            {/* <div className="absolute inset-0 bg-gradient-to-t from-[#ffeb9b] via-transparent to-transparent rounded-xl z-0" /> */}
+
+        {/* Overlay content */}
+        <div className="relative z-10 w-full h-full flex items-center justify-center p-4">
+
           <div className="max-w-3xl text-left">
-            <h1 className="text-3xl font-bold text-black mb-6 text-center">
+            <h1 className="text-3xl font-bold text-black mb-6 text-center leading-snug">
               Yarn is What We Do. <br />And We Do It Best.
             </h1>
             <p className="text-gray-800 text-base mb-8 text-center">
@@ -30,6 +40,7 @@ const MainHero = () => {
           </div>
         </div>
       </div>
+
 
       {/* Desktop View */}
       <div

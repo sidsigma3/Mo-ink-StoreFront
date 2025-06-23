@@ -38,8 +38,8 @@ const ModalAddColor = ({ isOpen, onCancel, onConfirm }) => {
 
         {/* Icon Circle */}
         <div className="flex justify-center mb-4">
-          <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center">
-            <span className="text-violet-600 text-xl font-bold">!</span>
+          <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+            <span className="text-purple-600 text-xl font-bold">!</span>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ const ModalAddColor = ({ isOpen, onCancel, onConfirm }) => {
           </button>
           <button
             onClick={onConfirm}
-            className="px-5 py-2 rounded-lg bg-violet-700 text-white hover:bg-violet-800"
+            className="px-5 py-2 rounded-lg bg-purple-700 text-white hover:bg-purple-800"
           >
             Yes, Add Color
           </button>

@@ -265,7 +265,7 @@ useEffect(() => {
           onClick={handleSaveChanges}
           disabled={!isModified}
           className={`rounded p-1 w-40 font-bold transition-all ${isModified
-              ? 'bg-violet-100 text-violet-700 cursor-pointer'
+              ? 'bg-purple-100 text-purple-700 cursor-pointer'
               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }`}
         >

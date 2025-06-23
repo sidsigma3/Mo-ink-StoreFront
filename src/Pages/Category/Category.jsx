@@ -232,7 +232,7 @@ const counters = [
 
       <div className='px-6 md:px-14 py-3 flex justify-between lg:justify-end'>
         <div className='flex gap-2 border rounded-md p-2 items-center cursor-pointer block lg:hidden' onClick={() => setIsOpen(true)}>
-          <span className='text-violet-800'><IoFilterSharp /></span>
+          <span className='text-purple-800'><IoFilterSharp /></span>
           <h4>Filters</h4>
         </div>
 
@@ -264,7 +264,7 @@ const counters = [
                 finalData.map((product, index) => (
                   <li
                     key={index}
-                    className={`p-2 border border-1 rounded mt-2 cursor-pointer ${selectedCategory === product.productName ? "bg-violet-200" : ""
+                    className={`p-2 border border-1 rounded mt-2 cursor-pointer ${selectedCategory === product.productName ? "bg-purple-200" : ""
                       }`}
                     onClick={() => setSelectedCategory(product.productName)}
                   >
@@ -294,7 +294,7 @@ const counters = [
                 return (
                   <li
                     key={index}
-                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-purple-200" : "bg-white"} flex justify-between items-center`}
                    onClick={() => {
               const updatedSelection = isSelected
                 ? []
@@ -322,7 +322,7 @@ const counters = [
                 return (
                   <li
                     key={index}
-                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-purple-200" : "bg-white"} flex justify-between items-center`}
                     onClick={() =>
                       setSelectedVariantType(isSelected ? "" : variant.name)
                     }
@@ -356,7 +356,7 @@ const counters = [
       { color: "Yellow", code: "#ffc107" },
     ].map((item, index) => (
       <li key={index} className='flex items-center gap-2'>
-        <input type='checkbox' className='accent-violet-800' />
+        <input type='checkbox' className='accent-purple-800' />
         <span
           className={`w-4 h-4 rounded-full inline-block ${item.border ? 'border' : ''}`}
           style={{ backgroundColor: item.code }}
@@ -385,7 +385,7 @@ const counters = [
                 finalData.map((product, index) => (
                   <li
                     key={index}
-                    className={`p-2 border border-1 rounded mt-2 cursor-pointer ${selectedCategory === product.productName ? "bg-violet-200" : ""
+                    className={`p-2 border border-1 rounded mt-2 cursor-pointer ${selectedCategory === product.productName ? "bg-purple-200" : ""
                       }`}
                     onClick={() => setSelectedCategory(product.productName)}
                   >
@@ -401,7 +401,7 @@ const counters = [
               {/* <li className='p-2 border border-1 rounded mt-2'>
                              <div className='flex justify-content-between font-medium'>
                                  <h5 className='text-base'>Silk Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                 <div className='bg-purple-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
                                      <h6 className='text-sm'>11</h6>
                                  </div>
                              </div>
@@ -410,7 +410,7 @@ const counters = [
                          <li className='p-2 border border-1 rounded mt-2'>
                              <div className='flex justify-content-between font-medium'>
                                  <h5 className='text-base'>Jute Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                 <div className='bg-purple-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
                                      <h6 className='text-sm'>11</h6>
                                  </div>
                              </div>
@@ -419,7 +419,7 @@ const counters = [
                          <li className='p-2 border border-1 rounded mt-2'>
                              <div className='flex justify-content-between font-medium'>
                                  <h5 className='text-base'>Nylon Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                 <div className='bg-purple-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
                                      <h6 className='text-sm'>11</h6>
                                  </div>
                              </div>
@@ -428,7 +428,7 @@ const counters = [
                          <li className='p-2 border border-1 rounded mt-2'>
                              <div className='flex justify-content-between font-medium'>
                                  <h5 className='text-base'>Wool Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                 <div className='bg-purple-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
                                      <h6 className='text-sm'>11</h6>
                                  </div>
                              </div>
@@ -437,7 +437,7 @@ const counters = [
                          <li className='p-2 border border-1 rounded mt-2'>
                              <div className='flex justify-content-between font-medium'>
                                  <h5 className='text-base'>Polyster Yarn</h5>
-                                 <div className='bg-violet-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
+                                 <div className='bg-purple-100 rounded-circle w-6 h-6 d-flex justify-content-center align-items-center'>
                                      <h6 className='text-sm'>11</h6>
                                  </div>
                              </div>
@@ -458,7 +458,7 @@ const counters = [
                 return (
                   <li
                     key={index}
-                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-purple-200" : "bg-white"} flex justify-between items-center`}
                    onClick={() => {
               const updatedSelection = isSelected
                 ? []
@@ -485,7 +485,7 @@ const counters = [
                 return (
                   <li
                     key={index}
-                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-violet-200" : "bg-white"} flex justify-between items-center`}
+                    className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-purple-200" : "bg-white"} flex justify-between items-center`}
                     onClick={() =>
                       setSelectedVariantType(isSelected ? "" : variant.name)
                     }
@@ -520,7 +520,7 @@ const counters = [
         { color: "Yellow", code: "#ffc107" },
       ].map((item, index) => (
         <li key={index} className='flex items-center gap-2'>
-          <input type='checkbox' className='accent-violet-800' />
+          <input type='checkbox' className='accent-purple-800' />
           <span
             className={`w-4 h-4 rounded-full inline-block ${item.border ? 'border' : ''}`}
             style={{ backgroundColor: item.code }}
@@ -543,7 +543,7 @@ const counters = [
 
         </div>
 
-        <div className='col-span-3 h-1/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+        <div className='col-span-3 h-1/4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 
         {/* {selectedCategory &&
         products

@@ -204,7 +204,7 @@ const MainKnowMore = () => {
           <div className="w-full lg:w-2/5 items-center space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">Meet Our Team<br />Expertise Behind the Yarn</h2>
             <p className="text-gray-600 text-base">A collective of seasoned professionals in textile engineering, sustainable manufacturing, and global trade—all united by a passion for excellence.</p>
-            <button className="mt-4 bg-[#5B21B6] text-white text-md px-6 py-3 rounded-full hover:bg-[#4C1D95] transition-all"
+            <button className="mt-4 bg-[#6B21A8] text-white text-md px-6 py-3 rounded-full hover:bg-[#4C1D95] transition-all"
               onClick={() => navigate('/login')}
               >
               Join the Journey

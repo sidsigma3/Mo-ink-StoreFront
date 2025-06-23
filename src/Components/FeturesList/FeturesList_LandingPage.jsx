@@ -53,9 +53,9 @@ const FeturesList_LandingPage = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center p-6 border border-bottom border-purple-200 rounded-lg"
+              className="flex flex-col items-center text-center p-6 border border-bottom border-purple-200 rounded-lg bg-gradient-to-b from-amber-50 via-transparent to-transparent"
             >
-              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-lg mb-6">
+              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md mb-6">
                 {feature.icon}
               </div>
               <h3 className="text-xl md:text-2xl font-semibold text-gray-800  mb-4">{feature.title}</h3>

@@ -257,10 +257,10 @@ const ModalAddress = ({
                                         disabled={shouldDisable}
                                         className={`flex gap-2 items-center rounded-full border px-3 py-1 font-semibold transition-all duration-200
                                         ${formData.addressType === label
-                                                ? "bg-violet-800 text-white border-violet-800"
+                                                ? "bg-purple-800 text-white border-purple-800"
                                                 : shouldDisable
                                                     ? "bg-gray-200 border-gray-300 text-gray-400 cursor-not-allowed"
-                                                    : "bg-white border-gray-400 text-gray-600 hover:border-violet-800 hover:text-violet-800"
+                                                    : "bg-white border-gray-400 text-gray-600 hover:border-purple-800 hover:text-purple-800"
                                             }`}
                                     >
                                         <span>{icon}</span>
@@ -280,7 +280,7 @@ const ModalAddress = ({
                     >
                         CANCEL
                     </button>
-                    <button className='bg-violet-800 text-white px-5 py-2' onClick={handleSave}>
+                    <button className='bg-purple-800 text-white px-5 py-2' onClick={handleSave}>
                         SAVE
                     </button>
                 </ModalFooter>

@@ -103,7 +103,7 @@ const OrderPage = () => {
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className={`px-1 py-1 rounded-md border ${currentPage === 1 ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-violet-800 border-violet-800 hover:bg-violet-100'}`}
+              className={`px-1 py-1 rounded-md border ${currentPage === 1 ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-purple-800 border-purple-800 hover:bg-purple-100'}`}
             >
               <IoIosArrowBack />
             </button>
@@ -114,7 +114,7 @@ const OrderPage = () => {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-1 rounded-md border ${currentPage === page ? 'bg-violet-800 text-white border-blue-600' : 'text-violet-800 border-violet-800 hover:bg-violet-100'}`}
+                  className={`px-3 py-1 rounded-md border ${currentPage === page ? 'bg-purple-800 text-white border-blue-600' : 'text-purple-800 border-purple-800 hover:bg-purple-100'}`}
                 >
                   {page}
                 </button>
@@ -124,7 +124,7 @@ const OrderPage = () => {
             <button
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className={`px-1 py-1 rounded-md border ${currentPage === totalPages ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-violet-800 border-violet-800 hover:bg-violet-100'}`}
+              className={`px-1 py-1 rounded-md border ${currentPage === totalPages ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-purple-800 border-purple-800 hover:bg-purple-100'}`}
             >
               <IoIosArrowForward />
             </button>

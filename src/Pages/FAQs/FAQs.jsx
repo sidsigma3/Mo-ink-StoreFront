@@ -79,7 +79,7 @@ const FAQs = () => {
           {/* Hero Section */}
           <div className="flex items-center justify-center mb-12">
             <div className="bg-neutral-100 p-4 rounded-full">
-              <ShieldQuestion size={45} color='#5B21B6' />
+              <ShieldQuestion size={45} color='#6B21A8' />
             </div>
           </div>
 

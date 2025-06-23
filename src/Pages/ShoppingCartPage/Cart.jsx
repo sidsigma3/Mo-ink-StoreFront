@@ -96,7 +96,7 @@ const Cart = () => {
           {cartItems.map((item) => (
             <li key={item.variantId} >
               <div className="position-relative pt-3">
-              <button onClick={()=>handleRemoveFromCart(item.variantId)} className="rounded-full border-2 position-absolute top-2 -right-2 z-20 border-violet-800 text-violet-800 font-bold">
+              <button onClick={()=>handleRemoveFromCart(item.variantId)} className="rounded-full border-2 position-absolute top-2 -right-2 z-20 border-purple-800 text-purple-800 font-bold">
                 <RxCross2 size={20}/>
               </button>
               <ProductDetailBox

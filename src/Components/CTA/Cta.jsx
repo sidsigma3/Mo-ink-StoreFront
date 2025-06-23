@@ -69,7 +69,7 @@ const Cta = () => {
                 />
               </h4>
               <button
-                className="text-md lg:text-md col-4 bg-violet-800 rounded-pill text-white font-medium h-100 w-2xl lg:w-md"
+                className="text-md lg:text-md col-4 bg-purple-800 rounded-pill text-white font-medium h-100 w-2xl lg:w-md"
                 onClick={handleSubscribe}
               >
                 Subscribe
@@ -90,7 +90,7 @@ const Cta = () => {
     />
 
     <button
-      className="absolute right-2 top-1/2 -translate-y-1/2 bg-violet-800 text-white px-6 py-2 rounded-full flex items-center justify-center"
+      className="absolute right-2 top-1/2 -translate-y-1/2 bg-purple-800 text-white px-6 py-2 rounded-full flex items-center justify-center"
       onClick={handleSubscribe}
     >
       <FaRegPaperPlane size={16} />
@@ -109,7 +109,7 @@ const Cta = () => {
               <h3 className="text-lg font-bold">Thank you for subscribing!</h3>
               <p className="text-gray-600 mt-2">You'll now receive updates.</p>
               <button
-                className="mt-3 bg-violet-800 text-white px-4 py-2 rounded"
+                className="mt-3 bg-purple-800 text-white px-4 py-2 rounded"
                 onClick={() => setShowPopup(false)}
               >
                 Close

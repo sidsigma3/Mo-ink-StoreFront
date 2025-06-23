@@ -85,7 +85,7 @@ const handleNavigation = (selectedCategory) => {
 
 
   return (
-<div className='mt-2 bg-gradient-to-b from-white via-purple-300 to-white px-6 md:px-14 pb-20'>
+<div className='mt-2 bg-gradient-to-b from-white via-purple-100 to-white px-6 md:px-14 pb-18'>
 
       <h3 className='text-2xl font-semibold md:text-3xl pt-14'>Featured Categories</h3>
 

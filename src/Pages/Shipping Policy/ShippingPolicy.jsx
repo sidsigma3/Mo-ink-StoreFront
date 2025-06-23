@@ -41,7 +41,7 @@ const ShippingPolicy = () => {
           {/* Hero Section */}
           <div className="flex items-center justify-center mb-12">
             <div className="bg-neutral-100 p-4 rounded-full">
-            <MdOutlineShield size={45} color='#5B21B6'/>
+            <MdOutlineShield size={45} color='#6B21A8'/>
 
             </div>
           </div>

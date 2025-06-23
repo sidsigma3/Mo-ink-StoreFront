@@ -46,7 +46,7 @@ const AccountPage = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6 md:px-14 py-3 mt-10'>
 
         <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/setting')}>
-                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
+                <div className='p-3 rounded-full bg-purple-100 text-purple-800'>
                 <RiSettingsLine size={25}/>
                 </div>
                 <div className='flex-1'>
@@ -60,7 +60,7 @@ const AccountPage = () => {
 
 
             <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/orders')}>
-                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
+                <div className='p-3 rounded-full bg-purple-100 text-purple-800'>
                 <FiShoppingBag size={25}/>
                 </div>
                 <div className='flex-1'>
@@ -75,7 +75,7 @@ const AccountPage = () => {
             
 
             <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer pointer' onClick={()=>navigate('/wallet')}>
-                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
+                <div className='p-3 rounded-full bg-purple-100 text-purple-800'>
                 <LuWalletMinimal size={25}/>
                 </div>
                 <div className='flex-1'>
@@ -89,7 +89,7 @@ const AccountPage = () => {
 
 
             <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/shoppingCart')}>
-                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
+                <div className='p-3 rounded-full bg-purple-100 text-purple-800'>
                 <BsCart2  size={25}/>
                 </div>
                 <div className='flex-1'>
@@ -103,7 +103,7 @@ const AccountPage = () => {
 
 
             <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer'onClick={()=>navigate('/wishlist')} >
-                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
+                <div className='p-3 rounded-full bg-purple-100 text-purple-800'>
                 <FaRegHeart size={25}/>
                 </div>
                 <div className='flex-1'>
@@ -117,7 +117,7 @@ const AccountPage = () => {
 
 
             <div className='flex items-center gap-2 border-1 rounded-md p-2 cursor-pointer' onClick={()=>navigate('/address')}>
-                <div className='p-3 rounded-full bg-violet-100 text-violet-800'>
+                <div className='p-3 rounded-full bg-purple-100 text-purple-800'>
                 <SlLocationPin size={25}/>
                 </div>
                 <div className='flex-1'>

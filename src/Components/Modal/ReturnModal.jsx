@@ -82,7 +82,7 @@ const [toasts, setToasts] = useState([]);
             value={returnWeight}
             onChange={handleWeightChange}
             placeholder="Enter weight..."
-            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             min="1"
             // 🔸 Use weight as max value
             max={weight}
@@ -107,7 +107,7 @@ const [toasts, setToasts] = useState([]);
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Write a comment..."
-            className="w-full p-2 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full p-2 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-purple-500"
             rows="3"
           />
         </div>
@@ -120,7 +120,7 @@ const [toasts, setToasts] = useState([]);
             Cancel
           </button>
           <button
-            className="px-4 py-2 rounded bg-violet-800 text-white hover:bg-violet-700"
+            className="px-4 py-2 rounded bg-purple-800 text-white hover:bg-purple-700"
             onClick={handleConfirm}
             disabled={isSubmitDisabled}
           >

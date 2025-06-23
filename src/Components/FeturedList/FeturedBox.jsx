@@ -11,31 +11,47 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
 
   const imageSrc = imageUrl || categoryImages[productName] || '';
 
-  const iconData = {
-    "Cotton": {
-      icon: <FaScissors className='text-blue-500'/>, 
-      bg: "bg-blue-100 text-blue-500 border-2 border-blue-200",
-    },
-    "Excel": {
-      icon: "🍃",
-      bg: "bg-green-100 text-green-600 border-2 border-green-200",
-    },
-    "Micro Modal": {
-      icon: "⭐",
-      bg: "bg-amber-100 text-amber-600 border-2 border-amber-200",
-    },
-    "Bamboo": {
-      icon: "❤️",
-      bg: "bg-pink-100 text-pink-500 border-2 border-pink-200",
-    },
-  };
 
-  const mobileView = (
-    <div className={`flex flex-col items-center justify-center w-full h-28 rounded-xl ${iconData[productName]?.bg || 'bg-gray-100 text-gray-500'}`}>
-      <div className="text-2xl mb-1">{iconData[productName]?.icon || "🧵"}</div>
-      <div className="text-lg mt-2 font-medium text-center">{productName}</div>
+  // const mobileView = (
+  //   <div className={`flex flex-col items-center justify-center w-full h-28 rounded-xl ${iconData[productName]?.bg || 'bg-gray-100 text-gray-500'}`}>
+  //     <div className="text-2xl mb-1">{iconData[productName]?.icon || "🧵"}</div>
+  //     <div className="text-lg mt-2 font-medium text-center">{productName}</div>
+  //   </div>
+  // );
+
+const mobileView = (
+<div>
+  <div
+    className={`flex flex-col items-center border-2 border-white bg-[#DCDDD7]  justify-center w-full h-28 rounded-xl bg-no-repeat relative overflow-hidden text-white`}
+    style={{
+      backgroundImage: `url(${imageSrc})`,
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+    }}
+  >
+    {/* Gradient overlays */}
+    <div className="absolute inset-0 bg-gradient-to-r from-[#DCDDD7] via-transparent to-transparent rounded-xl z-0" />
+    <div className="absolute inset-0 bg-gradient-to-l from-[#DCDDD7] via-transparent to-transparent rounded-xl z-0" />
+
+    {/* Product name at top-left corner */}
+    <div className="absolute top-0 left-0 z-10">
+    <span className="absolute -left-px -top-px rounded-br-3xl  bg-purple-800 px-3 py-1 text-sm font-medium uppercase whitespace-nowrap tracking-widest text-white z-20">
+            {productName}
+          </span>
+      <span className="text-dark font-semibold text-sm">{productName}</span>
     </div>
-  );
+
+
+  </div>
+</div>
+
+
+);
+
+
+
+
+
 
   return (
     <div>

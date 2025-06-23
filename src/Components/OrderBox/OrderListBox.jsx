@@ -195,7 +195,7 @@ const getImageByVariantType = (variantType) => {
       <div className="col-span-3 lg:col-span-2 flex flex-col justify-center items-center relative">
         <div className="flex items-center gap-2">
           <div className="text-right">
-            <h4 className="text-xl font-bold text-violet-800">
+            <h4 className="text-xl font-bold text-purple-800">
               ₹{baseCost.toFixed(0)}
             </h4>
             <p className="text-gray-500 font-medium">
@@ -229,9 +229,9 @@ const getImageByVariantType = (variantType) => {
         </div>
 
         {dropdownOpen && (
-          <div className="absolute top-20 right-0 mt-1 w-40 bg-violet-800 border-2 border-purple-100 shadow-md rounded-md z-10">
+          <div className="absolute top-20 right-0 mt-1 w-40 bg-purple-800 border-2 border-purple-100 shadow-md rounded-md z-10">
             <button
-              className="block w-full text-white font-medium text-left px-4 py-2 hover:bg-violet-700 rounded-md text-sm"
+              className="block w-full text-white font-medium text-left px-4 py-2 hover:bg-purple-700 rounded-md text-sm"
               onClick={() => {
                 setDropdownOpen(false);
                 setIsModalOpen(true);

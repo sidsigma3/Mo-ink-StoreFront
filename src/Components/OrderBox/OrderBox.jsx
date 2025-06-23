@@ -126,7 +126,7 @@ const handleDownloadCreditReceipt = async (e,orderId,type) => {
                         e.stopPropagation()
                         handleDownloadInvoice(order.orderId)
                       }}
-                      className=' bg-violet-100 text-violet-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48  rounded items-center'
+                      className=' bg-purple-100 text-purple-800 text-sm md:text-md font-medium flex gap-2  px-6 py-1 h-8 w-48  rounded items-center'
                     >
                       <span><TbFileInvoice size={20}/></span>
                       <h5>Order Invoice</h5>

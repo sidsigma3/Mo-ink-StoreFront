@@ -628,25 +628,26 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                     </div>
 
                     {/* Two Smaller Images */}
-                    <div className="sm:space-y-2 w-full h-full max-sm:grid max-sm:grid-cols-2 max-sm:gap-2">
-                        {/* Show Cone image */}
-                        <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-                        <img
-                            src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[1]}`}
-                            alt="Cone Product"
-                            className="w-full h-full object-contain rounded-lg"
-                        />
-                        </div>
+                  <div className="hidden sm:grid space-y-2 w-full h-full md:space-y-2 md:grid-cols-1 md:gap-1">
+                {/* Show Cone image */}
+                <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+                  <img
+                    src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[1]}`}
+                    alt="Cone Product"
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                </div>
 
-                        {/* Optional: Fallback image or duplicate */}
-                        <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-                        <img
-                             src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
-                            alt="Fallback Product"
-                            className="w-full h-full object-contain rounded-lg"
-                        />
-                        </div>
-                    </div>
+                {/* Optional: Fallback image or duplicate */}
+                <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
+                  <img
+                    src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
+                    alt="Fallback Product"
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                </div>
+              </div>
+
                     </div>
 
 </div>
@@ -789,6 +790,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
 
+
+                                          
                                         </div>
                                       )}
 
@@ -813,7 +816,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                             <>
                                             <h3 className="text-lg font-semibold ">Custom Colors</h3> 
                                                 <div
-                                                    className="flex  items-center gap-1 bg-violet-800 text-white rounded-md p-2 cursor-pointer"
+                                                    className="flex  items-center gap-1 bg-purple-800 text-white rounded-md p-2 cursor-pointer"
                                                     onClick={() => setIsAddingColor(true)}
                                                 >
                                                     <span>
@@ -906,6 +909,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                     >
                                       SUBMIT
                                     </button>
+
                                   ) : (
                                     <button
                                       className="bg-violet-200 text-violet-800 p-2 rounded"
@@ -914,6 +918,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                       ADD COLOR
                                     </button>
                                   )}
+
                                 </div>
 
                             </div>
@@ -944,8 +949,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                       setSelectedColors((prev) => prev.filter((c) => c.color.id !== color.color.id));
                                       setIsInCart(false); // Reset the button
                                     }}
+
                                     className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full p-1"
                                   >
+
                                     <RxCross2 size={16} />
                                   </button>
                                 </div>
@@ -1009,10 +1016,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                         </div>
 
                         <div className='grid grid-cols-2 gap-3 mt-8 text-sm md:text-md'>
-                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Natural</h5>
-                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>SKU:</span> FWM15VKT</h5>
-                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2025</h5>
-                            <h5 className='text-violet-700 font-medium text-md'><span className='text-gray-500'>Stocks:</span> Available</h5>
+                            <h5 className='text-purple-700 font-medium text-md'><span className='text-gray-500'>Type:</span> Natural</h5>
+                            <h5 className='text-purple-700 font-medium text-md'><span className='text-gray-500'>SKU:</span> FWM15VKT</h5>
+                            <h5 className='text-purple-700 font-medium text-md'><span className='text-gray-500'>MFG:</span> JUN 4,2025</h5>
+                            <h5 className='text-purple-700 font-medium text-md'><span className='text-gray-500'>Stocks:</span> Available</h5>
                         </div>
                         
                         <div className="divide-y-2 divide-purple-100 mt-4 rounded-lg">

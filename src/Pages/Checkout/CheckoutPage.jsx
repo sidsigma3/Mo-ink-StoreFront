@@ -30,7 +30,7 @@ import { initiatePayment } from '../../Services/PaymentService'
 import ModalSuccess from '../../Components/Modal/ModalSuccess' 
 import ModalCoupon from '../../Components/Modal/ModalCoupon';
 import Toast from '../../Components/Toast/Toast';
-
+import ProductDetailBoxMiniMobile from '../../Components/ProductList/ProductDetailBoxMiniMobile'
 
 
 const CheckoutPage = () => {
@@ -421,25 +421,23 @@ const CheckoutPage = () => {
 
 
     const handleRemoveFromCart = async (variantId) => {
-        const showToast = (message, type = "error") => {
-            setToasts([{ message, type }]);
-            setTimeout(() => setToasts([]), 3000);
-          };
-
-        if (!customer?.customerId) {
-            showToast("Please log in to add items to your cart.", "error");
-            return;
-        }
-
-        try {
-            await removeFromCart(customer.customerId, variantId);
-            fetchOrders()
-            updateCartAndWishlistCounts()
-            showToast("Item removed from cart!", "error");
-        } catch (error) {
-            showToast("Failed to remove item from cart!", "error");
-        }
+    if (!customer?.customerId) {
+      setToasts([{ message: "Please log in to manage your cart.", type: "error" }]);
+      setTimeout(() => setToasts([]), 3000);
+      return;
     }
+
+    try {
+      await removeFromCart(customer.customerId, variantId);
+      fetchOrders(); // if you imported it
+      updateCartAndWishlistCounts();
+      setToasts([{ message: "Item removed from cart!", type: "success" }]);
+    } catch (error) {
+      setToasts([{ message: "Failed to remove item from cart!", type: "error" }]);
+    }
+
+    setTimeout(() => setToasts([]), 3000);
+  };
 
 
 
@@ -956,7 +954,7 @@ const CheckoutPage = () => {
             <div className='px-6 md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
                 <h5 className='font-semibold text-xl md:text-2xl'>Review your cart</h5>
                 {cartItems.length > 0 ? (
-                    <ul className='mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 '>
+                    <ul className='hidden md:grid mt-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
                         {cartItems.map((item) => {
                             const totalAmount = cartItems.reduce((acc, item) => {
                             const itemCost = item.price * item.quantity;
@@ -965,16 +963,18 @@ const CheckoutPage = () => {
                             }, 0);
 
                             return (
-                           <li key={item.variantId} className={`border rounded-lg ${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
+
+                            <li key={item.variantId} className={`${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
+
                                 {item && item.productName ? (
-                                <div className="position-relative">
+                                <div className="position-relative  ">
                                     <button
                                     onClick={() => handleRemoveFromCart(item.variantId)}
-                                    className="rounded-full border-2 position-absolute -top-2 -right-2 z-20 border-violet-800 text-violet-800 font-bold"
+                                    className="hidden sm:block rounded-full border-2 position-absolute -top-2 -right-2 z-20 border-purple-800 text-purple-800 font-bold"
                                     >
                                     <RxCross2 size={20} />
                                     </button>
-                                    <ProductDetailBoxMini
+                                    <ProductDetailBoxMini 
                                     productName={item.productName}
                                     productImage={item.productImage}
                                     price={item.price}
@@ -991,6 +991,7 @@ const CheckoutPage = () => {
                                     onQuantityChange={handleQuantityChange}
                                     colorImage={item.colorImage}
                                     />
+
                                 </div>
                                 ) : null}
                             </li>
@@ -1002,7 +1003,26 @@ const CheckoutPage = () => {
                         <p className='text-center text-xl font-medium'>No cart items found</p>
                     </div>
                 )}
-               
+
+
+                                {cartItems.length > 0 ? (
+                                <div className="mt-6">
+                                    <ProductDetailBoxMiniMobile
+                                    cartItems={cartItems}
+                                    selectedItems={selectedItems}
+                                    onSelectChange={handleCheckboxChange}
+                                    onVariantTypeChange={handleVariantTypeChange}
+                                    onQuantityChange={handleQuantityChange}
+                                    onRemove={handleRemoveFromCart}
+                                    />
+                                </div>
+                                ) : (
+                                <div className='py-5 sm:hidden'>
+                                    <p className='text-center text-xl font-medium'>No cart items found</p>
+                                </div>
+                                )}
+
+
 
                 <div className=' flex-1 mt-10'>
 
@@ -1010,7 +1030,7 @@ const CheckoutPage = () => {
                         <h5 className='font-semibold text-xl md:text-2xl'>Shipping Address</h5>
                         <button 
                         onClick={() => navigate('/address')} 
-                        className='flex items-center gap-2 border-1 p-2 rounded-md border-violet-700 text-violet-800 text-sm font-semibold'
+                        className='flex items-center gap-2 border-1 p-2 rounded-md border-purple-700 text-purple-800 text-sm font-semibold'
                     >
                         {/* Full text hidden on small screens, shown on `sm` and above */}
                         <span className='hidden sm:inline'>ADD NEW ADDRESS</span>
@@ -1036,7 +1056,7 @@ const CheckoutPage = () => {
                             <div>
                                 <Dropdown>
                                 <Dropdown.Toggle
-                                    className='font-semibold bg-violet-200 flex items-center text-violet-800 sm:w-36 w-15 justify-between px-2 sm:px-4'
+                                    className='font-semibold bg-purple-200 flex items-center text-purple-800 sm:w-36 w-15 justify-between px-2 sm:px-4'
                                     variant="light"
                                     id="dropdown-basic"
                                 >
@@ -1148,18 +1168,18 @@ const CheckoutPage = () => {
                                 <Dropdown.Menu className='w-full'>
                                     <Dropdown.Item eventKey={"100% Online and 0% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='lg:lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>100%</span> in Online & <span className='text-violet-800'>0%</span> COD</h4>
+                                            <h4 className='lg:lg:text-xl font-medium md:text-sm'>Pay <span className='text-purple-800'>100%</span> in Online & <span className='text-purple-800'>0%</span> COD</h4>
                                             <h5 className='md:text-sm'>1.50% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item>
                                     <Dropdown.Item eventKey={"50% Online and 50% COD"}>
                                         <div className='p-2 border-bottom flex flex-wrap items-start gap-1 justify-between'>
                                             <div>
-                                                <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>50%</span> in Online & <span className='text-violet-800'>50%</span> COD</h4>
+                                                <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-purple-800'>50%</span> in Online & <span className='text-purple-800'>50%</span> COD</h4>
                                                 <h5 className='md:text-sm'>0.50% discount applied.</h5>
                                             </div>
 
-                                            {/* <div className=' lg:text-lg text-white text-bold border bg-violet-800 rounded-full px-2 py-1 text-xs'>
+                                            {/* <div className=' lg:text-lg text-white text-bold border bg-purple-800 rounded-full px-2 py-1 text-xs'>
                                                 Recommended
                                             </div> */}
 
@@ -1168,21 +1188,21 @@ const CheckoutPage = () => {
 
                                     {/* <Dropdown.Item eventKey={"30% Online and 70% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>30%</span> in Online & <span className='text-violet-800'>70%</span> COD</h4>
+                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-purple-800'>30%</span> in Online & <span className='text-purple-800'>70%</span> COD</h4>
                                             <h5 className='md:text-sm'>0.30% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item>
 
                                     <Dropdown.Item eventKey={"25% Online and 75% COD"}>
                                         <div className='p-2 border-bottom'>
-                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>25%</span>in Online & <span className='text-violet-800'>75%</span> COD</h4>
+                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-purple-800'>25%</span>in Online & <span className='text-purple-800'>75%</span> COD</h4>
                                             <h5 className='md:text-sm'>0.50% discount applied.</h5>
                                         </div>
                                     </Dropdown.Item> */}
 
                                     <Dropdown.Item eventKey={"0% Online and 100% COD"}>
                                         <div className='p-2 '>
-                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-violet-800'>0%</span> in Online & <span className='text-violet-800'>100%</span> COD</h4>
+                                            <h4 className='lg:text-xl font-medium md:text-sm'>Pay <span className='text-purple-800'>0%</span> in Online & <span className='text-purple-800'>100%</span> COD</h4>
                                             <h5 className='md:text-sm'>No discount on COD.</h5>
                                         </div>
                                     </Dropdown.Item>
@@ -1241,7 +1261,7 @@ const CheckoutPage = () => {
                                     {filteredDiscounts.map((discount) => (
 
                                         <li key={discount.discountId} className="border rounded-xl flex">
-                                            <div className='bg-violet-800 w-10  relative rounded-l-xl'>
+                                            <div className='bg-purple-800 w-10  relative rounded-l-xl'>
                                                 <h4 className="-rotate-90 text-sm font-bold text-white -translate-x-4 translate-y-12 w-20 cursor-pointer select-none"
                                                     onClick={() => handleCouponClick(discount)}>
                                                     {discount.discountValue}{discount.discountType === 'Percentage' ? '%' : '₹'}
@@ -1258,7 +1278,7 @@ const CheckoutPage = () => {
                                             <div className={`flex-1 p-2 hover:border-blue-800 hover:border-2 hover:rounded-tr-md hover:rounded-br-md ${appliedCoupon?.discountId == discount.discountId ? "border-blue-800 border-2 rounded-tr-md rounded-br-md": ""}`}>
                                                 <div className='flex justify-between '>
                                                     <h3 className="font-semibold text-xl">{discount.discountCode}</h3>
-                                                    <h5 className='text-violet-800 font-bold text-md'
+                                                    <h5 className='text-purple-800 font-bold text-md'
                                                         onClick={() => handleCouponClick(discount)}>APPLY</h5>
                                                 </div>
                                                 <h4 className="text-green-600 font-semibold mt-2 border-b-2 border-dotted pb-2">
@@ -1299,29 +1319,29 @@ const CheckoutPage = () => {
                         <h5 className='font-bold text-2xl'>Payment</h5>
 
                         <div className='flex justify-between mt-4'>
-                            <div className='border-violet-800 border-1 font-medium p-1 rounded-md bg-violet-100'>
-                                Pay <span className='text-violet-800'>25%</span> in advance
+                            <div className='border-purple-800 border-1 font-medium p-1 rounded-md bg-purple-100'>
+                                Pay <span className='text-purple-800'>25%</span> in advance
                             </div>
 
-                            <div className='border-violet-800 border-1 font-medium p-1 rounded-md bg-white-100'>
-                                Pay <span className='text-violet-800'>50%</span> in advance
+                            <div className='border-purple-800 border-1 font-medium p-1 rounded-md bg-white-100'>
+                                Pay <span className='text-purple-800'>50%</span> in advance
                             </div>
 
-                            <div className='border-violet-800 border-1 font-medium p-1 rounded-md bg-white-100'>
-                                Pay <span className='text-violet-800'>75%</span> in advance
+                            <div className='border-purple-800 border-1 font-medium p-1 rounded-md bg-white-100'>
+                                Pay <span className='text-purple-800'>75%</span> in advance
                             </div>
 
-                            <div className='border-violet-800 border-1 font-medium p-1 rounded-md bg-white-100'>
-                                Pay <span className='text-violet-800'>Full</span> in advance
+                            <div className='border-purple-800 border-1 font-medium p-1 rounded-md bg-white-100'>
+                                Pay <span className='text-purple-800'>Full</span> in advance
                             </div>
                         </div>
 
-                        <h6 className='mt-6'>Flat<span className='text-violet-800'> 25%</span> discount is applied to your order total</h6>
+                        <h6 className='mt-6'>Flat<span className='text-purple-800'> 25%</span> discount is applied to your order total</h6>
 
                     </div> */}
 
                     {/* <div className='mt-6'>
-                        <div className='flex gap-2 border-1 rounded-t-md bg-violet-100 border-violet-800 p-3'>
+                        <div className='flex gap-2 border-1 rounded-t-md bg-purple-100 border-purple-800 p-3'>
                             <input type='radio'></input>
                             <h5 className='font-semibold'>Credit card</h5>
                         </div>
@@ -1490,12 +1510,12 @@ const CheckoutPage = () => {
                             <button className='bg-orange-500 text-white p-3 rounded-md w-full'
                             onClick={handleCreateOrder}>CREATE ORDER</button>
                         ) : (
-                            <button className='bg-violet-900 text-white p-3 rounded-md w-full'
+                            <button className='bg-purple-900 text-white p-3 rounded-md w-full'
                             onClick={handleOnlinePaymentFlow}>PAY NOW</button>
                         )}
                     </div>
                     <div className='mt-6'>
-                        <h4 className='font-semibold flex gap-2'><span className='text-violet-800'><RiLock2Line size={20} /></span>Ensure Checkout- SSL Encrypted</h4>
+                        <h4 className='font-semibold flex gap-2'><span className='text-purple-800'><RiLock2Line size={20} /></span>Ensure Checkout- SSL Encrypted</h4>
                         <p className='text-slate-400 mt-2'>Ensuring your financial and personal details are secure during every transaction</p>
                     </div>
                 </div>

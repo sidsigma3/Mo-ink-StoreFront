@@ -91,10 +91,10 @@ const Inqueries = ({ show }) => {
     <section id="contact" className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
       <div>
        
-          <h4 className='text-3xl lg:text-5xl text-center font-semibold'>Get in <span className='text-violet-800 font-semibold'>Touch</span></h4>
+          <h4 className='text-3xl lg:text-5xl text-center font-semibold'>Get in <span className='text-purple-800 font-semibold'>Touch</span></h4>
           
         {/* {show === false && (
-          <h4 className='font-bold text-4xl'>Get in <span className='text-violet-800 font-bold'>Touch</span></h4>
+          <h4 className='font-bold text-4xl'>Get in <span className='text-purple-800 font-bold'>Touch</span></h4>
         )} */}
 
         <div className='d-flex flex-column gap-3 mt-3'>
@@ -129,7 +129,7 @@ const Inqueries = ({ show }) => {
               <Dropdown.Item eventKey="Sell Products">
                 <div className='p-2 border-bottom'>
                   <h4 className='text-lg font-medium '>
-                    Want to <span className='text-violet-800'>Sell</span>
+                    Want to <span className='text-purple-800'>Sell</span>
                   </h4>
                   <h5 className='md:text-sm'>Post your products or services for buyers.</h5>
                 </div>
@@ -139,7 +139,7 @@ const Inqueries = ({ show }) => {
                 <div className='p-2 flex flex-wrap items-start gap-1 justify-between'>
                   <div>
                     <h4 className='text-lg font-medium'>
-                      Want to <span className='text-violet-800'>Buy </span>
+                      Want to <span className='text-purple-800'>Buy </span>
                     </h4>
                     <h5 className='md:text-sm'>Explore listings and contact sellers.</h5>
                   </div>
@@ -185,7 +185,7 @@ const Inqueries = ({ show }) => {
           />
 
            <button
-            className="p-2 bg-violet-800 text-white rounded disabled:opacity-80"
+            className="p-2 bg-purple-800 text-white rounded disabled:opacity-80"
             onClick={sendEmail}
             disabled={loading} 
           >

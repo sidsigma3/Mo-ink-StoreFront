@@ -109,86 +109,128 @@ const WalletPage = () => {
       </div>
 
       {/* Wallet Balance */}
-      <div className="bg-violet-100  p-2 text-center md:text-left mt-6">
+      <div className="bg-purple-100  p-2 text-center md:text-left mt-6">
         <h3 className="text-xl font-bold">Wallet Balance:</h3>
         <h3  className="text-xl font-bold text-green-500">₹{walletBalance.toFixed(0)}</h3>
       </div>
 
-      {/* Transaction Table */}
-      <div className="px-6 md:px-14 mt-6">
-        {loading ? (
-          <div className="py-5 text-gray-500 flex flex-col items-center">
-            <span>Loading...</span>
-          </div>
-        ) : transactions.length > 0 ? (
-          <div>
-            <h3 className="text-xl md:text-2xl font-semibold my-3">Last Transactions</h3>
-            <div className="overflow-x-auto">
-            <table className="w-full border-collapse border border-gray-300 ">
-              <thead>
-                <tr className="bg-gray-100 text-center">
-                  <th className="border border-gray-300 p-2">Source</th>
-                  {/* <th className="border border-gray-300 p-2">Invoice No.</th> */}
-                  {/* <th className="border border-gray-300 p-2">Type</th> */}
-                  <th className="border border-gray-300 p-2">Amount</th>
-                  <th className="border border-gray-300 p-2">Date</th>
-                  <th  className="border border-gray-300 p-2" >Credit Note</th>
-
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.slice().reverse().map((item, index) => (
-                  <tr key={index} className="text-center">
-                    <td className="border border-gray-300 p-2">{item.source}</td>
-                    {/* <td class="text-center border border-gray-300">
-                      <span class="text-sm font-medium text-gray-700">INV-10234</span>
-                    </td> */}
-                    {/* <td
-                      className="border border-gray-300 p-2 text-sm font-semibold"
-                      style={{ color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000" }}
-                    >
-                      {item.type}
-                    </td> */}
-
-                    <td className="border border-gray-300 p-2"
-                        style={{
-                          color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000", 
+  {/* Transaction Table */}
+<div className="px-6 md:px-14 mt-6">
+  {loading ? (
+    <div className="py-5 text-gray-500 flex flex-col items-center">
+      <span>Loading...</span>
+    </div>
+  ) : transactions.length > 0 ? (
+    <div>
+      <h3 className="text-xl md:text-2xl font-semibold my-3">Last Transactions</h3>
+      
+      {/* Desktop/Tablet View */}
+      <div className="hidden md:block">
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100 text-center">
+                <th className="border border-gray-300 p-2">Source</th>
+                <th className="border border-gray-300 p-2">Amount</th>
+                <th className="border border-gray-300 p-2">Date</th>
+                <th className="border border-gray-300 p-2">Credit Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.slice().reverse().map((item, index) => (
+                <tr key={index} className="text-center">
+                  <td className="border border-gray-300 p-2">{item.source}</td>
+                  <td 
+                    className="border border-gray-300 p-2"
+                    style={{
+                      color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000", 
+                    }}
+                  >
+                    {item.type === "DEBIT" ? "−" : ""}
+                    ₹{item.amount.toFixed(0)} 
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {new Date(item.createdAt).toLocaleDateString()}
+                  </td>
+                  {(item.source?.includes("Refund for cancellation") || item.source?.includes("Refund for return")) && (
+                    <td className="text-center border border-gray-300">
+                      <button
+                        className="text-purple-800 hover:text-purple-600"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDownloadCreditReceipt(item.source);
                         }}
                       >
-                        {item.type === "DEBIT" ? "−" : ""}
-                        ₹{item.amount.toFixed(0)} 
-                      </td>
-                         
-                    <td className="border border-gray-300 p-2">
-                      {new Date(item.createdAt).toLocaleDateString()}
+                        <ArrowDownToLine size={20} />
+                      </button>
                     </td>
-                    {(item.source?.includes("Refund for cancellation") || item.source?.includes("Refund for return")) && (
-                      <td className="text-center border border-gray-300">
-                        <button
-                          className="text-violet-800 hover:text-violet-600"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDownloadCreditReceipt(item.source);
-                          }}
-                        >
-                         <ArrowDownToLine size={20} />
-                        </button>
-                      </td>
-                    )}
-
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col h-80 items-center justify-center gap-3 text-gray-400">
-            <RiFilePaper2Line size={60} />
-            <h4>There's no transaction till now!</h4>
-          </div>
-        )}
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      
+        {/* Mobile View */}
+        <div className="md:hidden space-y-4">
+          {transactions.slice().reverse().map((item, index) => (
+            <div key={index} className="border border-gray-200 p-3 rounded-xl">
+              <div className="flex justify-between items-start ">
+                <div className="bg-purple-800 text-white px-2 py-3 text-center text-white text-sm rounded-lg">
+                  <div className=" font-bold">
+                    {new Date(item.createdAt).getDate()}
+                  </div>
+                  <div className="font-medium uppercase">
+                    {new Date(item.createdAt).toLocaleString('default', { month: 'short' })} '{new Date(item.createdAt).getFullYear().toString().slice(-2)}
+                  </div>
+                </div>
+                <div className="flex-1 px-2">
+                  <div className="text-dark line-clamp-2 text-md">
+                    {item.source}
+                  </div>
+                </div>
+                <div 
+                  className="text-lg text-right font-semibold"
+                  style={{
+                    color: item.type === "CREDIT" ? "#3CAA82" : "#FF0000", 
+                  }}
+                >
+                  {item.type === "DEBIT" ? "−" : "+"}
+                  ₹{new Intl.NumberFormat('en-IN').format(item.amount.toFixed(0))}
+
+                  {(item.source?.includes("Refund for cancellation") || item.source?.includes("Refund for return")) && (
+                <div className="mt-1 flex justify-end">
+                  <button
+                    className="text-purple-800 hover:text-purple-600 bg-purple-100 rounded-full p-2 text-xs flex items-center"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownloadCreditReceipt(item.source);
+                    }}
+                  >
+                  {/* Download */}
+                    <ArrowDownToLine size={16} className="" />
+                    
+                  </button>
+                </div>
+              )}
+                </div>
+
+
+                    
+              </div>
+
+            </div>
+          ))}
+        </div>
+            </div>
+          ) : (
+            <div className="flex flex-col h-80 items-center justify-center gap-3 text-gray-400">
+              <RiFilePaper2Line size={60} />
+              <h4>There's no transaction till now!</h4>
+            </div>
+          )}
+        </div>
 
       <div className="px-6 md:px-14 py-3 mt-10">
         <Cta />

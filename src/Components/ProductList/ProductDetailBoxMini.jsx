@@ -5,12 +5,16 @@ import { addToWishlist, removeFromWishlist } from "../../Services/WishlistServic
 import { getCart, removeFromCart } from "../../Services/CartService"
 import { useAppContext } from '../../Utils/commoncontext';
 import Toast from '../Toast/Toast';
+import { FaTrash } from "react-icons/fa";
 
 
 
 
-const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,markupPrice,colorImage,
+
+const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,markupPrice,colorImage,colorCode, onRemove,
+
   isSelected = false,
+   variants = [] ,
   showCart = true,
   onSelectChange = () => { },
   onQuantityChange = () => {},
@@ -47,6 +51,11 @@ const [toasts, setToasts] = useState([]);
   };
   
   
+  const showToast = (message, type = "error") => {
+    setToasts([{ message, type }]);
+    setTimeout(() => setToasts([]), 3000);
+  };
+
   const handleCheckboxChange = (variantId) => {
     setSelectedItems(prev =>
       prev.includes(variantId)
@@ -55,6 +64,20 @@ const [toasts, setToasts] = useState([]);
     );
   };
 
+  const handleRemove = async () => {
+    try {
+      await onRemove(variantId);
+      showToast("Item removed from cart", "success");
+      updateCartAndWishlistCounts();
+    } catch (err) {
+      showToast("Failed to remove item", "error");
+      console.error("Error removing item:", err);
+    }
+  };
+
+  useEffect(() => {
+    setQuantity(itemQuantity);
+  }, [itemQuantity]);
 
   const handleWishlistClick = async () => {
      const showToast = (message, type = "error") => {
@@ -105,16 +128,19 @@ const getImageByVariantType = (variantType, imageUrls) => {
 };
 
   return (
-    <div className='relative  justify-center items-center '>
+
+    <div>
+
+    <div className='hidden sm:block relative border rounded-lg justify-center items-center '>
     
       <input
         type="checkbox"
-        className="absolute top-7 left-6 z-20 w-4 h-4 accent-violet-800"
+        className="absolute top-7 left-6 z-20 w-4 h-4 accent-purple-800"
         checked={isSelected}
         onChange={() => onSelectChange(variantId)}
       />
 
-      <a className="flex relative block bg-white divide-y divide-dotted w-full">
+      <a className="flex relative block bg-white  w-full">
      
         <div className="relative flex items-center justify-center ps-3 rounded-lg">
           <div className="relative w-full h-40 rounded-lg overflow-hidden">
@@ -239,6 +265,11 @@ const getImageByVariantType = (variantType, imageUrls) => {
                 ))}
             </div>
     </div>
+
+
+
+    </div>
+
   )
 }
 

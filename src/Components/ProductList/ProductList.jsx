@@ -33,7 +33,7 @@ const SlilderCard = ({ title, children }) => {
         <div className="mb-2 flex gap-2">
           <button
             onClick={handlePrevious}
-            className="rounded-full border-1 border-violet-800 p-3 text-violet-800 transition hover:bg-violet-800  hover:text-white"
+            className="rounded-full border-1 border-purple-800 p-3 text-purple-800 transition hover:bg-purple-800  hover:text-white"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ const SlilderCard = ({ title, children }) => {
           </button>
           <button
             onClick={handleNext} 
-            className="rounded-full border-1 border-violet-800 p-3 text-violet-800 transition hover:bg-violet-800 hover:text-white"
+            className="rounded-full border-1 border-purple-800 p-3 text-purple-800 transition hover:bg-purple-800 hover:text-white"
           >
             <svg
               className="size-5 rtl:rotate-180"
@@ -159,7 +159,7 @@ console.log(products)
   return (
     <div className="space-y-12">
       {products.map((product) => (
-        <div key={product.id} className="relative flex flex-col bg-gray-100 p-4 rounded-lg shadow-sm">
+        <div key={product.id} className="relative flex flex-col bg-white p-4 rounded-lg shadow-sm">
           <SlilderCard title={product.productName}>
             {product.variants.map((variant) => (
               <li

@@ -1,6 +1,6 @@
 import { FiHome } from "react-icons/fi";
 import { IoSearchSharp } from "react-icons/io5";
-import { GoPerson } from "react-icons/go";
+import { RiUser3Line  , RiUser3Fill  } from "react-icons/ri";
 import { FiHeart } from "react-icons/fi";
 import { BsCart3 } from "react-icons/bs";
 import { useNavigate , useLocation } from "react-router-dom";
@@ -11,7 +11,7 @@ import { GiPlagueDoctorProfile } from "react-icons/gi";
 import { FaHeart } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi2";
 import { useAppContext } from '../../Utils/commoncontext';
-import { PiShoppingCart } from "react-icons/pi";
+import { PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
 import { deepPurple } from '@mui/material/colors';
 import { FaRegHeart } from "react-icons/fa";
 
@@ -52,7 +52,7 @@ const BottomNav = () => {
       <button 
         onClick={() => handleClick("home", "/home")}
         className={`flex flex-col items-center w-1/5 pt-2 ${
-          selected === "home" ? "text-violet-800 border-t-4 border-violet-800 bg-gradient-to-b from-violet-200 to-white rounded-md" : " hover:text-purple-700"
+          selected === "home" ? "text-purple-800 border-t-4 border-purple-800 bg-gradient-to-b from-purple-200 to-white rounded-md" : ""
         }`}
       >
         <img src="/images/NavLogo.png" width="30" height="30" alt="Logo" />       
@@ -63,7 +63,7 @@ const BottomNav = () => {
       {/* <button
         onClick={() => handleClick("search", "/search")}
         className={`flex flex-col items-center w-1/5 pt-2 ${
-          selected === "search" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
+          selected === "search" ? "text-purple-800 border-t-4 bg-gradient-to-b from-purple-200 to-white border-purple-800  rounded-md" : " hover:text-purple-700"
         }`}
       >
         <RiSearch2Fill size={20} />
@@ -74,7 +74,7 @@ const BottomNav = () => {
       <button
         onClick={() => handleClick("wishlist", "/wishlist")}
         className={`flex flex-col items-center w-1/5 pt-2 ${
-          selected === "wishlist" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
+          selected === "wishlist" ? "text-purple-800 border-t-4 bg-gradient-to-b from-purple-200 to-white border-purple-800  rounded-md" : ""
         }`}
       >
         {/* <FaHeart size={20} /> */}
@@ -86,7 +86,11 @@ const BottomNav = () => {
                   right: '-6px',
                 }
               }}>
+                 {selected === "wishlist" ? (
+                <FaHeart size={20} className="text-purple-800" />
+              ) : (
                 <FaRegHeart size={20} />
+              )}
               </Badge>
                <span className="text-sm font-semibold">Wishlist</span>
       </button>
@@ -95,7 +99,7 @@ const BottomNav = () => {
       <button
         onClick={() => handleClick("cart", "/shoppingCart")}
         className={`flex flex-col items-center w-1/5 pt-2 ${
-          selected === "cart" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
+          selected === "cart" ? "text-purple-800 border-t-4 bg-gradient-to-b from-purple-200 to-white border-purple-800  rounded-md" : ""
         }`}
       >
         {/* <HiShoppingCart size={20} /> */}
@@ -107,7 +111,12 @@ const BottomNav = () => {
           right: '-4px',
         }
       }}>
-        <PiShoppingCart size={22} />
+          
+           {selected === "cart" ? (
+          <PiShoppingCartFill size={22} className="text-purple-800" />
+        ) : (
+          <PiShoppingCart size={22} />
+        )}
       </Badge>
         <span className="text-sm font-semibold">Cart</span>
       </button>
@@ -116,11 +125,15 @@ const BottomNav = () => {
       <button
         onClick={() => handleClick("profile", "/account")}
         className={`flex flex-col items-center w-1/5 pt-2 ${
-          selected === "profile" ? "text-violet-800 border-t-4 bg-gradient-to-b from-violet-200 to-white border-violet-800  rounded-md" : " hover:text-purple-700"
+          selected === "profile" ? "text-purple-800 border-t-4 bg-gradient-to-b from-purple-200 to-white border-purple-800  rounded-md" : " hover:text-purple-700"
         }`}
       >
-        {/* <GiPlagueDoctorProfile size={20} /> */}
-        <GoPerson size={22}></GoPerson>
+      {selected === "profile" ? (
+  <RiUser3Fill size={22} className="text-purple-800 fill-purple-800" />
+) : (
+  <RiUser3Line  size={22} />
+)}
+
         <span className="text-sm font-semibold">Account</span>
       </button>
     </div>
@@ -128,3 +141,5 @@ const BottomNav = () => {
 };
 
 export default BottomNav;
+
+

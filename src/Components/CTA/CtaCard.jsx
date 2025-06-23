@@ -1,8 +1,13 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FcCheckmark } from "react-icons/fc";
 
 const CtaCard = () => {
+
+  const navigate=useNavigate();
+
+
   return (
 
     <div className='md:grid md:grid-cols-3 gap-4 lg:w-full md:w-[78rem] sm:w-full flex-column flex '>
@@ -25,7 +30,7 @@ const CtaCard = () => {
     <div className='bg-purple-100 position-relative p-4 rounded-2 lg:w-full  h-[300px] md:h-full' >
         <h4 className='font-semibold text-xl md:text-2xl'>Premium yarns designed for industries that demand only perfection.</h4>
 
-        <button className='font-medium d-flex align-items-center gap-2 position-absolute bottom-0 mb-5'>LEARN MORE <span><FaArrowRightLong /></span></button>
+        <button className='font-medium d-flex align-items-center gap-2 position-absolute bottom-0 mb-5' onClick={() => navigate("/KnowMore")}>LEARN MORE <span><FaArrowRightLong /></span></button>
 
         <img src='/images/cta-wool.png' className='position-absolute w-1/3' style={{bottom:0 , right:0}}></img>
 
@@ -36,7 +41,7 @@ const CtaCard = () => {
     <div className='bg-yellow-50 position-relative p-4 rounded-2 lg:w-full  h-[300px] md:h-full' >
       <h4 className='font-semibold text-xl md:text-2xl'>Suppplying quality to fashion, home textiles, industrial, and craft sectors.</h4>
 
-      <button className='font-medium d-flex align-items-center gap-2 position-absolute bottom-0 mb-5'>LEARN MORE <span><FaArrowRightLong /></span></button>
+      <button className='font-medium d-flex align-items-center gap-2 position-absolute bottom-0 mb-5' onClick={() => navigate("/KnowMore")}>LEARN MORE <span><FaArrowRightLong /></span></button>
 
       <img src='/images/cta-wool-2.png' className='position-absolute w-1/3' style={{bottom:0 , right:0}}></img>
 

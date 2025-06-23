@@ -464,7 +464,7 @@ const handleBuyAgain = async (orderToBuy) => {
                     <h4 className='font-semibold text-xl md:text-2xl'>Order ID: {order.orderId}</h4>
                     <div className='d-flex flex-wrap divide-x-4 mt-6 gap-6'>
                         <h5>Order date:  <span className='font-semibold'>{orderDate}</span></h5>
-                        <h4 className='ps-6 text-violet-800 font-medium flex items-center gap-4'>
+                        <h4 className='ps-6 text-purple-800 font-medium flex items-center gap-4'>
       <span><HiOutlineTruck size={22} /></span> Estimated delivery {estimatedDeliveryDate}</h4>                    
       </div>
                 </div>
@@ -477,7 +477,7 @@ const handleBuyAgain = async (orderToBuy) => {
                         e.stopPropagation();
                         handleDownloadInvoice(order.orderId);
                       }}
-                      className='bg-violet-100 text-violet-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
+                      className='bg-purple-100 text-purple-800  text-sm md:text-md font-medium flex gap-2  px-2 py-1 h-8 w-40 rounded items-center'
                     >
                       <span><TbFileInvoice size={20} /></span>
                       <h5>Order Invoice</h5>
@@ -712,7 +712,7 @@ const handleBuyAgain = async (orderToBuy) => {
                           e.preventDefault();
                           handleBuyAgain(order);
                         }}
-                        className="text-violet-800 font-bold underline hover:text-violet-900"
+                        className="text-purple-800 font-bold underline hover:text-purple-900"
                       >
                         Buy Again
                       </a>

@@ -107,17 +107,18 @@ const CheckoutPage = () => {
      
     
 
-   const handleQuantityChange = (variantId, newQty) => {
-        setCartItems((prevItems) =>
-            prevItems.map((item) =>
-                item.variantId === variantId
-                    ? { ...item, quantity: newQty }
-                    : item
-            )
-        );
-    };
+  const handleQuantityChange = (variantId, newQty) => {
+  setCartItems((prevItems) =>
+    prevItems.map((item) =>
+      item.variantId === variantId
+        ? { ...item, quantity: newQty }
+        : item
+    )
+  );
+};
 
 
+    
     
 
     useEffect(() => {
@@ -366,17 +367,15 @@ const CheckoutPage = () => {
 
         setLoading(true);
         try {
-            // 1. Fetch cart
+          
             const cartResponse = await getCart(customer.customerId);
             const cartData = cartResponse?.cartItems || [];
 
-            console.log(cartData)
-    
-            // 2. Fetch all products fresh
+           
             const productResponse = await fetchProducts();
             const allProducts = productResponse?.data || [];
     
-            // 3. Map cart items to detailed product data using variantId
+            
             const cartProducts = cartData.map((item) => {
                 const product = allProducts.find((p) =>
                     p.variants.some((v) => v.id === item.variantId)
@@ -399,6 +398,7 @@ const CheckoutPage = () => {
                     variantId: variant.id,
                     quantity: item.quantity || 1,
                     productImage: product.productImage || "/images/default.png",
+                    colorImage:variant.color?.colorImage,
                     gstRate: product.gstOnProduct || 0,
                     variantType: variant.variantType || "Cone", // ← Now pulled directly from variant
                 };
@@ -965,7 +965,7 @@ const CheckoutPage = () => {
                             }, 0);
 
                             return (
-                            <li key={item.variantId} className={`border rounded-lg ${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
+                           <li key={item.variantId} className={`border rounded-lg ${!selectedItems.includes(item.variantId) ? 'opacity-50' : ''}`}>
                                 {item && item.productName ? (
                                 <div className="position-relative">
                                     <button
@@ -989,6 +989,7 @@ const CheckoutPage = () => {
                                     markupPrice={item.markupPrice}
                                     itemQuantity={item.quantity}
                                     onQuantityChange={handleQuantityChange}
+                                    colorImage={item.colorImage}
                                     />
                                 </div>
                                 ) : null}
@@ -996,13 +997,12 @@ const CheckoutPage = () => {
                             );
                         })}
                         </ul>
-
                 ) : (
-                    <div className='py-5'>
+                    <div className='py-5 hidden sm:block'>
                         <p className='text-center text-xl font-medium'>No cart items found</p>
                     </div>
                 )}
-
+               
 
                 <div className=' flex-1 mt-10'>
 

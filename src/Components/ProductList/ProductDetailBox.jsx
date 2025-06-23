@@ -11,7 +11,7 @@ import Toast from '../Toast/Toast';
 
 const ProductDetailBox = ({
   productName, price, size, color, markupPrice, itemQuantity, variantId,
-  isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,variantType,imageUrl,
+  isWishlist, onWishlistToggle, onCartToggle, navigateCart, hexCode,variantType,imageUrl,colorImage,
   isWishlistPage = false,
   showCart = true,
 }) => {
@@ -35,7 +35,7 @@ const ProductDetailBox = ({
     }, 3000);
   };
   
-
+ 
 
   const handleIncrease = () => setQuantity(prev => prev + 1);
   const handleDecrease = () => quantity > 1 && setQuantity(prev => prev - 1);
@@ -163,7 +163,7 @@ const handleAddToCart = async () => {
 };
 
 
-console.log(isWishlist,isWishlistPage,justRemoved)
+
 
   return (
     <>
@@ -174,22 +174,28 @@ console.log(isWishlist,isWishlistPage,justRemoved)
           style={{ width: '19rem' }}
         >
           {/* SALE Badge */}
-          <span className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black z-20">
+          {/* <span className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black z-20">
             Sale
-          </span>
+          </span> */}
   
           {/* Image with Color Overlay original*/}
-          <div className="relative rounded-lg">
+          <div
+              className="relative rounded-lg"
+              style={{
+                background: 'linear-gradient(to bottom, #949799, #9b9fa1, #aaaeb0, #aeb2b4)'
+              }}
+            >
             <img
-              src={`${backendUrl}${getImageByVariantType(variantType)}`}
+              src={`${backendUrl}${colorImage}`}
+              // src={`${backendUrl}${getImageByVariantType(variantType)}`}
               alt=""
               className="h-80 w-full rounded-lg object-contain"
               style={{ height: '10rem' }}
             />
-            <div
+            {/* <div
               className="absolute inset-0 rounded-lg"
               style={{ backgroundColor: hexCode, opacity: 0.4 }}
-            ></div>
+            ></div> */}
           </div>
   
 

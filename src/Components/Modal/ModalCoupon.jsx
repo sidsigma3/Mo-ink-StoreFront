@@ -49,7 +49,7 @@ const ModalCoupon = ({ isOpen, onClose, savings, discount,discountCode }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-12">
       <div
         className="relative bg-white rounded-2xl shadow-xl w-full max-w-md p-6 text-center overflow-hidden"
         ref={wrapperRef}

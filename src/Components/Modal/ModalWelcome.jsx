@@ -42,7 +42,7 @@ const ModalWelcome = () => {
   return (
     <div className='w-full'>
       {showWelcome && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-4">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-12">
           <div
             className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 text-center"
             ref={modalRef}
@@ -57,7 +57,7 @@ const ModalWelcome = () => {
             </div>
 
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-              Welcome {customerName}!
+              Welcome <br />{customerName}!
             </h2>
 
             <p className="text-md mb-4 text-gray-500">

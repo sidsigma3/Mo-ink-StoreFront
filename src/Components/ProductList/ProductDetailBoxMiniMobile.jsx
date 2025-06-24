@@ -10,8 +10,10 @@ import { FaTrash } from "react-icons/fa";
 
 
 
-const ProductDetailBoxMiniMobile = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,fetchOrders , productImage,markupPrice, colorCode, onRemove,   cartItems,  
+
+const ProductDetailBoxMiniMobile = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType, productImage,markupPrice, colorCode, onRemove,   cartItems, setCartItems, 
   isSelected = false, 
+  fetchOrders = () => {},
    variants = [] ,
   showCart = true,
   onSelectChange = () => { },
@@ -27,11 +29,16 @@ const [toasts, setToasts] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [isWishlisted, setIsWishlisted] = useState(isWishlist || false);
   const [isInCart, setIsInCart] = useState(true);
+  const [isRemoving, setIsRemoving] = useState(false);
   const [justRemoved, setJustRemoved] = useState(false);
   
   const customer = JSON.parse(localStorage.getItem("userData") || "{}");
   const customerId = customer?.customerId;
 
+
+  const getDisplayColor = (item) => {
+  return item.colorName || item.color || item.colour || item.colorCode || 'Default Color';
+  };
 
 
  const groupedProducts = cartItems.reduce((groups, item) => {
@@ -64,6 +71,7 @@ const handleDecrease = (variantId, currentQty) => {
         : [...prev, variantId]
     );
   };
+
 const handleRemoveFromCart = async (variantId) => {
   if (!customer?.customerId) {
     setToasts([{ message: "Please log in to manage your cart.", type: "error" }]);
@@ -71,17 +79,42 @@ const handleRemoveFromCart = async (variantId) => {
     return;
   }
 
+  setIsRemoving(true);
+  
   try {
     await removeFromCart(customer.customerId, variantId);
-    fetchOrders();
+    
+    // Optimistically update UI
+    const updatedCartItems = cartItems.filter(item => item.variantId !== variantId);
+    setCartItems(updatedCartItems);
+    
+    // Update global counts
     updateCartAndWishlistCounts();
+    
+    // Show success message
     setToasts([{ message: "Item removed from cart!", type: "success" }]);
+    
+    // Only call fetchOrders if it's provided
+    if (typeof fetchOrders === 'function') {
+      await fetchOrders();
+    }
   } catch (error) {
-    setToasts([{ message: "Failed to remove item from cart!", type: "error" }]);
+    console.error("Remove from cart error:", error);
+    setToasts([{ 
+      message: error.response?.data?.message || "Failed to remove item from cart!", 
+      type: "error" 
+    }]);
+    
+    // Revert UI if needed
+    if (typeof fetchOrders === 'function') {
+      fetchOrders(); // Force refresh from server
+    }
+  } finally {
+    setIsRemoving(false);
+    setTimeout(() => setToasts([]), 3000);
   }
-
-  setTimeout(() => setToasts([]), 3000);
 };
+
 
 
   const handleWishlistClick = async () => {
@@ -183,15 +216,17 @@ const getImageByVariantType = (variantType, imageUrls) => {
           return (
             <div key={`${item.id}-${item.colorCode}`} className="bg-purple-50 rounded-xl p-3 text-sm">
               <div className="flex justify-between items-start">
-                <div className="flex items-center">
-                  <div
-                    className="w-5 h-5 rounded-full mr-2 border border-gray-300"
-                    style={{ backgroundColor: item.hexCode || '#cccccc' }}
-                  />
-                  <span className="font-semibold text-md">
-                    {item.color || 'Default Color'}
-                    <span className="text-gray-500 font-normal"> ({item.colorCode || 'N/A'})</span>
-                  </span>
+            <div className="flex items-center">
+                  <div className="w-5 h-5 rounded-full mr-2 border border-gray-300 overflow-hidden">
+                    <img
+                      src={`${backendUrl}${item.colorImage}`}
+                      alt="color"
+                      className="w-full h-full object-cover scale-[4]"
+                    />
+                  </div>
+                   <span className="font-semibold text-md capitalize">
+                          {getDisplayColor(item)}
+                        </span>
                 </div>
                 <button onClick={() => handleRemoveFromCart(item.variantId)} className="text-gray-400 hover:text-red-500">
                   <span className="text-[30px] text-red-400 font-medium leading-none">×</span>

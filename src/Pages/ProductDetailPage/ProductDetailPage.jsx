@@ -630,7 +630,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                     </div>
 
                     {/* Two Smaller Images */}
-                  <div className="hidden sm:grid space-y-2 w-full h-full md:space-y-2 md:grid-cols-1 md:gap-1">
+                  <div className="hidden sm:grid space-y-2 w-full h-full md:space-y-1 md:grid-cols-1 md:gap-1">
                 {/* Show Cone image */}
                 <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
                   <img
@@ -891,14 +891,14 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                   {isAddingColor ? (
                                     tempCustomColors.length > 0 ? (
                                       <button
-                                        className="bg-violet-600 text-white px-4 py-2 rounded"
+                                        className="bg-purple-600 text-white px-4 py-2 rounded"
                                         onClick={() => setShowAddColorModal(true)}
                                       >
                                         SUBMIT
                                       </button>
                                     ) : (
                                       <button
-                                        className="bg-violet-200 text-violet-800 p-2 rounded"
+                                        className="bg-purple-200 text-purple-800 p-2 rounded"
                                         onClick={handleAddColor}
                                       >
                                         ADD COLOR
@@ -906,7 +906,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                     )
                                   ) : modalSelectedColors.length > 0 ? (
                                     <button
-                                      className="bg-violet-600 text-white px-4 py-2 rounded"
+                                      className="bg-purple-600 text-white px-4 py-2 rounded"
                                       onClick={handleSubmitSelectedColor}
                                     >
                                       SUBMIT
@@ -914,8 +914,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                                   ) : (
                                     <button
+
                                       className="bg-violet-200 text-violet-800 p-2 rounded"
                                       // onClick={handleAddColor}
+
                                     >
                                       ADD COLOR
                                     </button>
@@ -937,7 +939,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 <div className="relative h-20 w-full">
                                   <img
                                     src={imageUrl}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full bg-[#95979A] object-contain"
                                     alt={color.color.colorName}
                                   />
                                   {!colorImage && (
@@ -952,14 +954,14 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                       setIsInCart(false); // Reset the button
                                     }}
 
-                                    className="absolute top-0 right-0 z-20 bg-white border border-violet-800 text-violet-800 rounded-full p-1"
+                                    className="absolute top-0 right-0 z-20 bg-white border border-purple-800 text-red-500 rounded-full p-.5"
                                   >
 
                                     <RxCross2 size={16} />
                                   </button>
                                 </div>
 
-                                <div className="flex flex-col items-center px-1 py-2">
+                                <div className="flex flex-col text-center items-center px-1 py-2">
                                   <p className="text-black text-sm font-semibold">{color.color.colorName}</p>
                                   <p className="text-gray-600 text-xs">{color.color.colorCode}</p>
                                 </div>

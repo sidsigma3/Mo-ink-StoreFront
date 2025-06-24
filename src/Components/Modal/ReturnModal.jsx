@@ -38,7 +38,7 @@ const [toasts, setToasts] = useState([]);
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
+    <div className="fixed inset-0 flex items-center justify-center z-50 px-12">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg">
         <h2 className="text-xl font-bold mb-3 text-gray-900">Return Request</h2>
         <p className="text-gray-700 mb-3">

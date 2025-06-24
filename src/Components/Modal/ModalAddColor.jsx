@@ -23,7 +23,7 @@ const ModalAddColor = ({ isOpen, onCancel, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-12">
       <div
         ref={modalRef}
         className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 text-center relative"
@@ -54,7 +54,7 @@ const ModalAddColor = ({ isOpen, onCancel, onConfirm }) => {
         </p>
 
         {/* Buttons */}
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-2">
           <button
             onClick={onCancel}
             className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -65,7 +65,7 @@ const ModalAddColor = ({ isOpen, onCancel, onConfirm }) => {
             onClick={onConfirm}
             className="px-5 py-2 rounded-lg bg-purple-700 text-white hover:bg-purple-800"
           >
-            Yes, Add Color
+            Yes
           </button>
         </div>
       </div>

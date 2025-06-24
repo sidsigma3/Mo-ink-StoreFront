@@ -91,10 +91,10 @@ const ChatbotWidget = () => {
 
 const styles = {
   chatButton: {
-    position: 'fixed', bottom: 105, left: 22, padding: '18px 18px', borderRadius: '50%', backgroundColor: '#6B21A8' , opacity:'60%', color: 'white', border: 'none', fontSize: 24, cursor: 'pointer', zIndex: 1000,
+    position: 'fixed', bottom: 105, right: 22, padding: '18px 18px', borderRadius: '50%', backgroundColor: '#6B21A8' , opacity:'60%', color: 'white', border: 'none', fontSize: 24, cursor: 'pointer', zIndex: 1000,
   },
   chatWindow: {
-    position: 'fixed', bottom: 180, left: 22, width: 350, maxHeight: 500, display: 'flex', flexDirection: 'column', backgroundColor: 'white', borderRadius: 16, boxShadow: '0 8px 30px rgba(0,0,0,0.2)', overflow: 'hidden', zIndex: 1000,
+    position: 'fixed', bottom: 180, right: 22, width: 350, maxHeight: 500, display: 'flex', flexDirection: 'column', backgroundColor: 'white', borderRadius: 16, boxShadow: '0 8px 30px rgba(0,0,0,0.2)', overflow: 'hidden', zIndex: 1000,
   },
   header: {
     backgroundColor: '#6B21A8', color: 'white', padding: '12px 16px', fontWeight: 'bold'

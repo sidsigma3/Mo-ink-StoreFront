@@ -23,7 +23,7 @@ const ModalOTPVerified = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 px-12">
       <div
         ref={wrapperRef}
         className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 text-center"

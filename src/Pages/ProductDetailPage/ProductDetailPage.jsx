@@ -515,7 +515,9 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const allProductsResponse = await fetchProducts();
     localStorage.setItem("allProducts", JSON.stringify(allProductsResponse.data || []));
 
-    setCustomColors((prev) => [...prev, ...updatedColorsWithIds]);
+    await fetchCustomColors();
+
+    // setCustomColors((prev) => [...prev, ...updatedColorsWithIds]);
     setTempCustomColors([]);
     setIsAddingColor(false);
     setIsModalOpen(true);
@@ -912,8 +914,10 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                                   ) : (
                                     <button
-                                      className="bg-purple-200 text-purple-800 p-2 rounded"
-                                      onClick={handleAddColor}
+
+                                      className="bg-violet-200 text-violet-800 p-2 rounded"
+                                      // onClick={handleAddColor}
+
                                     >
                                       ADD COLOR
                                     </button>

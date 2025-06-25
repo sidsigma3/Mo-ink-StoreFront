@@ -221,7 +221,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
                     <img
                       src={`${backendUrl}${item.colorImage}`}
                       alt="color"
-                      className="w-full h-full object-cover scale-[4]"
+                      className="w-full h-full object-cover scale-[20] translate-x-5"
                     />
                   </div>
                    <span className="font-semibold text-md capitalize">

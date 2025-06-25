@@ -392,7 +392,7 @@ const CheckoutPage = () => {
                     productName: product.productName,
                     size: variant.size,
                     colorName: variant.color?.colorName,
-                    hexCode:variant.color?.hexCode,
+                    hexCode:variant.color?.colorCode,
                     price: variant.pricePerKg,
                     markupPrice:variant.markupPricePerKg,
                     variantId: variant.id,
@@ -980,7 +980,7 @@ const CheckoutPage = () => {
                                     price={item.price}
                                     size={item.size}
                                     color={item.colorName}
-                                    hexCode={item.hexCode}
+                                    // hexCode={item.hexCode}
                                     variantType={item.variantType}
                                     variantId={item.variantId}
                                     isSelected={selectedItems.includes(item.variantId)}
@@ -1009,6 +1009,7 @@ const CheckoutPage = () => {
                                 <div className="mt-6">
                                     <ProductDetailBoxMiniMobile
                                     cartItems={cartItems}
+                                    setCartItems={setCartItems}
                                     selectedItems={selectedItems}
                                     onSelectChange={handleCheckboxChange}
                                     onVariantTypeChange={handleVariantTypeChange}

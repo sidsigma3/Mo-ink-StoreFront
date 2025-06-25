@@ -142,23 +142,25 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
  
 
   useEffect(() => {
-    if (!product?.variants?.length) {
-      setFilteredColorsTemp([]);
-      return;
-    }
+  if (!product?.variants?.length) {
+    setFilteredColorsTemp([]);
+    return;
+  }
 
-    const filtered = product.variants.filter(
-      (variant) =>
-        variant.size === size &&
-        variant.variantType === variantType &&
-        (
-          variant.color.colorName.toLowerCase().includes(searchColor) ||
-          variant.color.colorCode.toLowerCase().includes(searchColor)
-        )
-    );
+  const filtered = product.variants.filter(
+    (variant) =>
+      variant.availableStatus === "ACTIVE" &&
+      variant.size === size &&
+      variant.variantType === variantType &&
+      (
+        variant.color.colorName.toLowerCase().includes(searchColor) ||
+        variant.color.colorCode.toLowerCase().includes(searchColor)
+      )
+  );
 
-    setFilteredColorsTemp(filtered);
-  }, [product, size, variantType, searchColor]);
+  setFilteredColorsTemp(filtered);
+}, [product, size, variantType, searchColor]);
+
 
 
 
@@ -427,6 +429,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           pricePerKg: avg.pricePerKg.toFixed(0),
           costPerKg: avg.costPerKg,
           markupPricePerKg: avg.markupPricePerKg.toFixed(0),
+          availableStatus:"ACTIVE",
+
         };
       })
     );
@@ -758,6 +762,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                       {customColors.length === 0 ? (
                                         <div className="text-gray-500 text-center">No unused custom colors available</div>
                                       ) : (
+                                         <div className="h-[40rem] overflow-y-auto p-2">
                                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                                            {customColors.map((item) => {
                                               const imageForVariant = item.colorImage?.find((img) =>
@@ -794,6 +799,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
                                           
+                                        </div>
                                         </div>
                                       )}
 

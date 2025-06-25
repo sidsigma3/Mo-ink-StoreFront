@@ -158,33 +158,36 @@ console.log(products)
 
   return (
     <div className="space-y-12">
-      {products.map((product) => (
+     {products.map((product) => (
         <div key={product.id} className="relative flex flex-col bg-white p-4 rounded-lg shadow-sm">
           <SlilderCard title={product.productName}>
-            {product.variants.map((variant) => (
-              <li
-                key={`${product.id}-${variant.id}`}
-                className="snap-start bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col items-center flex-shrink-0"
-                style={{ minWidth: '250px', padding: '1rem' }} 
-              >
-                <ProductDetailBox
-                  productName={product.productName}
-                  size={variant.size}
-                  color={variant.color.colorName}
-                  price={variant.pricePerKg}
-                  variantId={variant.id}
-                  markupPrice={variant.markupPricePerKg}
-                  navigateCart={true}
-                  hexCode={variant.color.colorCode || '#ccc'}
-                  variantType={variant.variantType}
-                  imageUrl={product.productImage}
-                  colorImage={variant.color.colorImage}
-                />
-              </li>
-            ))}
+            {product.variants
+              .filter((variant) => variant.availableStatus !== "INACTIVE")
+              .map((variant) => (
+                <li
+                  key={`${product.id}-${variant.id}`}
+                  className="snap-start bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col items-center flex-shrink-0"
+                  style={{ minWidth: '250px', padding: '1rem' }}
+                >
+                  <ProductDetailBox
+                    productName={product.productName}
+                    size={variant.size}
+                    color={variant.color.colorName}
+                    price={variant.pricePerKg}
+                    variantId={variant.id}
+                    markupPrice={variant.markupPricePerKg}
+                    navigateCart={true}
+                    hexCode={variant.color.colorCode || '#ccc'}
+                    variantType={variant.variantType}
+                    imageUrl={product.productImage}
+                    colorImage={variant.color.colorImage}
+                  />
+                </li>
+              ))}
           </SlilderCard>
         </div>
       ))}
+
     </div>
   );
 };

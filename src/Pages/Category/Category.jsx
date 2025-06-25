@@ -173,42 +173,43 @@ const counters = [
   }, [selectedCategory, products]);
 
   // Filtered and grouped variants
-  const filteredVariants = useMemo(() => {
-    const selectedProduct = products.find(
-      (p) => p.productName === selectedCategory
-    );
-    if (!selectedProduct) return [];
+const filteredVariants = useMemo(() => {
+  const selectedProduct = products.find(
+    (p) => p.productName === selectedCategory
+  );
+  if (!selectedProduct) return [];
 
-   const matchingVariants = selectedProduct.variants.filter((variant) => {
-  const sizeMatch = true;
-  const typeMatch =
-    !selectedVariantType || variant.variantType === selectedVariantType;
-  return sizeMatch && typeMatch;
-});
+  const matchingVariants = selectedProduct.variants.filter((variant) => {
+    const sizeMatch = true; // add real filter if needed
+    const typeMatch =
+      !selectedVariantType || variant.variantType === selectedVariantType;
+    const isActive = variant.availableStatus === "ACTIVE";
+    return sizeMatch && typeMatch && isActive;
+  });
 
+  // Group by size + variantType
+  const grouped = {};
+  matchingVariants.forEach((variant) => {
+    const key = `${variant.size}_${variant.variantType}`;
+    if (!grouped[key]) {
+      grouped[key] = {
+        size: variant.size,
+        variantType: variant.variantType,
+        variants: [],
+        price: variant.pricePerKg,
+        markupPrice: variant.markupPricePerKg,
+      };
+    }
+    grouped[key].variants.push(variant);
+  });
 
-    // Group by size + variantType
-    const grouped = {};
-    matchingVariants.forEach((variant) => {
-      const key = `${variant.size}_${variant.variantType}`;
-      if (!grouped[key]) {
-        grouped[key] = {
-          size: variant.size,
-          variantType: variant.variantType,
-          variants: [],
-          price: variant.pricePerKg,
-          markupPrice:variant.markupPricePerKg,
-        };
-      }
-      grouped[key].variants.push(variant);
-    });
+  return Object.values(grouped).map((group, i) => ({
+    key: i,
+    ...group,
+    product: selectedProduct,
+  }));
+}, [selectedCategory, selectedCounters, selectedVariantType, products]);
 
-    return Object.values(grouped).map((group, i) => ({
-      key: i,
-      ...group,
-      product: selectedProduct,
-    }));
-  }, [selectedCategory, selectedCounters, selectedVariantType, products]);
 
 
   const breadcrumbs = [

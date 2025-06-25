@@ -165,8 +165,8 @@ const getImageByVariantType = (variantType) => {
               className="w-6 h-6 rounded-full border"
               style={{ backgroundColor: item.color.colorCode }}
             ></div> */}
-            <h5 className="text-sm lg:text-lg font-bold text-gray-500">{item.color.colorCode}</h5>
-            <h5 className="text-sm lg:text-lg font-bold text-gray-500">({item.color.colorName})</h5>
+            <h5 className="text-sm lg:text-base font-bold text-gray-500">{item.color.colorName} - </h5>
+             <h5 className="text-sm lg:text-base font-bold text-gray-500">{item.color.colorCode.toUpperCase()}</h5>
           </div>
           
         </div>

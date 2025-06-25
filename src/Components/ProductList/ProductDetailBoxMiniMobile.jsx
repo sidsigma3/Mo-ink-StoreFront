@@ -48,6 +48,8 @@ const [toasts, setToasts] = useState([]);
   return groups;
 }, {});
 
+
+
 const handleIncrease = (variantId, currentQty) => {
   const newQty = currentQty + 1;
   onQuantityChange(variantId, newQty);
@@ -167,92 +169,93 @@ const getImageByVariantType = (variantType, imageUrls) => {
 
  return (
      <div>
- {Object.entries(groupedProducts).map(([groupKey, groupItems]) => {
-  if (!groupItems.length) return null;
+    {Object.entries(groupedProducts).map(([groupKey, groupItems]) => {
+      if (!groupItems.length) return null;
 
-  const firstItem = groupItems[0];
+      const firstItem = groupItems[0];
 
-  const getWeightPerUnit = (type) => (type === "CONE" ? 50 : 10);
+      const getWeightPerUnit = (type) => (type === "CONE" ? 50 : 10);
 
-  const totalQuantityKg = groupItems.reduce(
-    (sum, item) => sum + (item?.quantity || 0) * getWeightPerUnit(item.variantType),
-    0
-  );
+      const totalQuantityKg = groupItems.reduce(
+        (sum, item) => sum + (item?.quantity || 0) * getWeightPerUnit(item.variantType),
+        0
+      );
 
-  const totalPrice = groupItems.reduce(
-    (sum, item) => sum + (item?.price || 0) * (item?.quantity || 0) * getWeightPerUnit(item.variantType),
-    0
-  );
+      const totalPrice = groupItems.reduce(
+        (sum, item) => sum + (item?.price || 0) * (item?.quantity || 0) * getWeightPerUnit(item.variantType),
+        0
+      );
 
-  return (
-    <div key={groupKey} className="sm:hidden bg-white rounded-lg  border-1 p-4 mb-3">
-      {/* Header */}
-      <div className="flex items-start mb-3">
-        <div className="w-20 h-20 rounded-md overflow-hidden mr-3 border border-gray-200">
-          <img
-            src={`${backendUrl}${firstItem.productImage?.[0] || ''}`}
-            alt={firstItem.productName}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 text-lg">{firstItem.productName}</h3>
-          <p className="text-md font-medium capitalize text-gray-800">
-            {firstItem.size} • {firstItem.variantType.toLowerCase()} • {groupItems.length} colors
-          </p>
-          <p className="text-md font-medium text-gray-900 mt-1">
-            ₹{Math.round(firstItem.price)} per kg
-          </p>
-        </div>
-      </div>
+      return (
+        <div key={groupKey} className="sm:hidden bg-white rounded-lg  border-1 p-4 mb-3">
+          {/* Header */}
+          <div className="flex items-start mb-3">
+            <div className="w-20 h-20 rounded-md overflow-hidden mr-3 border border-gray-200">
+              <img
+                src={`${backendUrl}${firstItem.productImage?.[0] || ''}`}
+                alt={firstItem.productName}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-gray-900 text-lg">{firstItem.productName}</h3>
+              <p className="text-md font-medium capitalize text-gray-800">
+                {firstItem.size} • {firstItem.variantType.toLowerCase()} • {groupItems.length} colors
+              </p>
+              <p className="text-md font-medium text-gray-900 mt-1">
+                ₹{Math.round(firstItem.price)} per kg
+              </p>
+            </div>
+          </div>
 
-      {/* Color Variants */}
-      <div className="space-y-2 mb-3">
-        {groupItems.map((item) => {
-          const weightPerUnit = getWeightPerUnit(item.variantType); 
-          const quantityInKg = item.quantity * weightPerUnit; 
-          const totalPriceForItem = item.price * item.quantity * weightPerUnit; 
+          {/* Color Variants */}
+          <div className="space-y-2 mb-3">
+            {groupItems.map((item) => {
+              const weightPerUnit = getWeightPerUnit(item.variantType); 
+              const quantityInKg = item.quantity * weightPerUnit; 
+              const totalPriceForItem = item.price * item.quantity * weightPerUnit; 
 
-          return (
-            <div key={`${item.id}-${item.colorCode}`} className="bg-purple-50 rounded-xl p-3 text-sm">
-              <div className="flex justify-between items-start">
-            <div className="flex items-center">
-                  <div className="w-5 h-5 rounded-full mr-2 border border-gray-300 overflow-hidden">
-                    <img
-                      src={`${backendUrl}${item.colorImage}`}
-                      alt="color"
-                      className="w-full h-full object-cover scale-[4]"
-                    />
+              return (
+                <div key={`${item.id}-${item.colorCode}`} className="bg-purple-50 rounded-xl p-3 text-sm">
+                  <div className="flex justify-between items-start">
+                <div className="flex items-center">
+                      <div className="w-5 h-5 rounded-full mr-2 border border-gray-300 overflow-hidden">
+                        <img
+                          src={`${backendUrl}${item.colorImage}`}
+                          alt="color"
+                          className="w-full h-full object-cover scale-[4]"
+                        />
+                      </div>
+                      <span className="font-semibold text-md mr-2 capitalize">
+                              {getDisplayColor(item)}
+                      </span>
+                      <span>{item.hexCode}</span>
+                    </div>
+                    <button onClick={() => handleRemoveFromCart(item.variantId)} className="text-gray-400 hover:text-red-500">
+                      <span className="text-[30px] text-red-400 font-medium leading-none">×</span>
+                    </button>
                   </div>
-                   <span className="font-semibold text-md capitalize">
-                          {getDisplayColor(item)}
-                        </span>
-                </div>
-                <button onClick={() => handleRemoveFromCart(item.variantId)} className="text-gray-400 hover:text-red-500">
-                  <span className="text-[30px] text-red-400 font-medium leading-none">×</span>
-                </button>
-              </div>
 
-              <div className="flex justify-between items-center mt-2">
-                <div className="flex flex-col">
-                  <div className="flex items-center border rounded h-7 overflow-hidden">
-                   <button
-                    onClick={() => handleDecrease(item.variantId, item.quantity)}
-                    className="w-6 h-7 flex items-center justify-center text-gray-600 text-sm"
-                    disabled={item.quantity <= 1}
-                  >
-                    −
-                  </button>
-                  <span className="w-14 text-center text-[12px] font-semibold">
-                    {item.quantity * getWeightPerUnit(item.variantType)}kg
-                  </span>
-                  <button
-                    onClick={() => handleIncrease(item.variantId, item.quantity)}
-                    className="w-6 h-7 flex items-center justify-center text-gray-600 text-sm"
-                  >
-                    +
-                  </button>
-                  </div>
+                  <div className="flex justify-between items-center mt-2">
+                    <div className="flex flex-col">
+                      <div className="flex items-center border rounded h-7 overflow-hidden">
+                      <button
+                        onClick={() => handleDecrease(item.variantId, item.quantity)}
+                        className="w-6 h-7 flex items-center justify-center text-gray-600 text-sm"
+                        disabled={item.quantity <= 1}
+                      >
+                        −
+                      </button>
+                      <span className="w-14 text-center text-[12px] font-semibold">
+                        {item.quantity * getWeightPerUnit(item.variantType)}kg
+                      </span>
+                      <button
+                        onClick={() => handleIncrease(item.variantId, item.quantity)}
+                        className="w-6 h-7 flex items-center justify-center text-gray-600 text-sm"
+                      >
+                        +
+                      </button>
+                      </div>
                   {/* <p className="text-xs text-gray-500 mt-1">
                     {weightPerUnit} Kg per unit
                   </p> */}

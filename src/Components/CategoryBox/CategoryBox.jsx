@@ -41,8 +41,8 @@ const CategoryBox = ({ size, color, price , product , variantType ,markupPrice }
           <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/balls.png?updatedAt=1748517272738" alt="Default" className="w-10 h-10" />
         )}
       </span>
-        <h4 className="text-lg md:text-xl text-center font-semibold">Count - {size}</h4>
-        <h4 className="text-lg md:text-xl font-semibold">
+        <h4 className="text-lg md:text-lg text-center font-semibold">Count - {size}</h4>
+        <h4 className="text-lg md:text-lg font-semibold">
           Total color - {Array.isArray(color) ? color.length : 1}
         </h4>
         {/* <h5 className="text-xl font-bold text-purple-900">₹{price}<span>/KG</span></h5> */}

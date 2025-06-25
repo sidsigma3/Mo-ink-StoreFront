@@ -260,24 +260,24 @@ const handleAddToCart = async () => {
 
           {/* Card Body */}
           <div className="p-3">
-            <h5 className="font-medium flex items-center flex-wrap">
+            <h5 className="font-medium text-sm flex items-center flex-wrap d-flex justify-center">
             {productName}
             <span className="mx-1 text-xl leading-none px-1">•</span>
             {size}
-             <span className="flex items-center gap-1">
-               <span className="mx-1 text-xl leading-none px-1">•</span>
-              {hexCode?.toUpperCase()}
-            </span>
-            <span className="flex items-center gap-1">
-               <span className="mx-1 text-xl leading-none px-1">•</span>
-              {color}
-            </span>
             <span className="mx-1 text-xl leading-none px-1">•</span>
             {variantType}
           </h5>
 
 
-            <h5></h5>
+            <h5 className="font-medium text-sm flex items-center flex-wrap mt-1 d-flex justify-center">
+              <span className="flex items-center gap-1">
+              {color}
+            </span>
+            <span className="flex items-center gap-1">
+               <span className="mx-1 text-xl leading-none px-1">•</span>
+              {hexCode?.toUpperCase()}
+            </span>
+            </h5>
   
             {/* Quantity Row */}
             <div className="d-flex align-items-center justify-content-between mt-3">

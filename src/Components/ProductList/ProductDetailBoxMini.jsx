@@ -150,10 +150,10 @@ const getImageByVariantType = (variantType, imageUrls) => {
               alt=""
               className="w-full h-full object-cover z-0"
             />
-            <div
+            {/* <div
               className="absolute inset-0 z-10 rounded-lg"
               style={{ backgroundColor: hexCode, opacity: 0.4 }}
-            ></div>
+            ></div> */}
           </div>
         </div>
 
@@ -165,6 +165,8 @@ const getImageByVariantType = (variantType, imageUrls) => {
             {productName}
             <span className="mx-1 text-xl leading-none px-1">•</span>
             {size}
+            <span className="mx-1 text-xl leading-none px-1">•</span>
+              {hexCode}
             <span className="mx-1 text-xl leading-none px-1">•</span>
               {color}
           </h5>

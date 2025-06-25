@@ -980,7 +980,7 @@ const CheckoutPage = () => {
                                     price={item.price}
                                     size={item.size}
                                     color={item.colorName}
-                                    // hexCode={item.hexCode}
+                                    hexCode={item.hexCode}
                                     variantType={item.variantType}
                                     variantId={item.variantId}
                                     isSelected={selectedItems.includes(item.variantId)}

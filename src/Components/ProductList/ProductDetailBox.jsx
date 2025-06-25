@@ -264,6 +264,10 @@ const handleAddToCart = async () => {
             {productName}
             <span className="mx-1 text-xl leading-none px-1">•</span>
             {size}
+             <span className="flex items-center gap-1">
+               <span className="mx-1 text-xl leading-none px-1">•</span>
+              {hexCode?.toUpperCase()}
+            </span>
             <span className="flex items-center gap-1">
                <span className="mx-1 text-xl leading-none px-1">•</span>
               {color}

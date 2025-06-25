@@ -135,7 +135,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
     
       <input
         type="checkbox"
-        className="absolute top-7 left-6 z-20 w-4 h-4 accent-purple-800"
+        className="absolute top-11 left-6 z-20 w-4 h-4 accent-purple-800"
         checked={isSelected}
         onChange={() => onSelectChange(variantId)}
       />
@@ -161,14 +161,16 @@ const getImageByVariantType = (variantType, imageUrls) => {
 
         <div className="p-3 w-4/5">
           {/* Card Body */}
-            <h5 className="font-medium flex items-center flex-wrap">
+            <h5 className="font-medium flex items-center flex-wrap text-sm">
             {productName}
             <span className="mx-1 text-xl leading-none px-1">•</span>
             {size}
+          </h5>
+
+           <h5 className="font-medium text-sm flex items-center flex-wrap mt-1">
+             {color}
             <span className="mx-1 text-xl leading-none px-1">•</span>
-              {hexCode}
-            <span className="mx-1 text-xl leading-none px-1">•</span>
-              {color}
+             {hexCode?.toUpperCase()} 
           </h5>
           
           <div className='mt-2 d-flex justify-content-between rounded'>

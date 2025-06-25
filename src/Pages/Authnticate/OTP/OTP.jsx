@@ -16,11 +16,50 @@ const OTP = () => {
   const [error, setError] = useState("");
   const [toasts, setToasts] = useState([]);
   const [isOtpVerified, setIsOtpVerified] = useState(false); 
+  
+  // Timer states
+  const [emailTimer, setEmailTimer] = useState(120); // 2 minutes in seconds
+  const [phoneTimer, setPhoneTimer] = useState(120);
+  const [emailTimerActive, setEmailTimerActive] = useState(true);
+  const [phoneTimerActive, setPhoneTimerActive] = useState(true);
 
   const showToast = (message, type = "error") => {
     setToasts([{ message, type }]);
     setTimeout(() => setToasts([]), 3000);
   };
+
+  // Format timer display (mm:ss)
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Email timer effect
+  useEffect(() => {
+    let interval = null;
+    if (emailTimerActive && emailTimer > 0) {
+      interval = setInterval(() => {
+        setEmailTimer(timer => timer - 1);
+      }, 1000);
+    } else if (emailTimer === 0) {
+      setEmailTimerActive(false);
+    }
+    return () => clearInterval(interval);
+  }, [emailTimer, emailTimerActive]);
+
+  // Phone timer effect
+  useEffect(() => {
+    let interval = null;
+    if (phoneTimerActive && phoneTimer > 0) {
+      interval = setInterval(() => {
+        setPhoneTimer(timer => timer - 1);
+      }, 1000);
+    } else if (phoneTimer === 0) {
+      setPhoneTimerActive(false);
+    }
+    return () => clearInterval(interval);
+  }, [phoneTimer, phoneTimerActive]);
 
   const handleNumericInput = (e, setter) => {
     let value = e.target.value.replace(/\D/g, "");
@@ -37,7 +76,6 @@ const OTP = () => {
 
     if (!customerData) {
       showToast("Missing customer data. Please register again.", "error");
-      // navigate("/");
       return;
     }
 
@@ -67,6 +105,8 @@ const OTP = () => {
 
   const resendEmailOTP = async (e) => {
     e.preventDefault();
+    if (emailTimerActive) return; // Prevent resend if timer is active
+    
     try {
       if (customerData.email) {
         await otpSend({
@@ -75,6 +115,9 @@ const OTP = () => {
           otpType: "EMAIL",
         });
         showToast("Email OTP resent successfully!", "success");
+        // Reset timer
+        setEmailTimer(120);
+        setEmailTimerActive(true);
       } else {
         showToast("Missing email address.", "error");
       }
@@ -86,6 +129,8 @@ const OTP = () => {
 
   const resendPhoneOTP = async (e) => {
     e.preventDefault();
+    if (phoneTimerActive) return; // Prevent resend if timer is active
+    
     try {
       if (customerData.phoneNumber) {
         await otpSend({
@@ -94,6 +139,9 @@ const OTP = () => {
           otpType: "PHONE",
         });
         showToast("Phone OTP resent successfully!", "success");
+        // Reset timer
+        setPhoneTimer(120);
+        setPhoneTimerActive(true);
       } else {
         showToast("Missing phone number.", "error");
       }
@@ -106,9 +154,8 @@ const OTP = () => {
   useEffect(() => {
     if (isOtpVerified) {
       const timer = setTimeout(() => {
-        setIsOtpVerified(false);
         navigate("/login");
-      }, 3000);
+      }, 3000); // Navigate after 3 seconds
       return () => clearTimeout(timer);
     }
   }, [isOtpVerified, navigate]); 
@@ -134,8 +181,8 @@ const OTP = () => {
 
       {/* Toast messages */}
       <div className="absolute top-4 right-4 z-50">
-        {toasts.map((toast) => (
-          <Toast key={toast.id} message={toast.message} type={toast.type} />
+        {toasts.map((toast, index) => (
+          <Toast key={index} message={toast.message} type={toast.type} />
         ))}
       </div>
 
@@ -145,7 +192,7 @@ const OTP = () => {
           className="text-sm text-white mb-4 hover:underline"
           onClick={() => navigate("/signup")}
         >
-          &larr; Back to registration
+          &larr; Back to Registration
         </button>
 
         <h2 className="text-2xl font-bold mb-2">Verify Your OTP</h2>
@@ -157,10 +204,16 @@ const OTP = () => {
           <div className="flex justify-between items-center mb-1">
             <label className="text-l">Email OTP</label>
             <button
-              className="text-sm text-white cursor-pointer"
+              type="button"
+              className={`text-sm cursor-pointer ${
+                emailTimerActive 
+                  ? 'text-gray-200 cursor-not-allowed' 
+                  : 'text-white font-medium hover:underline'
+              }`}
               onClick={resendEmailOTP}
+              disabled={emailTimerActive}
             >
-              Resend
+              {emailTimerActive ? `Resend (${formatTime(emailTimer)})` : 'Resend'}
             </button>
           </div>
           <input
@@ -174,10 +227,16 @@ const OTP = () => {
           <div className="flex justify-between items-center mb-1">
             <label className="text-l">Phone OTP</label>
             <button
-              className="text-sm text-white cursor-pointer"
+              type="button"
+              className={`text-sm cursor-pointer ${
+                phoneTimerActive 
+                  ? 'text-gray-200 cursor-not-allowed' 
+                  : 'text-white font-medium hover:underline'
+              }`}
               onClick={resendPhoneOTP}
+              disabled={phoneTimerActive}
             >
-              Resend
+              {phoneTimerActive ? `Resend (${formatTime(phoneTimer)})` : 'Resend'}
             </button>
           </div>
           <input
@@ -190,7 +249,7 @@ const OTP = () => {
 
           <button
             type="submit"
-            className="w-full mt-4 bg-purple-800 text-white rounded-full py-1 font-medium"
+            className="w-full mt-4 bg-purple-800 text-white rounded-full py-1 font-medium hover:bg-purple-700 transition-colors"
           >
             Verify
           </button>
@@ -203,7 +262,7 @@ const OTP = () => {
         <div className="text-center text-xs my-3 text-gray-300">Or login with</div>
 
         <div className="flex flex-row justify-center items-center gap-2">
-          <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm">
+          <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm hover:bg-gray-100 transition-colors">
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google"
@@ -211,14 +270,14 @@ const OTP = () => {
             />
             Sign in with Google
           </button>
-          <button className="bg-white p-2 rounded-full">
+          <button className="bg-white p-2 rounded-full hover:bg-gray-100 transition-colors">
             <img
               src="https://www.svgrepo.com/show/448224/facebook.svg"
               alt="Facebook"
               className="w-5 h-5"
             />
           </button>
-          <button className="bg-white p-2 rounded-full">
+          <button className="bg-white p-2 rounded-full hover:bg-gray-100 transition-colors">
             <img
               src="https://www.svgrepo.com/show/511330/apple-173.svg"
               alt="Apple"
@@ -228,7 +287,8 @@ const OTP = () => {
         </div>
       </div>
 
-       {isOtpVerified && <ModalOTPVerified />}
+      {/* OTP Verified Modal */}
+      {isOtpVerified && <ModalOTPVerified />}
     </div>
   );
 };

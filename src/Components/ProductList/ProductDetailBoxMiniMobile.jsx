@@ -169,6 +169,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
 
  return (
      <div>
+
     {Object.entries(groupedProducts).map(([groupKey, groupItems]) => {
       if (!groupItems.length) return null;
 
@@ -234,6 +235,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
                     <button onClick={() => handleRemoveFromCart(item.variantId)} className="text-gray-400 hover:text-red-500">
                       <span className="text-[30px] text-red-400 font-medium leading-none">×</span>
                     </button>
+
                   </div>
 
                   <div className="flex justify-between items-center mt-2">

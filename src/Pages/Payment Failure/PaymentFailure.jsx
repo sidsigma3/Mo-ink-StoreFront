@@ -180,7 +180,7 @@ const PaymentFailure = () => {
               <img
                 src="/images/Card-Declined.png"
                 alt="Payment Declined"
-                className="w-48 h-48 object-contain"
+                className="w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 object-contain"
               />
             </div>
   

@@ -38,10 +38,10 @@ const PaymentSuccess = () => {
           <div className=" flex flex-col items-center text-center bg-white rounded-5 p-6 md:px-20">
             {/* Image */}
             <div className="flex justify-center mb-6">
-              <img
+             <img
                 src="/images/Payment-Success.png"
                 alt="Payment Declined"
-                className="w-48 h-48 object-contain"
+                className="w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 object-contain"
               />
             </div>
   
@@ -51,7 +51,7 @@ const PaymentSuccess = () => {
   
             <p className="text-gray-600 mb-6">
             We’ve received your payment and we’re excited to get things rolling.
-            You’ll receive a confirmation email shortly with all the details. If anything seems off or if you need help, just reach out we’re happy to assist.
+            You’ll receive a confirmation email shortly with all the details.
             </p>
   
             {/* Buttons */}

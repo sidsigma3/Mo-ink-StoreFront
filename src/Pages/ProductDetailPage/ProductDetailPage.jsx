@@ -253,7 +253,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
             <div className="flex flex-col text-center items-center mx-1 my-2">
               <h5 className="text-black text-[0.6rem] font-medium ">{item.color?.colorName}</h5>
-              <h5 className="text-gray-600 text-[0.7rem]">{item.color?.colorCode.toUpperCase() || item.color?.hexCode.toUpperCase()}</h5>
+              <h5 className="text-gray-600 text-[0.7rem]">{(item.color?.colorCode || item.color?.hexCode || '').toUpperCase()}</h5>
             </div>
           </div>
         );
@@ -968,7 +968,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                 </div>
 
                                 <div className="flex flex-col text-center items-center px-1 py-2">
-                                  <p className="text-black text-sm font-semibold">{color.color.colorName}</p>
+                                  <p className="text-black text-xs font-semibold">{color.color.colorName}</p>
                                   <p className="text-gray-600 text-xs">{color.color.colorCode.toUpperCase()}</p>
                                 </div>
                               </div>

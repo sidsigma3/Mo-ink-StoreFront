@@ -1374,7 +1374,7 @@ const CheckoutPage = () => {
                                 <tr className=''>
                                     <td>Total Cost</td>
                                     <td></td>
-                                    <td style={{ textAlign: 'end' }}>₹{totalProductCost.toLocaleString()}
+                                   <td style={{ textAlign: 'end' }}>₹{Math.round(totalProductCost).toLocaleString()}
                                     </td>
                                 </tr>
                                 <tr className='border-b-2'>

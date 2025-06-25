@@ -230,7 +230,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
                       <span className="font-semibold text-md mr-2 capitalize">
                               {getDisplayColor(item)}
                       </span>
-                      <span>{item.hexCode}</span>
+                      <span>{item.hexCode.toUpperCase()}</span>
                     </div>
                     <button onClick={() => handleRemoveFromCart(item.variantId)} className="text-gray-400 hover:text-red-500">
                       <span className="text-[30px] text-red-400 font-medium leading-none">×</span>

@@ -153,6 +153,7 @@ const OTP = () => {
 
   useEffect(() => {
     if (isOtpVerified) {
+      showToast("Congratulation, Your account is created", "success");
       const timer = setTimeout(() => {
         navigate("/login");
       }, 3000); // Navigate after 3 seconds

@@ -228,7 +228,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
               selected ? "border-blue-500" : "border-gray-300"
             }`}
           >
-           <div className="relative h-20 overflow-hidden">
+           <div className="relative h-24 overflow-hidden">
             {/* <img
                 src={`${backendUrl}${product.productImage?.find(img => img.includes(item.variantType.toLowerCase())) || product.productImage?.[0]}`}
                 className="w-full h-full object-cover"
@@ -253,7 +253,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
             <div className="flex flex-col text-center items-center mx-1 my-2">
               <h5 className="text-black text-sm font-medium ">{item.color?.colorName}</h5>
-              <h5 className="text-gray-600">{item.color?.colorCode || item.color?.hexCode}</h5>
+              <h5 className="text-gray-600">{item.color?.colorCode.toUpperCase() || item.color?.hexCode.toUpperCase()}</h5>
             </div>
           </div>
         );

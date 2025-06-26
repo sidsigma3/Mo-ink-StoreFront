@@ -2,7 +2,7 @@ import React from 'react';
 
 const steps = [
   {
-    title: '1. Browse & Explore',
+    title: '1. Browse & Explore Products',
     description:
       'Discover our wide range of premium yarns, from cotton to custom blends — tailored for industrial needs.',
     image: '/images/step1.png',
@@ -57,15 +57,15 @@ export default function MainProcess() {
 
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {steps.map((step, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center text-center p-6 border border-gray-200 rounded-xl bg-white "
-          >
-            <span className="text-3xl font-bold text-green-600 mb-4">{step.number}</span>
-            <img src={step.image} alt={step.title} className="h-40 mb-4" />
-            <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-2">{step.title}</h3>
-            <p className="text-md text-gray-500 leading-relaxed">{step.description}</p>
-          </div>
+         <div
+          key={index}
+          className="flex flex-col items-center text-center p-4 md:p-6 border border-gray-200 rounded-xl bg-white"
+        >
+          <img src={step.image} alt={step.title} className="h-20 md:h-40 mb-4" />
+          <h3 className="text-sm md:text-2xl font-semibold text-gray-800 mb-2">{step.title}</h3>
+          <p className="hidden sm:block text-sm md:text-md text-gray-500 leading-relaxed">{step.description}</p>
+        </div>
+
         ))}
       </div>
     </div>

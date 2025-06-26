@@ -66,7 +66,7 @@ const LandingPage = () => {
       <div className='md:px-14 py-3'> <Banner /></div>
       <div className='pt-3 md:py-3'><FeturedList /></div>
       <div className='mt-5'> <ProductList /></div>
-      <div className='px-6 md:px-14 py-3 mt-10'> <FeturesList_LandingPage /></div>
+      <div className='px-6 md:px-14 pt-20 pb-20'> <FeturesList_LandingPage /></div>
       <div className='px-6 md:px-14 py-3 mt-10 overflow-auto'> <CtaCard /></div>
       <div className='mt-10'> <Testimonial /></div>
       <div className='px-6 md:px-14 py-3 mt-10'> <BlogList /></div>

@@ -46,20 +46,20 @@ const FeaturesList = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className=" bg-white">
       <div>
         <h2 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">Value Additions</h2>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center p-6 border border-bottom border-purple-200 rounded-lg"
+              className="flex flex-col items-center text-center p-6 border border-bottom border-purple-200 rounded-xl  bg-gradient-to-b from-amber-50 via-transparent to-transparent"
             >
-              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-lg mb-6">
+              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md mb-6">
                 {feature.icon}
               </div>
-              <h3 className="text-xl md:text-2xl font-semibold text-gray-800  mb-4">{feature.title}</h3>
-              <p className="text-gray-500 text-md">{feature.description}</p>
+              <h3 className="text-md md:text-2xl font-semibold text-gray-800  md:mb-4">{feature.title}</h3>
+              <p className="hidden sm:block text-md text-gray-500 text-md">{feature.description}</p>
             </div>
           ))}
         </div>

@@ -51,7 +51,7 @@ useEffect(() => {
   const handleNext = () => keenSliderInstance.current?.next();
 
   return (
-    <section className="bg-gray-200">
+    <section className="bg-gradient-to-b from-white via-zinc-200 to-white">
       <div className="w-100 px-6 md:px-14 py-12 sm:px-6 lg:me-0 lg:py-16 lg:pe-12 lg:ps-12 xl:py-24" style={{width:'100%'}}>
         <div className="w-full items-end justify-between sm:flex ">
           <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">

@@ -37,9 +37,10 @@ const Wishlist = () => {
           price: variant.pricePerKg,
           markupPrice: variant.markupPricePerKg,
           variantId: variant.id,
-          hexCode: variant.color.hexCode,
+          hexCode: variant.color.colorCode,
           productImage: product.productImage,
           variantType: variant.variantType,
+          colorImage:variant.color.colorImage,
           wishlistId,
         }))
     );
@@ -85,6 +86,7 @@ console.log(wishlistItems)
                 imageUrl={item.productImage}
                 variantType={item.variantType}
                 isWishlistPage={true}
+                colorImage={item.colorImage}
               />
             </li>
           ))}

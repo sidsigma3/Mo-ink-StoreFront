@@ -8,17 +8,18 @@ const BlogBox1 = () => {
             <img
                 alt="Blog Image"
                 src="https://images.pexels.com/photos/4219611/pexels-photo-4219611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                className="w-full h-48 object-cover"
+                className="w-30 h-32 md:w-full md:h-48 object-cover
+"
             />
 
             <div className="p-3">
                 <a href="#">
-                <h3 className="text-lg md:text-xl font-semibold text-gray-900">
+                <h3 className="text-md line-clamp-2 md:text-xl font-semibold text-gray-900">
                 The Journey of Yarn: From Raw Fiber to High-Quality Thread.
                 </h3>
                 </a>
 
-                <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                <p className="hidden sm:block mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
                 A behind-the-scenes look at how raw materials like cotton, silk, and polyester are transformed into premium yarns. Highlight the production process, quality control, and sustainability efforts.
                 </p>
 

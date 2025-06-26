@@ -65,7 +65,7 @@ const ModalAddressDelete = ({ isOpen, onCancel, onConfirm }) => {
             onClick={onConfirm}
             className="px-5 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
           >
-            Yes, Delete
+            Yes
           </button>
         </div>
       </div>

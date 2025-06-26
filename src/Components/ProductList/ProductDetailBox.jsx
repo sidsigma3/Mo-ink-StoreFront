@@ -170,7 +170,7 @@ const handleAddToCart = async () => {
       {/* Product Card */}
       <div>
         <a
-          className="relative block bg-white rounded-lg border border-gray-100 rounded"
+          className="relative block bg-white  border border-gray-100 rounded"
           style={{ width: '19rem' }}
         >
           {/* SALE Badge */}
@@ -180,7 +180,7 @@ const handleAddToCart = async () => {
   
           {/* Image with Color Overlay original*/}
           <div
-              className="relative rounded-lg"
+              className="relative"
               style={{
                 background: 'linear-gradient(to bottom, #949799, #9b9fa1, #aaaeb0, #aeb2b4)'
               }}
@@ -260,6 +260,7 @@ const handleAddToCart = async () => {
 
           {/* Card Body */}
           <div className="p-3">
+          <div className=''>
             <h5 className="font-medium text-sm flex items-center flex-wrap d-flex justify-center">
             {productName}
             <span className="mx-1 text-xl leading-none px-1">•</span>
@@ -273,11 +274,13 @@ const handleAddToCart = async () => {
               <span className="flex items-center gap-1">
               {color}
             </span>
+            
             <span className="flex items-center gap-1">
-               <span className="mx-1 text-xl leading-none px-1">•</span>
+               <span className="mx-1 text-xl leading-none px-1" >•</span>
               {hexCode?.toUpperCase()}
             </span>
             </h5>
+            </div>
   
             {/* Quantity Row */}
             <div className="d-flex align-items-center justify-content-between mt-3">

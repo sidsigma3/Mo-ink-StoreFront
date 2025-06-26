@@ -7,10 +7,13 @@ import { updateCustomerDetails, getCustomerDetails } from '../../Services/Custom
 import SelectState from '../SelectState/SelectState';
 import Toast from '../../Components/Toast/Toast';
 
-
-
 const ModalAddress = ({
-    show, handleClose, customer, selectedAddress, usedAddressTypes
+    show, 
+    handleClose, 
+    onAddressSaved, // New prop from parent
+    customer, 
+    selectedAddress, 
+    usedAddressTypes
 }) => {
 
     const [formData, setFormData] = useState({
@@ -22,6 +25,9 @@ const ModalAddress = ({
         zipcode: "",
         addressType: "HOME",
     });
+
+    const [toasts, setToasts] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (selectedAddress) {
@@ -44,202 +50,209 @@ const ModalAddress = ({
         }
     }, [selectedAddress, usedAddressTypes]);
 
-    const isDisabled = (type) => usedAddressTypes?.has(type) && !selectedAddress;
-    const [toasts, setToasts] = useState([]);
-    const [isSaveClicked, setIsSaveClicked] = useState(false); 
-    const [showModal, setShowModal] = useState(false);
-    
+    const showToast = (message, type = "error") => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { message, type, id }]);
+        setTimeout(() => {
+            setToasts(prev => prev.filter(t => t.id !== id));
+        }, 3000);
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-
     const handleAddressType = (type) => {
         setFormData({ ...formData, addressType: type });
     };
 
-
-    
-
-            
     const handleSave = async () => {
-        setIsSaveClicked(true);         // Mark save clicked
-        setShowModal(false);            // Close modal
+        setIsSubmitting(true);
 
-    const showToast = (message, type = "error") => {
-        setToasts([{ message, type, id: Date.now() }]); // 🔥 unique toast
-        setTimeout(() => setToasts([]), 3000);
-    };
+        // Validation
+        const requiredFields = ['customerAddress', 'street', 'city', 'state', 'country', 'zipcode', 'addressType'];
+        const emptyFields = requiredFields.filter(field => !formData[field] || formData[field].trim() === '');
+        
+        if (emptyFields.length > 0) {
+            showToast("Please fill all required fields.", "error");
+            setIsSubmitting(false);
+            return;
+        }
 
-    // 🔥 Required fields validation
-    const requiredFields = ['customerAddress', 'street', 'city', 'state', 'country', 'zipcode', 'addressType'];
-    const emptyFields = requiredFields.filter(field => !formData[field] || formData[field].trim() === '');
-    if (emptyFields.length > 0) {
-        showToast("Please fill all required fields.", "error");
-        return;
-    }
+        if (!formData.addressType) {
+            showToast("Please select address type", "error");
+            setIsSubmitting(false);
+            return;
+        }
 
-    if (!formData.addressType) {
-        showToast("Please select address type", "error");
-        return;
-    }
+        const existingAddresses = customer.addresses || [];
 
-    const existingAddresses = customer.addresses || [];
-
-    const exactMatch = existingAddresses.find((addr) =>
-        addr.customerAddress === formData.customerAddress &&
-        addr.street === formData.street &&
-        addr.city === formData.city &&
-        addr.state === formData.state &&
-        addr.country === formData.country &&
-        addr.zipcode === formData.zipcode &&
-        addr.addressType !== formData.addressType
-    );
-
-    if (exactMatch && !selectedAddress) {
-        showToast(`Same address "${exactMatch.addressType}" in use. Add a new one`, "error");
-        return;
-    }
-
-    const alreadyExists = existingAddresses.some(
-        (addr) => addr.addressType === formData.addressType
-    );
-
-    if (alreadyExists && !selectedAddress) {
-        showToast(`${formData.addressType} address already exists.`, "error");
-        return;
-    }
-
-    let updatedAddresses;
-
-    if (selectedAddress) {
-        updatedAddresses = existingAddresses.map((addr) =>
-            addr.addressType === selectedAddress.addressType ? { ...addr, ...formData } : addr
+        // Check for exact match with different address type
+        const exactMatch = existingAddresses.find((addr) =>
+            addr.customerAddress === formData.customerAddress &&
+            addr.street === formData.street &&
+            addr.city === formData.city &&
+            addr.state === formData.state &&
+            addr.country === formData.country &&
+            addr.zipcode === formData.zipcode &&
+            addr.addressType !== formData.addressType
         );
-    } else {
-        updatedAddresses = [...existingAddresses, { ...formData }];
-    }
 
-   const payload = {
-            customerId: customer.customerId,
-            customerName: customer.customerName,
-            phoneNumber: customer.phoneNumber,
-            whatsappNumber: customer.whatsappNumber,
-            email: customer.email,
-            company: customer.company,
-            gstNumber: customer.gstNumber,
-            cancelledCheque: customer.cancelledCheque,
-            customerStatus: customer.customerStatus,
-            segmentIds: customer.segments?.map((s) => s.segmentId) || [],
-            addresses: updatedAddresses,
-            customerAddress: formData.customerAddress,
-            zipcode: formData.zipcode,
-        };
+        if (exactMatch && !selectedAddress) {
+            showToast(`Same address already exists as "${exactMatch.addressType}". Please add a different address.`, "error");
+            setIsSubmitting(false);
+            return;
+        }
+
+        // Check if address type already exists (only for new addresses)
+        const alreadyExists = existingAddresses.some(
+            (addr) => addr.addressType === formData.addressType
+        );
+
+        if (alreadyExists && !selectedAddress) {
+            showToast(`${formData.addressType} address already exists.`, "error");
+            setIsSubmitting(false);
+            return;
+        }
 
         try {
+            let updatedAddresses;
+
+            if (selectedAddress) {
+                // Update existing address
+                updatedAddresses = existingAddresses.map((addr) =>
+                    addr.addressType === selectedAddress.addressType ? { ...addr, ...formData } : addr
+                );
+            } else {
+                // Add new address
+                updatedAddresses = [...existingAddresses, { ...formData }];
+            }
+
+            const payload = {
+                customerId: customer.customerId,
+                customerName: customer.customerName,
+                phoneNumber: customer.phoneNumber,
+                whatsappNumber: customer.whatsappNumber,
+                email: customer.email,
+                company: customer.company,
+                gstNumber: customer.gstNumber,
+                cancelledCheque: customer.cancelledCheque,
+                customerStatus: customer.customerStatus,
+                segmentIds: customer.segments?.map((s) => s.segmentId) || [],
+                addresses: updatedAddresses,
+                customerAddress: formData.customerAddress,
+                zipcode: formData.zipcode,
+            };
+
+            // Save the address
             await updateCustomerDetails(customer.customerId, payload);
 
-            setToasts([{ message: "Address saved successfully!", type: "success", id: Date.now() }]);
-            setTimeout(() => setToasts([]), 3000);
+            // Close modal first
+            handleClose();
 
-                    const onClose = () => {
-            setToasts([]);
-            handleClose(); 
-            };
+            // Then call the parent's success handler (refresh data + show toast)
+            if (onAddressSaved) {
+                await onAddressSaved();
+            }
 
         } catch (error) {
             console.error("Failed to update customer address:", error);
             showToast("Something went wrong while saving address.", "error");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
-
-// const handleModalClose = () => {
-//         if (isSaveClicked) {
-//             handleClose();
-//         } else {
-//             setToasts([]); 
-//             handleClose();
-//         }
-//     };
-    
+    // Clear toasts when modal closes
+    const handleModalClose = () => {
+        setToasts([]);
+        handleClose();
+    };
     
     return (
         <div>
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal show={show} onHide={handleModalClose} centered>
                 <ModalHeader>
-                    <ModalTitle>Add new Address</ModalTitle>
+                    <ModalTitle>
+                        {selectedAddress ? 'Edit Address' : 'Add New Address'}
+                    </ModalTitle>
                 </ModalHeader>
 
                 <ModalBody>
                     <div className='grid grid-cols-2 gap-3'>
-                        {/* <div className='flex flex-col gap-2'>
-                        <label className='font-semibold'>First name</label>
-                        <input className='border-1 rounded p-1' value={customer.customerName}></input>
-                    </div>
-
-                    <div className='flex flex-col gap-2'>
-                        <label className='font-semibold'>Last name</label>
-                        <input className='border-1 rounded p-1'></input>
-                    </div>
-
-                    <div className='flex flex-col gap-2'>
-                        <label className='font-semibold'>WhatsApp number</label>
-                        <input className='border-1 rounded p-1'></input>
-                    </div>
-
-                    <div className='flex flex-col gap-2'>
-                        <label className='font-semibold'>Calling number</label>
-                        <input className='border-1 rounded p-1'></input>
-                    </div> */}
-
                         <div className='flex flex-col gap-2'>
                             <label className='font-semibold'>Company name</label>
-                            <input className='border-1 rounded p-1' value={customer.company} onChange={handleChange}></input>
+                            <input 
+                                className='border-1 rounded p-1' 
+                                value={customer.company} 
+                                onChange={handleChange}
+                                readOnly
+                            />
                         </div>
 
                         <div className='flex flex-col gap-2'>
-                            <label className='font-semibold'>Address</label>
+                            <label className='font-semibold'>Address *</label>
                             <input
                                 className='border-1 rounded p-1'
                                 name="customerAddress"
                                 value={formData.customerAddress}
                                 onChange={handleChange}
-                            
+                                placeholder="Enter address"
                             />
                         </div>
 
-
                         <div className='flex flex-col gap-2'>
-                            <label className='font-semibold'>Apartment, suite, etc</label>
-                            <input className='border-1 rounded p-1' name='street' value={formData.street} onChange={handleChange}></input>
+                            <label className='font-semibold'>Apartment, suite, etc *</label>
+                            <input 
+                                className='border-1 rounded p-1' 
+                                name='street' 
+                                value={formData.street} 
+                                onChange={handleChange}
+                                placeholder="Enter apartment, suite, etc"
+                            />
                         </div>
 
                         <div className='flex flex-col gap-2'>
-                            <label className='font-semibold'>Country / Region</label>
-                            <input className='border-1 rounded p-1' name='country' value={formData.country} onChange={handleChange}></input>
+                            <label className='font-semibold'>Country / Region *</label>
+                            <input 
+                                className='border-1 rounded p-1' 
+                                name='country' 
+                                value={formData.country} 
+                                onChange={handleChange}
+                                placeholder="Enter country"
+                            />
                         </div>
 
                         <div className='flex flex-col gap-2'>
-                            <label className='font-semibold'>State</label> <SelectState value={formData.state} onChange={handleChange} />
+                            <label className='font-semibold'>State *</label> 
+                            <SelectState value={formData.state} onChange={handleChange} />
                         </div>
 
                         <div className='flex flex-col gap-2'>
-                            <label className='font-semibold'>City</label>
-                            <input className='border-1 rounded p-1' name='city' value={formData.city} onChange={handleChange}></input>
+                            <label className='font-semibold'>City *</label>
+                            <input 
+                                className='border-1 rounded p-1' 
+                                name='city' 
+                                value={formData.city} 
+                                onChange={handleChange}
+                                placeholder="Enter city"
+                            />
                         </div>
 
                         <div className='flex flex-col gap-2'>
-                            <label className='font-semibold'>PIN code</label>
-                            <input className='border-1 rounded p-1' name='zipcode' value={formData.zipcode} onChange={handleChange}></input>
+                            <label className='font-semibold'>PIN code *</label>
+                            <input 
+                                className='border-1 rounded p-1' 
+                                name='zipcode' 
+                                value={formData.zipcode} 
+                                onChange={handleChange}
+                                placeholder="Enter PIN code"
+                            />
                         </div>
-
-
                     </div>
 
                     <div>
-                        <h4 className='font-semibold mt-8'>Type of Address</h4>
+                        <h4 className='font-semibold mt-8'>Type of Address *</h4>
                         <div className='flex gap-2 mt-2'>
                             {[
                                 { icon: <BiHomeAlt />, label: "HOME" },
@@ -253,6 +266,7 @@ const ModalAddress = ({
                                 return (
                                     <button
                                         key={label}
+                                        type="button"
                                         onClick={() => !shouldDisable && handleAddressType(label)}
                                         disabled={shouldDisable}
                                         className={`flex gap-2 items-center rounded-full border px-3 py-1 font-semibold transition-all duration-200
@@ -268,26 +282,32 @@ const ModalAddress = ({
                                     </button>
                                 );
                             })}
-
                         </div>
                     </div>
-
                 </ModalBody>
+
                 <ModalFooter className='justify-between'>
                     <button
-                        className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2"
-                        onClick={handleClose}
+                        type="button"
+                        className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 rounded"
+                        onClick={handleModalClose}
+                        disabled={isSubmitting}
                     >
                         CANCEL
                     </button>
-                    <button className='bg-purple-800 text-white px-5 py-2' onClick={handleSave}>
-                        SAVE
+                    <button 
+                        type="button"
+                        className='bg-purple-800 hover:bg-purple-900 text-white px-5 py-2 rounded disabled:bg-purple-400' 
+                        onClick={handleSave}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'SAVING...' : 'SAVE'}
                     </button>
                 </ModalFooter>
             </Modal>
 
-{/* Toast Notification */}
-<div className="fixed top-4 right-4 z-[9999] space-y-2">
+            {/* Toast Notification - Only for validation errors */}
+            <div className="fixed top-4 right-4 z-[9999] space-y-2">
                 {toasts.map((toast) => (
                     <Toast
                         key={toast.id}
@@ -299,7 +319,6 @@ const ModalAddress = ({
                     />
                 ))}
             </div>
-
         </div>
     )
 }

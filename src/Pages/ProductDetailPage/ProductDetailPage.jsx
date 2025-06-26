@@ -50,6 +50,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [toasts, setToasts] = useState([]);
     const [activeIndex, setActiveIndex] = useState(null);
     const [filteredColorsTemp, setFilteredColorsTemp] = useState([]);
+   
 
     const [productColors, setProductColors] = useState([]);
     
@@ -507,19 +508,30 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     });
 
     // Refresh filtered state (for currently selected variantType if needed)
-    setFilteredColorsTemp(
-      updatedVariants.filter(
-        (variant) =>
-          variant.size === size &&
-          variant.variantType === location.state.variantType
-      )
+    const filtered = updatedVariants.filter(
+      (variant) =>
+        variant.size === size &&
+        variant.variantType === location.state.variantType
     );
+
+    // Prepend newly added variants to the top (for current variantType)
+    const newVariantIds = new Set(
+      updatedColorsWithIds
+        .filter((c) => c.variantType === location.state.variantType)
+        .map((c) => c.id)
+    );
+
+    const newVariantsOnTop = filtered.filter((v) => newVariantIds.has(v.id));
+    const remainingVariants = filtered.filter((v) => !newVariantIds.has(v.id));
+
+    setFilteredColorsTemp([...newVariantsOnTop, ...remainingVariants]);
 
     // Optional: Update all products
     const allProductsResponse = await fetchProducts();
     localStorage.setItem("allProducts", JSON.stringify(allProductsResponse.data || []));
 
     await fetchCustomColors();
+  
 
     // setCustomColors((prev) => [...prev, ...updatedColorsWithIds]);
     setTempCustomColors([]);
@@ -608,7 +620,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     console.log(selectedColors)
     console.log(modalSelectedColors)
 
-    
+   
 
 
     return (
@@ -832,9 +844,11 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                                     </span>
                                                     <h4>New color</h4>
                                                 </div>
+
                                                 </>
                                             )}
                                         </div>
+                                              
 
                                         <h4 className="mt-4 text-lg font-semibold ">Available Colors</h4>
                                         <div className="h-[32rem] overflow-y-auto p-2">

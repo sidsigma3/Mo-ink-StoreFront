@@ -223,7 +223,7 @@ const Inqueries = ({ show }) => {
         </div>
       </div>
 
-      <div style={{ height: "40rem", width: "100%", zIndex:"0"  }}>
+      <div style={{ height: "20rem", width: "100%", zIndex:"0"  }}>
         <MapContainer center={location} zoom={zoom} style={{ height: "100%", width: "100%" }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

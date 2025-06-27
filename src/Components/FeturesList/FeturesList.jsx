@@ -58,7 +58,7 @@ const FeaturesList = () => {
               <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md mb-6">
                 {feature.icon}
               </div>
-              <h3 className="text-md md:text-2xl font-semibold text-gray-800  md:mb-4">{feature.title}</h3>
+              <h3 className="text-md md:text-2xl  text-black font-semibold text-center md:mb-4">{feature.title}</h3>
               <p className="hidden sm:block text-md text-gray-500 text-md">{feature.description}</p>
             </div>
           ))}

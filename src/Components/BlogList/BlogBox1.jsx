@@ -8,7 +8,7 @@ const BlogBox1 = () => {
             <img
                 alt="Blog Image"
                 src="https://images.pexels.com/photos/4219611/pexels-photo-4219611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                className="w-30 h-32 md:w-full md:h-48 object-cover
+                className="w-full h-32 md:w-full md:h-48 object-cover
 "
             />
 

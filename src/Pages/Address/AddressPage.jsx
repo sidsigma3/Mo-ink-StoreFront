@@ -183,14 +183,13 @@ const AddressPage = () => {
                     <div className='mt-7'>
                         <ul className='flex flex-col gap-3'>
                             {addresses.map((item, index) => (
-                                <li key={index}>
+                                <li key={index} onClick={() => handleOpenModal(item)} className="cursor-pointer">
                                     <AddressBox
                                         address={item}
                                         name={customer.customerName}
                                         company={customer.company}
                                         phone={customer.phoneNumber}
-                                        onDelete={(event) => handleDeleteAddress(item.addressType, event)}
-                                        onEdit={() => handleOpenModal(item)}
+                                        onDelete={() => handleDeleteAddress(item.addressType)}
                                     />
                                 </li>
                             ))}

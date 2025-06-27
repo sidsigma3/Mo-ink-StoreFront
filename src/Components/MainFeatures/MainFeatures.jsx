@@ -67,7 +67,7 @@ const MainFeatures = () => {
                <Image src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/delivery-service.png?updatedAt=1748693908545" alt="feature-icon" width={100} height={100} />
           </div>
             <h3 className="text-md md:text-2xl  text-black font-semibold text-center mt-10">
-              National-wide Delivery
+              Nationwide Delivery
             </h3>
             <p className="hidden sm:block text-md font-normal text-black/60 text-center mt-2 mb-2">
               Reliable nation wide shipping ensures timely delivery for all orders.

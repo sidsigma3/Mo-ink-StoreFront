@@ -5,6 +5,8 @@ import ToggleBtn from "../../../Components/Buttons/ToggleButton/ToggleBtn";
 import { useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../Services/CustomerService";
 import { useAppContext } from "../../../Utils/commoncontext";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 const LoginPage = ({ togglePage, setAuthStatus }) => {
     const { updateCartAndWishlistCounts} = useAppContext();
@@ -86,22 +88,22 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                     <label className="block text-l mb-1">Password</label>
                     <div className="relative">
                     <input
-    type={showPassword ? "text" : "password"}
-    placeholder="Enter your password"
-    className="w-full px-4 py-1 rounded-full mb-2 text-left text-black focus:outline-none pr-10"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-  />
-  <button
-    type="button"
-    className="absolute right-3 top-[45%] -translate-y-1/2 text-gray-500"
-    onClick={() => setShowPassword(!showPassword)}
-  >
-    <div className="flex items-center justify-center h-5 w-5">
-      {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
-    </div>
-  </button>
-                    </div>
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        className="w-full px-4 py-1 rounded-full mb-2 text-left text-black focus:outline-none pr-10"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button
+                        type="button"
+                        className="absolute right-3 top-[45%] -translate-y-1/2 text-gray-500"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        <div className="flex items-center justify-center h-5 w-5">
+                        {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+                        </div>
+                    </button>
+                </div>
 
                     {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
 
@@ -124,16 +126,19 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
                     <div className="text-center text-xs my-2 text-gray-300">Or login with</div>
 
-                    <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
-                        <button className="flex items-center gap-2 bg-white text-black px-2 lg:px-4 py-2 rounded-full text-sm w-3/5 justify-center">
-                            <img
-                                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                                alt="Google"
-                                className="w-4 h-4"
+                   <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+                        <div className="w-3/5 rounded-xl">
+                            <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                                console.log(credentialResponse.credential);
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
                             />
-                            Sign in with Google
-                        </button>
-                        <button className="bg-white p-2 rounded-full">
+                        </div>
+
+                        {/* <button className="bg-white p-2 rounded-full">
                             <img
                                 src="https://www.svgrepo.com/show/448224/facebook.svg"
                                 alt="Facebook"
@@ -146,7 +151,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                                 alt="Apple"
                                 className="w-5 h-5"
                             />
-                        </button>
+                        </button> */}
                     </div>
                 </form>
             </div>

@@ -62,7 +62,7 @@ export default function MainProcess() {
           className="flex flex-col items-center text-center p-4 md:p-6 border border-gray-200 rounded-xl bg-white"
         >
           <img src={step.image} alt={step.title} className="h-20 md:h-40 mb-4" />
-          <h3 className="text-sm md:text-2xl font-semibold text-gray-800 mb-2">{step.title}</h3>
+          <h3 className="text-md md:text-2xl  text-black font-semibold text-center   mb-2">{step.title}</h3>
           <p className="hidden sm:block text-sm md:text-md text-gray-500 leading-relaxed">{step.description}</p>
         </div>
 

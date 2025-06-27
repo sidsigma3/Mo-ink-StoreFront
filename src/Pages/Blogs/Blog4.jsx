@@ -49,7 +49,7 @@ const Blog4 = () => {
       </div>
 
       <div className="prose prose-lg max-w-none">
-        <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+        <p className="text-gray-600 mb-8 leading-relaxed">
           Not all yarn formats are created equal. The choice between a yarn cone and a hank may seem minor, but it can greatly impact your production efficiency, dyeing precision, and weaving style.
         </p>
 

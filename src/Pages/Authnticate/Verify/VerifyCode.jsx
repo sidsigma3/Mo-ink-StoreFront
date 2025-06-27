@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 const VerifyCode = () => {
     const [code, setCode] = useState("");
@@ -71,16 +73,18 @@ const VerifyCode = () => {
 
                 <div className="text-center text-xs my-4 text-gray-300">Or login with</div>
 
-                <div className="flex flex-row justify-center items-center gap-2">
-                    <button className="flex items-center gap-2 bg-white text-black px-4 py-1 rounded-full text-sm">
-                        <img
-                            src="https://www.svgrepo.com/show/475656/google-color.svg"
-                            alt="Google"
-                            className="w-4 h-4"
-                        />
-                        Sign in with Google
-                    </button>
-                    <button className="bg-white p-2 rounded-full">
+                 <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+                        <div className="w-3/5 rounded-xl">
+                            <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                                console.log(credentialResponse.credential);
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                            />
+                        </div>
+                    {/* <button className="bg-white p-2 rounded-full">
                         <img
                             src="https://www.svgrepo.com/show/448224/facebook.svg"
                             alt="Facebook"
@@ -93,7 +97,7 @@ const VerifyCode = () => {
                             alt="Apple"
                             className="w-5 h-5"
                         />
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </div>

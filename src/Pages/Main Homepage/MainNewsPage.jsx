@@ -64,7 +64,7 @@ useEffect(() => {
 
 
   return (
-    <div className=" bg-white text-gray-800">
+    <div className=" bg-white text-gray-800 overflow-hidden">
       <div className='px-6 md:px-14 py-1 md:py-3'> <MainHeader></MainHeader></div>
         <div
       className="relative h-[200px] lg:h-[400px] bg-center bg-cover flex items-center justify-center text-center overflow-hidden"

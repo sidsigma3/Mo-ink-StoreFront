@@ -5,6 +5,8 @@ import { otpVerify, otpSend } from "../../../Services/CustomerService";
 import { useLocation } from "react-router-dom";
 import { createCustomer } from "../../../Services/CustomerService";
 import ModalOTPVerified from "../../../Components/Modal/ModalOTPVerified";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 const OTP = () => {
   const location = useLocation();
@@ -262,16 +264,18 @@ const OTP = () => {
 
         <div className="text-center text-xs my-3 text-gray-300">Or login with</div>
 
-        <div className="flex flex-row justify-center items-center gap-2">
-          <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm hover:bg-gray-100 transition-colors">
-            <img
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              alt="Google"
-              className="w-4 h-4"
-            />
-            Sign in with Google
-          </button>
-          <button className="bg-white p-2 rounded-full hover:bg-gray-100 transition-colors">
+       <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+                               <div className="w-3/5 rounded-full">
+                                   <GoogleLogin
+                                   onSuccess={(credentialResponse) => {
+                                       console.log(credentialResponse.credential);
+                                   }}
+                                   onError={() => {
+                                       console.log('Login Failed');
+                                   }}
+                                   />
+                               </div>
+          {/* <button className="bg-white p-2 rounded-full hover:bg-gray-100 transition-colors">
             <img
               src="https://www.svgrepo.com/show/448224/facebook.svg"
               alt="Facebook"
@@ -284,7 +288,7 @@ const OTP = () => {
               alt="Apple"
               className="w-5 h-5"
             />
-          </button>
+          </button> */}
         </div>
       </div>
 

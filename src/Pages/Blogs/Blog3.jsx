@@ -48,7 +48,7 @@ const Blog3 = () => {
             </div>
 
             <div className="prose prose-lg max-w-none">
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-gray-600 mb-8 leading-relaxed">
                 Color isn't just added—it’s curated. At Ink n Dyes the yarn dyeing process is an artful fusion of chemical mastery and creative vision. With over 1,000 vibrant yarn colors, we empower textile designers and manufacturers to bring imagination to life—one strand at a time.
               </p>
 

@@ -49,7 +49,7 @@ const Blog2 = () => {
             </div>
 
             <div className="prose prose-lg max-w-none">
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-gray-600 mb-8 leading-relaxed">
                 Yarn isn't just spun—it’s engineered. At Ink n Dyes, we believe in quality from the first strand. Our yarn manufacturing process is a finely tuned combination of craftsmanship and innovation, designed to produce yarns that deliver strength, consistency, and visual perfection.
               </p>
 

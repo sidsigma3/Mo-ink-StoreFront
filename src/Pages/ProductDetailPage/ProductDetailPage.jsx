@@ -20,6 +20,8 @@ import Toast from '../../Components/Toast/Toast';
 import namer from 'color-namer';
 import { useAppContext } from '../../Utils/commoncontext'
 import { getColorLibraryByProductId , getUnusedActiveColors } from '../../Services/ColorService'
+import { IoIosArrowBack } from "react-icons/io";
+
 
 
 
@@ -631,7 +633,17 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
 
             <div class="px-6 md:px-14 py-3">
+ 
 
+                <div className=' flex justify-start gap-4'>
+                <button
+                  onClick={() => navigate('/category')}
+                  className='text-xl rounded-md border border-purple-800 p-2 text-purple-800 hover:bg-purple-100 transition'
+                  aria-label="Go Back to Category"
+                >
+                  <IoIosArrowBack />
+                </button>
+              </div>
 
                 <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-8 mt-6">
                    <div class="lg:col-span-3">

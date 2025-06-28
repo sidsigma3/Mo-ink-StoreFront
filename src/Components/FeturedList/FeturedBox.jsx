@@ -88,7 +88,7 @@ const mobileView = (
           <img
             src={imageSrc}
             alt={productName}
-            className="object-contain h-full w-full"
+            className="object-contain h-full w-full transition-transform duration-500 ease-in-out hover:scale-110"
           />
         </div>
 

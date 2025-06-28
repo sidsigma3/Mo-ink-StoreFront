@@ -223,17 +223,18 @@ const Inqueries = ({ show }) => {
         </div>
       </div>
 
-      <div style={{ height: "20rem", width: "100%", zIndex:"0"  }}>
-        <MapContainer center={location} zoom={zoom} style={{ height: "100%", width: "100%" }}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker position={location} icon={customIcon}>
-            <Popup>You are here</Popup>
-          </Marker>
-        </MapContainer>
-      </div>
+      <div className="w-full z-0 h-[20rem] md:h-[40rem]">
+      <MapContainer center={location} zoom={zoom} className="h-full w-full">
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Marker position={location} icon={customIcon}>
+          <Popup>You are here</Popup>
+        </Marker>
+      </MapContainer>
+    </div>
+
 
 
       {/* Toast Notification */}

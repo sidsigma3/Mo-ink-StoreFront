@@ -18,6 +18,8 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import ModalWelcome from '../../Components/Modal/ModalWelcome'
 import { getCart } from '../../Services/CartService'
 import { getWishlist } from '../../Services/WishlistService'
+import MarqueeText from '../../Components/Banner/MarqueeText'
+import FeaturedBySize from '../../Components/FeturesList/FeaturedBySize'
 
 const LandingPage = () => {
 
@@ -64,11 +66,13 @@ const LandingPage = () => {
       <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader /></div>
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar /></div>
       <div className='md:px-14 py-3'> <Banner /></div>
+      <div className='py-3'> <MarqueeText /></div>
       <div className='pt-3 md:py-3'><FeturedList /></div>
+      {/* <div className='pt-3 md:py-3'><FeaturedBySize /></div> */}
       <div className='mt-5'> <ProductList /></div>
       <div className='px-6 md:px-14 pt-20 pb-20'> <FeturesList_LandingPage /></div>
       <div className='px-6 md:px-14 py-3 mt-10 overflow-auto'> <CtaCard /></div>
-      <div className='mt-10'> <Testimonial /></div>
+      <div className=' py-3 mt-10'> <Testimonial /></div>
       <div className='px-6 md:px-14 py-3 mt-10'> <BlogList /></div>
       <div className='px-6 md:px-14 py-3 mt-10 '> <Inqueries></Inqueries></div>
       <div className='px-6 md:px-14 py-3 mt-10'><Cta /></div>

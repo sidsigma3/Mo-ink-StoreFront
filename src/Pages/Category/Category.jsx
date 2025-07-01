@@ -198,6 +198,7 @@ const filteredVariants = useMemo(() => {
         variants: [],
         price: variant.pricePerKg,
         markupPrice: variant.markupPricePerKg,
+        variantDescription:variant.variantDescription,
       };
     }
     grouped[key].variants.push(variant);
@@ -586,6 +587,7 @@ const filteredVariants = useMemo(() => {
             price={combo.price}
             product={combo.product}
             markupPrice={combo.markupPrice}
+            variantDescription={combo.variantDescription}
           />
         ))}
               

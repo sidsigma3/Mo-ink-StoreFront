@@ -31,7 +31,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [isInCart, setIsInCart] = useState();
     const [isWishlisted, setIsWishlisted] = useState();
     const [justRemoved, setJustRemoved] = useState();
-    const { product, size, color, price ,variantType , markupPrice} = location.state || {};
+    const { product, size, color, price ,variantType , markupPrice ,variantDescription } = location.state || {};
     const [filteredColors, setFilteredColors] = useState([]);
     const [moreColors, setMoreColors] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,7 +63,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
           title: "Product Description",
           content: (
             <p className="text-md text-gray-600 mt-4">
-              {product.productDescription || "No description available."}
+              { variantDescription || "No description available."}
             </p>
           ),
         },

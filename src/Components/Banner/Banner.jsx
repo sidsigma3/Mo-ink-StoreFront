@@ -12,18 +12,34 @@ const Banner = () => {
   const navigate = useNavigate()
 
   // Updated main banner items with the new image
-  const mainBannerItems = [
-    { 
+const mainBannerItems = [
+   { 
       title: "Crafting Perfection In Every Thread", 
       desc: "Discover vibrant, versatile, and durable yarns for every project", 
-      img: "/images/banner-1.png" 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/5.png?updatedAt=1751358588344" 
     },
     { 
       title: "Premium Quality Yarns", 
       desc: "Experience excellence in every fiber we create", 
-      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Banner.png?updatedAt=1745685185559" 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/4.png?updatedAt=1751358589735" 
+    },
+    { 
+      title: "Softness Meets Durability", 
+      desc: "Knit comfort and resilience into every handmade creation",
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/3.png?updatedAt=1751358589775" 
+    },
+    { 
+      title: "Vibrant Shades. Lasting Texture.", 
+      desc: "Unleash your creativity with richly dyed, long-lasting threads", 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/6.png?updatedAt=1751358589601" 
+    },
+    { 
+      title: "Threads That Inspire Passion", 
+      desc: "Feel the difference with yarns spun for perfection and beauty", 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/banner-1.png?updatedAt=1751358589704" 
     }
-  ];
+];
+
 
   const bannerItems = [
     { title: "Excellence Woven In", desc: "We craft yarns to perfection", img: "banner-2.png" },
@@ -49,14 +65,14 @@ const Banner = () => {
                   <div className="text-left">
                     <h2 className="text-2xl font-bold text-black md:text-3xl">
                       {item.title.includes('In Every Thread') ? (
-                        <>Crafting Perfection<br /> In Every Thread</>
+                        <>Crafting Perfection In Every Thread</>
                       ) : (
                         item.title
                       )}
                     </h2>
                     <p className="text-grey-700 md:mt-4">
                       {item.desc.includes('yarns for every project') ? (
-                        <>Discover vibrant, versatile, and durable<br /> yarns for every project</>
+                        <>Discover vibrant, versatile, and durable yarns for every project</>
                       ) : (
                         item.desc
                       )}
@@ -108,7 +124,7 @@ const Banner = () => {
             autoplay={{ delay: 2000, disableOnInteraction: false }}
             pagination={{ clickable: true }}
             modules={[Pagination, Autoplay]}
-            className="h-full" 
+            className="h-full " 
           >
             {bannerItems.map((item, index) => (
               <SwiperSlide key={index} className="h-full">

@@ -244,12 +244,12 @@ const [toasts, setToasts] = useState([]);
 
   return (
     <div
-            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
+            className="w-screen h-screen bg-cover bg-center  bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
             <div
-        className="absolute inset-0 bg-center bg-cover filter blur-sm z-0"
+        className="absolute inset-0 bg-center opacity-40 bg-no-repeat bg-cover filter blur-sm z-0"
         style={{
-          backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
-        }}
+                    backgroundImage: "url('https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/dddepth-198.jpg?updatedAt=1751281331520')",
+                }}
       ></div>
       {/* Logo */}
       <div className="absolute top-4 left-4 lg:left-8 lg:top-8 flex justify-center lg:justify-start w-full lg:w-auto pr-4">
@@ -261,8 +261,8 @@ const [toasts, setToasts] = useState([]);
       </div>
 
       {/* Auth Box */}
-      <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 w-full max-w-md sm:max-w-lg md:max-w-xl text-white backdrop-blur-md overflow-y-auto max-h-[90vh]">
-        <h3 className="text-center text-2xl font-bold mb-4">Welcome to Ink N Dyes!</h3>
+      <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white  w-full max-w-md sm:max-w-lg md:max-w-xl text-white backdrop-blur-md overflow-y-auto max-h-[90vh]">
+        <h3 className="text-center text-2xl text-dark font-bold mb-4">Welcome to Ink N Dyes!</h3>
 
         <div className="flex justify-center mb-4 bg-white rounded-full overflow-hidden w-full max-w-xs mx-auto">
           <button
@@ -276,16 +276,16 @@ const [toasts, setToasts] = useState([]);
           </button>
         </div>
 
-        <p className="text-center text-gray-300 text-l sm:text-l mb-6 px-2">
+        <p className="text-center text-gray-600 text-l sm:text-l mb-6 px-2">
           Create your account to get started
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-2">
+        <form onSubmit={handleSubmit} className="">
         <div className="flex gap-3 w-full">
-        <div className="flex flex-col basis-1/2">
-          <label>First Name</label>
+        <div className="flex flex-col mb-4 basis-1/2">
+          {/* <label className="block text-dark text-l font-semibold mb-1">First Name</label> */}
           <input
-            className="login-input rounded-full text-black px-4 py-1 w-full"
+            className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-2 w-full"
             placeholder="First name"
             name="firstName"
             value={formData.firstName}
@@ -295,9 +295,9 @@ const [toasts, setToasts] = useState([]);
         </div>
 
         <div className="flex flex-col basis-1/2">
-          <label>Last Name</label>
+          {/* <label className="block text-dark text-l font-semibold mb-1">Last Name</label> */}
           <input
-            className="login-input rounded-full text-black px-4 py-1 w-full"
+            className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-2 w-full"
             placeholder="Last name"
             name="lastName"
             value={formData.lastName}
@@ -307,11 +307,11 @@ const [toasts, setToasts] = useState([]);
       </div>
 
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex flex-col w-full">
-              <label className="">Email</label>
+          <div className="flex flex-col sm:flex-row md:gap-4">
+            <div className="flex flex-col w-full mb-4">
+              {/* <label className="block text-dark text-l font-semibold mb-1">Email</label> */}
               <input
-                className="login-input rounded-full text-black px-4 py-1"
+                className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-2"
                 placeholder="Email"
                 name="email"
                 value={formData.email}
@@ -320,10 +320,10 @@ const [toasts, setToasts] = useState([]);
               />
             </div>
 
-            <div className="flex flex-col w-full relative">
-              <label>GST Number</label>
+            <div className="flex flex-col w-full relative mb-4">
+              {/* <label className="block text-dark text-l font-semibold mb-1">GST Number</label> */}
               <input
-                className="login-input rounded-full text-black px-4 py-1 w-full  pr-10"
+                className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-2 w-full  pr-10"
                 placeholder="GST number"
                 name="gstNumber"
                 value={formData.gstNumber}
@@ -345,11 +345,11 @@ const [toasts, setToasts] = useState([]);
             </div>
           </div>
 
-          <div className="flex gap-3 w-full">
+          <div className="flex gap-3 w-full mb-4">
         <div className="flex flex-col basis-1/2">
-            <label>Phone</label>
+            {/* <label className="block text-dark text-l font-semibold mb-1">Phone</label> */}
             <input
-              className="login-input rounded-full text-black px-4 py-1 w-full"
+              className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-2 w-full"
               placeholder="Phone number"
               name="phoneNumber"
               value={formData.phoneNumber}
@@ -358,9 +358,9 @@ const [toasts, setToasts] = useState([]);
           </div>
 
           <div className="flex flex-col basis-1/2">
-            <label>WhatsApp</label>
+            {/* <label className="block text-dark text-l font-semibold mb-1">WhatsApp</label> */}
             <input
-              className="login-input rounded-full text-black px-4 py-1 w-full"
+              className="login-input rounded-full  px-4 py-2 w-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="WhatsApp number"
               name="whatsappNumber"
               value={formData.whatsappNumber}
@@ -369,12 +369,12 @@ const [toasts, setToasts] = useState([]);
           </div>
         </div>
 
-           <div className="flex gap-3 w-full">
+           <div className="flex gap-3 w-full mb-3">
         <div className="flex flex-col basis-1/2">
-              <label className="">Password</label>
+              {/* <label className="block text-dark text-l font-semibold mb-1">Password</label> */}
               <input
                 type="password"
-              className="login-input rounded-full text-black px-4 py-1 w-full"
+              className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-2 w-full"
                 placeholder="Password"
                 name="password"
                 value={formData.password}
@@ -385,9 +385,9 @@ const [toasts, setToasts] = useState([]);
 
           {/* Company Field */}
           <div className="flex flex-col basis-1/2">
-            <label>Company</label>
+            {/* <label className="block text-dark text-l font-semibold mb-1">Company</label> */}
             <input
-              className="login-input rounded-full text-black px-4 py-1 w-full"
+              className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-2 w-full"
               placeholder="Company"
               name="company"
               value={formData.company}
@@ -398,7 +398,7 @@ const [toasts, setToasts] = useState([]);
 
 
 
-              <div className="flex flex-row justify-between items-center text-sm text-gray-300 mb-4">
+              <div className="flex flex-row justify-between items-center text-sm text-gray-600 mb-4">
                     <label className="flex items-center">
                     <input
                       type="checkbox"
@@ -414,7 +414,7 @@ const [toasts, setToasts] = useState([]);
           <button
                         type="submit"
 
-                        className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
+                        className="w-full bg-purple-800 text-white rounded-full py-2 font-medium"
                         onClick={() => handleSubmit }
 
                     >

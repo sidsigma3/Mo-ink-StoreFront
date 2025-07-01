@@ -18,6 +18,8 @@ import MainHeader from '../../Components/MainHeader/MainHeader'
 import MainMarketing from '../../Components/MainMarketing/MainMarketing'
 import Inqueries from '../../Components/Inqueries/Inqueries'
 import MainNews from "../../Components/MainNews/MainNews";
+import TestimonialStats from "../../Components/Testimonial/Testimonial";
+import Testimonial from "../../Components/Testimonial/Testimonial";
 
 
 const MainHomepage = () => {
@@ -45,6 +47,7 @@ const MainHomepage = () => {
         <div className='pt-28 pb-6'> <MainParallax></MainParallax> </div>
         <div className='px-6 md:px-14 pt-20 pb-20 '> <FeturesList></FeturesList></div>
         <div className=' py-6'> <MainNews></MainNews> </div>
+        <div className=' py-3 mt-10'> <Testimonial /></div>
         <div className='px-6 md:px-14 py-6 mt-20 '> <Inqueries></Inqueries></div>
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>

@@ -562,9 +562,8 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     //     item.hexCode.toLowerCase().includes(searchColor)
     // );
 
-
-    const visibleColors = color.slice(0, 4); // Only take the first 4 colors
-    const hasMore = color.length > 4;
+    const visibleColors = Array.isArray(color) ? color.slice(0, 4) : [];
+    const hasMore = Array.isArray(color) && color.length > 4;
 
 
     const handleSelectCustomColor = (item) => {

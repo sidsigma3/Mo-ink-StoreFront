@@ -7,7 +7,7 @@ const BlogBox4 = () => {
         <article className="bg-white border border-grey-100 rounded-2xl overflow-hidden transition-transform transform hover:scale-95">
             <img
                 alt="Blog Image"
-                src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/WhatsApp%20Image%202025-05-01%20at%205.15.45%20PM.jpeg?updatedAt=1746100149336"
+                src="https://images.pexels.com/photos/1122844/pexels-photo-1122844.jpeg"
                 className="w-full h-32 md:w-full md:h-48 object-cover"
             />
 

@@ -38,9 +38,10 @@ const ForgotPasswordPage = () => {
         <div
             className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative">
             <div
-        className="absolute inset-0 bg-center bg-cover filter blur-sm z-0"
+        className="absolute inset-0 opacity-40 bg-center bg-cover filter blur-sm z-0"
         style={{
-          backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+          backgroundImage:
+            "url('https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/dddepth-198.jpg?updatedAt=1751281331520')",
         }}
       ></div>
             {/* Logo */}
@@ -53,25 +54,25 @@ const ForgotPasswordPage = () => {
             </div>
 
             {/* Forgot Password Box */}
-            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 w-full max-w-md sm:max-w-lg text-white backdrop-blur-md">
+            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white w-full max-w-md sm:max-w-lg text-white backdrop-blur-md">
                 <button
-                    className="text-sm text-white mb-4 hover:underline"
+                    className="text-sm text-dark mb-4 hover:underline"
                     onClick={() => navigate("/login")}
                 >
                     &larr; Back to login
                 </button>
 
-                <h2 className="text-2xl font-bold mb-2">Forgot your password?</h2>
-                <p className="text-l text-gray-200 mb-6">
+                <h2 className="text-2xl text-dark font-bold mb-2">Forgot your password?</h2>
+                <p className="text-l text-gray-600 mb-6">
                     Don’t worry, happens to all of us. Enter your email below to recover your password
                 </p>
 
                 <form onSubmit={handleSubmit}>
-                    <label className="block text-l mb-1">Email Address</label>
+                    {/* <label className="block text-l mb-1">Email Address</label> */}
                     <input
                         type="email"
                         placeholder="Enter your Email Address"
-                        className="w-full px-4 py-1 rounded-full mb-4 text-black focus:outline-none"
+                        className="w-full px-4 py-2 mb-4 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required  
@@ -79,7 +80,7 @@ const ForgotPasswordPage = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-purple-700 text-white rounded-full py-1 font-medium"
+                        className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
                     >
                         Submit
                     </button>
@@ -88,7 +89,7 @@ const ForgotPasswordPage = () => {
                     {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
                 </form>
 
-                <div className="text-center text-xs my-2 text-gray-300">Or login with</div>
+                {/* <div className="text-center text-xs my-2 text-gray-300">Or login with</div>
 
                 <div className="flex flex-row justify-center items-center gap-2">
                     <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm">
@@ -113,7 +114,7 @@ const ForgotPasswordPage = () => {
                             className="w-5 h-5"
                         />
                     </button>
-                </div>
+                </div> */}
             </div>
               {/* Toast Notification */}
                  <div className="fixed top-4 right-4 z-50 space-y-2">

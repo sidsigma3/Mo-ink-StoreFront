@@ -7,7 +7,7 @@ const BlogBox1 = () => {
         <article className= "bg-white border border-grey-100 rounded-2xl overflow-hidden transition-transform transform hover:scale-95">
             <img
                 alt="Blog Image"
-                src="https://images.pexels.com/photos/4219611/pexels-photo-4219611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://images.pexels.com/photos/845263/pexels-photo-845263.jpeg"
                 className="w-full h-32 md:w-full md:h-48 object-cover
 "
             />

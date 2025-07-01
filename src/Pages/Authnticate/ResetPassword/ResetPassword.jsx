@@ -68,10 +68,11 @@ try {
         <div
         className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative">
         <div
-    className="absolute inset-0 bg-center bg-cover filter blur-sm z-0"
-    style={{
-      backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
-    }}
+    className="absolute inset-0 opacity-40 bg-center bg-cover filter blur-sm z-0"
+        style={{
+          backgroundImage:
+            "url('https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/dddepth-198.jpg?updatedAt=1751281331520')",
+        }}
   ></div>
             {/* Logo */}
             <div className="absolute top-4 left-4 lg:left-8 lg:top-8 flex justify-center lg:justify-start w-full lg:w-auto pr-4">
@@ -85,48 +86,48 @@ try {
           
 
             {/* Reset Password Box */}
-            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 w-full max-w-md sm:max-w-lg text-white backdrop-blur-md">
+            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white  w-full max-w-md sm:max-w-lg text-white backdrop-blur-md">
                 <button
-                    className="text-sm text-white mb-4 hover:underline"
+                    className="text-sm text-dark mb-4 hover:underline"
                     onClick={() => navigate("/login")}
                 >
                     &larr; Back to login
                 </button>
 
-                <h2 className="text-2xl font-bold mb-2">Set a password</h2>
-                <p className="text-l text-gray-200 mb-6">
+                <h2 className="text-2xl text-dark font-bold mb-2">Set a password</h2>
+                <p className="text-l text-gray-600 mb-6">
                     Your previous password has been reset. Please set a new password for your account.
                 </p>
 
                 <form onSubmit={handleSubmit}>
-                    <label className="block text-l mb-1">New password</label>
-                      <div className="relative"> 
+                    {/* <label className="block text-l mb-1">New password</label> */}
+                      <div className="relative mb-4"> 
                         <input
                           type={showNewPassword ? "text" : "password"} 
                           placeholder="Create a strong password"
-                          className="w-full px-4 py-1 rounded-full mb-2 text-black focus:outline-none pr-10"
+                          className="w-full px-4 py-2 mb-2 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                           value={newPassword}
                           onChange={(e) => setPassword(e.target.value)}
                         />
                         <span
-                          className="absolute right-3 top-1.5 cursor-pointer text-gray-600" 
+                          className="absolute right-3 top-[22%] cursor-pointer text-gray-600" 
                           onClick={() => setShowNewPassword((prev) => !prev)} 
                         >
                           {showNewPassword ?<EyeOff size={22} /> : <Eye size={22} />}
                         </span>
                       </div>
 
-                    <label className="block text-l mb-1">Confirm password</label>
-                    <div className="relative"> 
+                    {/* <label className="block text-l mb-1">Confirm password</label> */}
+                    <div className="relative mb-4"> 
                       <input
                         type={showConfirmPassword ? "text" : "password"} 
                         placeholder="Re-enter the password"
-                        className="w-full px-4 py-1 rounded-full mb-2 text-black focus:outline-none pr-10" 
+                        className="w-full px-4 py-2 mb-2 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                       />
                       <span
-                          className="absolute right-3 top-1.5 cursor-pointer text-gray-600" 
+                          className="absolute right-3 top-[22%] cursor-pointer text-gray-600" 
                         onClick={() => setShowConfirmPassword((prev) => !prev)} 
                       >
                         {showConfirmPassword ? <EyeOff size={22} /> : <Eye size={22} />   }    
@@ -135,7 +136,7 @@ try {
 
                     <button
                         type="submit"
-                        className="w-full bg-purple-700 mt-4 text-white rounded-full py-1 font-medium"
+                        className="w-full bg-purple-700 text-white rounded-full py-2 font-medium"
                     >
                         Save
                     </button>

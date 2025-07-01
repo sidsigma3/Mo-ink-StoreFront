@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../../Services/ProductService';
 
 const backendUrl = process.env.REACT_APP_IMAGE_URL;
 
-// Build full image path with fallback
+// Helper functions
 const getImageUrl = (path) => {
   if (!path || typeof path !== 'string' || path.trim() === '' || path.includes('undefined')) {
     return '/placeholder.png';
@@ -13,9 +14,120 @@ const getImageUrl = (path) => {
     : `${backendUrl}${path.startsWith('/') ? path : `/${path}`}`;
 };
 
+const CATEGORY_IMAGES = {
+  'cotton': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%2017078565.png?updatedAt=1751277730814',
+  'bamboo': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478566.png?updatedAt=1751278205292',
+  'micro modal': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478563.png?updatedAt=1751278205521',
+  'excel': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478564.png?updatedAt=1751278205379'
+};
+
+const getCategoryImage = (productName) => {
+  const lowerName = productName.toLowerCase();
+  for (const [key, value] of Object.entries(CATEGORY_IMAGES)) {
+    if (lowerName.includes(key)) {
+      return value;
+    }
+  }
+  return '/placeholder.png';
+};
+
+// Card Component
+const CardItem = ({ card, onClick }) => {
+  const categoryImage = getCategoryImage(card.productName);
+  
+  return (
+    <div 
+      className="border-3 rounded-full p-2 bg-white flex items-center gap-4  hover:bg-purple-800 hover:border-purple-800 transition-colors duration-200 cursor-pointer w-[370px] flex-shrink-0"
+      onClick={onClick}
+    >
+      <div className="w-24 h-24 rounded-full overflow-hidden border-3 border-gray-200 hover:border-purple-800 transition-colors duration-200 shrink-0">
+        <img 
+          src={categoryImage} 
+          alt={card.productName}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      <div className="flex-1">
+        <h2 className="text-2xl font-bold mb-1 text-purple-800">{card.productName}</h2>
+        <p className="text-sm mb-2 text-gray-700">
+          Size: <strong>{card.size.replace(/[^0-9 /]/g, '')}</strong> &nbsp; | &nbsp;
+          Type: <strong className={card.variantType.toLowerCase() === 'cone' 
+                                      ? 'text-pink-500' 
+                                      : card.variantType.toLowerCase() === 'hank' 
+                                        ? 'text-amber-500' 
+                                        : ''
+                                  }>
+                                    {card.variantType}
+                </strong>
+         </p>
+        <div className="flex items-center mt-1 mb-2">
+          {card.variants
+            .map((variant) => {
+              const rawImage =
+                variant.color?.colorImage ||
+                variant.productImage?.find((img) =>
+                  img.toLowerCase().includes(variant.variantType?.toLowerCase())
+                ) ||
+                variant.productImage?.[0];
+
+              const imageSrc = getImageUrl(rawImage);
+
+              if (!rawImage || imageSrc.includes('placeholder')) return null;
+
+              return { variant, imageSrc };
+            })
+            .filter(Boolean)
+            .slice(0, 5)
+            .map(({ variant, imageSrc }, index) => (
+              <div
+                key={variant.id || index}
+                className="w-8 h-8 rounded-full border-2 border-white overflow-hidden -ml-2 first:ml-0"
+                style={{ zIndex: 10 - index }}
+              >
+                <img
+                  src={imageSrc}
+                  alt={variant.color?.colorName || 'Color'}
+                  className="w-full h-full object-cover transform scale-[12] translate-x-2"
+                />
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const FeaturedBySize = () => {
   const [variantCards, setVariantCards] = useState([]);
+  const navigate = useNavigate();
+  const sliderRef1 = useRef(null);
+  const sliderRef2 = useRef(null);
 
+  // Single navigation for both sliders
+  const handlePrevious = () => {
+    [sliderRef1, sliderRef2].forEach(ref => {
+      if (ref.current) {
+        ref.current.scrollBy({
+          left: -500,
+          behavior: 'smooth',
+        });
+      }
+    });
+  };
+
+  const handleNext = () => {
+    [sliderRef1, sliderRef2].forEach(ref => {
+      if (ref.current) {
+        ref.current.scrollBy({
+          left: 500,
+          behavior: 'smooth',
+        });
+      }
+    });
+  };
+
+  // Load products
   useEffect(() => {
     const loadVariants = async () => {
       const res = await fetchProducts();
@@ -34,6 +146,7 @@ const FeaturedBySize = () => {
 
           if (!grouped[key]) {
             grouped[key] = {
+              productId: product.id,
               size: variant.size,
               variantType: variant.variantType,
               productName: product.productName,
@@ -41,6 +154,7 @@ const FeaturedBySize = () => {
               variants: [],
               price: variant.pricePerKg,
               markupPrice: variant.markupPricePerKg,
+              product: product
             };
           }
 
@@ -59,66 +173,94 @@ const FeaturedBySize = () => {
     loadVariants();
   }, []);
 
+  const handleCardClick = (card) => {
+    navigate("/productDetails", {
+      state: { 
+        product: card.product,
+        size: card.size,
+        variantType: card.variantType,
+        color: card.variants[0]?.color,
+        price: card.price,
+        markupPrice: card.markupPrice
+      },
+    });
+  };
+
+  // Split into two rows
+  const halfLength = Math.ceil(variantCards.length / 2);
+  const row1Cards = variantCards.slice(0, halfLength);
+  const row2Cards = variantCards.slice(halfLength);
+
   return (
-    <div className="px-6 md:px-14 py-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {variantCards.map((card, i) => (
-        <div key={i} className="border rounded-lg shadow-sm p-4 bg-white">
-          {/* Product Name */}
-          <h2 className="text-lg font-semibold mb-1 text-purple-800">{card.productName}</h2>
-
-          {/* Variant Info */}
-          <p className="text-sm mb-2 text-gray-700">
-            <strong>Size:</strong> {card.size} &nbsp; | &nbsp;
-            <strong>Type:</strong> {card.variantType}
-          </p>
-
-          {/* Price Info */}
-          <p className="text-sm text-gray-800 mb-2">
-            <strong>Price:</strong> ₹{Math.round(card.price)}/kg
-            {card.markupPrice && (
-              <span className="text-sm text-gray-500 ml-2 line-through">
-                ₹{Math.round(card.markupPrice)}
-              </span>
-            )}
-          </p>
-
-          {/* Color Swatches */}
-          <div className="flex items-center mt-3">
-            {card.variants
-              .map((variant) => {
-                const rawImage =
-                  variant.color?.colorImage ||
-                  variant.productImage?.find((img) =>
-                    img.toLowerCase().includes(variant.variantType?.toLowerCase())
-                  ) ||
-                  variant.productImage?.[0];
-
-                const imageSrc = getImageUrl(rawImage);
-
-                // Skip placeholder or missing images
-                if (!rawImage || imageSrc.includes('placeholder')) return null;
-
-                return { variant, imageSrc };
-              })
-              .filter(Boolean)
-              .slice(0, 5)
-              .map(({ variant, imageSrc }, index) => (
-               <div
-  key={variant.id || index}
-  className="w-8 h-8 rounded-full border-2 border-white overflow-hidden -ml-2 first:ml-0"
-  style={{ zIndex: 10 - index }}
->
-  <img
-    src={imageSrc}
-    alt={variant.color?.colorName || 'Color'}
-    className="w-full h-full object-cover transform scale-[12] translate-x-2"
-  />
-</div>
-
-              ))}
-          </div>
+    <div className="mt-24 mb-20 space-y-2 px-4 ">
+     <div className="flex justify-between items-end ">
+    <h2 className="text-2xl font-semibold md:text-3xl py-4">Shop by Size</h2>
+      {/* Single Navigation for Both Rows */}
+       <div className="mb-2 flex justify-end gap-2">
+          <button
+            onClick={handlePrevious}
+            className="rounded-full border-1 border-purple-800 p-3 text-purple-800 transition hover:bg-purple-800  hover:text-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-5 rtl:rotate-180"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5L8.25 12l7.5-7.5"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={handleNext} 
+            className="rounded-full border-1 border-purple-800 p-3 text-purple-800 transition hover:bg-purple-800 hover:text-white"
+          >
+            <svg
+              className="size-5 rtl:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 5l7 7-7 7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+              />
+            </svg>
+          </button>
         </div>
-      ))}
+        </div>
+
+      {/* First Row */}
+      <div
+        ref={sliderRef1}
+        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-6"
+      >
+        {row1Cards.map((card, i) => (
+          <div key={`row1-${i}`} className="snap-start flex-shrink-0">
+            <CardItem card={card} onClick={() => handleCardClick(card)} />
+          </div>
+        ))}
+      </div>
+
+      {/* Second Row */}
+      <div
+        ref={sliderRef2}
+        className="flex gap-4  overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+      >
+        {row2Cards.map((card, i) => (
+          <div key={`row2-${i}`} className="snap-start flex-shrink-0">
+            <CardItem card={card} onClick={() => handleCardClick(card)} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

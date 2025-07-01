@@ -5,7 +5,7 @@ import { FaStar } from "react-icons/fa";
 const testimonials = [
   {
     quote:
-      "Ink n Dyes has been instrumental in elevating our production standards. Their industrial yarns not only meet but exceed quality benchmarks—consistency in tensile strength, minimal breakage during high-speed weaving, and vibrant dye retention are what set them apart. Their customer support is equally impressive—timely responses, technical guidance, and transparent communication throughout the order process. Whether it’s small trials or bulk shipments, they deliver with precision and professionalism every time.",
+      "Ink n Dyes has been instrumental in elevating our production standards. Their industrial yarns not only meet but exceed quality benchmarks—consistency in tensile strength, minimal breakage during high-speed weaving, and vibrant dye retention are what set them apart.",
     name: "Ramesh Varma",
     role: "Procurement Head, Bharat Textiles Pvt. Ltd.",
     date: "2024-07-20",
@@ -13,7 +13,7 @@ const testimonials = [
   },
   {
     quote:
-      "Working with Ink n Dyes has significantly optimized our sourcing operations. Their ability to meet strict quality parameters while offering competitive pricing gives us a major edge. The yarn’s dye absorption and strength have consistently proven superior, especially in export-grade production. What truly stands out is their willingness to collaborate—be it developing a custom shade or adjusting logistics for tight timelines. Few suppliers match their mix of reliability, product excellence, and ethical manufacturing practices.",
+      "Working with Ink n Dyes has significantly optimized our sourcing operations. Their ability to meet strict quality parameters while offering competitive pricing gives us a major edge. The yarn’s dye absorption and strength have consistently proven superior, especially in export-grade production.",
     name: "Sneha Shah",
     role: "Technical Lead, Triveni Fabrics",
     date: "2024-07-28",
@@ -55,7 +55,7 @@ const testimonials = [
 
 
 
-const TestimonialStats = () => {
+const Testimonial = () => {
   const navigate = useNavigate();
   return (
     <section className="bg-gradient-to-b from-white via-gray-200 to-white py-20 px-4  ">
@@ -150,4 +150,4 @@ const TestimonialStats = () => {
   );
 };
 
-export default TestimonialStats;
+export default Testimonial;

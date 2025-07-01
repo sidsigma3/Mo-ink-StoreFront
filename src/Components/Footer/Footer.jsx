@@ -144,14 +144,24 @@ const Footer = () => {
         </div>
       </div>
 
+       <div>
       <div className="text-center mt-8">
         <p className="text-lg text-gray-700">
           Made with ❤️ in India by <a href="https://www.aivorntech.com" target="_blank" rel="noopener noreferrer" className="text-black hover:underline font-semibold">Aivorn Tech</a>
         </p>
-        <p className="text-sm text-gray-500 mt-1 mb-5">
+        <p className="text-sm text-gray-500 mt-1 mb-2">
           &copy; 2025. Ink n Dyes. All rights reserved.
         </p>
       </div>
+      <div className="flex justify-end items-center gap-2 mt-4 mb-5">
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Visa.png?updatedAt=1751275517161" alt="VISA" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Amex.png?updatedAt=1751275517116" alt="AMEX" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Mastercard.png?updatedAt=1751275517304" alt="Mastercard" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%2064.png?updatedAt=1751275538588" alt="UPI" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/GooglePay.png?updatedAt=1751275517303" alt="GPay" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/ApplePay.png?updatedAt=1751275517145" alt="Apple Pay" className="h-8" />
+          </div>
+        </div>
     </div>
   </div>
 
@@ -292,14 +302,35 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="text-start mt-8">
-        <p className="text-lg text-gray-700">
-          Made with ❤️ in India by <a href="https://www.aivorntech.com" target="_blank" rel="noopener noreferrer" className="text-black hover:underline font-semibold">Aivorn Tech</a>
-        </p>
-        <p className="text-sm text-gray-500 mt-1 ">
-          &copy; 2025. Ink n Dyes. All rights reserved.
-        </p>
-      </div>
+        <div className="flex flex-row justify-between mt-8">
+          {/* Footer Text Section */}
+          <div className="text-start">
+            <p className="text-lg text-gray-700">
+              Made with ❤️ in India by{" "}
+              <a
+                href="https://www.aivorntech.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-black hover:underline font-semibold"
+              >
+                Aivorn Tech
+              </a>
+            </p>
+            <p className="text-sm text-gray-500 mt-1">
+              &copy; 2025. Ink n Dyes. All rights reserved.
+            </p>
+          </div>
+
+          {/* Payment Icons Section */}
+          <div className="flex justify-end items-center gap-2 mt-4">
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Visa.png?updatedAt=1751275517161" alt="VISA" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Amex.png?updatedAt=1751275517116" alt="AMEX" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Mastercard.png?updatedAt=1751275517304" alt="Mastercard" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%2064.png?updatedAt=1751275538588" alt="UPI" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/GooglePay.png?updatedAt=1751275517303" alt="GPay" className="h-8" />
+            <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/ApplePay.png?updatedAt=1751275517145" alt="Apple Pay" className="h-8" />
+          </div>
+        </div>
     </div>
   </div>
 </footer>

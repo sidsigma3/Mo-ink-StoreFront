@@ -33,11 +33,11 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
     return (
         <div
-            className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative">
+            className="w-screen h-screen  bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative">
             <div
-                className="absolute inset-0 bg-center bg-cover  filter blur-sm z-0"
+                className="absolute inset-0 bg-center bg-cover opacity-40 bg-no-repeat filter blur-sm z-0"
                 style={{
-                    backgroundImage: "url('https://images.pexels.com/photos/9940790/pexels-photo-9940790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')",
+                    backgroundImage: "url('https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/dddepth-198.jpg?updatedAt=1751281331520')",
                 }}
             ></div>
             {/* Logo */}
@@ -50,9 +50,9 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
             </div>
 
             {/* Auth Box */}
-            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 w-full max-w-md sm:max-w-lg md:max-w-xl text-white backdrop-blur-md">
+            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white w-full max-w-md sm:max-w-lg md:max-w-xl text-dark backdrop-blur-md">
                 <button
-                    className="text-sm text-white mb-4 hover:underline"
+                    className="text-sm font-medium text-dark mb-4 hover:underline"
                     onClick={() => navigate("/")}
                 >
                     &larr; Back to HomePage
@@ -64,39 +64,39 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                         Login
                     </button>
                     <button
-                        className="w-1/2 py-2 text-purple-700 font-medium text-l"
+                        className="w-1/2 py-2 text-purple-700 bg-white font-medium text-l"
                         onClick={togglePage}
                     >
                         Register
                     </button>
                 </div>
 
-                <p className="text-center text-gray-300 text-l sm:text-l mb-6 px-2">
+                <p className="text-center text-gray-600 text-l sm:text-l mb-6 px-2">
                 Log in to continue your yarn journey, explore colors & continue shopping.
                 </p>
 
                 <form onSubmit={handleLogin}>
-                    <label className="block text-l mb-1">Email id or Phone no</label>
+                    {/* <label className="block text-l font-semibold mb-1">Email id or Phone no</label> */}
                     <input
                         type="text"
-                        placeholder="Enter your username"
-                        className="w-full px-4 py-1 mb-2 text-left align-center rounded-full text-black focus:outline-none"
+                        placeholder="Enter your Email or Phone no"
+                        className="w-full px-4 py-2 mb-4 rounded-full bg-white text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
 
-                    <label className="block text-l mb-1">Password</label>
+                    {/* <label className="block text-l font-semibold mb-1">Password</label> */}
                     <div className="relative">
                     <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        className="w-full px-4 py-1 rounded-full mb-2 text-left text-black focus:outline-none pr-10"
+                        className="w-full px-4 py-2 mb-3 rounded-full bg-white text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 pr-10"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <button
                         type="button"
-                        className="absolute right-3 top-[45%] -translate-y-1/2 text-gray-500"
+                        className="absolute right-3 top-[38%] -translate-y-1/2 text-gray-500"
                         onClick={() => setShowPassword(!showPassword)}
                     >
                         <div className="flex items-center justify-center h-5 w-5">
@@ -107,7 +107,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
                     {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
 
-                    <div className="flex flex-row justify-between items-center text-sm text-gray-300 mb-4">
+                    <div className="flex flex-row justify-between items-center text-sm text-gray-600 mb-4">
                         <label className="flex items-center">
                             <input type="checkbox" className="mr-2" />
                             Remember me
@@ -119,14 +119,14 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
                     <button
                         type="submit"
-                        className="w-full bg-purple-800 text-white rounded-full py-1 font-medium"
+                        className="w-full bg-purple-800 text-white rounded-full py-2 font-medium"
                     >
                         Login
                     </button>
 
-                    <div className="text-center text-xs my-2 text-gray-300">Or login with</div>
+                    {/* <div className="text-center text-xs my-2 text-gray-600">Or login with</div> */}
 
-                   <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+                   {/* <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
                         <div className="w-3/5 rounded-xl">
                             <GoogleLogin
                             onSuccess={(credentialResponse) => {
@@ -136,23 +136,23 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                                 console.log('Login Failed');
                             }}
                             />
-                        </div>
+                        </div> */}
 
-                        {/* <button className="bg-white p-2 rounded-full">
+                        {/* <button className="bg-dark p-2 rounded-full">
                             <img
                                 src="https://www.svgrepo.com/show/448224/facebook.svg"
                                 alt="Facebook"
                                 className="w-5 h-5"
                             />
                         </button>
-                        <button className="bg-white p-2 rounded-full">
+                        <button className="bg-dark p-2 rounded-full">
                             <img
                                 src="https://www.svgrepo.com/show/511330/apple-173.svg"
                                 alt="Apple"
                                 className="w-5 h-5"
                             />
                         </button> */}
-                    </div>
+                    {/* </div> */}
                 </form>
             </div>
         </div>

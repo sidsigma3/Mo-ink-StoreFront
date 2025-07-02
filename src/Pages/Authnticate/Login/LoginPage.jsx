@@ -50,16 +50,16 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
             </div>
 
             {/* Auth Box */}
-            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white w-full max-w-md sm:max-w-lg md:max-w-xl text-dark backdrop-blur-md">
+            <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white w-full max-w-md sm:max-w-lg md:max-w-lg text-dark backdrop-blur-md">
                 <button
                     className="text-sm font-medium text-dark mb-4 hover:underline"
                     onClick={() => navigate("/")}
                 >
                     &larr; Back to HomePage
                 </button>
-                <h3 className="text-center text-2xl font-bold mb-4">Welcome to Ink N Dyes!</h3>
+                <h3 className="text-center text-2xl font-bold mb-4">Welcome to Ink n Dyes !</h3>
 
-                <div className="flex justify-center mb-4 bg-white rounded-full overflow-hidden w-full max-w-xs mx-auto">
+                <div className="flex justify-center mb-12 bg-white rounded-full overflow-hidden w-full max-w-xs mx-auto">
                     <button className="w-1/2 py-2 bg-purple-800 text-white font-medium text-l rounded-full">
                         Login
                     </button>
@@ -71,16 +71,16 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                     </button>
                 </div>
 
-                <p className="text-center text-gray-600 text-l sm:text-l mb-6 px-2">
+                {/* <p className="text-center text-gray-600 text-l sm:text-l mb-6 px-2">
                 Log in to continue your yarn journey, explore colors & continue shopping.
-                </p>
+                </p> */}
 
                 <form onSubmit={handleLogin}>
                     {/* <label className="block text-l font-semibold mb-1">Email id or Phone no</label> */}
                     <input
                         type="text"
-                        placeholder="Enter your Email or Phone no"
-                        className="w-full px-4 py-2 mb-4 rounded-full bg-white text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        placeholder="Email or Phone No."
+                        className="w-full px-4 py-1 mb-3 rounded-full bg-white text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -89,14 +89,14 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                     <div className="relative">
                     <input
                         type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                        className="w-full px-4 py-2 mb-3 rounded-full bg-white text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 pr-10"
+                        placeholder="password"
+                        className="w-full px-4 py-1 mb-3 rounded-full bg-white text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 pr-10"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <button
                         type="button"
-                        className="absolute right-3 top-[38%] -translate-y-1/2 text-gray-500"
+                        className="absolute right-3 top-[36%] -translate-y-1/2 text-gray-500"
                         onClick={() => setShowPassword(!showPassword)}
                     >
                         <div className="flex items-center justify-center h-5 w-5">
@@ -107,7 +107,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
                     {error && <p className="text-red-400 text-sm mb-2">{error}</p>}
 
-                    <div className="flex flex-row justify-between items-center text-sm text-gray-600 mb-4">
+                    <div className="flex flex-row justify-between items-center text-sm text-gray-600 mb-3">
                         <label className="flex items-center">
                             <input type="checkbox" className="mr-2" />
                             Remember me
@@ -124,9 +124,8 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                         Login
                     </button>
 
-                    {/* <div className="text-center text-xs my-2 text-gray-600">Or login with</div> */}
-
-                   {/* <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+                    <div className="text-center text-xs my-2 text-gray-600">Or signin with</div>
+                   <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
                         <div className="w-3/5 rounded-xl">
                             <GoogleLogin
                             onSuccess={(credentialResponse) => {
@@ -136,7 +135,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                                 console.log('Login Failed');
                             }}
                             />
-                        </div> */}
+                        </div>
 
                         {/* <button className="bg-dark p-2 rounded-full">
                             <img
@@ -152,7 +151,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                                 className="w-5 h-5"
                             />
                         </button> */}
-                    {/* </div> */}
+                    </div>
                 </form>
             </div>
         </div>

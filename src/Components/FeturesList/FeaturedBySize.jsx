@@ -37,10 +37,10 @@ const CardItem = ({ card, onClick }) => {
   
   return (
     <div 
-      className="border-3 rounded-full p-2 bg-white flex items-center gap-4  hover:bg-purple-800 hover:border-purple-800 transition-colors duration-200 cursor-pointer w-[370px] flex-shrink-0"
+      className="border-3 rounded-full p-2 bg-white flex items-center gap-4 hover:bg-purple-800 hover:border-purple-800 transition-colors duration-200 cursor-pointer w-[270px] md:w-[300px] flex-shrink-0"
       onClick={onClick}
     >
-      <div className="w-24 h-24 rounded-full overflow-hidden border-3 border-gray-200 hover:border-purple-800 transition-colors duration-200 shrink-0">
+      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden shrink-0">
         <img 
           src={categoryImage} 
           alt={card.productName}
@@ -49,19 +49,61 @@ const CardItem = ({ card, onClick }) => {
       </div>
 
       <div className="flex-1">
-        <h2 className="text-2xl font-bold mb-1 text-purple-800">{card.productName}</h2>
+        <div className="flex gap-2 items-center">
+          <h2 className="text-xl md:text-2xl font-bold mb-1 text-purple-800">{card.productName}</h2>
+          
+          {/* Color variants on the right side of product name */}
+          {/* <div className="md:hidden flex items-center">
+            {card.variants
+              .map((variant) => {
+                const rawImage =
+                  variant.color?.colorImage ||
+                  variant.productImage?.find((img) =>
+                    img.toLowerCase().includes(variant.variantType?.toLowerCase())
+                  ) ||
+                  variant.productImage?.[0];
+
+                const imageSrc = getImageUrl(rawImage);
+
+                if (!rawImage || imageSrc.includes('placeholder')) return null;
+
+                return { variant, imageSrc };
+              })
+              .filter(Boolean)
+              .slice(0, 5) // Show fewer circles to fit better
+              .map(({ variant, imageSrc }, index) => (
+                <div
+                  key={variant.id || index}
+                  className="w-4 h-4 md:w-6 md:h-6 rounded-full border-2 border-white overflow-hidden -ml-1 md:-ml-2 first:ml-0"
+                  style={{ zIndex: 10 - index }}
+                >
+                  <img
+                    src={imageSrc}
+                    alt={variant.color?.colorName || 'Color'}
+                    className="w-full h-full object-cover transform scale-[12] translate-x-2"
+                  />
+                </div>
+              ))}
+          </div> */}
+        </div>
+
         <p className="text-sm mb-2 text-gray-700">
-          Size: <strong>{card.size.replace(/[^0-9 /]/g, '')}</strong> &nbsp; | &nbsp;
-          Type: <strong className={card.variantType.toLowerCase() === 'cone' 
-                                      ? 'text-pink-500' 
-                                      : card.variantType.toLowerCase() === 'hank' 
-                                        ? 'text-amber-500' 
-                                        : ''
-                                  }>
-                                    {card.variantType}
-                </strong>
-         </p>
-        <div className="flex items-center mt-1 mb-2">
+          {/* <span className="hidden sm:inline">Size: </span> */}
+          <strong>{card.size.replace(/[^0-9 /]/g, '')}</strong>
+          <span> &nbsp; | &nbsp; </span>
+          {/* <span className="hidden sm:inline">Type: </span> */}
+          <strong className={card.variantType.toLowerCase() === 'cone' 
+                              ? 'text-pink-500' 
+                              : card.variantType.toLowerCase() === 'hank' 
+                                ? 'text-amber-500' 
+                                : ''
+                            }>
+                            {card.variantType}
+                      </strong>
+        </p>
+
+        {/* Original variants container (shown on md screens and up) */}
+        {/* <div className="hidden md:flex items-center mt-1 mb-2">
           {card.variants
             .map((variant) => {
               const rawImage =
@@ -92,7 +134,7 @@ const CardItem = ({ card, onClick }) => {
                 />
               </div>
             ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -109,7 +151,7 @@ const FeaturedBySize = () => {
     [sliderRef1, sliderRef2].forEach(ref => {
       if (ref.current) {
         ref.current.scrollBy({
-          left: -500,
+          left: -200,
           behavior: 'smooth',
         });
       }
@@ -120,7 +162,7 @@ const FeaturedBySize = () => {
     [sliderRef1, sliderRef2].forEach(ref => {
       if (ref.current) {
         ref.current.scrollBy({
-          left: 500,
+          left: 200,
           behavior: 'smooth',
         });
       }
@@ -192,8 +234,8 @@ const FeaturedBySize = () => {
   const row2Cards = variantCards.slice(halfLength);
 
   return (
-    <div className="mt-24 mb-20 space-y-2 px-4 ">
-     <div className="flex justify-between items-end ">
+    <div className="mt-24 mb-24 space-y-2 ">
+     <div className="flex justify-between items-end pb-4 pe-4">
     <h2 className="text-2xl font-semibold md:text-3xl py-4">Shop by Size</h2>
       {/* Single Navigation for Both Rows */}
        <div className="mb-2 flex justify-end gap-2">
@@ -241,7 +283,7 @@ const FeaturedBySize = () => {
       {/* First Row */}
       <div
         ref={sliderRef1}
-        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-6"
+        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-3 md:pb-6"
       >
         {row1Cards.map((card, i) => (
           <div key={`row1-${i}`} className="snap-start flex-shrink-0">
@@ -253,7 +295,7 @@ const FeaturedBySize = () => {
       {/* Second Row */}
       <div
         ref={sliderRef2}
-        className="flex gap-4  overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
       >
         {row2Cards.map((card, i) => (
           <div key={`row2-${i}`} className="snap-start flex-shrink-0">

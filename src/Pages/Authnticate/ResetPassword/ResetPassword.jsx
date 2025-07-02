@@ -5,6 +5,8 @@ import axios from "axios";
 import { resetPassword } from "../../../Services/CustomerService";
 import { Eye, EyeOff } from "lucide-react";
 import Toast from "../../../Components/Toast/Toast";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 
 const ResetPassword = () => {
@@ -101,16 +103,16 @@ try {
 
                 <form onSubmit={handleSubmit}>
                     {/* <label className="block text-l mb-1">New password</label> */}
-                      <div className="relative mb-4"> 
+                      <div className="relative mb-3"> 
                         <input
                           type={showNewPassword ? "text" : "password"} 
                           placeholder="Create a strong password"
-                          className="w-full px-4 py-2 mb-2 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                          className="w-full px-4 py-1 mb-2 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                           value={newPassword}
                           onChange={(e) => setPassword(e.target.value)}
                         />
                         <span
-                          className="absolute right-3 top-[22%] cursor-pointer text-gray-600" 
+                          className="absolute right-3 top-[19%] cursor-pointer text-gray-600" 
                           onClick={() => setShowNewPassword((prev) => !prev)} 
                         >
                           {showNewPassword ?<EyeOff size={22} /> : <Eye size={22} />}
@@ -122,12 +124,12 @@ try {
                       <input
                         type={showConfirmPassword ? "text" : "password"} 
                         placeholder="Re-enter the password"
-                        className="w-full px-4 py-2 mb-2 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-4 py-1 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                       />
                       <span
-                          className="absolute right-3 top-[22%] cursor-pointer text-gray-600" 
+                          className="absolute right-3 top-[19%] cursor-pointer text-gray-600" 
                         onClick={() => setShowConfirmPassword((prev) => !prev)} 
                       >
                         {showConfirmPassword ? <EyeOff size={22} /> : <Eye size={22} />   }    

@@ -87,7 +87,7 @@ const handleNavigation = (selectedCategory) => {
   return (
 <div className='mt-2 bg-gradient-to-b from-white via-purple-100 to-white px-6 md:px-14 pb-18'>
 
-      <h3 className='text-2xl font-semibold md:text-3xl pt-4 '>Featured Categories</h3>
+      <h3 className='text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12 '>Featured Categories</h3>
 
       {/* <ul className='overflow-auto m-0 d-flex gap-3 justify-content-around mt-5'>
             <li><FeturedBox productName={'Cotton Yran'} number={2}></FeturedBox></li>

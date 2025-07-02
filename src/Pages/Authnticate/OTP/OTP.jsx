@@ -192,7 +192,7 @@ const OTP = () => {
       {/* Verify Code Box */}
       <div className="verify-box bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white  w-full max-w-md sm:max-w-lg text-white backdrop-blur-md z-10">
         <button
-          className="text-sm text-dark font-medium mb-4 hover:underline"
+          className="text-sm text-dark font-medium mb-3 hover:underline"
           onClick={() => navigate("/signup")}
         >
           &larr; Back to Registration
@@ -222,7 +222,7 @@ const OTP = () => {
           <input
             type="text"
             placeholder="Enter Email OTP"
-            className="w-full px-4 py-2 mb-2 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-1 mb-1 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={emailCode}
             onChange={(e) => handleNumericInput(e, setEmailCode)}
           />
@@ -245,14 +245,14 @@ const OTP = () => {
           <input
             type="text"
             placeholder="Enter Phone OTP"
-            className="w-full px-4 py-2 mb-2 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-1  text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={phoneCode}
             onChange={(e) => handleNumericInput(e, setPhoneCode)}
           />
 
           <button
             type="submit"
-            className="w-full mt-4 bg-purple-800 text-white rounded-full py-2 font-medium hover:bg-purple-700 transition-colors"
+            className="w-full mt-4  bg-purple-800 text-white rounded-full py-2 font-medium hover:bg-purple-700 transition-colors"
           >
             Verify
           </button>
@@ -262,34 +262,34 @@ const OTP = () => {
           )}
         </form>
 
-        {/* <div className="text-center text-xs my-3 text-gray-300">Or login with</div>
-
-       <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
-                               <div className="w-3/5 rounded-full">
-                                   <GoogleLogin
-                                   onSuccess={(credentialResponse) => {
-                                       console.log(credentialResponse.credential);
-                                   }}
-                                   onError={() => {
-                                       console.log('Login Failed');
-                                   }}
-                                   />
-                               </div> */}
-          {/* <button className="bg-white p-2 rounded-full hover:bg-gray-100 transition-colors">
-            <img
-              src="https://www.svgrepo.com/show/448224/facebook.svg"
-              alt="Facebook"
-              className="w-5 h-5"
-            />
-          </button>
-          <button className="bg-white p-2 rounded-full hover:bg-gray-100 transition-colors">
-            <img
-              src="https://www.svgrepo.com/show/511330/apple-173.svg"
-              alt="Apple"
-              className="w-5 h-5"
-            />
-          </button> */}
-        {/* </div> */}
+        <div className="text-center text-xs my-2 text-gray-600">Or signin with</div>
+                           <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+                                <div className="w-3/5 rounded-xl">
+                                    <GoogleLogin
+                                    onSuccess={(credentialResponse) => {
+                                        console.log(credentialResponse.credential);
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }}
+                                    />
+                                </div>
+        
+                                {/* <button className="bg-dark p-2 rounded-full">
+                                    <img
+                                        src="https://www.svgrepo.com/show/448224/facebook.svg"
+                                        alt="Facebook"
+                                        className="w-5 h-5"
+                                    />
+                                </button>
+                                <button className="bg-dark p-2 rounded-full">
+                                    <img
+                                        src="https://www.svgrepo.com/show/511330/apple-173.svg"
+                                        alt="Apple"
+                                        className="w-5 h-5"
+                                    />
+                                </button> */}
+                            </div>
       </div>
 
       {/* OTP Verified Modal */}

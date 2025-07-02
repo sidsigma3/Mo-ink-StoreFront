@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { forgotPassword } from "../../../Services/CustomerService";
 import Toast from "../../../Components/Toast/Toast";
+import { GoogleLogin } from "@react-oauth/google";
 
 
 const ForgotPasswordPage = () => {
@@ -72,7 +73,7 @@ const ForgotPasswordPage = () => {
                     <input
                         type="email"
                         placeholder="Enter your Email Address"
-                        className="w-full px-4 py-2 mb-4 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        className="w-full px-4 py-1 mb-4 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required  
@@ -89,32 +90,34 @@ const ForgotPasswordPage = () => {
                     {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
                 </form>
 
-                {/* <div className="text-center text-xs my-2 text-gray-300">Or login with</div>
+                <div className="text-center text-xs my-2 text-gray-600">Or signin with</div>
+                   <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+                        <div className="w-3/5 rounded-xl">
+                            <GoogleLogin
+                            onSuccess={(credentialResponse) => {
+                                console.log(credentialResponse.credential);
+                            }}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                            />
+                        </div>
 
-                <div className="flex flex-row justify-center items-center gap-2">
-                    <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full text-sm">
-                        <img
-                            src="https://www.svgrepo.com/show/475656/google-color.svg"
-                            alt="Google"
-                            className="w-4 h-4"
-                        />
-                        Sign in with Google
-                    </button>
-                    <button className="bg-white p-2 rounded-full">
-                        <img
-                            src="https://www.svgrepo.com/show/448224/facebook.svg"
-                            alt="Facebook"
-                            className="w-5 h-5"
-                        />
-                    </button>
-                    <button className="bg-white p-2 rounded-full">
-                        <img
-                            src="https://www.svgrepo.com/show/511330/apple-173.svg"
-                            alt="Apple"
-                            className="w-5 h-5"
-                        />
-                    </button>
-                </div> */}
+                        {/* <button className="bg-dark p-2 rounded-full">
+                            <img
+                                src="https://www.svgrepo.com/show/448224/facebook.svg"
+                                alt="Facebook"
+                                className="w-5 h-5"
+                            />
+                        </button>
+                        <button className="bg-dark p-2 rounded-full">
+                            <img
+                                src="https://www.svgrepo.com/show/511330/apple-173.svg"
+                                alt="Apple"
+                                className="w-5 h-5"
+                            />
+                        </button> */}
+                    </div>
             </div>
               {/* Toast Notification */}
                  <div className="fixed top-4 right-4 z-50 space-y-2">

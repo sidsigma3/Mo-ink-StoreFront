@@ -28,8 +28,8 @@ const SlilderCard = ({ title, children }) => {
 
   return (
     <>
-      <div className="flex justify-between items-end ">
-        <h2 className="text-2xl font-semibold md:text-3xl py-4">Top Selling {title}</h2>
+      <div className="flex justify-between items-end pe-4">
+        <h2 className="text-2xl font-semibold md:text-3xl py-4 ">Top Selling {title}</h2>
         <div className="mb-2 flex gap-2">
           <button
             onClick={handlePrevious}
@@ -159,7 +159,7 @@ console.log(products)
   return (
     <div className="space-y-12">
      {products.map((product) => (
-        <div key={product.id} className="relative flex flex-col bg-white p-4 rounded-lg shadow-sm">
+        <div key={product.id} className="relative flex flex-col bg-white rounded-lg">
           <SlilderCard title={product.productName}>
             {product.variants
               .filter((variant) => variant.availableStatus !== "INACTIVE")

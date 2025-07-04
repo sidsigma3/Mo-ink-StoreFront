@@ -3,16 +3,16 @@ import { FaShoppingCart, FaGlobe, FaStar, FaTags, FaTruck, FaYarn, FaCreditCard,
 
 const FeaturesList = () => {
   const features = [
-    {
-      icon: <FaShoppingCart className="text-purple-500 text-2xl" />,
-      title: "User-Friendly Platform",
-      description: "Easily navigate and shop with our intuitive platform designed for a seamless experience.",
-    },
-    {
-      icon: <FaGlobe className="text-purple-500 text-2xl" />,
-      title: "Digital Ecosystem",
-      description: "Connect across the entire supply chain with our advanced digital infrastructure.",
-    },
+    // {
+    //   icon: <FaShoppingCart className="text-purple-500 text-2xl" />,
+    //   title: "User-Friendly Platform",
+    //   description: "Easily navigate and shop with our intuitive platform designed for a seamless experience.",
+    // },
+    // {
+    //   icon: <FaGlobe className="text-purple-500 text-2xl" />,
+    //   title: "Digital Ecosystem",
+    //   description: "Connect across the entire supply chain with our advanced digital infrastructure.",
+    // },
     {
       icon: <FaStar className="text-purple-500 text-2xl" />,
       title: "Quality Selection",
@@ -49,7 +49,7 @@ const FeaturesList = () => {
     <section className=" bg-white">
       <div>
         <h2 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">Value Additions</h2>
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature, index) => (
             <div
               key={index}

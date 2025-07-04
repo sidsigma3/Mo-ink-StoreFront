@@ -61,14 +61,18 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
       };
     
       const accordionData = [
-        {
-          title: "Product Description",
-          content: (
-            <p className="text-md text-gray-600 mt-4">
-              { variantDescription || "No description available."}
-            </p>
-          ),
-        },
+       {
+        title: "Product Description",
+        content: (
+          <div className="text-md text-gray-600 mt-4">
+            {(variantDescription || "No description available.")
+              .split("\n")
+              .map((line, idx) => (
+                <p key={idx}>{line.trim()}</p>
+              ))}
+          </div>
+        ),
+      },
         {
           title: "Packaging & Delivery",
           content: (

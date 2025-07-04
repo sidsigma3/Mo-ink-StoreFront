@@ -197,7 +197,7 @@ const Inqueries = ({ show }) => {
             <div className='flex col-span-2 lg:col-span-1 items-center gap-2 justify-start text-center'>
               <span><FiPhoneCall size={30} /></span>
               <div>
-                <h4 className='text-lg text-left font-medium'>PHONE</h4>
+                <h4 className='text-lg text-left font-medium'>Phone</h4>
                 <p className='purple-text font-medium'>74069 44477</p>
               </div>
             </div>
@@ -215,7 +215,7 @@ const Inqueries = ({ show }) => {
             <div className='flex col-span-4 lg:col-span-1 items-center gap-2 justify-start text-center'>
               <span><MdOutlineMailOutline size={33} /></span>
               <div>
-                <h4 className='text-lg text-left font-medium'>EMAIL</h4>
+                <h4 className='text-lg text-left font-medium'>Email</h4>
                 <p className='purple-text font-medium'>support@inkndyes.com</p>
               </div>
             </div>

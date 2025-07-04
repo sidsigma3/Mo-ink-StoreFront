@@ -37,10 +37,10 @@ const CardItem = ({ card, onClick }) => {
   
   return (
     <div 
-      className="border-3 rounded-full p-2 bg-white flex items-center gap-4 hover:bg-purple-800 hover:border-purple-800 transition-colors duration-200 cursor-pointer w-[270px] md:w-[300px] flex-shrink-0"
+      className="border-3 rounded-full p-2 bg-white flex items-center gap-3 md:gap-4 hover:bg-purple-800 hover:border-purple-800 transition-colors duration-200 cursor-pointer w-[196px] md:w-[300px] flex-shrink-0"
       onClick={onClick}
     >
-      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden shrink-0">
+      <div className="w-12 h-12 md:w-20 md:h-20 rounded-full overflow-hidden shrink-0">
         <img 
           src={categoryImage} 
           alt={card.productName}
@@ -48,9 +48,9 @@ const CardItem = ({ card, onClick }) => {
         />
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 ">
         <div className="flex gap-2 items-center">
-          <h2 className="text-xl md:text-2xl font-bold mb-1 text-purple-800">{card.productName}</h2>
+          <h2 className="text-md md:text-2xl font-bold mb-1 text-purple-800">{card.productName}</h2>
           
           {/* Color variants on the right side of product name */}
           {/* <div className="md:hidden flex items-center">
@@ -235,14 +235,18 @@ const FeaturedBySize = () => {
 
   return (
     <div className="mt-24 mb-24 space-y-2 ">
-     <div className="flex justify-between items-end pb-4 pe-4">
+     <div className="flex justify-between items-center pe-4">
     <h2 className="text-2xl font-semibold md:text-3xl py-4">Shop by Size</h2>
       {/* Single Navigation for Both Rows */}
-       <div className="mb-2 flex justify-end gap-2">
+       <div className=" flex justify-end items-center gap-2">
           <button
             onClick={handlePrevious}
-            className="rounded-full border-1 border-purple-800 p-3 text-purple-800 transition hover:bg-purple-800  hover:text-white"
-          >
+             className="rounded-full border-1 border-purple-800 p-2
+                            transition 
+                            sm:bg-purple-800 sm:text-white 
+                            md:bg-transparent md:text-purple-800 md:p-4 
+                            md:hover:bg-purple-800 md:hover:text-white"
+               >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -260,8 +264,12 @@ const FeaturedBySize = () => {
           </button>
           <button
             onClick={handleNext} 
-            className="rounded-full border-1 border-purple-800 p-3 text-purple-800 transition hover:bg-purple-800 hover:text-white"
-          >
+                className="rounded-full border-1 border-purple-800 p-2
+                            transition 
+                            sm:bg-purple-800 sm:text-white 
+                            md:bg-transparent md:text-purple-800 md:p-4 
+                            md:hover:bg-purple-800 md:hover:text-white"
+                >        
             <svg
               className="size-5 rtl:rotate-180"
               fill="none"
@@ -283,7 +291,7 @@ const FeaturedBySize = () => {
       {/* First Row */}
       <div
         ref={sliderRef1}
-        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-3 md:pb-6"
+        className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory  md:pb-6"
       >
         {row1Cards.map((card, i) => (
           <div key={`row1-${i}`} className="snap-start flex-shrink-0">
@@ -295,7 +303,7 @@ const FeaturedBySize = () => {
       {/* Second Row */}
       <div
         ref={sliderRef2}
-        className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+        className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
       >
         {row2Cards.map((card, i) => (
           <div key={`row2-${i}`} className="snap-start flex-shrink-0">

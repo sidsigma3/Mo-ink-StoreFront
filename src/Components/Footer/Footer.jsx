@@ -306,15 +306,15 @@ const Footer = () => {
           {/* Footer Text Section */}
           <div className="text-start">
             <p className="text-lg text-gray-700">
-              Made with ❤️ in India by{" "}
-              <a
+              Made with ❤️ in India
+              {/* <a
                 href="https://www.aivorntech.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-black hover:underline font-semibold"
               >
                 Aivorn Tech
-              </a>
+              </a> */}
             </p>
             <p className="text-sm text-gray-500 mt-1">
               &copy; 2025. Ink n Dyes. All rights reserved.

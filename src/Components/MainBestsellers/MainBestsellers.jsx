@@ -32,7 +32,7 @@ const MainBestsellers = () => {
             key={index}
             className="w-full sm:w-[280px] flex flex-col items-center p-1 rounded-2xl border border-gray-100 shadow-lg bg-white"
           >
-            <div className="w-full h-[200px] rounded-2xl overflow-hidden">
+            <div className="w-full h-[130px] md:h-[200px] rounded-2xl overflow-hidden">
               <Image
                 src={item.img}
                 alt={item.title}

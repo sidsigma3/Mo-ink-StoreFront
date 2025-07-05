@@ -168,206 +168,134 @@ const handleAddToCart = async () => {
   return (
     <>
       {/* Product Card */}
-      <div>
-        <a
-          className="relative block bg-white  border border-gray-100 rounded"
-          style={{ width: '19rem' }}
-        >
-          {/* SALE Badge */}
-          {/* <span className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black z-20">
-            Sale
-          </span> */}
-  
-          {/* Image with Color Overlay original*/}
-          <div
-              className="relative"
-              style={{
-                background: 'linear-gradient(to bottom, #949799, #9b9fa1, #aaaeb0, #aeb2b4)'
-              }}
-            >
-            <img
-              src={`${backendUrl}${colorImage}`}
-              // src={`${backendUrl}${getImageByVariantType(variantType)}`}
-              alt=""
-              className="h-80 w-full rounded-lg object-contain"
-              style={{ height: '10rem' }}
-            />
-            {/* <div
-              className="absolute inset-0 rounded-lg"
-              style={{ backgroundColor: hexCode, opacity: 0.4 }}
-            ></div> */}
-          </div>
-  
-
-
-
-
-{/* <div className="relative rounded-lg overflow-hidden bg-white w-full h-40"> */}
-  {/* White background container */}
-  {/* <div className="absolute inset-0 bg-white"> */}
-  
-  {/* Original image with color overlay */}
-  {/* <div 
-    className="relative w-full h-full"
-    style={{
-      backgroundColor: hexCode,
-      backgroundImage: `url(${backendUrl}${imageUrl})`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      backgroundBlendMode: 'multiply',
+  <div className="relative block bg-white border-2 border-gray-200 rounded-xl overflow-hidden" style={{ width: '19rem' }}>
+ 
+  <div className="relative bg-[#999EA4] flex justify-center items-center" style={{ height: '10rem', overflow: 'hidden' }}>
+  <img
+    src={`${backendUrl}${colorImage}`}
+    alt=""
+    className=" h-full object-contain"
+    style={{ 
+      transform: 'scale(1.1)',
+      // transformOrigin: 'center top',
+      // marginBottom: '-5%'
     }}
-  > */}
-    {/* Fallback for browsers that don't support blend modes */}
-    {/* <img
-      src={`${backendUrl}${imageUrl}`}
-      alt="Product image"
-      className="w-full h-full object-contain opacity-0"
-      aria-hidden="true"
-    /> */}
-    {/* </div>
-  </div>
-</div> */}
-
-
-
-
-{/* <div className="relative rounded-lg overflow-hidden bg-white w-full h-40">
-  <div className="relative w-full h-full">
-
-    <div className="absolute inset-0 bg-white"></div>
-    
-    <div 
-      className="absolute inset-0"
-      style={{
-        backgroundColor: hexCode,
-        WebkitMaskImage: `url(${backendUrl}${imageUrl})`,
-        WebkitMaskSize: 'contain',
-        WebkitMaskPosition: 'center',
-        WebkitMaskRepeat: 'no-repeat',
-        maskImage: `url(${backendUrl}${imageUrl})`,
-        maskSize: 'contain',
-        maskPosition: 'center',
-        maskRepeat: 'no-repeat',
-        maskPosition: 'center',
-      }}
-    ></div>
+  />
     
   </div>
-</div> */}
 
+  <div className="p-2 bg-white">
+    <div className='mb-3'>
+      <h5 className="font-bold text-md flex items-center flex-wrap justify-center text-purple-800">
+        {productName}
+        <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span>
+        {size}
+        <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span>
+        {variantType}
+      </h5>
 
+  <h5 className="flex items-center justify-center gap-2 mt-2">
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+    {color}
+  </span>
+  <span 
+    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200"
+    style={{ backgroundColor: hexCode }}
+  >
+    {hexCode?.toUpperCase()}
+  </span>
+</h5>
+    </div>
 
-          {/* Card Body */}
-          <div className="p-3">
-          <div className=''>
-            <h5 className="font-medium text-sm flex items-center flex-wrap d-flex justify-center">
-            {productName}
-            <span className="mx-1 text-xl leading-none px-1">•</span>
-            {size}
-            <span className="mx-1 text-xl leading-none px-1">•</span>
-            {variantType}
-          </h5>
-
-
-            <h5 className="font-medium text-sm flex items-center flex-wrap mt-1 d-flex justify-center">
-              <span className="flex items-center gap-1">
-              {color}
-            </span>
-            
-            <span className="flex items-center gap-1">
-               <span className="mx-1 text-xl leading-none px-1" >•</span>
-              {hexCode?.toUpperCase()}
-            </span>
-            </h5>
-            </div>
-  
-            {/* Quantity Row */}
-            <div className="d-flex align-items-center justify-content-between mt-3">
-              <div className="border px-3 py-2 rounded col-4">
-                 {variantType === "CONE" ? (
-                <h5>50 Kg</h5>
-              ):(
-                <h5>10 Kg</h5>
-              )
-            }
-              </div>
-  
-              <div className="col-4">
-                <label htmlFor="Quantity" className="sr-only">Quantity</label>
-                <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border border-gray-300 rounded">
-                  <button
-                    type="button"
-                    onClick={handleDecrease}
-                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
-                  >
-                    &minus;
-                  </button>
-  
-                  <input
-                    type="number"
-                    id="Quantity"
-                    value={quantity}
-                    readOnly
-                    className="w-8 text-center text-sm border-none focus:outline-none"
-                  />
-  
-                  <button
-                    type="button"
-                    onClick={handleIncrease}
-                    className="w-10 h-full text-lg text-gray-600 hover:opacity-75 transition"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-  
-            {/* Price & Rating */}
-            <div className="mt-2 d-flex justify-content-between rounded">
-              <div className="d-flex gap-2 align-items-center">
-                <h4 className="purple-text font-semibold text-2xl">₹{Math.round(price)}</h4>
-               <p className="text-slate-400 font-medium"><s>₹{Math.round(markupPrice)}</s></p>
-              </div>
-  
-              <div className="bg-yellow-100 d-flex gap-2 align-items-center h-50 p-1 rounded-md">
-                <span className="text-yellow-300">
-                  <TiStarFullOutline />
-                </span>
-                <p>4.5</p>
-              </div>
-            </div>
-  
-            {/* Buttons */}
-            <div className="d-flex gap-2 mt-3 justify-between">
-              {showCart && location.pathname !== "/shoppingCart" && (
-                <button
-                  onClick={handleCartButtonClick}
-                  className={`d-flex align-items-center justify-content-center gap-2 p-1 font-medium rounded flex-1 text-md ${isInCart ? 'bg-green-500 text-white' : 'bg-purple-100 purple-text'}`}
-                >
-                  {isInCart ? "GO TO CART" : "ADD TO CART"}
-                  <span>
-                    <MdOutlineShoppingCart size={20} />
-                  </span>
-                </button>
-              )}
-  
-              <button
-                className="bg-purple-100 p-2 purple-text rounded px-3"
-                onClick={handleWishlistClick}
-              >
-                {isWishlistPage && justRemoved ? (
-                  <FaHeart  />
-                ) : isWishlisted ? (
-                  <FaHeart color="red" />
-                ) : (
-                  <FaRegHeart />
-                )}
-              </button>
-            </div>
-          </div>
-        </a>
+    {/* Quantity Row */}
+    <div className="flex items-center justify-between mt-3 mb-2">
+      <div className="border-2 border-purple-200 px-3 py-2 rounded-lg col-4 bg-purple-50">
+        {variantType === "CONE" ? (
+          <h5 className="font-medium text-purple-800">50 Kg</h5>
+        ) : (
+          <h5 className="font-medium text-purple-800">10 Kg</h5>
+        )}
       </div>
+
+      <div className="col-4">
+        <label htmlFor="Quantity" className="sr-only">Quantity</label>
+        <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border-2 border-purple-300 rounded-lg bg-white">
+          <button
+            type="button"
+            onClick={handleDecrease}
+            className="w-10 h-full text-lg text-purple-600 hover:opacity-75 transition font-bold"
+          >
+            &minus;
+          </button>
+
+          <input
+            type="number"
+            id="Quantity"
+            value={quantity}
+            readOnly
+            className="w-8 text-center pl-2 text-sm font-medium text-purple-800"
+          />
+
+          <button
+            type="button"
+            onClick={handleIncrease}
+            className="w-10 h-full text-lg text-purple-600 hover:opacity-75 transition font-bold"
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {/* Price & Rating */}
+    <div className="mt-2 flex justify-between items-center rounded-lg bg-purple-50 p-2">
+      <div className="flex gap-2 items-center">
+        <h4 className="text-purple-800 font-bold text-2xl">₹{Math.round(price)}</h4>
+        <p className="text-gray-400 font-medium"><s>₹{Math.round(markupPrice)}</s></p>
+      </div>
+
+      <div className="bg-yellow-100 flex gap-1 items-center h-8 px-2 rounded-md border border-yellow-200">
+        <span className="text-yellow-500">
+          <TiStarFullOutline />
+        </span>
+        <p className="text-sm font-bold text-yellow-700">4.5</p>
+      </div>
+    </div>
+
+    {/* Buttons */}
+    <div className="flex gap-2 mt-3 justify-between">
+      {showCart && location.pathname !== "/shoppingCart" && (
+        <button
+          onClick={handleCartButtonClick}
+          className={`flex items-center justify-center gap-2 py-2 font-bold rounded-lg flex-1 text-md ${
+            isInCart 
+              ? 'bg-green-500 text-white hover:bg-green-600' 
+              : 'bg-purple-800 text-white hover:bg-purple-600'
+          } transition-colors`}
+        >
+          {isInCart ? "GO TO CART" : "ADD TO CART"}
+          <span>
+            <MdOutlineShoppingCart size={20} />
+          </span>
+        </button>
+      )}
+
+      <button
+        className="bg-purple-100 p-2 text-purple-800 rounded-lg px-3 border-2 border-purple-200 hover:bg-purple-200 transition-colors"
+        onClick={handleWishlistClick}
+      >
+        {isWishlistPage && justRemoved ? (
+          <FaHeart className="text-purple-600" />
+        ) : isWishlisted ? (
+          <FaHeart color="red" />
+        ) : (
+          <FaRegHeart className="text-purple-600" />
+        )}
+      </button>
+    </div>
+  </div>
+</div>
+
   
       {/* Toast Notification*/}
       <div className="fixed top-4 right-4 z-50 space-y-2">

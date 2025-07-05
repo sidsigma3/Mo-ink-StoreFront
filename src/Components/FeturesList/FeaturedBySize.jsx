@@ -37,7 +37,7 @@ const CardItem = ({ card, onClick }) => {
   
   return (
     <div 
-      className="border-3 rounded-full p-2 bg-white flex items-center gap-3 md:gap-4 hover:bg-purple-800 hover:border-purple-800 transition-colors duration-200 cursor-pointer w-[196px] md:w-[300px] flex-shrink-0"
+      className="border-3 rounded-full !p-2 bg-white flex items-center gap-3 md:gap-4 hover:bg-purple-800 hover:border-purple-800 transition-colors duration-200 cursor-pointer  min-w-[196px] md:min-w-[300px]  flex-shrink-0"
       onClick={onClick}
     >
       <div className="w-12 h-12 md:w-20 md:h-20 rounded-full overflow-hidden shrink-0">
@@ -291,7 +291,7 @@ const FeaturedBySize = () => {
       {/* First Row */}
       <div
         ref={sliderRef1}
-        className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory  md:pb-6"
+        className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 md:pb-6"
       >
         {row1Cards.map((card, i) => (
           <div key={`row1-${i}`} className="snap-start flex-shrink-0">

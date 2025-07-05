@@ -11,8 +11,8 @@ const ModalConfirmReplaceCart = ({ isOpen, onCancel, onConfirm }) => {
         <button className="msinvoice-close" onClick={onCancel}>
           &times;
         </button>
-        <div className="msinvoice-icon msinvoice-icon--primary">
-          <span>!</span>
+        <div className="msinvoice-icon msinvoice-icon--primary bg-purple-100">
+          <span className="text-purple-800">!</span>
         </div>
         <h2 className="msinvoice-title">Replace Existing Cart?</h2>
         <p className="msinvoice-message">
@@ -22,7 +22,7 @@ const ModalConfirmReplaceCart = ({ isOpen, onCancel, onConfirm }) => {
           <button className="msinvoice-btn msinvoice-btn--outline" onClick={onCancel}>
             Cancel
           </button>
-          <button className="msinvoice-btn msinvoice-btn--primary" onClick={onConfirm}>
+          <button className="msinvoice-btn msinvoice-btn--primary bg-purple-800 hover:bg-purple-600" onClick={onConfirm}>
             Yes, Replace Items
           </button>
         </div>

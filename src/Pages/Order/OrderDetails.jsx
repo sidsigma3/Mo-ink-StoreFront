@@ -583,11 +583,11 @@ const handleBuyAgain = async (orderToBuy) => {
 
                 
                 <div>
-                <div className='border-1 rounded-md p-3 mt-10 '>                  
+                <div className='border-1 rounded-md p-3 md:mt-10  '>                  
                 <table className='w-100 rounded mt-2 font-semibold'>
                     <tbody className='leading-8'>
                         <tr>
-                        <td>Total Cost</td>
+                        <td className='pb-0.5'>Total Cost</td>
                         <td></td>
                         <td style={{ textAlign: 'end' }}>₹{(totalCost).toFixed(0)}</td>
                         </tr>
@@ -595,9 +595,9 @@ const handleBuyAgain = async (orderToBuy) => {
                         <tr className='border-b-2'>
                         <td>
                             <div>
-                            <p>Total Discount</p>
-                            <p className='text-gray-400 pl-6'>Pay type</p>
-                            <p className='text-gray-400 pl-6'>Coupon </p>
+                            <p  className='pb-0.5'>Total Discount</p>
+                            <p className='text-gray-400 pl-6 pb-0.5'>Pay type</p>
+                            <p className='text-gray-400 pl-6 pb-2'>Coupon </p>
                             </div>
                         </td>
                         <td>
@@ -622,9 +622,9 @@ const handleBuyAgain = async (orderToBuy) => {
                         </tr>
 
                         <tr>
-                        <td className='pb-2'>Final Cost</td>
-                        <td className='pb-2'></td>
-                        <td className='text-end pb-2'>₹{Math.round(finalTotal)}</td>
+                        <td className='pt-2 pb-0.5'>Final Cost</td>
+                        <td className='pt-2 pb-0.5'></td>
+                        <td className='text-end pt-2 pb-0.5'>₹{Math.round(finalTotal)}</td>
                         </tr>
 
                         {
@@ -632,14 +632,14 @@ const handleBuyAgain = async (orderToBuy) => {
                         <>
 
                         <tr>
-                        <td className='pb-2'>CGST</td>
-                        <td className='pb-2'></td>
-                        <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(0)}</td>
+                        <td className='pb-0.5'>CGST</td>
+                        <td className='pb-0.5'></td>
+                        <td className='text-end pb-0.5'>₹{(gstAmount / 2).toFixed(0)}</td>
                         </tr>
                         <tr>
-                        <td className='pb-2'>SGST</td>
-                        <td className='pb-2'></td>
-                        <td className='text-end pb-2'>₹{(gstAmount / 2).toFixed(0)}</td>
+                        <td className='pb-0.5'>SGST</td>
+                        <td className='pb-0.5'></td>
+                        <td className='text-end pb-0.5'>₹{(gstAmount / 2).toFixed(0)}</td>
                         </tr>
 
                         </>
@@ -647,15 +647,15 @@ const handleBuyAgain = async (orderToBuy) => {
                               <tr>
                               <td>IGST</td>
                               <td></td>
-                              <td className="text-end pb-2">₹{(gstAmount).toFixed(0)}</td>
+                              <td className="text-end pb-0.5">₹{(gstAmount).toFixed(0)}</td>
                             </tr>
                           )
                         }
 
                         <tr>
-                        <td className='pb-2'>Handling Charges</td>
-                        <td className='pb-2'></td>
-                        <td className='text-end pb-2'>₹{handlingCharges}</td>
+                        <td className='pb-0.5'>Handling Charges</td>
+                        <td className='pb-0.5'></td>
+                        <td className='text-end pb-0.5'>₹{handlingCharges}</td>
                         </tr>
 
                         <tr className='border-b-2'>
@@ -665,9 +665,9 @@ const handleBuyAgain = async (orderToBuy) => {
                         </tr>
 
                         <tr>
-                        <td className='pt-2'>Net Pay</td>
-                        <td className='pt-2'></td>
-                        <td className='text-end pt-2'>₹{Math.round(netPayable).toLocaleString()}</td>
+                        <td className='pt-2 pb-0.5'>Net Pay</td>
+                        <td className='pt-2 pb-0.5'></td>
+                        <td className='text-end pt-2 pb-0.5'>₹{Math.round(netPayable).toLocaleString()}</td>
                         </tr>
 
                         <tr className='border-b-2'>
@@ -686,15 +686,15 @@ const handleBuyAgain = async (orderToBuy) => {
                         </tr>
 
                         <tr>
-                        <td>Advance Paid</td>
-                        <td>{online}%</td>
-                        <td className='text-end'>₹{order?.payment.totalAmountPaid.toFixed(0)}</td>
+                        <td className='pt-2 pb-0.5 '>Advance Paid</td>
+                        <td className='pt-2 pb-0.5'>{online}%</td>
+                        <td className='text-end pt-2 pb-0.5'>₹{order?.payment.totalAmountPaid.toFixed(0)}</td>
                         </tr>
 
                         <tr>
-                        <td className='pt-2'>Balance Due</td>
-                        <td className='pt-2'>{cod}%</td>
-                        <td className='text-end pt-2'>₹{ order?.payment.pendingAmount.toFixed(0)-order?.payment.totalAdjustedAmount.toFixed(0)}</td>
+                        <td className='pb-2'>Balance Due</td>
+                        <td className='pb-2'>{cod}%</td>
+                        <td className='text-end pb-2'>₹{ order?.payment.pendingAmount.toFixed(0)-order?.payment.totalAdjustedAmount.toFixed(0)}</td>
                         </tr>
                     </tbody>
                     </table>

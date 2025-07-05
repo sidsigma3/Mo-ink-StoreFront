@@ -121,7 +121,7 @@ const mainBannerItems = [
           <Swiper
             spaceBetween={10}
             slidesPerView={1}
-            autoplay={{ delay: 2000, disableOnInteraction: false }}
+            autoplay={{ delay: 30000, disableOnInteraction: false }}
             pagination={{ clickable: true }}
             modules={[Pagination, Autoplay]}
             className="h-full " 

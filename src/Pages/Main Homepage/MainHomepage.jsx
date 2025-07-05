@@ -37,7 +37,7 @@ const MainHomepage = () => {
         <div className='px-4 md:px-14'> <MainHero></MainHero> </div>
         <div className='md:px-14 py-28'> <MainFeatures></MainFeatures> </div>
         <div className=' py-3'> <MainWhyUs></MainWhyUs> </div>
-        <div className='md:px-14 pt-28 pb-14'> <MainBestsellers></MainBestsellers> </div>
+        <div className='md:px-14 py-12'> <MainBestsellers></MainBestsellers> </div>
         <div className='px-3 md:px-14 pt-14 pb-28 '> <MainColors></MainColors> </div>
         <div className='py-3 '> <MainCone></MainCone> </div>
         <div className='py-3 px-6 md:px-14'> <MainProcess></MainProcess> </div>

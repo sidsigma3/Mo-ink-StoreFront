@@ -247,8 +247,12 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                   ? `${backendUrl}${item.color.colorImage}`
                   : `${backendUrl}${product.productImage?.find(img => img.includes(item.variantType.toLowerCase())) || product.productImage?.[0]}`
               }
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover  overflow-hidden"
               alt="Product"
+              style={{ 
+              transform: 'scale(1.1)',
+              marginBottom: '-2%'
+            }}
             />
             {/* <div
                 className="absolute inset-0  opacity-50 mix-blend-multiply"
@@ -760,7 +764,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                               }}
                               
                              >
-                                <img src="/images/select-color.png" className="w-10 h-10" alt="More Colors" />
+                                <img src="/images/select-color.png" className="w-10 h-10 " alt="More Colors" />
                                 <h4 className="text-sm text-center text-blue-600 font-semibold">Click here for color catalogue</h4>
                             </div>
 
@@ -789,7 +793,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                       {customColors.length === 0 ? (
                                         <div className="text-gray-500 text-center">No unused custom colors available</div>
                                       ) : (
-                                         <div className="h-[40rem] overflow-y-auto p-2">
+                                         <div className="h-[78vh] overflow-y-auto p-2 mb-6">
                                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                                            {customColors.map((item) => {
                                               const imageForVariant = item.colorImage?.find((img) =>
@@ -866,7 +870,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                               
 
                                         <h4 className="mt-4 text-lg font-semibold ">Available Colors</h4>
-                                        <div className="h-[32rem] overflow-y-auto p-2">
+                                        <div className="h-[63vh] overflow-y-auto p-2">
                                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                                             {filteredColorsTemp.map((aVariant) => {
                                             const isSelected = modalSelectedColors.find((color) => color.color.id === aVariant.color.id);
@@ -910,7 +914,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                                     </div>
                                 )}
 
-                                <div className="flex justify-between mt-4 absolute bottom-16 md:bottom-0 w-full pr-8 py-3">
+                                <div className="flex justify-between mt-4 bg-white absolute bottom-2  md:bottom-0 w-full pr-14 py-3">
                                   <button
                                     className="bg-gray-400 hover:bg-gray-500 text-white px-4 rounded"
                                     onClick={() => {
@@ -971,11 +975,15 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
                             return (
                               <div key={color.color.id} className="border-2 rounded-md overflow-hidden relative">
-                                <div className="relative h-20 w-full">
+                                <div className="relative h-20 w-full overflow-hidden">
                                   <img
                                     src={imageUrl}
-                                    className="w-full h-full bg-[#95979A] object-contain"
+                                    className="w-full h-full bg-[#95979A] object-contain "
                                     alt={color.color.colorName}
+                                    style={{ 
+                                    transform: 'scale(1.1)',
+                                    marginBottom: '-10%'
+                                  }}
                                   />
                                   {!colorImage && (
                                     <div

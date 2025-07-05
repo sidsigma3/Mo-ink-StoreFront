@@ -174,7 +174,7 @@ console.log(products)
               .map((variant) => (
                 <li
                   key={`${product.id}-${variant.id}`}
-                  className="snap-start bg-white overflow-hidden hover:shadow-md transition flex flex-col items-center flex-shrink-0"
+                  className="snap-start bg-white overflow-hidden transition flex flex-col items-center flex-shrink-0"
                   style={{ minWidth: '250px', padding: '' }}
                 >
                   <ProductDetailBox

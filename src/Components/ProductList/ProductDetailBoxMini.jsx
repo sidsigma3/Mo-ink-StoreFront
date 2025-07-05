@@ -149,6 +149,10 @@ const getImageByVariantType = (variantType, imageUrls) => {
               // src={`${backendUrl}${getImageByVariantType(variantType, productImage)}`}
               alt=""
               className="w-full h-full object-cover z-0"
+              style={{ 
+              transform: 'scale(1.1)',
+              marginBottom: '-2%'
+            }}
             />
             {/* <div
               className="absolute inset-0 z-10 rounded-lg"

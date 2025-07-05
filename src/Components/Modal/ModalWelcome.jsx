@@ -61,7 +61,7 @@ const ModalWelcome = () => {
             </h2>
 
             <p className="text-md mb-4 text-gray-500">
-              We're delighted to welcome you aboard! Take a moment, explore our collections, and discover products crafted with care.
+              We're delighted to welcome you aboard! Take a moment, Browse our collections.
             </p>
           </div>
         </div>

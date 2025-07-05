@@ -144,14 +144,14 @@ const getImageByVariantType = (variantType) => {
     <div className="grid grid-cols-10 gap-2 relative  justify-center rounded-lg bg-white">
       
       {/* Product Image */}
-      <div className="col-span-3 lg:col-span-2 flex items-center justify-end">
-        <img
-          src={`${backendUrl}${item.color?.colorImage}`}
-          // src={`${backendUrl}${getImageByVariantType(item.variantType)}`}
-          className="rounded-md size-32"
-          alt="Product"
-        />
-      </div>
+     <div className="col-span-3 lg:col-span-2 flex items-center justify-end overflow-hidden rounded-tl-md rounded-tr-md rounded-bl-md rounded-br-md">
+  <img
+    src={`${backendUrl}${item.color?.colorImage}`}
+    alt="Product"
+    className="size-32 transform scale-[1.1] object-cover "
+  />
+</div>
+
 
 
       {/* Product Info */}
@@ -185,7 +185,7 @@ const getImageByVariantType = (variantType) => {
       {/* Status Badge (Desktop) */}
       <div className="col-span-3 lg:col-span-2 hidden lg:flex justify-center items-center">
         <span
-          className={`text-md font-semibold px-4 py-1 rounded-md ${statusClassMap[item.status] || ''}`}
+          className={`text-md font-semibold px-3 py-1 rounded-md ${statusClassMap[item.status] || ''}`}
         >
           {statusOptions[item.status]}
         </span>
@@ -195,7 +195,7 @@ const getImageByVariantType = (variantType) => {
       <div className="col-span-3 lg:col-span-2 flex flex-col justify-center items-center relative">
         <div className="flex items-center gap-2">
           <div className="text-right">
-            <h4 className="text-xl font-bold text-purple-800">
+            <h4 className="text-lg md:text-xl font-bold text-purple-800">
               ₹{baseCost.toFixed(0)}
             </h4>
             <p className="text-gray-500 font-medium">

@@ -645,9 +645,9 @@ const handleBuyAgain = async (orderToBuy) => {
                         </>
                             ) : (
                               <tr>
-                              <td>IGST</td>
-                              <td></td>
-                              <td className="text-end pb-0.5">₹{(gstAmount).toFixed(0)}</td>
+                              <td className='pb-0.5'>IGST</td>
+                              <td className='pb-0.5'></td>
+                              <td className='text-end pb-0.5'>₹{(gstAmount).toFixed(0)}</td>
                             </tr>
                           )
                         }

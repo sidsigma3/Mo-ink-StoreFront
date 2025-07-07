@@ -1025,7 +1025,7 @@ const CheckoutPage = () => {
 
 
 
-                <div className=' flex-1 mt-10'>
+                <div className=' flex-1 mt-10 md:px-24'>
 
                     <div className='flex justify-between'>
                         <h5 className='font-semibold text-xl md:text-2xl'>Shipping Address</h5>
@@ -1367,12 +1367,12 @@ const CheckoutPage = () => {
 
                     </div> */}
                 </div>
-                <div className=' flex-1'>
+                <div className=' flex-1 md:px-24'>
                     <div className='border-1 rounded-md p-3 mt-10'>
                         <table className='w-100 rounded mt-2 font-semibold'>
                             <tbody className='leading-8'>
                                 <tr className=''>
-                                    <td>Total Cost</td>
+                                    <td className='pb-0.5'>Total Cost</td>
                                     <td></td>
                                    <td style={{ textAlign: 'end' }}>₹{Math.round(totalProductCost).toLocaleString()}
                                     </td>
@@ -1380,9 +1380,9 @@ const CheckoutPage = () => {
                                 <tr className='border-b-2'>
                                     <td>
                                         <div>
-                                            <p>Total Discount</p>
-                                            <p className='text-gray-400 pl-6'>Pay type</p>
-                                            <p className='text-gray-400 pl-6'>Coupon</p>
+                                            <p className='pb-0.5'>Total Discount</p>
+                                            <p className='text-gray-400 pl-6 pb-0.5'>Pay type</p>
+                                            <p className='text-gray-400 pl-6 pb-2'>Coupon </p>
                                         </div>
                                     </td>
                                     <td>
@@ -1412,9 +1412,9 @@ const CheckoutPage = () => {
                                 </tr>
                                 
                                 <tr className=''>
-                                    <td className='pb-2'>Final Cost</td>
-                                    <td className='pb-2'></td>
-                                    <td className='text-end pb-2'>₹{finalTotal.toFixed(0)}</td>
+                                    <td className='pt-2 pb-0.5'>Final Cost</td>
+                                    <td className='pt-2 pb-0.5'></td>
+                                    <td className='text-end pt-2 pb-0.5'>₹{finalTotal.toFixed(0)}</td>
                                 </tr>
 
                                 
@@ -1423,32 +1423,32 @@ const CheckoutPage = () => {
                                 <>
 
                                         <tr className=''>
-                                            <td className='pb-2'>CGST</td>
-                                            <td className='pb-2'></td>
-                                            <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
+                                            <td className='pb-0.5'>CGST</td>
+                                            <td className='pb-0.5'></td>
+                                            <td className='text-end pb-0.5'>₹{(gstAmount/2).toFixed(0)}</td>
                                         </tr>
 
                                         <tr className=''>
-                                            <td className='pb-2'>SGST</td>
-                                            <td className='pb-2'></td>
-                                            <td className='text-end pb-2'>₹{(gstAmount/2).toFixed(0)}</td>
+                                            <td className='pb-0.5'>SGST</td>
+                                            <td className='pb-0.5'></td>
+                                            <td className='text-end pb-0.5'>₹{(gstAmount/2).toFixed(0)}</td>
                                         </tr>
 
                                         </>
                                     ) : (
                                     <tr>
-                                    <td>IGST</td>
-                                    <td></td>
-                                    <td className="text-end pb-2">₹{(gstAmount).toFixed(0)}</td>
+                                    <td className='pb-0.5'>SGST</td>
+                                    <td className='pb-0.5'></td>
+                                    <td className='text-end pb-0.5'>₹{(gstAmount).toFixed(0)}</td>
                                     </tr>
                                 )
                                 }
                                 
 
                                 <tr className=''>
-                                    <td className='pb-2'>Handling Charges</td>
-                                    <td className='pb-2'></td>
-                                    <td className='text-end pb-2'>₹{handlingCharges}</td>
+                                    <td className='pb-0.5'>Handling Charges</td>
+                                    <td className='pb-0.5'></td>
+                                    <td className='text-end pb-0.5'>₹{handlingCharges}</td>
                                 </tr>
                                 <tr className='border-b-2'>
                                     <td className='pb-2'>Platform Fees</td>
@@ -1456,9 +1456,9 @@ const CheckoutPage = () => {
                                     <td className='text-end pb-2'>₹{platformFees}</td>
                                 </tr>
                                 <tr>
-                                    <td className='pt-2'>Net pay</td>
-                                    <td className='pt-2'></td>
-                                    <td className='text-end pt-2'>
+                                    <td className='pt-2 pb-0.5'>Net Pay</td>
+                                    <td className='pt-2 pb-0.5'></td>
+                                    <td className='text-end pt-2 pb-0.5'>
                                         ₹{Math.round(netPayable).toLocaleString()}
                                     </td>
                                 </tr>
@@ -1482,7 +1482,7 @@ const CheckoutPage = () => {
                                     </td>
                                 </tr>
                                 <tr className='border-b-2'>
-                                    <td className='pt-2 pb-2'>To pay</td>
+                                     <td className='pt-2 pb-2'>To pay</td>
                                     <td className='pt-2'></td>
                                     <td className='text-end pt-2 pb-2'>
                                         ₹{Math.round(adjustedNetPay).toLocaleString()}
@@ -1490,23 +1490,23 @@ const CheckoutPage = () => {
                                 </tr>
                                
                                 <tr>
-                                    <td>Advance Paid</td>
-                                    <td className=''>{online}%</td>
-                                    <td className='text-end'>₹{onlinePay.toFixed(0)}
+                                    <td className='pt-2 pb-0.5 '>Advance Paid</td>
+                                    <td className='pt-2 pb-0.5'>{online}%</td>
+                                    <td className='text-end pt-2 pb-0.5'>₹{onlinePay.toFixed(0)}
                                     </td>
                                 </tr>
 
                                 <tr className=''>
-                                    <td className='pt-2'>Balance Due</td>
-                                    <td className='pt-2'>{cod}%</td>
-                                    <td className='text-end pt-2'>₹{codPay.toFixed(0)}</td>
+                                    <td className='pb-2'>Balance Due</td>
+                                    <td className='pb-2'>{cod}%</td>
+                                    <td className='text-end pb-2'>₹{codPay.toFixed(0)}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div>
-                    <div className='mt-6'>
+                    <div className='mt-6 md:px-24'>
                         {selectedPayment === "0% Online and 100% COD" ? (
                             <button className='bg-orange-500 text-white p-3 rounded-md w-full'
                             onClick={handleCreateOrder}>CREATE ORDER</button>
@@ -1515,7 +1515,7 @@ const CheckoutPage = () => {
                             onClick={handleOnlinePaymentFlow}>PAY NOW</button>
                         )}
                     </div>
-                    <div className='mt-6'>
+                    <div className='mt-6 md:px-24'>
                         <h4 className='font-semibold flex gap-2'><span className='text-purple-800'><RiLock2Line size={20} /></span>Ensure Checkout- SSL Encrypted</h4>
                         <p className='text-slate-400 mt-2'>Ensuring your financial and personal details are secure during every transaction</p>
                     </div>

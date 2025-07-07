@@ -170,7 +170,7 @@ const handleAddToCart = async () => {
       {/* Product Card */}
   <div className="relative block bg-white border-2 border-gray-200 rounded-xl overflow-hidden" style={{ width: '19rem' }}>
  
-  <div className="relative bg-[#999EA4] flex justify-center items-center" style={{ height: '10rem', overflow: 'hidden' }}>
+  <div className="relative bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6] flex justify-center items-center" style={{ height: '10rem', overflow: 'hidden' }}>
   <img
     src={`${backendUrl}${colorImage}`}
     alt=""

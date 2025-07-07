@@ -148,7 +148,7 @@ const getImageByVariantType = (variantType) => {
   <img
     src={`${backendUrl}${item.color?.colorImage}`}
     alt="Product"
-    className="size-32 transform scale-[1.1] object-cover "
+    className="size-32 transform scale-[1.3] object-cover "
   />
 </div>
 
@@ -199,7 +199,7 @@ const getImageByVariantType = (variantType) => {
               ₹{baseCost.toFixed(0)}
             </h4>
             <p className="text-gray-500 font-medium">
-              Weight: {weight}KG
+              Wt: {weight}Kg
             </p>
 
             {returnRequested && (

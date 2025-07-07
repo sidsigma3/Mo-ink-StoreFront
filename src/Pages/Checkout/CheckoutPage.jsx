@@ -175,6 +175,39 @@ const CheckoutPage = () => {
 
     const { online, cod } = getPaymentSplit(selectedPayment);
 
+    const getCouponDiscountDetails = (coupon, item, itemTotal, totalCartWeight, totalCartValue) => {
+  if (!coupon) return { allowed: false, amount: 0, percent: 0 };
+
+  const isEligibleProduct = coupon.applicableProducts?.some(p => p.id === item.productId);
+  if (!isEligibleProduct) return { allowed: false, amount: 0, percent: 0 };
+
+  const requirement = coupon.minPurchaseRequirement || "";
+  let requirementMet = true;
+
+  if (requirement.includes("Minimum purchase amount")) {
+    const match = requirement.match(/\₹\s?(\d+)/);
+    const minAmount = match ? Number(match[1]) : 0;
+    requirementMet = totalCartValue >= minAmount;
+  } else if (requirement.includes("Minimum quantity required")) {
+    const match = requirement.match(/(\d+)/);
+    const minQty = match ? Number(match[1]) : 0;
+    requirementMet = totalCartWeight >= minQty;
+  }
+
+  if (!requirementMet) return { allowed: false, amount: 0, percent: 0 };
+
+  if (coupon.discountType === "FixedAmount") {
+    const amount = Number(coupon.discountValue || 0);
+    const percent = (amount / itemTotal) * 100;
+    return { allowed: true, amount, percent };
+  } else {
+    const percent = Number(coupon.discountValue || 0);
+    const amount = (itemTotal * percent) / 100;
+    return { allowed: true, amount, percent };
+  }
+};
+
+
     // const totalProductCost = selectedCartItems.reduce((total, item) => {
     //     return total + item.price * item.quantity;
     // }, 0);
@@ -194,95 +227,83 @@ const CheckoutPage = () => {
     // const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
 
     const {
-        totalProductCost,
-        totalDiscount,
-        discountByPayment,
-        discountByCoupon,
-        finalTotal,
-        gstAmount,
-        netPayable,
-        adjustedNetPay,
-        onlinePay,
-        codPay,
-        totalDiscountPercentage,
-        handlingCharges
-      } = useMemo(() => {
-       
-        let totalProductCost = 0;
-        let discountByPayment = 0;
-        let discountByCoupon = 0;
-        let gstAmount = 0;
-        const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
+  totalProductCost,
+  discountByPayment,
+  discountByCoupon,
+  totalDiscount,
+  finalTotal,
+  gstAmount,
+  netPayable,
+  adjustedNetPay,
+  onlinePay,
+  codPay,
+  totalDiscountPercentage,
+  handlingCharges,
+} = useMemo(() => {
+  let totalProductCost = 0;
+  let discountByPayment = 0;
+  let discountByCoupon = 0;
+  let gstAmount = 0;
+  let totalCartWeight = 0;
 
-        
-      
-        selectedCartItems.forEach(item => {
-          const unitWeight = item.variantType === 'CONE'? 50 : 10; 
-          const itemTotal = item.price * item.quantity * unitWeight;
-          const gstRate = item.gstRate || 0;
-          totalProductCost += itemTotal;
-      
-          let productDiscount = 0;
-          if (appliedCoupon) {
-            const isEligible = appliedCoupon.applicableProducts?.some(p => p.id === item.productId);
-            if (isEligible) {
-              productDiscount = Number(appliedCoupon.discountValue) || 0;
-            }
-          }
-      
-          const combinedDiscountPercent =
-            productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
+  const paymentDiscountPercent = Number(paymentDiscountMap[selectedPayment] || 0);
 
+  // Pre-calculate total cart weight and value
+  selectedCartItems.forEach(item => {
+    const unitWeight = item.variantType === 'CONE' ? 50 : 10;
+    const itemWeight = item.quantity * unitWeight;
+    const itemTotal = item.price * itemWeight;
+    totalCartWeight += itemWeight;
+    totalProductCost += itemTotal;
+  });
 
-        const couponDiscountPercent = Number(appliedCoupon?.discountValue) || 0;
-        const paymentDiscountPercent = Number(paymentDiscount) || 0;
-      
-         
-       
-        // Step 1: Apply coupon discount
-        const couponDiscountAmount = (itemTotal * couponDiscountPercent) / 100;
-        const subtotalAfterCoupon = itemTotal - couponDiscountAmount;
-    
-        // Step 2: Apply payment discount
-        const paymentDiscountAmount = (subtotalAfterCoupon * paymentDiscountPercent) / 100;
-        const finalTotal = subtotalAfterCoupon - paymentDiscountAmount;
-      
-          const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
-          const discountedTotal = itemTotal - itemDiscount;
-          const gstForItem = (discountedTotal * gstRate) / 100;
-      
-          gstAmount += gstForItem;
-          discountByCoupon += couponDiscountAmount;
-          discountByPayment += paymentDiscountAmount;
-        });
-      
-        const handlingCharges = calculateHandlingCharges(selectedCartItems, selectedAddress);
-        const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
-        const totalDiscountPercentage =
-          productDiscount + paymentDiscount - (productDiscount * paymentDiscount) / 100;
-      
-        const totalDiscount = discountByCoupon + discountByPayment;
-        const finalTotal = totalProductCost - totalDiscount;
-        const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
-        const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
-        const onlinePay = (online / 100) * adjustedNetPay;
-        const codPay = (cod / 100) * adjustedNetPay;
-      
-        return {
-          totalProductCost,
-          discountByPayment,
-          discountByCoupon,
-          totalDiscount,
-          finalTotal,
-          gstAmount,
-          netPayable,
-          adjustedNetPay,
-          onlinePay,
-          codPay,
-          totalDiscountPercentage,
-          handlingCharges
-        };
-      }, [selectedCartItems, selectedPayment, appliedCoupon, walletUsed, platformFees, online, cod, selectedAddress]);
+  selectedCartItems.forEach(item => {
+    const unitWeight = item.variantType === 'CONE' ? 50 : 10;
+    const itemWeight = item.quantity * unitWeight;
+    const itemTotal = item.price * itemWeight;
+    const gstRate = item.gstRate || 0;
+
+    const { allowed, amount: couponDiscountAmount, percent: couponPercent } =
+      getCouponDiscountDetails(appliedCoupon, item, itemTotal, totalCartWeight, totalProductCost);
+
+    const subtotalAfterCoupon = itemTotal - couponDiscountAmount;
+
+    const paymentDiscountAmount = (subtotalAfterCoupon * paymentDiscountPercent) / 100;
+
+    const discountedTotal = subtotalAfterCoupon - paymentDiscountAmount;
+    const gstForItem = (discountedTotal * gstRate) / 100;
+
+    gstAmount += gstForItem;
+    discountByCoupon += allowed ? couponDiscountAmount : 0;
+    discountByPayment += paymentDiscountAmount;
+  });
+
+  const handlingCharges = calculateHandlingCharges(selectedCartItems, selectedAddress);
+  const totalDiscount = discountByCoupon + discountByPayment;
+  const finalTotal = totalProductCost - totalDiscount;
+  const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
+  const adjustedNetPay = Math.max(netPayable - walletUsed, 0);
+  const onlinePay = (online / 100) * adjustedNetPay;
+  const codPay = (cod / 100) * adjustedNetPay;
+
+  const totalDiscountPercentage =
+    ((discountByCoupon + discountByPayment) / totalProductCost) * 100;
+
+  return {
+    totalProductCost,
+    discountByPayment,
+    discountByCoupon,
+    totalDiscount,
+    finalTotal,
+    gstAmount,
+    netPayable,
+    adjustedNetPay,
+    onlinePay,
+    codPay,
+    totalDiscountPercentage,
+    handlingCharges,
+  };
+}, [selectedCartItems, selectedPayment, appliedCoupon, walletUsed, platformFees, online, cod, selectedAddress]);
 
 
     const handleWalletChange = (e) => {

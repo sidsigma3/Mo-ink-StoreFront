@@ -19,8 +19,8 @@ const MainWhyUs = () => {
             <div className="w-full flex justify-center ">
               <div className="max-w-auto w-full">
                 <Image
-                  src="https://themetechmount.com/html/fablio/demo5/images/bg-image/col-bgimage-1.jpg"
-                  alt="Chef"
+                  src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/col-bgimage-1.png?updatedAt=1751860378548"
+                  alt="Image"
                   width={600}
                   height={800}
                   className="w-full h-auto object-contain  rounded-3xl border-4 border-grey-50"

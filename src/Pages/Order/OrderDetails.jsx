@@ -603,7 +603,11 @@ const handleBuyAgain = async (orderToBuy) => {
                         <td>
                             <div>
                             <p>{combinedDiscountPercent.toFixed(2)}%</p>
-                            <p className="text-gray-400">{order.paymentTypeDiscount}</p>
+                            <p className="text-gray-400">
+                              {paymentDiscountMap[order.paymentTypeDiscount]
+                                ? `${paymentDiscountMap[order.paymentTypeDiscount]}%`
+                                : '0%'}
+                            </p>
                             <p className='text-gray-400'>
                                 {appliedCoupon
                                 ? `${appliedCoupon.discountValue}${appliedCoupon.discountType === 'Percentage' ? '%' : '₹'}`

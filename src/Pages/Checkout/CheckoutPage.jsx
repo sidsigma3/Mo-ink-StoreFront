@@ -33,6 +33,47 @@ import Toast from '../../Components/Toast/Toast';
 import ProductDetailBoxMiniMobile from '../../Components/ProductList/ProductDetailBoxMiniMobile'
 
 
+const getOrderItemDiscountDetails = ({
+  coupon,
+  item,
+  itemTotal,
+  totalCartWeight,
+  totalCartValue,
+  paymentDiscountPercent
+}) => {
+  const isEligibleProduct = coupon?.applicableProducts?.some(p => p.id === item.productId);
+  if (!isEligibleProduct) return { allowed: false, itemDiscount: (itemTotal * paymentDiscountPercent) / 100 };
+
+  const requirement = coupon?.minPurchaseRequirement || "";
+  let requirementMet = true;
+
+  if (requirement.includes("Minimum purchase amount")) {
+    const match = requirement.match(/\₹\s?(\d+)/);
+    const minAmount = match ? Number(match[1]) : 0;
+    requirementMet = totalCartValue >= minAmount;
+  } else if (requirement.includes("Minimum quantity required")) {
+    const match = requirement.match(/(\d+)/);
+    const minQty = match ? Number(match[1]) : 0;
+    requirementMet = totalCartWeight >= minQty;
+  }
+
+  if (!requirementMet) return { allowed: false, itemDiscount: (itemTotal * paymentDiscountPercent) / 100 };
+
+  const couponValue = Number(coupon.discountValue || 0);
+  const discountType = coupon.discountType;
+
+  if (discountType === "FixedAmount") {
+    const fixedAmount = couponValue;
+    const afterFixed = itemTotal - fixedAmount;
+    const paymentDiscount = (afterFixed * paymentDiscountPercent) / 100;
+    return { allowed: true, itemDiscount: fixedAmount + paymentDiscount };
+  } else {
+    const combinedPercent = couponValue + paymentDiscountPercent - (couponValue * paymentDiscountPercent) / 100;
+    return { allowed: true, itemDiscount: (itemTotal * combinedPercent) / 100 };
+  }
+};
+
+
 const CheckoutPage = () => {
 
 
@@ -534,78 +575,78 @@ const CheckoutPage = () => {
       };
       
 
-      const buildDetailedOrderVariants = (cartItems) => {
-      
-        const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
-        const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
-      
-        console.log(paymentDiscount,productDiscount)
+     const buildDetailedOrderVariants = (cartItems) => {
+  const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
+  const coupon = appliedCoupon || null;
 
-        const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
-        
-        const customerState = selectedAddress?.state?.toLowerCase() || "";
-        const ratePerKg = customerState === "odisha" ? 3 : 5;
-      
-        // Total weight for proportional handling charge calculation
-        const totalWeight = cartItems.reduce((acc, item) => {
-            if (!item.variantId || item.quantity <= 0) return acc;
-          
-            const unitWeight = item.variantType === "CONE" ? 50 : 10; // grams
-            return acc + item.quantity * unitWeight;
-          }, 0);
-          
-      
-        return cartItems
-          .filter(item => item.variantId && item.quantity > 0)
-          .map(item => {
-            const unitWeight = item.variantType === "CONE" ? 50 : 10 ;
-            const itemWeight = Number(item.quantity) * unitWeight;
-            const itemTotal = item.price * item.quantity * unitWeight;
-            const gstRate = item.gstRate || 0;
-      
-            let applicableCouponDiscount = 0;
-            if (appliedCoupon?.applicableProducts?.some(p => p.id === item.productId)) {
-              applicableCouponDiscount = productDiscount;
-            }
-      
-            const combinedDiscountPercent =
-              applicableCouponDiscount + paymentDiscount - (applicableCouponDiscount * paymentDiscount) / 100;
+  const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME")?.state?.toLowerCase() || "";
+  const customerState = selectedAddress?.state?.toLowerCase() || "";
+  const ratePerKg = customerState === "odisha" ? 3 : 5;
 
-           
-      
-            const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
-            const discountedTotal = itemTotal - itemDiscount;
-            const gstForItem = (discountedTotal * gstRate) / 100;
-      
-            const cgst = billingState === "odisha" ? gstForItem / 2 : 0;
-            const sgst = billingState === "odisha" ? gstForItem / 2 : 0;
-            const igst = billingState !== "odisha" ? gstForItem : 0;
-      
-            const handlingCharges = totalWeight > 0 ? (itemWeight / totalWeight) * (totalWeight * ratePerKg) : 0;
-      
-            return {
-              variantId: item.variantId,
-              orderWeight: itemWeight,
-              variantType: item.variantType || "Cone",
-              orderVariantCgst: Number(cgst.toFixed(0)),
-              orderVariantSgst: Number(sgst.toFixed(0)),
-              orderVariantIgst: Number(igst.toFixed(0)),
-              orderVariantDiscount: Number(itemDiscount.toFixed(0)),
-              orderVariantHandlingCharges: Number(handlingCharges.toFixed(0)),
-              orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(0)),
-              status: "NEW",
-              statusReason: null,
-              statusRemark: null,
-            };
-          });
+  const totalCartWeight = cartItems.reduce((acc, item) => {
+    const unit = item.variantType === "CONE" ? 50 : 10;
+    return acc + (item.quantity * unit);
+  }, 0);
+
+  const totalCartValue = cartItems.reduce((acc, item) => {
+    const unit = item.variantType === "CONE" ? 50 : 10;
+    return acc + (item.price * item.quantity * unit);
+  }, 0);
+
+  return cartItems
+    .filter(item => item.variantId && item.quantity > 0)
+    .map(item => {
+      const unitWeight = item.variantType === "CONE" ? 50 : 10;
+      const itemWeight = item.quantity * unitWeight;
+      const itemTotal = item.price * item.quantity * unitWeight;
+      const gstRate = item.gstRate || 0;
+
+      const { itemDiscount } = getOrderItemDiscountDetails({
+        coupon,
+        item,
+        itemTotal,
+        totalCartWeight,
+        totalCartValue,
+        paymentDiscountPercent: paymentDiscount
+      });
+
+      const discountedTotal = itemTotal - itemDiscount;
+      const gstForItem = (discountedTotal * gstRate) / 100;
+
+      const cgst = billingState === "odisha" ? gstForItem / 2 : 0;
+      const sgst = billingState === "odisha" ? gstForItem / 2 : 0;
+      const igst = billingState !== "odisha" ? gstForItem : 0;
+
+      const handlingCharges = totalCartWeight > 0
+        ? (itemWeight / totalCartWeight) * (totalCartWeight * ratePerKg)
+        : 0;
+
+      return {
+        variantId: item.variantId,
+        orderWeight: itemWeight,
+        variantType: item.variantType || "Cone",
+        orderVariantCgst: Number(cgst.toFixed(0)),
+        orderVariantSgst: Number(sgst.toFixed(0)),
+        orderVariantIgst: Number(igst.toFixed(0)),
+        orderVariantDiscount: Number(itemDiscount.toFixed(0)),
+        orderVariantHandlingCharges: Number(handlingCharges.toFixed(0)),
+        orderVariantTotalAmount: Number((discountedTotal + gstForItem + handlingCharges).toFixed(0)),
+        status: "NEW",
+        statusReason: null,
+        statusRemark: null,
       };
+    });
+};
+
       
       const buildDetailedOrderVariantsForPayment = (cartItems) => {
         const unitWeight = 50;
         const paymentDiscount = paymentDiscountMap[selectedPayment] || 0;
         const productDiscount = appliedCoupon?.discountValue ? Number(appliedCoupon.discountValue) : 0;
       
-        console.log(paymentDiscount,productDiscount)
+        const coupon = appliedCoupon || null;
+      
+        console.log(paymentDiscount,productDiscount)    
 
         const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
         const customerState = selectedAddress?.state?.toLowerCase() || "";
@@ -618,6 +659,16 @@ const CheckoutPage = () => {
             const unitWeight = item.variantType === "CONE" ? 50 : 10; // grams
             return acc + item.quantity * unitWeight;
           }, 0);
+
+            const totalCartWeight = cartItems.reduce((acc, item) => {
+                const unit = item.variantType === "CONE" ? 50 : 10;
+                return acc + (item.quantity * unit);
+            }, 0);
+
+          const totalCartValue = cartItems.reduce((acc, item) => {
+            const unit = item.variantType === "CONE" ? 50 : 10;
+            return acc + (item.price * item.quantity * unit);
+        }, 0);
       
         return cartItems
           .filter(item => item.variantId && item.quantity > 0)
@@ -626,18 +677,28 @@ const CheckoutPage = () => {
             const itemWeight = Number(item.quantity) * unitWeight;
             const itemTotal = item.price * item.quantity * unitWeight;
             const gstRate = item.gstRate || 0;
-      
-            let applicableCouponDiscount = 0;
-            if (appliedCoupon?.applicableProducts?.some(p => p.id === item.productId)) {
-              applicableCouponDiscount = productDiscount;
-            }
-      
-            const combinedDiscountPercent =
-              applicableCouponDiscount + paymentDiscount - (applicableCouponDiscount * paymentDiscount) / 100;
 
-            console.log(combinedDiscountPercent)
+
+             const { itemDiscount    } = getOrderItemDiscountDetails({
+                coupon,
+                item,
+                itemTotal,
+                totalCartWeight,
+                totalCartValue,
+                paymentDiscountPercent: paymentDiscount
+            });
       
-            const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
+            // let applicableCouponDiscount = 0;
+            // if (appliedCoupon?.applicableProducts?.some(p => p.id === item.productId)) {
+            //   applicableCouponDiscount = productDiscount;
+            // }
+      
+            // const combinedDiscountPercent =
+            //   applicableCouponDiscount + paymentDiscount - (applicableCouponDiscount * paymentDiscount) / 100;
+
+            // console.log(combinedDiscountPercent)
+      
+            // const itemDiscount = (itemTotal * combinedDiscountPercent) / 100;
             const discountedTotal = itemTotal - itemDiscount;
             const gstForItem = (discountedTotal * gstRate) / 100;
       
@@ -1415,11 +1476,15 @@ const CheckoutPage = () => {
                                                     ? `${paymentDiscountMap[selectedPayment]}%`
                                                     : '0.00%'}
                                             </p>
+            
                                             <p className='text-gray-400'>
-                                                {appliedCoupon
-                                                    ? `${appliedCoupon.discountValue}${appliedCoupon.discountType === 'Percentage' ? '%' : '₹'}`
-                                                    : '0%'}
+                                            {appliedCoupon ? (
+                                                appliedCoupon.discountType === 'Percentage'
+                                                ? `${appliedCoupon.discountValue}%`
+                                                : `₹${appliedCoupon.discountValue}`
+                                            ) : '0%'}
                                             </p>
+
                                         </div>
                                     </td>
                                     <td>

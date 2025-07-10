@@ -196,7 +196,8 @@ const FeaturedBySize = () => {
               variants: [],
               price: variant.pricePerKg,
               markupPrice: variant.markupPricePerKg,
-              product: product
+              product: product,
+              variantDescription:variant.variantDescription,
             };
           }
 
@@ -223,7 +224,8 @@ const FeaturedBySize = () => {
         variantType: card.variantType,
         color: card.variants[0]?.color,
         price: card.price,
-        markupPrice: card.markupPrice
+        markupPrice: card.markupPrice,
+        variantDescription:card.variantDescription,
       },
     });
   };

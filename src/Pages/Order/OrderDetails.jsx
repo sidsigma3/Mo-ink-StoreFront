@@ -158,179 +158,179 @@ const OrderDetails = () => {
       
       const handlingCharges = calculateHandlingCharges(order.orderVariantResponse, order.shippingAddress);
 
-      const calculateOrderSummary = async (
-        order,
-        appliedCoupon = null,
-        handlingCharges = 0,
-        platformFees = 0
-      ) => {
-        const orderVariants = (order.orderVariantResponse || []).filter(
-          (variant) => variant.status !== 'CANCELLED' // ✅ Exclude cancelled
+const calculateOrderSummary = async (
+  order,
+  appliedCoupon = null,
+  handlingCharges = 0,
+  platformFees = 0
+) => {
+  const orderVariants = (order.orderVariantResponse || []).filter(
+    (variant) => variant.status !== 'CANCELLED'
+  );
+
+  let baseTotal = 0;
+  let discountByCoupon = 0;
+  let discountByPayment = 0;
+  let gstAmount = 0;
+  let totalWeight = 0;
+
+  const productDataMap = new Map();
+  const itemCosts = [];
+
+  for (const variant of orderVariants) {
+    const weight = Number(variant.orderWeight) || 0;
+    const { productId, size, color, variantType } = variant;
+    const colorId = color?.id;
+
+    let pricePerKg = 0;
+
+    if (productDataMap.has(productId)) {
+      const cachedProduct = productDataMap.get(productId);
+      const matchedVariant = cachedProduct.variants.find(
+        (v) => v.size === size && v.color?.id === colorId && v.variantType === variantType
+      );
+      pricePerKg = matchedVariant?.pricePerKg || 0;
+    } else {
+      const res = await fetchProductsById(productId);
+      if (res.success) {
+        const product = res.data;
+        productDataMap.set(productId, product);
+        const matchedVariant = product.variants.find(
+          (v) => v.size === size && v.color?.id === colorId && v.variantType === variantType
         );
-      
-        let baseTotal = 0;
-        let discountByCoupon = 0;
-        let discountByPayment = 0;
-        let gstAmount = 0;
-      
-        const productDataMap = new Map();
-      
-        // Step 1: Accumulate base total
-        for (const variant of orderVariants) {
-          const weight = Number(variant.orderWeight) || 0;
-          const productId = variant.productId;
-          const size = variant.size;
-          const colorId = variant.color.id;
-          const variantType = variant.variantType
-      
-          let pricePerKg = 0;
-      
-          if (productDataMap.has(productId)) {
-            const cachedProduct = productDataMap.get(productId);
-            const matchedVariant = cachedProduct.variants.find(
-              (v) =>
-                v.size === size &&
-                v.color?.id === colorId &&
-                (variantType ? v.variantType === variantType : true)
-            );
-            pricePerKg = matchedVariant?.pricePerKg || 0;
-          } else {
-            const res = await fetchProductsById(productId);
-            if (res.success) {
-              const product = res.data;
-              productDataMap.set(productId, product);
-              const matchedVariant = product.variants.find(
-                (v) =>
-                  v.size === size &&
-                  v.color?.id === colorId &&
-                  (variantType ? v.variantType === variantType : true)
-              );
-              pricePerKg = matchedVariant?.pricePerKg || 0;
-            }
-          }
-          
-      
-          baseTotal += weight * pricePerKg;
-        }
-      
-        // Step 2: Apply discounts sequentially
-        const couponDiscountPercent = Number(appliedCoupon?.discountValue) || 0;
-        const couponDiscountType = appliedCoupon?.discountType || "Percentage";
-      
-        const couponDiscountAmount =
-          couponDiscountType === "Percentage"
-            ? (baseTotal * couponDiscountPercent) / 100
-            : couponDiscountPercent;
-      
-        const subtotalAfterCoupon = baseTotal - couponDiscountAmount;
-      
-        const paymentDiscountPercent =
-          paymentDiscountMap[order.paymentTypeDiscount] || 0;
-        const paymentDiscountAmount =
-          (subtotalAfterCoupon * paymentDiscountPercent) / 100;
-      
-        const finalTotal = subtotalAfterCoupon - paymentDiscountAmount;
-      
-        discountByCoupon = couponDiscountAmount;
-        discountByPayment = paymentDiscountAmount;
-        const totalDiscount = discountByCoupon + discountByPayment;
-      
-       
-       for (const variant of orderVariants) {
-            const weight = Number(variant.orderWeight) || 0;
-            const productId = variant.productId;
-            const size = variant.size;
-            const colorId = variant.color.id;
-            const varinatType = variant.variantType
+        pricePerKg = matchedVariant?.pricePerKg || 0;
+      }
+    }
 
-            const productData = productDataMap.get(productId);
-            if (!productData) continue;
+    const cost = weight * pricePerKg;
+    baseTotal += cost;
+    totalWeight += weight;
 
-            const matchedVariant = productData.variants.find(
-              (v) => v.size === size && v.color?.id === colorId && v.variantType === varinatType
-            );
-            if (!matchedVariant) continue;
+    itemCosts.push({
+      variant,
+      cost,
+      gstRate: productDataMap.get(variant.productId)?.gstOnProduct || 0,
+    });
+  }
 
-            const pricePerKg = matchedVariant.pricePerKg || 0;
-            const gstRate = Number(productData.gstOnProduct || 0);
+  const couponDiscountValue = Number(appliedCoupon?.discountValue) || 0;
+  const couponDiscountType = appliedCoupon?.discountType || 'Percentage';
+  let discountAllowed = true;
 
-     
-            const cost = weight * pricePerKg;
+  if (appliedCoupon?.minPurchaseRequirement?.includes('Minimum purchase amount')) {
+    const match = appliedCoupon.minPurchaseRequirement.match(/\₹\s?(\d+)/);
+    const minAmount = match ? Number(match[1]) : 0;
+    discountAllowed = baseTotal >= minAmount;
+  } else if (appliedCoupon?.minPurchaseRequirement?.includes('Minimum quantity required')) {
+    const match = appliedCoupon.minPurchaseRequirement.match(/(\d+)/);
+    const minQty = match ? Number(match[1]) : 0;
+    discountAllowed = totalWeight >= minQty;
+  }
 
-            const combinedDiscountPercent =
-              couponDiscountPercent + paymentDiscountPercent -
-              (couponDiscountPercent * paymentDiscountPercent) / 100;
+  let couponDiscountAmount = 0;
+  if (discountAllowed) {
+    if (couponDiscountType === 'Percentage') {
+      couponDiscountAmount = (baseTotal * couponDiscountValue) / 100;
+    } else if (couponDiscountType === 'FixedAmount') {
+      couponDiscountAmount = couponDiscountValue * orderVariants.length;
+    }
+  }
 
-            const discountedPrice = cost - (cost * combinedDiscountPercent) / 100;
-            const gstForItem = (discountedPrice * gstRate) / 100;
-            gstAmount += gstForItem;
-          }
-      
-        // Step 4: Final amounts
-        const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
-        const walletAmount = order?.payment?.walletAmount || 0;
-        const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
-        const walletUsed = Number((walletAmount > cancelRefundAmount ? walletAmount - cancelRefundAmount : 0)).toFixed(0) || 0;
-        const adjustedNetPay = netPayable - walletUsed;
-      
-        const online = Number(order.paymentTypeDiscount?.replace('%', '')) || 0;
-        const cod = 100 - online;
-      
-        const onlinePay = (adjustedNetPay * online) / 100;
-        const codPay = adjustedNetPay - onlinePay;
-      
-        return {
-          totalCost: baseTotal,
-          discountByCoupon,
-          discountByPayment,
-          totalDiscount,
-          finalTotal,
-          gstAmount,
-          netPayable,
-          adjustedNetPay,
-          walletUsed,
-          online,
-          cod,
-          onlinePay,
-          codPay,
-          combinedDiscountPercent:
-            couponDiscountType === "Percentage"
-              ? couponDiscountPercent +
-                paymentDiscountPercent -
-                (couponDiscountPercent * paymentDiscountPercent) / 100
-              : null,
-        };
-      };
-      
-      
-      
-      
-      useEffect(() => {
-        const fetchSummary = async () => {
-          const summaryData = await calculateOrderSummary(order, appliedCoupon, handlingCharges, 49);
-          setSummary(summaryData);
-        };
-        fetchSummary();
-      }, [order, appliedCoupon, handlingCharges]);
-      
-      if (!summary) return <div>Loading...</div>;
-      
-      const {
-        totalCost,
-        gstAmount,
-        discountByCoupon,
-        discountByPayment,
-        totalDiscount,
-        finalTotal,
-        netPayable,
-        adjustedNetPay,
-        walletUsed,
-        online,
-        cod,
-        onlinePay,
-        codPay,
-        combinedDiscountPercent
-      } = summary;
+  const subtotalAfterCoupon = baseTotal - couponDiscountAmount;
+
+  const paymentDiscountPercent = paymentDiscountMap[order.paymentTypeDiscount] || 0;
+  const paymentDiscountAmount = (subtotalAfterCoupon * paymentDiscountPercent) / 100;
+  const finalTotal = subtotalAfterCoupon - paymentDiscountAmount;
+
+  discountByCoupon = couponDiscountAmount;
+  discountByPayment = paymentDiscountAmount;
+  const totalDiscount = discountByCoupon + discountByPayment;
+
+  for (const { cost, gstRate } of itemCosts) {
+    let discountedPrice = cost;
+
+    if (discountAllowed) {
+      if (couponDiscountType === 'Percentage') {
+        const combinedPercent = couponDiscountValue + paymentDiscountPercent - (couponDiscountValue * paymentDiscountPercent) / 100;
+        discountedPrice = cost - (cost * combinedPercent) / 100;
+      } else if (couponDiscountType === 'FixedAmount') {
+       const itemCouponDiscount = couponDiscountValue;
+        const afterCoupon = cost - itemCouponDiscount;
+        const paymentDiscount = (afterCoupon * paymentDiscountPercent) / 100;
+        discountedPrice = afterCoupon - paymentDiscount;
+      }
+    } else {
+      discountedPrice = cost - (cost * paymentDiscountPercent) / 100;
+    }
+
+    const gstForItem = (discountedPrice * gstRate) / 100;
+    gstAmount += gstForItem;
+  }
+
+  const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
+  const walletAmount = order?.payment?.walletAmount || 0;
+  const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
+  const walletUsed = Number((walletAmount > cancelRefundAmount ? walletAmount - cancelRefundAmount : 0)).toFixed(0) || 0;
+  const adjustedNetPay = netPayable - walletUsed;
+
+  const online = Number(order.paymentTypeDiscount?.replace('%', '')) || 0;
+  const cod = 100 - online;
+
+  const onlinePay = (adjustedNetPay * online) / 100;
+  const codPay = adjustedNetPay - onlinePay;
+
+  return {
+    totalCost: baseTotal,
+    discountByCoupon,
+    discountByPayment,
+    totalDiscount,
+    finalTotal,
+    gstAmount,
+    netPayable,
+    adjustedNetPay,
+    walletUsed,
+    online,
+    cod,
+    onlinePay,
+    codPay,
+    combinedDiscountPercent:
+      couponDiscountType === 'Percentage'
+        ? discountAllowed
+          ? couponDiscountValue + paymentDiscountPercent - (couponDiscountValue * paymentDiscountPercent) / 100
+          : paymentDiscountPercent
+        : discountAllowed && baseTotal > 0
+        ? Number(((couponDiscountAmount + discountByPayment) / baseTotal) * 100)
+        : paymentDiscountPercent,
+  };
+};
+
+
+useEffect(() => {
+  const fetchSummary = async () => {
+    const summaryData = await calculateOrderSummary(order, appliedCoupon, handlingCharges, 49);
+    setSummary(summaryData);
+  };
+  fetchSummary();
+}, [order, appliedCoupon, handlingCharges]);
+
+if (!summary) return <div>Loading...</div>;
+
+const {
+  totalCost,
+  gstAmount,
+  discountByCoupon,
+  discountByPayment,
+  totalDiscount,
+  finalTotal,
+  netPayable,
+  adjustedNetPay,
+  walletUsed,
+  online,
+  cod,
+  onlinePay,
+  codPay,
+  combinedDiscountPercent,
+} = summary;
 
 
    const handleDownloadCreditReceipt = async (orderId,type) => {
@@ -608,11 +608,14 @@ const handleBuyAgain = async (orderToBuy) => {
                                 ? `${paymentDiscountMap[order.paymentTypeDiscount]}%`
                                 : '0%'}
                             </p>
-                            <p className='text-gray-400'>
-                                {appliedCoupon
-                                ? `${appliedCoupon.discountValue}${appliedCoupon.discountType === 'Percentage' ? '%' : '₹'}`
-                                : '0%'}
+                           <p className='text-gray-400'>
+                              {appliedCoupon ? (
+                                appliedCoupon.discountType === 'Percentage'
+                                  ? `${appliedCoupon.discountValue}%`
+                                  : `₹${appliedCoupon.discountValue}`
+                              ) : '0%'}
                             </p>
+
                             </div>
                         </td>
                         <td>

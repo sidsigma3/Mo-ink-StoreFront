@@ -9,6 +9,8 @@ const ChatbotWidget = () => {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
+  const chatBotUrl = 'https://chatbot.inkndyes.com/chat'
+
   const toggleChat = () => setIsOpen(!isOpen);
 
   const handleSend = async (e) => {
@@ -21,7 +23,7 @@ const ChatbotWidget = () => {
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch(chatBotUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `question=${encodeURIComponent(userMessage.text)}`,

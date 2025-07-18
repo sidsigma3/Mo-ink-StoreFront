@@ -411,7 +411,7 @@ const CheckoutPage = () => {
 
     const eligibleDiscounts = discounts.filter(discount => {
         const isCustomerEligible = discount.eligibleCustomers?.some(c => c.customerId === customerId);
-        const isActive = discount.discountStatus === "Active";
+        const isActive = discount.discountStatus === "ACTIVE";
         return isCustomerEligible && isActive;
     });
     

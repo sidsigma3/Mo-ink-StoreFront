@@ -114,9 +114,13 @@ const PaymentFailure = () => {
   
       rzp.open();
     } catch (error) {
-      console.error("Retry payment failed:", error);
-      showToast("Something went wrong during retry. Please try again.", "error");
-    }
+            console.error("Order creation failed:", error);
+
+            const errorMessage =
+                error?.response?.data?.data.message || "Failed to place order";
+
+            showToast(errorMessage, "error");
+            }
   };
   
 
@@ -138,10 +142,14 @@ const PaymentFailure = () => {
   
       // Navigate to orders page
       navigate('/orders');
-    } catch (err) {
-      console.error(err);
-      setToasts([{ message: "Failed to update to COD", type: "error" }]);
-    }
+    } catch (error) {
+            console.error("Order creation failed:", error);
+
+            const errorMessage =
+                error?.response?.data?.data.message || "Failed to place order";
+
+            showToast(errorMessage, "error");
+            }
   };
   
 

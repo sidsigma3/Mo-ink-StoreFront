@@ -170,20 +170,24 @@ const handleAddToCart = async () => {
       {/* Product Card */}
   <div className="relative block bg-white border-2 border-gray-200 rounded-xl overflow-hidden" style={{ width: '19rem' }}>
  
-  <div className="relative bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6] flex justify-center items-center" style={{ height: '10rem', overflow: 'hidden' }}>
+<div className={`relative flex justify-center items-center ${
+  variantType === "CONE" 
+    ? "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]" 
+    : variantType === "HANK"
+    ? "bg-gradient-to-b from-[#D6D2D3] via-[#D6D2D3] to-[#D6D2D3]"
+    : "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]" // fallback gradient
+}`} style={{ height: '10rem', overflow: 'hidden' }}>
   <img
     src={`${backendUrl}${colorImage}`}
     alt=""
-    className=" h-full object-contain"
+    className="h-full object-contain"
     style={{ 
       transform: 'scale(1.1)',
       // transformOrigin: 'center top',
       // marginBottom: '-5%'
     }}
   />
-    
-  </div>
-
+</div>
   <div className="p-2 bg-white">
     <div className='mb-3'>
       <h5 className="font-bold text-md flex items-center flex-wrap justify-center text-purple-800">

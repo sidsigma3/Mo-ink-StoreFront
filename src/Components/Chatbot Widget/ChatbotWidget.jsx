@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RiRobot3Fill } from "react-icons/ri";
+
 
 // const response = await fetch('http://localhost:8000/chat', {
 
@@ -8,8 +9,16 @@ const ChatbotWidget = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
 
   const chatBotUrl = 'https://chatbot.inkndyes.com/chat'
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, isTyping]);
 
   const toggleChat = () => setIsOpen(!isOpen);
 
@@ -60,7 +69,7 @@ const ChatbotWidget = () => {
     <>
 <button onClick={toggleChat} style={styles.chatButton}>
   <RiRobot3Fill   size={30} />
-</button>
+</button> 
       {isOpen && (
         <div style={styles.chatWindow}>
           <div style={styles.header}>Ask Ink n Dyes</div>
@@ -73,18 +82,25 @@ const ChatbotWidget = () => {
               }}>{msg.text}</div>
             ))}
             {isTyping && <div style={styles.typing}>🤖 Assistant is typing...</div>}
+            {/* Invisible div to scroll to */}
+            <div ref={messagesEndRef} />
           </div>
-          <form onSubmit={handleSend} style={styles.form}>
+          <div style={styles.form}>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSend(e);
+                }
+              }}
               placeholder="Ask a question..."
               style={styles.input}
-              required
             />
-            <button type="submit" style={styles.send}>Send</button>
-          </form>
+            <button onClick={handleSend} style={styles.send}>Send</button>
+          </div>
         </div>
       )}
     </>
@@ -105,7 +121,7 @@ const styles = {
     flex: 1, padding: 16, display: 'flex', flexDirection: 'column', gap: 10, overflowY: 'auto',
   },
   message: {
-    padding: '10px 14px', borderRadius: 12, maxWidth: '75%', whiteSpace: 'pre-wrap' 
+    padding: '10px 14px', borderRadius: 12, maxWidth: '75%', whiteSpace: 'pre-wrap', wordWrap: 'break-word', overflowWrap: 'break-word'
   },
   typing: {
     fontStyle: 'italic', color: '#666', fontSize: 14

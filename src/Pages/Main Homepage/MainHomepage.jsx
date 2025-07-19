@@ -20,17 +20,29 @@ import Inqueries from '../../Components/Inqueries/Inqueries'
 import MainNews from "../../Components/MainNews/MainNews";
 import TestimonialStats from "../../Components/Testimonial/Testimonial";
 import Testimonial from "../../Components/Testimonial/Testimonial";
+import { useLocation } from "react-router-dom"
+import { motion, AnimatePresence } from "framer-motion";
 
 
 const MainHomepage = () => {
-
+const location = useLocation(); 
   
     useEffect(() => {
       window.scrollTo(0, 0);
     }, []);
+
+
   
 
   return (
+      <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname} // Use location instead of router
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+      >
     <div className='w-full'>
         {/* <div className='px-5 py-3'> <TopNavigation></TopNavigation></div> */}
         <div className='px-6 md:px-14 py-1 md:py-3'> <MainHeader></MainHeader></div>
@@ -54,7 +66,10 @@ const MainHomepage = () => {
         
        
     </div>
-  )
+
+    </motion.div>
+  </AnimatePresence>
+  );
 }
 
 export default MainHomepage

@@ -836,9 +836,13 @@ const CheckoutPage = () => {
         }, 3000);
           
         } catch (error) {
-          console.error("Order creation failed:", error);
-          showToast("Failed to place order", "error");
-        }
+            console.error("Order creation failed:", error);
+
+            const errorMessage =
+                error?.response?.data?.data.message || "Failed to place order";
+
+            showToast(errorMessage, "error");
+            }
       };
       
 
@@ -996,24 +1000,14 @@ const CheckoutPage = () => {
       
           rzp.open();
       
-        } catch (err) {
-          console.error("Payment initiation failed:", err);
-          showToast("Something went wrong. Please try again.", "error");
-      
-          setTimeout(() => {
-            navigate('/paymentFail', {
-              state: {
-                orderId,
-                customerId,
-                selectedCartItems,
-                onlinePay,
-                codPay,
-                customer,
-                retryCount: 0,
-              }
-            });
-          }, 3000);
-        }
+        } catch (error) {
+            console.error("Order creation failed:", error);
+
+            const errorMessage =
+                error?.response?.data?.data.message || "Failed to place order";
+
+            showToast(errorMessage, "error");
+            }
       };
       
       

@@ -5,6 +5,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { AppProvider } from "./Utils/commoncontext";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import "./Utils/i18n";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

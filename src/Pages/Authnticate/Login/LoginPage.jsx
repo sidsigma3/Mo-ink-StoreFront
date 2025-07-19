@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../Services/CustomerService";
 import { useAppContext } from "../../../Utils/commoncontext";
 import { GoogleLogin } from "@react-oauth/google";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 const LoginPage = ({ togglePage, setAuthStatus }) => {
     const { updateCartAndWishlistCounts} = useAppContext();
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");

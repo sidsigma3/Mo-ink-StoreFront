@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
-
+import { useTranslation } from "react-i18next";
 import { Menu, X } from "lucide-react";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+
 
 const MainHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+
+
   const menuItems = [
-    { name: "Home", path: "/#home" },
-    { name: "Features", path: "/#features" },
-    { name: "Why us", path: "/#why-us" },
-    { name: "Products", path: "/#products" },
-    { name: "FAQs", path: "/#faqs" },
-    { name: "Blogs", path: "/blogs" },
-    { name: "Contact Us", path: "/#contact" }
+    { name: t("home"), path: "/#home" },
+    { name: t("features"), path: "/#features" },
+    { name: t("whyUs"), path: "/#why-us" },
+    { name: t("products"), path: "/#products" },
+    { name: t("faqs"), path: "/#faqs" },
+    { name: t("blogs"), path: "/blogs" },
+    { name: t("contactUs"), path: "/#contact" }
   ];
+
   
 
   useEffect(() => {
@@ -65,9 +72,14 @@ const MainHeader = () => {
           type="button"
           className="text-base sm:text-lg font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
         >
-          Sign Up
+         {t("Sign Up")}
         </button>
       </div>
+
+      <div className="">
+        <LanguageSwitcher className="w-full" />
+      </div>
+
 
       {/* Hamburger Icon for Tablet & Mobile */}
       <div className="lg:hidden">
@@ -101,7 +113,7 @@ const MainHeader = () => {
               type="button"
               className="text-base font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
             >
-              Sign Up
+             {t("Sign Up")}
             </button>
           </div>
         </div>

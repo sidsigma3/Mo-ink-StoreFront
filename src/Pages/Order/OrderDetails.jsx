@@ -16,6 +16,7 @@ import { fetchProductsById } from '../../Services/ProductService'
 import { useLocation } from 'react-router-dom'
 import { downloadInvoice } from '../../Services/InvoiceService'
 import { getDiscountById } from '../../Services/DiscountService'
+import { initiatePayment } from '../../Services/PaymentService' // Add this import
 import { Link } from 'react-router-dom'
 import { downloadCreditReceipt } from '../../Services/InvoiceService'
 import moment from 'moment-timezone';
@@ -24,6 +25,7 @@ import Toast from '../../Components/Toast/Toast'
 import { addToCart , getCart ,removeFromCart } from '../../Services/CartService'
 import { useAppContext } from '../../Utils/commoncontext'
 import ModalConfirmReplaceCart from '../../Components/Modal/ModalConfirmReplaceCart'
+import PaymentModal from '../../Components/Modal/PaymentModal'
 
 const OrderDetails = () => {
 
@@ -43,6 +45,7 @@ const OrderDetails = () => {
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [pendingOrder, setPendingOrder] = useState(null);
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
 
     const walletAmount = order?.payment?.walletAmount || 0;
     const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
@@ -53,6 +56,25 @@ const OrderDetails = () => {
 
     useEffect(() => {
       window.scrollTo(0, 0);
+      
+      // Load Razorpay script
+      const loadRazorpayScript = () => {
+        return new Promise((resolve) => {
+          if (window.Razorpay) {
+            resolve(true);
+            return;
+          }
+          
+          const script = document.createElement('script');
+          script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+          script.async = true;
+          script.onload = () => resolve(true);
+          script.onerror = () => resolve(false);
+          document.body.appendChild(script);
+        });
+      };
+      
+      loadRazorpayScript();
     }, []);
 
     useEffect(() => {
@@ -445,6 +467,119 @@ const handleBuyAgain = async (orderToBuy) => {
     setPendingOrder(null);
   };
 
+  // Calculate balance due
+  const balanceDue = order?.payment?.pendingAmount?.toFixed(0) - order?.payment?.totalAdjustedAmount?.toFixed(0);
+
+  // Handle payment
+  const handlePayNow = () => {
+    setShowPaymentModal(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    setShowPaymentModal(false);
+  };
+
+  const handlePaymentInitiate = async (paymentData) => {
+    try {
+      showToast("Initializing payment...", "success");
+      
+      // Get customer details from localStorage
+      const customer = JSON.parse(localStorage.getItem('userData') || '{}');
+      
+      // Prepare order data for payment with the amount from modal
+      const paymentRequestData = {
+        orderId: order.orderId,
+        amount: paymentData.amount, // Amount from the payment modal
+        currency: paymentData.currency,
+        customerDetails: paymentData.customerDetails
+      };
+
+     
+      const paymentResponse = await initiatePayment(order.orderId, paymentData.amount);
+      const { razorpayOrderId } = paymentResponse.data;
+
+      if (!razorpayOrderId || paymentResponse.status !== "SUCCESS") {
+        throw new Error("Failed to get valid Razorpay order");
+      }
+
+      // Close the modal before opening Razorpay
+      setShowPaymentModal(false);
+
+      // Load Razorpay script
+      const loadScript = (src) => {
+        return new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = src;
+          script.onload = () => resolve(true);
+          script.onerror = () => resolve(false);
+          document.body.appendChild(script);
+        });
+      };
+
+      const razorpayLoaded = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+      if (!razorpayLoaded) {
+        showToast("Razorpay script failed to load. Check your internet connection.", "error");
+        return;
+      }
+
+      const rzp = new window.Razorpay({
+        key: "rzp_test_oqL33XMoXAV4ym", // Your Razorpay key
+        amount: Math.round(paymentData.amount * 100), // Ensure integer, convert to paise
+        currency: paymentData.currency,
+        name: "Mo ink and Dye",
+        description: `Balance Payment for Order #${paymentData.orderId} - ₹${paymentData.amount}`,
+        order_id: razorpayOrderId,
+        handler: async function (response) {
+          try {
+            // Payment successful - update order status
+            console.log('Payment Success:', response);
+            console.log('Payment Amount:', paymentData.amount);
+            
+            showToast("Payment successful! Updating order...", "success");
+            
+            
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+            
+          } catch (error) {
+            console.error("Post-payment processing failed:", error);
+            showToast("Payment succeeded but processing failed.", "error");
+          }
+        },
+        prefill: {
+          name: paymentData.customerDetails.name,
+          email: paymentData.customerDetails.email,
+          contact: paymentData.customerDetails.phone
+        },
+        notes: {
+          order_id: paymentData.orderId,
+          payment_for: "balance_payment",
+          payment_amount: paymentData.amount,
+          original_balance: balanceDue
+        },
+        theme: {
+          color: '#6B21A8'
+        },
+        modal: {
+          ondismiss: function() {
+            showToast("Payment cancelled", "error");
+          }
+        }
+      });
+
+      rzp.open();
+      
+    } catch (error) {
+      console.error('Payment initiation failed:', error);
+      
+      const errorMessage = error?.response?.data?.data?.message || "Failed to initiate payment. Please try again.";
+      showToast(errorMessage, "error");
+      setShowPaymentModal(false);
+    }
+  };
+
 
 
 
@@ -695,19 +830,37 @@ const handleBuyAgain = async (orderToBuy) => {
                         <tr>
                         <td className='pt-2 pb-0.5 '>Advance Paid</td>
                         <td className='pt-2 pb-0.5'>{online}%</td>
-                        <td className='text-end pt-2 pb-0.5'>₹{order?.payment.totalAmountPaid.toFixed(0)}</td>
+                        <td className='text-end pt-2 pb-0.5'>₹{order?.payment?.totalAmountPaid?.toFixed(0) || 0}</td>
                         </tr>
 
                         <tr>
                         <td className='pb-2'>Balance Due</td>
                         <td className='pb-2'>{cod}%</td>
-                        <td className='text-end pb-2'>₹{ order?.payment.pendingAmount.toFixed(0)-order?.payment.totalAdjustedAmount.toFixed(0)}</td>
+                        <td className='text-end pb-2'>₹{balanceDue || 0}</td>
                         </tr>
                     </tbody>
                     </table>
-  
-       
                    </div>
+
+                   {balanceDue > 0 && (
+                     <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                         <div>
+                           <h6 className="font-semibold text-lg text-orange-800">Payment Pending</h6>
+                           <p className="text-orange-700 text-sm">
+                             You have a pending balance of <span className="font-bold">₹{balanceDue}</span> for this order.
+                           </p>
+                         </div>
+                         <button
+                           onClick={handlePayNow}
+                           className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 min-w-[120px] justify-center"
+                         >
+                           Pay Now
+                         </button>
+                       </div>
+                     </div>
+                   )}
+
                      <div className="md:col-start-2 mt-2">
                     <div className="d-flex flex-wrap items-center gap-2 text-black font-medium">
                       <span>
@@ -732,43 +885,39 @@ const handleBuyAgain = async (orderToBuy) => {
                             onConfirm={handleModalConfirm}
                         ></ModalConfirmReplaceCart>
 
+                        <PaymentModal
+                          isOpen={showPaymentModal}
+                          onClose={handleClosePaymentModal}
+                          orderDetails={order}
+                          balanceDue={balanceDue}
+                          onPaymentInitiate={handlePaymentInitiate}
+                        />
+
                   </div>
                    </div>
-                  
 
-             <div>
-                       
-         </div>
-
-
-
-    </div>
-
-              
-
-
-
+            </div>
 
         </div>
 
         <div className='px-6 md:px-14 py-3 mt-10'><Cta></Cta></div>
         <div className='px-6 md:px-14 py-3'> <Footer></Footer></div>
-                    <BottomNav></BottomNav>
+        <BottomNav></BottomNav>
         
 
-          {/* Toast Notification */}
-     <div className="fixed top-4 right-4 z-50 space-y-2">
-                {toasts.map((toast) => (
-                    <Toast
-                        key={toast.id}
-                        message={toast.message}
-                        type={toast.type}
-                        onClose={() =>
-                            setToasts((prev) => prev.filter((t) => t.id !== toast.id))
-                        }
-                    />
-                ))}
-            </div>
+        {/* Toast Notification */}
+        <div className="fixed top-4 right-4 z-50 space-y-2">
+            {toasts.map((toast, index) => (
+                <Toast
+                    key={index}
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() =>
+                        setToasts((prev) => prev.filter((_, i) => i !== index))
+                    }
+                />
+            ))}
+        </div>
 
     </div>
   )

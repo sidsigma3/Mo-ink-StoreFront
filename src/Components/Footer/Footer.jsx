@@ -147,13 +147,14 @@ const Footer = () => {
        <div>
       <div className="text-center mt-8">
         <p className="text-lg text-gray-700">
-          Made with ❤️ in India by <a href="https://www.aivorntech.com" target="_blank" rel="noopener noreferrer" className="text-black hover:underline font-semibold">Aivorn Tech</a>
+          Made with ❤️ in India 
+          {/* by <a href="https://www.aivorntech.com" target="_blank" rel="noopener noreferrer" className="text-black hover:underline font-semibold">Aivorn Tech</a> */}
         </p>
         <p className="text-sm text-gray-500 mt-1 mb-2">
           &copy; 2025. Ink n Dyes. All rights reserved.
         </p>
       </div>
-      <div className="flex justify-end items-center gap-2 mt-4 mb-5">
+      <div className="flex justify-center items-center gap-2 mt-4 mb-5">
             <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Visa.png?updatedAt=1751275517161" alt="VISA" className="h-8" />
             <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Amex.png?updatedAt=1751275517116" alt="AMEX" className="h-8" />
             <img src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Mastercard.png?updatedAt=1751275517304" alt="Mastercard" className="h-8" />

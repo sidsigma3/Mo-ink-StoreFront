@@ -16,17 +16,17 @@ const mainBannerItems = [
    { 
       title: "Crafting Perfection In Every Thread", 
       desc: "Discover vibrant, versatile, and durable yarns for every project", 
-      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/5.png?updatedAt=1751358588344" 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Elegant%20Cinematic%20Webnail%20HD%20169.png?updatedAt=1753180559241" 
     },
     { 
       title: "Premium Quality Yarns", 
       desc: "Experience excellence in every fiber we create", 
-      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/4.png?updatedAt=1751358589735" 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Elegant%20Cinematic%20Wedding%20Thumbnail%20HD%20169.png?updatedAt=1753180559200" 
     },
     { 
       title: "Softness Meets Durability", 
       desc: "Knit comfort and resilience into every handmade creation",
-      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/3.png?updatedAt=1751358589775" 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Elegant%20Cinematic%20Weail%20HD%20169.png?updatedAt=1753180558597" 
     },
     { 
       title: "Vibrant Shades. Lasting Texture.", 
@@ -36,7 +36,7 @@ const mainBannerItems = [
     { 
       title: "Threads That Inspire Passion", 
       desc: "Feel the difference with yarns spun for perfection and beauty", 
-      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/banner-1.png?updatedAt=1751358589704" 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/banner-1.png?updatedAt=1753180558990" 
     }
 ];
 

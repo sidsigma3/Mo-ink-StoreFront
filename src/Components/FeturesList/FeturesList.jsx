@@ -1,69 +1,75 @@
 import React from "react";
-import { FaShoppingCart, FaGlobe, FaStar, FaTags, FaTruck, FaYarn, FaCreditCard, FaAssistiveListeningSystems } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
+import {
+  FaStar,
+  FaTags,
+  FaTruck,
+  FaYarn,
+  FaCreditCard,
+  FaAssistiveListeningSystems,
+} from "react-icons/fa";
 
 const FeaturesList = () => {
+  const { t } = useTranslation();
+
   const features = [
-    // {
-    //   icon: <FaShoppingCart className="text-purple-500 text-2xl" />,
-    //   title: "User-Friendly Platform",
-    //   description: "Easily navigate and shop with our intuitive platform designed for a seamless experience.",
-    // },
-    // {
-    //   icon: <FaGlobe className="text-purple-500 text-2xl" />,
-    //   title: "Digital Ecosystem",
-    //   description: "Connect across the entire supply chain with our advanced digital infrastructure.",
-    // },
     {
       icon: <FaStar className="text-purple-500 text-2xl" />,
-      title: "Quality Selection",
-      description: "Access a wide range of premium products carefully curated for your needs.",
+      title: t("features.quality.title"),
+      description: t("features.quality.description"),
     },
     {
-      icon: <FaTags className="text-purple-500  text-2xl" />,
-      title: "Transparent Pricing",
-      description: "Benefit from clear and competitive pricing with no hidden costs.",
+      icon: <FaTags className="text-purple-500 text-2xl" />,
+      title: t("features.pricing.title"),
+      description: t("features.pricing.description"),
     },
     {
       icon: <FaTruck className="text-purple-500 text-2xl" />,
-      title: "Efficient Logistics",
-      description: "Enjoy fast, reliable, and efficient delivery services.",
+      title: t("features.logistics.title"),
+      description: t("features.logistics.description"),
     },
     {
       icon: <FaYarn className="text-purple-500 text-2xl" />,
-      title: "Unique Yarn Offerings",
-      description: "Discover exclusive yarn varieties to meet your unique project requirements.",
+      title: t("features.yarn.title"),
+      description: t("features.yarn.description"),
     },
     {
       icon: <FaCreditCard className="text-purple-500 text-2xl" />,
-      title: "Low-Interest Credit",
-      description: "Take advantage of flexible payment options with low-interest credit facilities.",
+      title: t("features.credit.title"),
+      description: t("features.credit.description"),
     },
     {
       icon: <FaAssistiveListeningSystems className="text-purple-500 text-2xl" />,
-      title: "Buy Assist Program",
-      description: "Get personalized assistance and guidance throughout your buying journey.",
+      title: t("features.assist.title"),
+      description: t("features.assist.description"),
     },
   ];
 
   return (
-    <section className=" bg-white">
+    <section className="bg-white">
       <div>
-        <h2 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">Value Additions</h2>
+        <h2 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">
+          {t("features.heading")}
+        </h2>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center p-6 border border-bottom border-purple-200 rounded-xl  bg-gradient-to-b from-amber-50 via-transparent to-transparent"
+              className="flex flex-col items-center text-center p-6 border border-purple-200 rounded-xl bg-gradient-to-b from-amber-50 via-transparent to-transparent"
             >
               <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md mb-6">
                 {feature.icon}
               </div>
-              <h3 className="text-md md:text-2xl  text-black font-semibold text-center md:mb-4">{feature.title}</h3>
-              <p className="hidden sm:block text-md text-gray-500 text-md">{feature.description}</p>
+              <h3 className="text-md md:text-2xl text-black font-semibold text-center md:mb-4">
+                {feature.title}
+              </h3>
+              <p className="hidden sm:block text-md text-gray-500">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>
-       </div>
+      </div>
     </section>
   );
 };

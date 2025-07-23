@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import ToggleBtn from '../../../Components/Buttons/ToggleButton/ToggleBtn';
 import { createCustomer , otpSend } from '../../../Services/CustomerService';
 import Toast from '../../../Components/Toast/Toast';
-
-
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from '../../../Components/LanguageSwitcher/LanguageSwitcher';
 
 const SignupPage = ({ togglePage, isLogin }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -262,17 +263,17 @@ const [toasts, setToasts] = useState([]);
 
       {/* Auth Box */}
       <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white  w-full max-w-md sm:max-w-lg md:max-w-lg text-white backdrop-blur-md overflow-y-auto max-h-[90vh]">
-        <h3 className="text-center text-2xl text-dark font-bold mb-4">Welcome to Ink n Dyes !</h3>
+        <h3 className="text-center text-2xl text-dark font-bold mb-4">{t("signup.welcomeTitle")}</h3>
 
         <div className="flex justify-center mb-12 bg-white rounded-full overflow-hidden w-full max-w-xs mx-auto">
           <button
             className="w-1/2 py-2 text-purple-700 font-medium text-l"
             onClick={togglePage}
           >
-            Login
+            {t("signup.login")}
           </button>
           <button className="w-1/2 py-2 bg-purple-800 text-white font-medium text-l rounded-full">
-            Register
+           {t("signup.register")}
           </button>
         </div>
 
@@ -286,7 +287,7 @@ const [toasts, setToasts] = useState([]);
           {/* <label className="block text-dark text-l font-semibold mb-1">First Name</label> */}
           <input
             className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-1 w-full"
-            placeholder="First name"
+            placeholder={t("signup.firstName")}
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
@@ -298,7 +299,7 @@ const [toasts, setToasts] = useState([]);
           {/* <label className="block text-dark text-l font-semibold mb-1">Last Name</label> */}
           <input
             className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-1 w-full"
-            placeholder="Last name"
+            placeholder={t("signup.lastName")}
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
@@ -311,7 +312,7 @@ const [toasts, setToasts] = useState([]);
           <div className="flex flex-col w-full sm:w-1/2 mb-3">
             <input
               className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-1 w-full"
-              placeholder="Email"
+              placeholder={t("signup.email")}
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -322,7 +323,7 @@ const [toasts, setToasts] = useState([]);
           <div className="flex flex-col w-full sm:w-1/2 relative mb-3">
             <input
               className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-1 w-full pr-10"
-              placeholder="GST No."
+              placeholder={t("signup.gstNumber")}
               name="gstNumber"
               value={formData.gstNumber}
               onChange={handleChange}
@@ -348,7 +349,7 @@ const [toasts, setToasts] = useState([]);
             {/* <label className="block text-dark text-l font-semibold mb-1">Phone</label> */}
             <input
               className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-1 w-full"
-              placeholder="Phone No."
+              placeholder={t("signup.phoneNumber")}
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
@@ -359,7 +360,7 @@ const [toasts, setToasts] = useState([]);
             {/* <label className="block text-dark text-l font-semibold mb-1">WhatsApp</label> */}
             <input
               className="login-input rounded-full  px-4 py-1 w-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="WhatsApp No."
+              placeholder={t("signup.whatsappNumber")}
               name="whatsappNumber"
               value={formData.whatsappNumber}
               onChange={handleChange}
@@ -373,7 +374,7 @@ const [toasts, setToasts] = useState([]);
               <input
                 type="password"
               className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-1 w-full"
-                placeholder="Password"
+                placeholder={t("signup.password")}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -386,7 +387,7 @@ const [toasts, setToasts] = useState([]);
             {/* <label className="block text-dark text-l font-semibold mb-1">Company</label> */}
             <input
               className="login-input rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 px-4 py-1 w-full"
-              placeholder="Company"
+              placeholder={t("signup.company")}
               name="company"
               value={formData.company}
               onChange={handleChange}
@@ -404,7 +405,7 @@ const [toasts, setToasts] = useState([]);
                       checked={!formData.hasGst}
                       onChange={handleGstCheckbox}
                     />
-                    I don’t have a GST Number
+                    {t("signup.noGst")}
                   </label>
                     
             </div>
@@ -416,10 +417,17 @@ const [toasts, setToasts] = useState([]);
                         onClick={() => handleSubmit }
 
                     >
-                        Get OTP
+                        {t("signup.getOtp")}
                     </button>
         </form>
+       
       </div>
+
+       <div className="mt-3 d-flex justify-center position-absolute top-2 right-5">
+                <div>
+              <LanguageSwitcher className="w-full" />
+                </div>
+        </div>
        {/* Toast Notification */}
      <div className="fixed top-4 right-4 z-50 space-y-2">
                 {toasts.map((toast) => (
@@ -433,6 +441,7 @@ const [toasts, setToasts] = useState([]);
                     />
                 ))}
             </div>
+             
 
     </div>
   );

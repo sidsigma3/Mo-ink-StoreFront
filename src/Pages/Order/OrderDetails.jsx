@@ -47,6 +47,18 @@ const OrderDetails = () => {
     const [pendingOrder, setPendingOrder] = useState(null);
     const [showPaymentModal, setShowPaymentModal] = useState(false);
 
+    // Payment history state
+    const [paymentHistory, setPaymentHistory] = useState([
+      // Example structure - replace with actual data from your API
+      // {
+      //   id: 1,
+      //   transactionId: "pay_123456789",
+      //   date: "2024-01-15",
+      //   amount: 500,
+      //   status: "PAID"
+      // }
+    ]);
+
     const walletAmount = order?.payment?.walletAmount || 0;
     const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
 
@@ -76,6 +88,42 @@ const OrderDetails = () => {
       
       loadRazorpayScript();
     }, []);
+
+    // Fetch payment history - Replace with actual API call
+    const fetchPaymentHistory = async () => {
+      try {
+        // Replace this with your actual API call
+        // const response = await getPaymentHistory(order.orderId);
+        // setPaymentHistory(response.data);
+        
+        // For demo purposes - uncomment the lines below to see the payment history table
+        // setPaymentHistory([
+        //   {
+        //     id: 1,
+        //     transactionId: "pay_123456789",
+        //     date: "2024-01-15",
+        //     amount: 500,
+        //     status: "PAID"
+        //   },
+        //   {
+        //     id: 2,
+        //     transactionId: "pay_987654321",
+        //     date: "2024-01-20",
+        //     amount: 300,
+        //     status: "PAID"
+        //   }
+        // ]);
+      } catch (error) {
+        console.error('Failed to fetch payment history:', error);
+      }
+    };
+
+    // Load payment history on component mount
+    useEffect(() => {
+      if (order?.orderId) {
+        fetchPaymentHistory();
+      }
+    }, [order?.orderId]);
 
     useEffect(() => {
         const fetchDiscount = async () => {
@@ -470,6 +518,9 @@ const handleBuyAgain = async (orderToBuy) => {
   // Calculate balance due
   const balanceDue = order?.payment?.pendingAmount?.toFixed(0) - order?.payment?.totalAdjustedAmount?.toFixed(0);
 
+  // Check if any balance payment has been made (only additional payments, not initial)
+  const hasPaymentHistory = paymentHistory.length > 0;
+
   // Handle payment
   const handlePayNow = () => {
     setShowPaymentModal(true);
@@ -494,7 +545,8 @@ const handleBuyAgain = async (orderToBuy) => {
         customerDetails: paymentData.customerDetails
       };
 
-     
+      // Call your initiatePayment API with the specific amount
+      // Note: Your API might need to be updated to accept custom amounts
       const paymentResponse = await initiatePayment(order.orderId, paymentData.amount);
       const { razorpayOrderId } = paymentResponse.data;
 
@@ -523,6 +575,7 @@ const handleBuyAgain = async (orderToBuy) => {
         return;
       }
 
+      // Initialize Razorpay payment with the exact amount from modal
       const rzp = new window.Razorpay({
         key: "rzp_test_oqL33XMoXAV4ym", // Your Razorpay key
         amount: Math.round(paymentData.amount * 100), // Ensure integer, convert to paise
@@ -538,10 +591,19 @@ const handleBuyAgain = async (orderToBuy) => {
             
             showToast("Payment successful! Updating order...", "success");
             
+            const newPayment = {
+              id: Date.now(),
+              transactionId: response.razorpay_payment_id,
+              date: new Date().toISOString().split('T')[0],
+              amount: paymentData.amount,
+              status: "PAID"
+            };
+            setPaymentHistory(prev => [...prev, newPayment]);
             
+           
             setTimeout(() => {
-              window.location.reload();
-            }, 2000);
+              fetchPaymentHistory();
+            }, );
             
           } catch (error) {
             console.error("Post-payment processing failed:", error);
@@ -842,23 +904,140 @@ const handleBuyAgain = async (orderToBuy) => {
                     </table>
                    </div>
 
-                   {balanceDue > 0 && (
-                     <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                         <div>
-                           <h6 className="font-semibold text-lg text-orange-800">Payment Pending</h6>
-                           <p className="text-orange-700 text-sm">
-                             You have a pending balance of <span className="font-bold">₹{balanceDue}</span> for this order.
-                           </p>
-                         </div>
-                         <button
-                           onClick={handlePayNow}
-                           className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 min-w-[120px] justify-center"
-                         >
-                           Pay Now
-                         </button>
+                   {/* Table */}
+                   {hasPaymentHistory ? (
+                     <div className="mt-4 bg-white border border-gray-200 rounded-lg overflow-hidden">
+                       <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3 border-b border-gray-200">
+                         <h6 className="font-semibold text-gray-900 flex items-center gap-2">
+                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                           Payment History
+                         </h6>
                        </div>
+                       
+                       <div className="overflow-x-auto">
+                         <table className="w-full text-sm">
+                           <thead className="bg-gray-50 border-b border-gray-200">
+                             <tr>
+                               <th className="px-4 py-3 text-left font-medium text-gray-600">Transaction ID</th>
+                               <th className="px-4 py-3 text-left font-medium text-gray-600">Date</th>
+                               <th className="px-4 py-3 text-right font-medium text-gray-600">Amount</th>
+                               <th className="px-4 py-3 text-right font-medium text-gray-600">Remaining</th>
+                               <th className="px-4 py-3 text-center font-medium text-gray-600">Status</th>
+                             </tr>
+                           </thead>
+                           <tbody className="divide-y divide-gray-200">
+                             {/* Initial Payment Row */}
+                             <tr className="hover:bg-gray-50">
+                               <td className="px-4 py-3 font-mono text-xs text-gray-600">
+                                 {order?.payment?.transactionId || 'N/A'}
+                               </td>
+                               <td className="px-4 py-3 text-gray-600">
+                                 {orderDate.split(',')[0]}
+                               </td>
+                               <td className="px-4 py-3 text-right font-semibold text-gray-900">
+                                 ₹{order?.payment?.totalAmountPaid?.toFixed(0) || 0}
+                               </td>
+                               <td className="px-4 py-3 text-right font-semibold text-orange-600">
+                                 ₹{order?.payment?.pendingAmount?.toFixed(0) || 0}
+                               </td>
+                               <td className="px-4 py-3 text-center">
+                                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                   PAID
+                                 </span>
+                               </td>
+                             </tr>
+                             
+                             {paymentHistory.map((payment, index) => {
+                               const previousPayments = paymentHistory.slice(0, index).reduce((sum, p) => sum + p.amount, 0);
+                               const remainingAfterThis = Math.max(0, (order?.payment?.pendingAmount || 0) - previousPayments - payment.amount);
+                               return (
+                                 <tr key={payment.id || index} className="hover:bg-gray-50">
+                                   <td className="px-4 py-3 font-mono text-xs text-blue-600">
+                                     {payment.transactionId}
+                                   </td>
+                                   <td className="px-4 py-3 text-gray-600">
+                                     {new Date(payment.date).toLocaleDateString('en-IN', {
+                                       day: 'numeric',
+                                       month: 'short',
+                                       year: 'numeric'
+                                     })}
+                                   </td>
+                                   <td className="px-4 py-3 text-right font-semibold text-gray-900">
+                                     ₹{payment.amount.toFixed(0)}
+                                   </td>
+                                   <td className="px-4 py-3 text-right font-semibold text-orange-600">
+                                     ₹{remainingAfterThis.toFixed(0)}
+                                   </td>
+                                   <td className="px-4 py-3 text-center">
+                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                       payment.status === 'PAID' 
+                                         ? 'bg-green-100 text-green-800' 
+                                         : payment.status === 'PENDING'
+                                         ? 'bg-yellow-100 text-yellow-800'
+                                         : 'bg-red-100 text-red-800'
+                                     }`}>
+                                       {payment.status}
+                                     </span>
+                                   </td>
+                                 </tr>
+                               );
+                             })}
+                           </tbody>
+                         </table>
+                       </div>
+                       
+                       {balanceDue > 0 && (
+                         <div className="bg-orange-50 border-t border-orange-200 px-4 py-3">
+                           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                             <div>
+                               <p className="font-medium text-orange-800">
+                                 Current Balance: <span className="font-bold">₹{balanceDue}</span>
+                               </p>
+                               <p className="text-xs text-orange-600 mt-1">
+                                 Make a payment to reduce your pending balance
+                               </p>
+                             </div>
+                             <button
+                               onClick={handlePayNow}
+                               className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 text-sm"
+                             >
+                               Pay Now
+                             </button>
+                           </div>
+                         </div>
+                       )}
+                       
+                       {/* Fully Paid Message */}
+                       {balanceDue <= 0 && (
+                         <div className="bg-green-50 border-t border-green-200 px-4 py-3">
+                           <div className="flex items-center gap-2">
+                             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                             <p className="font-medium text-green-800">
+                               Order fully paid! No pending balance.
+                             </p>
+                           </div>
+                         </div>
+                       )}
                      </div>
+                   ) : (
+                     balanceDue > 0 && (
+                       <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                           <div>
+                             <h6 className="font-semibold text-lg text-orange-800">Payment Pending</h6>
+                             <p className="text-orange-700 text-sm">
+                               You have a pending balance of <span className="font-bold">₹{balanceDue}</span> for this order.
+                             </p>
+                           </div>
+                           <button
+                             onClick={handlePayNow}
+                             className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 min-w-[120px] justify-center"
+                           >
+                             Pay Now
+                           </button>
+                         </div>
+                       </div>
+                     )
                    )}
 
                      <div className="md:col-start-2 mt-2">

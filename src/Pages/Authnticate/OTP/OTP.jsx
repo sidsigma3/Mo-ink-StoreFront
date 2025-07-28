@@ -7,7 +7,6 @@ import { createCustomer } from "../../../Services/CustomerService";
 import ModalOTPVerified from "../../../Components/Modal/ModalOTPVerified";
 import { GoogleLogin } from "@react-oauth/google";
 
-
 const OTP = () => {
   const location = useLocation();
   const customerData = location.state?.customerData;
@@ -17,10 +16,14 @@ const OTP = () => {
   const [phoneCode, setPhoneCode] = useState("");
   const [error, setError] = useState("");
   const [toasts, setToasts] = useState([]);
-  const [isOtpVerified, setIsOtpVerified] = useState(false); 
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  
+  // Individual verification states
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   
   // Timer states
-  const [emailTimer, setEmailTimer] = useState(120); // 2 minutes in seconds
+  const [emailTimer, setEmailTimer] = useState(120);
   const [phoneTimer, setPhoneTimer] = useState(120);
   const [emailTimerActive, setEmailTimerActive] = useState(true);
   const [phoneTimerActive, setPhoneTimerActive] = useState(true);
@@ -63,7 +66,12 @@ const OTP = () => {
     return () => clearInterval(interval);
   }, [phoneTimer, phoneTimerActive]);
 
-  const handleNumericInput = (e, setter) => {
+  const handleNumericInput = (e, setter, otpType) => {
+    // Don't allow input if already verified
+    if ((otpType === 'email' && isEmailVerified) || (otpType === 'phone' && isPhoneVerified)) {
+      return;
+    }
+
     let value = e.target.value.replace(/\D/g, "");
 
     if (value.length > 6) {
@@ -71,11 +79,48 @@ const OTP = () => {
       value = value.slice(0, 6);
     }
     setter(value);
+
+    // Auto-verify when 6 digits are entered
+    if (value.length === 6) {
+      if (otpType === 'email') {
+        verifyEmailOTP(value);
+      } else if (otpType === 'phone') {
+        verifyPhoneOTP(value);
+      }
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const verifyEmailOTP = async (otp) => {
+    if (!customerData) {
+      showToast("Missing customer data. Please register again.", "error");
+      return;
+    }
 
+    try {
+      await otpVerify({
+        emailOrPhone: customerData.email,
+        otp: otp,
+        accountType: "CUSTOMER",
+        otpType: "EMAIL",
+      });
+      
+      setIsEmailVerified(true);
+      showToast("Email OTP verified successfully!", "success");
+      
+      // Focus on phone input if not verified yet
+      if (!isPhoneVerified) {
+        setTimeout(() => {
+          const phoneInput = document.getElementById('phone-otp-input');
+          if (phoneInput) phoneInput.focus();
+        }, 500);
+      }
+    } catch (error) {
+      console.error("Email OTP verification error:", error);
+      showToast("Invalid Email OTP. Please try again.", "error");
+    }
+  };
+
+  const verifyPhoneOTP = async (otp) => {
     if (!customerData) {
       showToast("Missing customer data. Please register again.", "error");
       return;
@@ -84,30 +129,52 @@ const OTP = () => {
     try {
       await otpVerify({
         emailOrPhone: customerData.phoneNumber,
-        otp: phoneCode,
+        otp: otp,
         accountType: "CUSTOMER",
         otpType: "PHONE",
       });
-
-      await otpVerify({
-        emailOrPhone: customerData.email,
-        otp: emailCode,
-        accountType: "CUSTOMER",
-        otpType: "EMAIL",
-      });
-
-      await createCustomer(customerData);
-      setIsOtpVerified(true); 
-
+      
+      setIsPhoneVerified(true);
+      showToast("Phone OTP verified successfully!", "success");
+      
+      // Focus on email input if not verified yet
+      if (!isEmailVerified) {
+        setTimeout(() => {
+          const emailInput = document.getElementById('email-otp-input');
+          if (emailInput) emailInput.focus();
+        }, 500);
+      }
     } catch (error) {
-      console.error("Error:", error);
-      showToast("OTP verification failed.", "error");
+      console.error("Phone OTP verification error:", error);
+      showToast("Invalid Phone OTP. Please try again.", "error");
+    }
+  };
+
+  const handleFinalSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isEmailVerified || !isPhoneVerified) {
+      showToast("Please verify both Email and Phone OTP first.", "error");
+      return;
+    }
+
+    if (!customerData) {
+      showToast("Missing customer data. Please register again.", "error");
+      return;
+    }
+
+    try {
+      await createCustomer(customerData);
+      setIsOtpVerified(true);
+    } catch (error) {
+      console.error("Customer creation error:", error);
+      showToast("Account creation failed. Please try again.", "error");
     }
   };
 
   const resendEmailOTP = async (e) => {
     e.preventDefault();
-    if (emailTimerActive) return; // Prevent resend if timer is active
+    if (emailTimerActive || isEmailVerified) return;
     
     try {
       if (customerData.email) {
@@ -117,9 +184,10 @@ const OTP = () => {
           otpType: "EMAIL",
         });
         showToast("Email OTP resent successfully!", "success");
-        // Reset timer
         setEmailTimer(120);
         setEmailTimerActive(true);
+        setEmailCode("");
+        setIsEmailVerified(false);
       } else {
         showToast("Missing email address.", "error");
       }
@@ -131,7 +199,7 @@ const OTP = () => {
 
   const resendPhoneOTP = async (e) => {
     e.preventDefault();
-    if (phoneTimerActive) return; // Prevent resend if timer is active
+    if (phoneTimerActive || isPhoneVerified) return;
     
     try {
       if (customerData.phoneNumber) {
@@ -141,9 +209,10 @@ const OTP = () => {
           otpType: "PHONE",
         });
         showToast("Phone OTP resent successfully!", "success");
-        // Reset timer
         setPhoneTimer(120);
         setPhoneTimerActive(true);
+        setPhoneCode("");
+        setIsPhoneVerified(false);
       } else {
         showToast("Missing phone number.", "error");
       }
@@ -158,10 +227,10 @@ const OTP = () => {
       showToast("Congratulation, Your account is created", "success");
       const timer = setTimeout(() => {
         navigate("/login");
-      }, 3000); // Navigate after 3 seconds
+      }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [isOtpVerified, navigate]); 
+  }, [isOtpVerified, navigate]);
 
   return (
     <div className="w-screen h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 relative overflow-hidden">
@@ -190,7 +259,7 @@ const OTP = () => {
       </div>
 
       {/* Verify Code Box */}
-      <div className="verify-box bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white  w-full max-w-md sm:max-w-lg text-white backdrop-blur-md z-10">
+      <div className="verify-box bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white w-full max-w-md sm:max-w-lg text-white backdrop-blur-md z-10">
         <button
           className="text-sm text-dark font-medium mb-3 hover:underline"
           onClick={() => navigate("/signup")}
@@ -203,58 +272,103 @@ const OTP = () => {
           An OTP has been sent to your email & Phone number
         </p>
 
-        <form onSubmit={handleSubmit}>
-          <div className="flex justify-end items-center mb-1">
-            {/* <label className="text-dark text-l font-semibold">Email OTP</label> */}
-            <button
-              type="button"
-              className={`text-sm cursor-pointer ${
-                emailTimerActive 
-                  ? 'text-gray-400 cursor-not-allowed' 
-                  : 'text-dark font-medium hover:underline'
+        <form onSubmit={handleFinalSubmit}>
+          {/* Email OTP Section */}
+          <div className="relative mb-4">
+            <div className="flex justify-between items-center mb-1">
+              <div className="flex items-center gap-2">
+                <span className="text-dark text-l font-semibold">Email OTP</span>
+                {isEmailVerified && (
+                  <span className="text-green-500 text-sm font-medium">✓ Verified</span>
+                )}
+              </div>
+              <button
+                type="button"
+                className={`text-sm cursor-pointer ${
+                  emailTimerActive || isEmailVerified
+                    ? 'text-gray-400 cursor-not-allowed' 
+                    : 'text-dark font-medium hover:underline'
+                }`}
+                onClick={resendEmailOTP}
+                disabled={emailTimerActive || isEmailVerified}
+              >
+                {isEmailVerified 
+                  ? 'Verified' 
+                  : emailTimerActive 
+                    ? `Resend (${formatTime(emailTimer)})` 
+                    : 'Resend'
+                }
+              </button>
+            </div>
+            <input
+              id="email-otp-input"
+              type="text"
+              placeholder="Enter Email OTP"
+              className={`w-full px-4 py-1 mb-1 text-left align-center rounded-full text-black placeholder-gray-500 border-1 focus:outline-none focus:ring-2 ${
+                isEmailVerified 
+                  ? 'border-green-500 bg-green-50 cursor-not-allowed' 
+                  : 'border-purple-800 focus:ring-purple-500'
               }`}
-              onClick={resendEmailOTP}
-              disabled={emailTimerActive}
-            >
-              {emailTimerActive ? `Resend (${formatTime(emailTimer)})` : 'Resend'}
-            </button>
+              value={emailCode}
+              onChange={(e) => handleNumericInput(e, setEmailCode, 'email')}
+              disabled={isEmailVerified}
+              maxLength={6}
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Enter Email OTP"
-            className="w-full px-4 py-1 mb-1 text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={emailCode}
-            onChange={(e) => handleNumericInput(e, setEmailCode)}
-          />
 
-          <div className="flex justify-end items-center mb-1">
-            {/* <label className="text-dark text-l font-semibold">Phone OTP</label> */}
-            <button
-              type="button"
-              className={`text-sm cursor-pointer ${
-                phoneTimerActive 
-                  ? 'text-gray-400 cursor-not-allowed' 
-                  : 'text-dark font-medium hover:underline'
+          {/* Phone OTP Section */}
+          <div className="relative mb-4">
+            <div className="flex justify-between items-center mb-1">
+              <div className="flex items-center gap-2">
+                <span className="text-dark text-l font-semibold">Phone OTP</span>
+                {isPhoneVerified && (
+                  <span className="text-green-500 text-sm font-medium">✓ Verified</span>
+                )}
+              </div>
+              <button
+                type="button"
+                className={`text-sm cursor-pointer ${
+                  phoneTimerActive || isPhoneVerified
+                    ? 'text-gray-400 cursor-not-allowed' 
+                    : 'text-dark font-medium hover:underline'
+                }`}
+                onClick={resendPhoneOTP}
+                disabled={phoneTimerActive || isPhoneVerified}
+              >
+                {isPhoneVerified 
+                  ? 'Verified' 
+                  : phoneTimerActive 
+                    ? `Resend (${formatTime(phoneTimer)})` 
+                    : 'Resend'
+                }
+              </button>
+            </div>
+            <input
+              id="phone-otp-input"
+              type="text"
+              placeholder="Enter Phone OTP"
+              className={`w-full px-4 py-1 text-left align-center rounded-full text-black placeholder-gray-500 border-1 focus:outline-none focus:ring-2 ${
+                isPhoneVerified 
+                  ? 'border-green-500 bg-green-50 cursor-not-allowed' 
+                  : 'border-purple-800 focus:ring-purple-500'
               }`}
-              onClick={resendPhoneOTP}
-              disabled={phoneTimerActive}
-            >
-              {phoneTimerActive ? `Resend (${formatTime(phoneTimer)})` : 'Resend'}
-            </button>
+              value={phoneCode}
+              onChange={(e) => handleNumericInput(e, setPhoneCode, 'phone')}
+              disabled={isPhoneVerified}
+              maxLength={6}
+            />
           </div>
-          <input
-            type="text"
-            placeholder="Enter Phone OTP"
-            className="w-full px-4 py-1  text-left align-center rounded-full text-black placeholder-gray-500 border-1 border-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={phoneCode}
-            onChange={(e) => handleNumericInput(e, setPhoneCode)}
-          />
 
           <button
             type="submit"
-            className="w-full mt-4  bg-purple-800 text-white rounded-full py-2 font-medium hover:bg-purple-700 transition-colors"
+            className={`w-full mt-4 rounded-full py-2 font-medium transition-colors ${
+              isEmailVerified && isPhoneVerified
+                ? 'bg-purple-800 text-white hover:bg-purple-700'
+                : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+            }`}
+            disabled={!isEmailVerified || !isPhoneVerified}
           >
-            Verify
+            {isEmailVerified && isPhoneVerified ? 'Create Account' : 'Verify Both OTPs'}
           </button>
 
           {message && (
@@ -263,33 +377,18 @@ const OTP = () => {
         </form>
 
         <div className="text-center text-xs my-2 text-gray-600">Or signin with</div>
-                           <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
-                                <div className="w-3/5 rounded-xl">
-                                    <GoogleLogin
-                                    onSuccess={(credentialResponse) => {
-                                        console.log(credentialResponse.credential);
-                                    }}
-                                    onError={() => {
-                                        console.log('Login Failed');
-                                    }}
-                                    />
-                                </div>
-        
-                                {/* <button className="bg-dark p-2 rounded-full">
-                                    <img
-                                        src="https://www.svgrepo.com/show/448224/facebook.svg"
-                                        alt="Facebook"
-                                        className="w-5 h-5"
-                                    />
-                                </button>
-                                <button className="bg-dark p-2 rounded-full">
-                                    <img
-                                        src="https://www.svgrepo.com/show/511330/apple-173.svg"
-                                        alt="Apple"
-                                        className="w-5 h-5"
-                                    />
-                                </button> */}
-                            </div>
+        <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
+          <div className="w-3/5 rounded-xl">
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse.credential);
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       {/* OTP Verified Modal */}

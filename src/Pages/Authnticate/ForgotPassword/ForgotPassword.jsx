@@ -90,7 +90,7 @@ const ForgotPasswordPage = () => {
                     {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
                 </form>
 
-                <div className="text-center text-xs my-2 text-gray-600">Or signin with</div>
+                {/* <div className="text-center text-xs my-2 text-gray-600">Or signin with</div>
                    <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
                         <div className="w-3/5 rounded-xl">
                             <GoogleLogin
@@ -102,22 +102,8 @@ const ForgotPasswordPage = () => {
                             }}
                             />
                         </div>
-
-                        {/* <button className="bg-dark p-2 rounded-full">
-                            <img
-                                src="https://www.svgrepo.com/show/448224/facebook.svg"
-                                alt="Facebook"
-                                className="w-5 h-5"
-                            />
-                        </button>
-                        <button className="bg-dark p-2 rounded-full">
-                            <img
-                                src="https://www.svgrepo.com/show/511330/apple-173.svg"
-                                alt="Apple"
-                                className="w-5 h-5"
-                            />
-                        </button> */}
-                    </div>
+                    </div> */}
+                    
             </div>
               {/* Toast Notification */}
                  <div className="fixed top-4 right-4 z-50 space-y-2">

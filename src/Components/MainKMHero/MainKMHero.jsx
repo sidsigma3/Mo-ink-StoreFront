@@ -1,6 +1,9 @@
 import React from 'react';
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../../Components/LanguageSwitcher/LanguageSwitcher";
 
 export default function MainKMHero() {
+  const { t } = useTranslation();
   return (
   
       <div
@@ -14,7 +17,7 @@ export default function MainKMHero() {
       {/* Content */}
       <div className="relative z-10 px-4 space-y-5">
         <h1 className="text-white lg:text-5xl text-3xl font-extrabold leading-tight sm:text-6xl">
-          Know More <br />
+          {t("knowmore.knowMore")} <br />
            <span className="block w-full h-3 bg-purple-800 mt-4"></span> 
         </h1>
         {/* <a

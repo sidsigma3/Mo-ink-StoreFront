@@ -123,7 +123,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
             {t("login.login")}
           </button>
 
-          <div className="text-center text-xs my-2 text-gray-600">{t("login.orSignInWith")}</div>
+          {/* <div className="text-center text-xs my-2 text-gray-600">{t("login.orSignInWith")}</div>
           <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
             <div className="w-3/5 rounded-xl">
               <GoogleLogin
@@ -135,7 +135,7 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
                 }}
               />
             </div>
-          </div>
+          </div> */}
           
         </form>
         

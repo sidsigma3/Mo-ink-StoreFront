@@ -4,7 +4,9 @@ import MainHeader from "../../Components/MainHeader/MainHeader";
 import MainKMHero from "../../Components/MainKMHero/MainKMHero";
 import Cta from "../../Components/CTA/Cta";
 import Footer from "../../Components/Footer/Footer";
+import { useTranslation } from "react-i18next";
 import { FiMail, FiPhone, FiMapPin, FiCheck, FiGlobe, FiAward } from 'react-icons/fi';
+import LanguageSwitcher from "../../Components/LanguageSwitcher/LanguageSwitcher";
 
 const MainKnowMore = () => {
     
@@ -13,6 +15,7 @@ const MainKnowMore = () => {
     }, []);
 
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
 
   return (
@@ -39,28 +42,27 @@ const MainKnowMore = () => {
           </video>
           </div>
           <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">Who We Are</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">{t("knowmore.whoWeAre")}</h2>
             <p className="text-lg mb-6">
-              We are a trusted manufacturer and global supplier of high-quality yarns, serving textile businesses across industries and continents. From cotton to polyester, our yarns are crafted to meet the most demanding production standards.
-            </p>
+              {t("knowmore.whoWeAreDes")} </p>
             <div className="space-y-4">
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Precision manufacturing</p>
+                <p className="text-lg">{t("knowmore.whoWeAreP1")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Global logistics</p>
+                <p className="text-lg">{t("knowmore.whoWeAreP2")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Exceptional customer relationships</p>
+                <p className="text-lg">{t("knowmore.whoWeAreP3")}</p>
               </div>
             </div>
           </div>
@@ -70,18 +72,17 @@ const MainKnowMore = () => {
       {/* 3. Our Mission */}
       <section className="py-20 px-6 bg-purple-50">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">Our Mission</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">{t("knowmore.misson")}</h2>
           <p className="text-xl max-w-4xl mx-auto mb-12">
-            Our mission is to provide durable, customizable, and ethically produced yarns that empower innovation in textile manufacturing.
-          </p>
+            {t("knowmore.missonDes")}</p>
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-xl border-1 border-grey-400">
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiGlobe className="text-purple-800 text-2xl" />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-3">Global Supply</h3>
-              <p>Supporting businesses with reliable bulk yarn supply across continents</p>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-3">{t("knowmore.missonP1")}</h3>
+              <p>{t("knowmore.missonPDes1")}</p>
             </div>
             
             <div className="bg-white p-8 rounded-xl border-1 border-grey-400">
@@ -90,16 +91,16 @@ const MainKnowMore = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-3">Sustainable Practices</h3>
-              <p>Promoting eco-friendly production and ethical sourcing</p>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-3">{t("knowmore.missonP2")}</h3>
+              <p>{t("knowmore.missonPDes2")}</p>
             </div>
             
             <div className="bg-white p-8 rounded-xl border-1 border-grey-400">
               <div className="bg-amber-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FiAward className="text-purple-800 text-2xl" />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-3">Long-term Partnerships</h3>
-              <p>Building trust through quality and consistent service</p>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-3">{t("knowmore.missonP3")}</h3>
+              <p>{t("knowmore.missonPDes3")}</p>
             </div>
           </div>
         </div>
@@ -116,40 +117,40 @@ const MainKnowMore = () => {
             />
           </div>
           <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold text-purple-800">Solving Industry Challenges</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-800">{t("knowmore.challenge")}</h2>
             
             <div className="mb-8">
-              <h3 className="text-2xl font-semibold text-gray-800 mt-3 mb-3">The Challenge:</h3>
+              <h3 className="text-2xl font-semibold text-gray-800 mt-3 mb-3">{t("knowmore.challengeHeading")}</h3>
               <ul className="space-y-3">
-                <li className="flex items-start">
+                <li className="flex items-center">
                   <div className="bg-red-100 text-red-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">!</div>
-                  <p>Inconsistent yarn quality across suppliers</p>
+                  <p>{t("knowmore.challenge1")}</p>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-center">
                   <div className="bg-red-100 text-red-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">!</div>
-                  <p>Delays in supply chain affecting production</p>
+                  <p>{t("knowmore.challenge2")}</p>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-center">
                   <div className="bg-red-100 text-red-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">!</div>
-                  <p>Limited access to customization at scale</p>
+                  <p>{t("knowmore.challenge3")}</p>
                 </li>
               </ul>
             </div>
             
             <div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-3">Our Solution:</h3>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-3">{t("knowmore.solutionHeading")}</h3>
               <ul className="space-y-3">
-                <li className="flex items-start">
+                <li className="flex items-center">
                   <div className="bg-green-100 text-green-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">✓</div>
-                  <p>Strict quality controls across all batches</p>
+                  <p>{t("knowmore.solution1")}</p>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-center">
                   <div className="bg-green-100 text-green-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">✓</div>
-                  <p>Scalable and timely global deliveries</p>
+                  <p>{t("knowmore.solution2")}</p>
                 </li>
-                <li className="flex items-start">
+                <li className="flex items-center">
                   <div className="bg-green-100 text-green-800 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-1">✓</div>
-                  <p>Tailored yarns to fit exact client needs</p>
+                  <p>{t("knowmore.solution3")}</p>
                 </li>
               </ul>
             </div>
@@ -160,7 +161,7 @@ const MainKnowMore = () => {
       {/* 5. Why Choose Us? */}
       <section className="py-20 px-6 bg-purple-800 text-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Why Choose Us?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">{t("knowmore.whyChoose")}</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             <div className="bg-white/10 p-6 rounded-xl border-2 border-white backdrop-blur-lg">

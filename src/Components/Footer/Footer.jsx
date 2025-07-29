@@ -273,8 +273,8 @@ const Footer = () => {
           <h3 className="text-lg text-center font-semibold mb-4">{t('footer.downloadApp')}</h3>
           <p className="text-md text-center text-gray-600 mb-6">{t('footer.bestExperience')}</p>
           <div className="flex justify-center space-x-4">
-            <img src="/images/playstore.png" alt="Google Play" className="h-12"/>
-            <img src="/images/appstore.png" alt="App Store" className="h-12"/>
+            <img src="/images/playstore.png" alt="Google Play" className="h-10"/>
+            <img src="/images/appstore.png" alt="App Store" className="h-10"/>
           </div>
         </div>
 

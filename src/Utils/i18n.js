@@ -5,6 +5,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 // Import translation files
 import en from "./../locales/en.json";
 import hi from "./../locales/hi.json";
+import od from "./../locales/od.json";
 import bn from "./../locales/bn.json";
 import ta from "./../locales/ta.json";
 
@@ -15,6 +16,7 @@ i18n
     resources: {
       en: { translation: en },
       hi: { translation: hi },
+      od: { translation: od },
       bn: { translation: bn },
       ta: { translation: ta },
     },

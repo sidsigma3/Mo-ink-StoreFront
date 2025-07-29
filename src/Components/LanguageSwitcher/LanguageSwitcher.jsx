@@ -18,6 +18,7 @@ const LanguageSwitcher = ({ className = "" }) => {
 
       <option value="en">English</option>
       <option value="hi">हिन्दी</option>
+      <option value="od">ଓଡ଼ିଆ</option>
       <option value="bn">বাংলা</option>
       <option value="ta">தமிழ்</option>
       {/* Add more languages as needed */}

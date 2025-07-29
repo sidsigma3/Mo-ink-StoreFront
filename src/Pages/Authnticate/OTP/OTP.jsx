@@ -66,6 +66,13 @@ const OTP = () => {
     return () => clearInterval(interval);
   }, [phoneTimer, phoneTimerActive]);
 
+  // Auto-submit when both OTPs are verified
+  useEffect(() => {
+    if (isEmailVerified && isPhoneVerified && !isOtpVerified) {
+      handleFinalSubmit();
+    }
+  }, [isEmailVerified, isPhoneVerified]);
+
   const handleNumericInput = (e, setter, otpType) => {
     // Don't allow input if already verified
     if ((otpType === 'email' && isEmailVerified) || (otpType === 'phone' && isPhoneVerified)) {
@@ -150,14 +157,7 @@ const OTP = () => {
     }
   };
 
-  const handleFinalSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!isEmailVerified || !isPhoneVerified) {
-      showToast("Please verify both Email and Phone OTP first.", "error");
-      return;
-    }
-
+  const handleFinalSubmit = async () => {
     if (!customerData) {
       showToast("Missing customer data. Please register again.", "error");
       return;
@@ -272,41 +272,36 @@ const OTP = () => {
           An OTP has been sent to your email & Phone number
         </p>
 
-        <form onSubmit={handleFinalSubmit}>
-          {/* Email OTP Section */}
-          <div className="relative mb-4">
-            <div className="flex justify-between items-center mb-1">
-              <div className="flex items-center gap-2">
-                <span className="text-dark text-l font-semibold">Email OTP</span>
-                {isEmailVerified && (
-                  <span className="text-green-500 text-sm font-medium">✓ Verified</span>
-                )}
-              </div>
-              <button
-                type="button"
-                className={`text-sm cursor-pointer ${
-                  emailTimerActive || isEmailVerified
-                    ? 'text-gray-400 cursor-not-allowed' 
-                    : 'text-dark font-medium hover:underline'
-                }`}
-                onClick={resendEmailOTP}
-                disabled={emailTimerActive || isEmailVerified}
-              >
-                {isEmailVerified 
-                  ? 'Verified' 
-                  : emailTimerActive 
-                    ? `Resend (${formatTime(emailTimer)})` 
-                    : 'Resend'
-                }
-              </button>
-            </div>
+        {/* Email OTP Section */}
+        <div className="relative mb-3">
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-dark text-l font-semibold">Email OTP</span>
+            <button
+              type="button"
+              className={`text-sm cursor-pointer ${
+                emailTimerActive || isEmailVerified
+                  ? 'text-gray-400 cursor-not-allowed' 
+                  : 'text-dark font-medium hover:underline'
+              }`}
+              onClick={resendEmailOTP}
+              disabled={emailTimerActive || isEmailVerified}
+            >
+              {isEmailVerified 
+                ? '' 
+                : emailTimerActive 
+                  ? `Resend (${formatTime(emailTimer)})` 
+                  : 'Resend'
+              }
+            </button>
+          </div>
+          <div className="relative">
             <input
               id="email-otp-input"
               type="text"
               placeholder="Enter Email OTP"
               className={`w-full px-4 py-1 mb-1 text-left align-center rounded-full text-black placeholder-gray-500 border-1 focus:outline-none focus:ring-2 ${
                 isEmailVerified 
-                  ? 'border-green-500 bg-green-50 cursor-not-allowed' 
+                  ? 'border-gray-400 bg-gray-200 cursor-not-allowed pr-10' 
                   : 'border-purple-800 focus:ring-purple-500'
               }`}
               value={emailCode}
@@ -314,42 +309,48 @@ const OTP = () => {
               disabled={isEmailVerified}
               maxLength={6}
             />
-          </div>
-
-          {/* Phone OTP Section */}
-          <div className="relative mb-4">
-            <div className="flex justify-between items-center mb-1">
-              <div className="flex items-center gap-2">
-                <span className="text-dark text-l font-semibold">Phone OTP</span>
-                {isPhoneVerified && (
-                  <span className="text-green-500 text-sm font-medium">✓ Verified</span>
-                )}
+            {isEmailVerified && (
+              <div className="absolute right-3 top-[46%]   transform -translate-y-1/2 text-green-500 text-lg">
+               <img 
+              src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/check.png?updatedAt=1753792558024" 
+              alt="Verified" 
+              className="w-5 h-5" 
+            />
               </div>
-              <button
-                type="button"
-                className={`text-sm cursor-pointer ${
-                  phoneTimerActive || isPhoneVerified
-                    ? 'text-gray-400 cursor-not-allowed' 
-                    : 'text-dark font-medium hover:underline'
-                }`}
-                onClick={resendPhoneOTP}
-                disabled={phoneTimerActive || isPhoneVerified}
-              >
-                {isPhoneVerified 
-                  ? 'Verified' 
-                  : phoneTimerActive 
-                    ? `Resend (${formatTime(phoneTimer)})` 
-                    : 'Resend'
-                }
-              </button>
-            </div>
+            )}
+          </div>
+        </div>
+
+        {/* Phone OTP Section */}
+        <div className="relative mb-4">
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-dark text-l font-semibold">Phone OTP</span>
+            <button
+              type="button"
+              className={`text-sm cursor-pointer ${
+                phoneTimerActive || isPhoneVerified
+                  ? 'text-gray-400 cursor-not-allowed' 
+                  : 'text-dark font-medium hover:underline'
+              }`}
+              onClick={resendPhoneOTP}
+              disabled={phoneTimerActive || isPhoneVerified}
+            >
+              {isPhoneVerified 
+                ? '' 
+                : phoneTimerActive 
+                  ? `Resend (${formatTime(phoneTimer)})` 
+                  : 'Resend'
+              }
+            </button>
+          </div>
+          <div className="relative">
             <input
               id="phone-otp-input"
               type="text"
               placeholder="Enter Phone OTP"
               className={`w-full px-4 py-1 text-left align-center rounded-full text-black placeholder-gray-500 border-1 focus:outline-none focus:ring-2 ${
                 isPhoneVerified 
-                  ? 'border-green-500 bg-green-50 cursor-not-allowed' 
+                  ? 'border-gray-400 bg-gray-200  cursor-not-allowed pr-10' 
                   : 'border-purple-800 focus:ring-purple-500'
               }`}
               value={phoneCode}
@@ -357,26 +358,30 @@ const OTP = () => {
               disabled={isPhoneVerified}
               maxLength={6}
             />
+            {isPhoneVerified && (
+          <div className="absolute right-3 top-[46%]   transform -translate-y-1/2 text-green-500 text-lg">
+               <img 
+              src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/check.png?updatedAt=1753792558024" 
+              alt="Verified" 
+              className="w-5 h-5" 
+            />
+              </div>
+            )}
           </div>
+        </div>
 
-          <button
-            type="submit"
-            className={`w-full mt-4 rounded-full py-2 font-medium transition-colors ${
-              isEmailVerified && isPhoneVerified
-                ? 'bg-purple-800 text-white hover:bg-purple-700'
-                : 'bg-gray-400 text-gray-600 cursor-not-allowed'
-            }`}
-            disabled={!isEmailVerified || !isPhoneVerified}
-          >
-            {isEmailVerified && isPhoneVerified ? 'Create Account' : 'Verify Both OTPs'}
-          </button>
+        {/* Status message */}
+        {isEmailVerified && isPhoneVerified && (
+          <div className="text-center text-green-500 text-sm font-medium mt-4">
+            Creating your account...
+          </div>
+        )}
 
-          {message && (
-            <p className="text-green-400 text-sm mt-4">{message}</p>
-          )}
-        </form>
+        {message && (
+          <p className="text-green-400 text-sm mt-4">{message}</p>
+        )}
 
-        <div className="text-center text-xs my-2 text-gray-600">Or signin with</div>
+        {/* <div className="text-center text-xs my-4 text-gray-600">Or signin with</div>
         <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
           <div className="w-3/5 rounded-xl">
             <GoogleLogin
@@ -388,7 +393,7 @@ const OTP = () => {
               }}
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* OTP Verified Modal */}

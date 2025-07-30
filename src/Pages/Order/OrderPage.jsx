@@ -22,25 +22,41 @@ const OrderPage = () => {
   const user = JSON.parse(localStorage.getItem("userData"));
   const customerId = user?.customerId;
 
-  useEffect(() => {
-    if (!customerId) return;
+ useEffect(() => {
+  if (!customerId) return;
 
-    const fetchOrders = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await getPaginatedCustomerOrders(user.customerId, currentPage, 10);
-        setOrders(data || []);
-        setTotalPages(data.totalPages || 3); //Facing Issues: TotalPages is directly proportional to the totalOrder count, should not a fixed number like here is 3
-      } catch (err) {
-        setError("Failed to load orders");
-        console.error(err);
-    
+  const fetchOrders = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getPaginatedCustomerOrders(user.customerId, currentPage, 10);
+      
+      // Fix: Properly calculate total pages based on total orders
+      if (data) {
+        setOrders(data.orders || data || []); // Assuming orders are in data.orders or data directly
+        
+        // Calculate total pages based on total order count
+        const totalOrders = data.totalOrders || data.total || 0;
+        const itemsPerPage = 10;
+        const calculatedTotalPages = Math.ceil(totalOrders / itemsPerPage);
+        
+        setTotalPages(calculatedTotalPages);
+      } else {
+        setOrders([]);
+        setTotalPages(0);
       }
-    };
+    } catch (err) {
+      setError("Failed to load orders");
+      console.error(err);
+      setOrders([]);
+      setTotalPages(0);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchOrders();
-  }, [user.customerId, currentPage]);
+  fetchOrders();
+}, [user.customerId, currentPage]);
 
 
   //  useEffect(() => {
@@ -99,37 +115,51 @@ const OrderPage = () => {
 
 
        <div className="mt-6 flex justify-end">
-          <nav className="inline-flex space-x-1">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              disabled={currentPage === 1}
-              className={`px-1 py-1 rounded-md border ${currentPage === 1 ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-purple-800 border-purple-800 hover:bg-purple-100'}`}
-            >
-              <IoIosArrowBack />
-            </button>
+  {totalPages > 1 && ( // Only show pagination if there's more than 1 page
+    <nav className="inline-flex space-x-1">
+      <button
+        onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+        disabled={currentPage === 1}
+        className={`px-1 py-1 rounded-md border ${
+          currentPage === 1 
+            ? 'text-gray-400 border-gray-300 cursor-not-allowed' 
+            : 'text-purple-800 border-purple-800 hover:bg-purple-100'
+        }`}
+      >
+        <IoIosArrowBack />
+      </button>
 
-            {[...Array(totalPages).keys()].map((number) => {
-              const page = number + 1;
-              return (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-1 rounded-md border ${currentPage === page ? 'bg-purple-800 text-white border-blue-600' : 'text-purple-800 border-purple-800 hover:bg-purple-100'}`}
-                >
-                  {page}
-                </button>
-              );
-            })}
+      {[...Array(totalPages).keys()].map((number) => {
+        const page = number + 1;
+        return (
+          <button
+            key={page}
+            onClick={() => setCurrentPage(page)}
+            className={`px-3 py-1 rounded-md border ${
+              currentPage === page 
+                ? 'bg-purple-800 text-white border-purple-800' 
+                : 'text-purple-800 border-purple-800 hover:bg-purple-100'
+            }`}
+          >
+            {page}
+          </button>
+        );
+      })}
 
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className={`px-1 py-1 rounded-md border ${currentPage === totalPages ? 'text-gray-400 border-gray-300 cursor-not-allowed' : 'text-purple-800 border-purple-800 hover:bg-purple-100'}`}
-            >
-              <IoIosArrowForward />
-            </button>
-          </nav>
-        </div>
+      <button
+        onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+        disabled={currentPage === totalPages}
+        className={`px-1 py-1 rounded-md border ${
+          currentPage === totalPages 
+            ? 'text-gray-400 border-gray-300 cursor-not-allowed' 
+            : 'text-purple-800 border-purple-800 hover:bg-purple-100'
+        }`}
+      >
+        <IoIosArrowForward />
+      </button>
+    </nav>
+  )}
+</div>
 
       </div>
 

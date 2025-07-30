@@ -166,32 +166,32 @@ const MainKnowMore = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
             <div className="bg-white/10 p-6 rounded-xl border-2 border-white backdrop-blur-lg">
               <div className="text-4xl mb-4">🧵</div>
-              <h3 className="text-xl font-semibold mb-2">Superior Raw Materials</h3>
-              <p className="text-white/90">Only the best cotton, silk, nylon, and blended fibers</p>
+              <h3 className="text-xl font-semibold mb-2">{t("knowmore.superiorRawMaterials")}</h3>
+              <p className="text-white/90">{t("knowmore.superiorRawMaterialsDesc")}</p>
             </div>
             
             <div className="bg-white/10 p-6 rounded-xl border-2 border-white backdrop-blur-lg">
               <div className="text-4xl mb-4">⚙️</div>
-              <h3 className="text-xl font-semibold mb-2">Advanced Technology</h3>
-              <p className="text-white/90">Modern spinning and dyeing facilities</p>
+              <h3 className="text-xl font-semibold mb-2">{t("knowmore.advancedTechnology")}</h3>
+              <p className="text-white/90">{t("knowmore.advancedTechnologyDesc") }</p>
             </div>
             
             <div className="bg-white/10 p-6 rounded-xl border-2 border-white backdrop-blur-lg">
               <div className="text-4xl mb-4">🔎</div>
-              <h3 className="text-xl font-semibold mb-2">Strict Quality Checks</h3>
-              <p className="text-white/90">Every spool tested for strength, evenness & fastness</p>
+              <h3 className="text-xl font-semibold mb-2">{t("knowmore.qualityChecks") }</h3>
+              <p className="text-white/90">{t("knowmore.qualityChecksDesc")}</p>
             </div>
             
             <div className="bg-white/10 p-6 rounded-xl border-2 border-white backdrop-blur-lg">
               <div className="text-4xl mb-4">🌱</div>
-              <h3 className="text-xl font-semibold mb-2">Sustainable Practice</h3>
-              <p className="text-white/90">Ethical sourcing, minimal waste, fair labor</p>
+              <h3 className="text-xl font-semibold mb-2">{t("knowmore.sustainablePractice")}</h3>
+              <p className="text-white/90">{t("knowmore.sustainablePracticeDesc")}</p>
             </div>
             
             <div className="bg-white/10 p-6 rounded-xl border-2 border-white backdrop-blur-lg">
               <div className="text-4xl mb-4">🌍</div>
-              <h3 className="text-xl font-semibold mb-2">Nationwide Reach</h3>
-              <p className="text-white/90">Clients in 25+ states, 99% retention</p>
+              <h3 className="text-xl font-semibold mb-2">{t("knowmore.nationwideReach")}</h3>
+              <p className="text-white/90">{t("knowmore.nationwideReachDesc")}</p>
             </div>
           </div>
         </div>
@@ -203,12 +203,12 @@ const MainKnowMore = () => {
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10">
           {/* Left */}
           <div className="w-full lg:w-2/5 items-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">Meet Our Team<br />Expertise Behind the Yarn</h2>
-            <p className="text-gray-600 text-base">A collective of seasoned professionals in textile engineering, sustainable manufacturing, and global trade—all united by a passion for excellence.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-snug">{t("knowmore.teamHeading")}<br />{t("knowmore.teamSubheading")}</h2>
+            <p className="text-gray-600 text-base">{t("knowmore.teamPara")}</p>
             <button className="mt-4 bg-[#6B21A8] text-white text-md px-6 py-3 rounded-full hover:bg-[#4C1D95] transition-all"
               onClick={() => navigate('/login')}
               >
-              Join the Journey
+              {t("knowmore.joinJourney")}
             </button>
           </div>
 
@@ -217,36 +217,36 @@ const MainKnowMore = () => {
             {/* Expertise 1 - Active */}
             <div className="p-6 rounded-xl bg-[#6B21A8] text-white shadow-lg transition-all">
               <div className="text-5xl font-bold mb-4 bg-gradient-to-br from-white to-purple-200 text-transparent bg-clip-text">1</div>
-              <h3 className="text-2xl font-semibold mb-2">Textile Engineering</h3>
+              <h3 className="text-2xl font-semibold mb-2">{t("knowmore.expertise1Title")}</h3>
               <p className="text-md leading-relaxed text-white/90">
-                Our core team brings decades of hands-on experience in yarn science and textile development.
+                {t("knowmore.expertise1Desc")}
               </p>
             </div>
 
             {/* Expertise 2 */}
             <div className="p-6 rounded-xl bg-white shadow hover:shadow-lg transition-all">
               <div className="text-5xl font-bold mb-4 bg-gradient-to-br from-[#6B21A8] to-[#A78BFA] text-transparent bg-clip-text opacity-30">2</div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">Sustainable Manufacturing</h3>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-2">{t("knowmore.expertise2Title") }</h3>
               <p className="text-md leading-relaxed text-gray-600">
-                Our operations are guided by eco-conscious principles and global sustainability standards.
+                {t("knowmore.expertise2Desc")}
               </p>
             </div>
 
             {/* Expertise 3 */}
             <div className="p-6 rounded-xl bg-white shadow hover:shadow-lg transition-all">
               <div className="text-5xl font-bold mb-4 bg-gradient-to-br from-[#6B21A8] to-[#A78BFA] text-transparent bg-clip-text opacity-30">3</div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">Logistics & Supply Chain</h3>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-2">{t("knowmore.expertise3Title")}</h3>
               <p className="text-md leading-relaxed text-gray-600">
-                Our experts ensure reliable, fast, and traceable delivery solutions across continents.
+                {t("knowmore.expertise3Desc")}
               </p>
             </div>
 
             {/* Expertise 4 */}
             <div className="p-6 rounded-xl bg-white shadow hover:shadow-lg transition-all">
               <div className="text-5xl font-bold mb-4 bg-gradient-to-br from-[#6B21A8] to-[#A78BFA] text-transparent bg-clip-text opacity-30">4</div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">Client Relations</h3>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-2">{t("knowmore.expertise4Title")}</h3>
               <p className="text-md leading-relaxed text-gray-600">
-                We prioritize relationships and offer tailored support to meet each client’s specific needs.
+                {t("knowmore.expertise4Desc")}
               </p>
             </div>
           </div>
@@ -257,20 +257,20 @@ const MainKnowMore = () => {
     {/* 7. Key Metrics / Social Proof */}
       <section className="py-6 px-6 bg-amber-100">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-12 text-center">Our Impact</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-12 text-center">{t("knowmore.impactHeading")}</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8  mt-8">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-purple-800 mb-2">5K+</div>
-                  <div className="text-gray-600">Happy Customers</div>
+                  <div className="text-gray-600">{t("knowmore.impactCustomers")}</div>
                 </div>
                 <div className="text-center"> 
                   <div className="text-4xl font-bold text-purple-800 mb-2">25+</div>
-                  <div className="text-gray-600">States We Cover</div>
+                  <div className="text-gray-600">{t("knowmore.impactStates")}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-purple-800 mb-2">98%</div>
-                  <div className="text-gray-600">Satisfaction Rate</div>
+                  <div className="text-gray-600">{t("knowmore.impactSatisfaction")}</div>
                 </div>
               </div>
         </div>
@@ -288,13 +288,13 @@ const MainKnowMore = () => {
             />
           </div>
           <div className="lg:w-2/3">
-            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">Meet Our Founder</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">{t("knowmore.founderHeading")}</h2>
             <blockquote className="text-xl italic mb-6 text-gray-700">
-             "I founded this company with a vision to supply the finest quality yarns to industries worldwide. Our journey began as a small-scale operation, and today, we proudly serve manufacturers and businesses across multiple countries. What drives us is not just the yarns we produce but the trust we build with every client. Every decision we make is centered around delivering excellence, consistency, and value to our customers."
+             {t("knowmore.founderQuote")}
             </blockquote>
             <div>
-              <p className="text-lg font-semibold">Avinash Mohanty</p>
-              <p className="text-purple-800">CEO & Founder</p>
+              <p className="text-lg font-semibold">{t("knowmore.founderName")}</p>
+              <p className="text-purple-800">{t("knowmore.founderDesignation")}</p>
             </div>
           </div>
         </div>

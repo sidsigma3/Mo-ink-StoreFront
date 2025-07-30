@@ -314,7 +314,7 @@ const OTP = () => {
                <img 
               src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/check.png?updatedAt=1753792558024" 
               alt="Verified" 
-              className="w-5 h-5" 
+              className="w-4 h-4" 
             />
               </div>
             )}
@@ -363,7 +363,7 @@ const OTP = () => {
                <img 
               src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/check.png?updatedAt=1753792558024" 
               alt="Verified" 
-              className="w-5 h-5" 
+              className="w-4 h-4" 
             />
               </div>
             )}

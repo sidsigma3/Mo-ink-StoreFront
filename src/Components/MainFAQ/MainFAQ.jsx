@@ -45,7 +45,7 @@ const MainFAQ = () => {
             >
               <div onClick={() => toggleFAQ(index)} className="flex items-center gap-4 cursor-pointer">
                 <div
-                  className={`w-8 h-8 flex items-center justify-center rounded-full text-lg font-bold transition-all duration-300 ${
+                  className={`min-w-[2rem] min-h-[2rem] flex items-center justify-center rounded-full text-lg font-bold transition-all duration-300 ${
                     isOpen ? "bg-white text-black border border-white" : "bg-black text-white"
                   }`}
                 >

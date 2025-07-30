@@ -7,6 +7,8 @@ import Footer from "../../Components/Footer/Footer";
 import { FiMail, FiPhone, FiMapPin, FiCheck, FiGlobe, FiAward } from 'react-icons/fi';
 import KeenSlider from "keen-slider";
 import "keen-slider/keen-slider.min.css";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../../Components/LanguageSwitcher/LanguageSwitcher";
 
 const MainNewsPage = () => {
     
@@ -16,6 +18,7 @@ const MainNewsPage = () => {
 
     const sliderRef = useRef(null);
 const keenSliderInstance = useRef(null);
+const { t } = useTranslation();
 
 useEffect(() => {
   if (!sliderRef.current) return;
@@ -77,7 +80,7 @@ useEffect(() => {
       {/* Content */}
       <div className="relative z-10 px-4 space-y-5">
         <h1 className="text-white lg:text-5xl text-3xl font-extrabold leading-tight sm:text-6xl">
-          News & Updates <br />
+          {t("knowmore.newsHeading")} <br />
            <span className="block w-full h-3 bg-purple-800 mt-4"></span> 
         </h1>
       </div>
@@ -94,28 +97,28 @@ useEffect(() => {
             />      
           </div>
           <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">Government-Recognized & Incubated at O-Hub</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">{t("knowmore.ohubHeading")}</h2>
             <p className="text-lg mb-6">
-              Mo Ink N Dyes Pvt Ltd is proud to be one of the 26 visionary startups selected for incubation at O-Hub, the official Startup Odisha initiative supported by the Government of Odisha. This recognition places us among the most innovative companies driving industrial transformation in India’s textile and manufacturing ecosystem.
+              {t("knowmore.ohubPara1")}
             </p>
             <div className="space-y-4">
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Government-backed incubation at O-Hub</p>
+                <p className="text-lg">{t("knowmore.ohubPoint1")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Selected among top 26 innovative startups</p>
+                <p className="text-lg">{t("knowmore.ohubPoint2")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Aligned with Startup India & Odisha’s growth mission</p>
+                <p className="text-lg">{t("knowmore.ohubPoint3")}</p>
               </div>
             </div>
           </div>
@@ -127,7 +130,7 @@ useEffect(() => {
             {/* Left Text */}
         <div className="text-center md:text-left md:w-2/5">
           <p className="text-xl text-left font-semibold text-gray-800"> 
-            Recognized by Government Authorities <br /> for Excellence in Yarn Trade
+            {t("knowmore.recognitionText1")} <br /> {t("knowmore.recognitionText2")}
           </p>
         </div>
 
@@ -198,14 +201,15 @@ useEffect(() => {
             />
           </div>
           <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">Featured In Leading Publications</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">
+{t("knowmore.featuredHeading")}</h2>
             
             
             <div className="mb-8">
              <p className="text-lg mb-6">
-            Ink n Dyes has captured the attention of regional and national media for its remarkable journey in the yarn and textile industry. Our commitment to innovation, sustainability, and quality manufacturing from Odisha has earned us recognition across prominent publications bringing the spotlight to the stories woven from our factory floors to global markets.            </p>
+            {t("knowmore.featuredPara1")}            </p>
                <p className="text-lg mb-6">
-              With features in top newspapers and digital portals, our work is being acknowledged as a symbol of India’s growing industrial excellence. The coverage not only highlights our achievements but also underscores the growing demand for locally made, high-performance yarn solutions with a global outlook.        
+              {t("knowmore.featuredPara2")}        
             </p>
            
         </div>  
@@ -232,40 +236,40 @@ useEffect(() => {
           </video>
         </div>
           <div className="lg:w-1/2">
-            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">Weaving Excellence from the Heart of India</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">{t("knowmore.videoHeading")}</h2>
             <p className="text-lg mb-6">
-              At Ink n Dyes, our mission goes beyond manufacturing yarn, we’re redefining how the textile industry thinks about performance, sustainability, and innovation. From Odisha to the world, we’re building a legacy of trust by delivering industrial-grade yarn solutions that power tomorrow’s textiles.    
+              {t("knowmore.videoPara")}    
             </p>
             <div className="space-y-4">
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">100% Industrial-Grade Yarn for High-Performance Applications</p>
+                <p className="text-lg">{t("knowmore.videoPoint1")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg"> Proudly Made in Odisha, Trusted Across India</p>
+                <p className="text-lg"> {t("knowmore.videoPoint2")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Innovation-Driven, Backed by Modern Manufacturing</p>
+                <p className="text-lg">{t("knowmore.videoPoint3")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Eco-Friendly Practices with Global Standards</p>
+                <p className="text-lg">{t("knowmore.videoPoint4")}</p>
               </div>
-              <div className="flex items-start">
+              <div className="flex items-center">
                 <div className="bg-amber-100 p-2 rounded-full mr-4 mt-1">
                   <FiCheck className="text-purple-800" />
                 </div>
-                <p className="text-lg">Fast Logistics & Personalized Client Support</p>
+                <p className="text-lg">{t("knowmore.videoPoint5")}</p>
               </div>
             </div>
           </div>
@@ -274,27 +278,28 @@ useEffect(() => {
 
 
 
- {/* 7. Key Metrics / Social Proof */}
+    {/* 7. Key Metrics / Social Proof */}
       <section className="py-6 px-6 bg-amber-100">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-12 text-center">Our Impact</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-12 text-center">{t("knowmore.impactHeading")}</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8  mt-8">
                 <div className="text-center">
                   <div className="text-4xl font-bold text-purple-800 mb-2">5K+</div>
-                  <div className="text-gray-600">Happy Customers</div>
+                  <div className="text-gray-600">{t("knowmore.impactCustomers")}</div>
                 </div>
                 <div className="text-center"> 
                   <div className="text-4xl font-bold text-purple-800 mb-2">25+</div>
-                  <div className="text-gray-600">States We Cover</div>
+                  <div className="text-gray-600">{t("knowmore.impactStates")}</div>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-purple-800 mb-2">98%</div>
-                  <div className="text-gray-600">Satisfaction Rate</div>
+                  <div className="text-gray-600">{t("knowmore.impactSatisfaction")}</div>
                 </div>
               </div>
         </div>
       </section>
+
 
       {/* 6. Meet the Founder */}
       <section className="py-20 px-6 max-w-7xl mx-auto">
@@ -307,13 +312,13 @@ useEffect(() => {
             />
           </div>
           <div className="lg:w-2/3">
-            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">Meet Our Founder</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-purple-800 mb-6">{t("knowmore.founderHeading")}</h2>
             <blockquote className="text-xl italic mb-6 text-gray-700">
-             "I founded this company with a vision to supply the finest quality yarns to industries worldwide. Our journey began as a small-scale operation, and today, we proudly serve manufacturers and businesses across multiple countries. What drives us is not just the yarns we produce but the trust we build with every client. Every decision we make is centered around delivering excellence, consistency, and value to our customers."
+             {t("knowmore.founderQuote")}
             </blockquote>
             <div>
-              <p className="text-lg font-semibold">Avinash Mohanty</p>
-              <p className="text-purple-800">CEO & Founder</p>
+              <p className="text-lg font-semibold">{t("knowmore.founderName")}</p>
+              <p className="text-purple-800">{t("knowmore.founderDesignation")}</p>
             </div>
           </div>
         </div>

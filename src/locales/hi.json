@@ -286,7 +286,152 @@
   "knowmore.videoPoint2": "ओडिशा में गर्व से निर्मित, पूरे भारत में विश्वसनीय",
   "knowmore.videoPoint3": "नवाचार से प्रेरित, आधुनिक निर्माण द्वारा समर्थित",
   "knowmore.videoPoint4": "वैश्विक मानकों के साथ पर्यावरण-अनुकूल प्रक्रियाएं",
-  "knowmore.videoPoint5": "तेज लॉजिस्टिक्स और व्यक्तिगत ग्राहक सहायता"
+  "knowmore.videoPoint5": "तेज लॉजिस्टिक्स और व्यक्तिगत ग्राहक सहायता",
+
+
+"colorCatalog.headingTop": "रंग पुस्तकालय",
+  "colorCatalog.headingMain1": "एक दुनिया",
+  "colorCatalog.headingMain2": "बेसुमार रंगों की",
+  "colorCatalog.subText": "गहरे से हल्के तक, हम ऐसे रंग प्रदान करते हैं जो प्रेरित करते हैं, घुलते हैं और अलग दिखते हैं।",
+  "colorCatalog.tag": "कोन/हैंक",
+
+
+  "color.BLEACH_WHITE": "ब्लीच सफेद",
+  "color.OFF_WHITE": "ऑफ व्हाइट",
+  "color.RASUN_KORA": "लहसुन कोरा",
+  "color.MUGA": "मुगा",
+  "color.SHEED_NO_35": "शीट नं-३५",
+  "color.SHEED_NO_22": "शीट नं-२२",
+  "color.BUP": "बीयूपी",
+  "color.AIU": "एआईयू",
+  "color.ROSAGULLA": "रसगुल्ला",
+  "color.STILL_GREY": "स्टील ग्रे",
+  "color.LIGHT_PINK": "हल्का गुलाबी",
+  "color.DEEP_PINK": "गहरा गुलाबी",
+  "color.RANI": "रानी",
+  "color.BASANTI": "बसंती",
+  "color.GOYEL": "गॉयल",
+  "color.ORANGE": "नारंगी",
+  "color.RED": "लाल",
+  "color.MAROON": "मैरून",
+  "color.MADAVI": "माधवी",
+  "color.PADAMO_GOLAP": "पद्म गुलाब",
+  "color.TOMATO": "टमाटर",
+  "color.ASHMANI": "आसमानी",
+  "color.FARAZA": "फराजा",
+  "color.TUTEA": "टूटीया",
+  "color.SEA_GREEN": "समुद्री हरा",
+  "color.KACHI_KALAPATA": "कच्ची केले की पत्ती",
+  "color.KARCHERCARI": "कर्चरकारी",
+  "color.JAL_PAI": "जैतून",
+  "color.PAKKA_NABU": "पक्का नींबू",
+  "color.MOTER_SUTEE": "मटर सूती",
+  "color.SHARSHEE_FULL": "सरसों का फूल",
+  "color.MASTER": "मास्टर",
+  "color.ROYAL_BLUE": "रॉयल ब्लू",
+  "color.PACHA_PATA": "पका पत्ता",
+  "color.MAGENTA": "मैजेंटा",
+  "color.PEYAZI": "प्याज़ी",
+  "color.PANA_FULL": "पान का फूल",
+  "color.PESTA": "पिस्ता",
+  "color.RUST": "जंग",
+  "color.SHEED_NO_290": "शीट नं-२९०",
+  "color.KRISHNO_NIL": "कृष्ण नील",
+  "color.RAJA_GREEN": "राजा हरा",
+  "color.TIYA_GREEN": "टिया हरा",
+  "color.BOTTLE_GREEN": "बोतल हरा",
+  "color.SHEED_NO_543": "शीट नं-५४३",
+  "color.BLACK": "काला",
+  "color.GHEE": "घी",
+  "color.CHANDAN": "चंदन",
+  "color.SHYAMOCY": "श्यामसी",
+
+
+
+  
+  "banner.main.crafting.title": "हर धागे में उत्कृष्टता की बुनाई",
+  "banner.main.crafting.desc": "हर प्रोजेक्ट के लिए जीवंत, बहुपयोगी और टिकाऊ यार्न खोजें",
+
+  "banner.main.premium.title": "प्रीमियम गुणवत्ता वाले यार्न",
+  "banner.main.premium.desc": "हर रेशा जो हम बनाते हैं, उसमें अनुभव करें उत्कृष्टता",
+
+  "banner.main.softness.title": "कोमलता और मजबूती का संगम",
+  "banner.main.softness.desc": "हर हस्तनिर्मित रचना में आराम और मजबूती बुनें",
+
+  "banner.main.vibrant.title": "जीवंत रंग। टिकाऊ बनावट।",
+  "banner.main.vibrant.desc": "गहराई से रंगे, लंबे समय तक चलने वाले धागों से अपनी रचनात्मकता को मुक्त करें",
+
+  "banner.main.threads.title": "धागे जो जुनून जगाएँ",
+  "banner.main.threads.desc": "सौंदर्य और परिपूर्णता के लिए बुने गए यार्न के साथ फर्क महसूस करें",
+
+  "banner.side.excellence.title": "हर धागे में उत्कृष्टता",
+  "banner.side.excellence.desc": "हम यार्न को परिपूर्णता से बनाते हैं",
+
+  "banner.side.quality.title": "जहाँ गुणवत्ता की शुरुआत होती है",
+  "banner.side.quality.desc": "विश्व स्तरीय यार्न बनाना हमारा उद्देश्य है",
+
+
+
+  "marquee.engineered": "मजबूती से तैयार, आराम के लिए निर्मित",
+  "marquee.precision": "स्थायी चमक के साथ सटीक रंगे हुए धागे",
+  "marquee.softTouch": "मुलायम स्पर्श। औद्योगिक मजबूती। हमेशा भरोसेमंद।",
+  "marquee.builtToWeave": "कहानियाँ बुनने के लिए तैयार, लंबे समय तक टिकाऊ",
+
+
+
+   "features.section.title": "मूल्य वर्धन",
+  "features.section.desc": "वे लाभ जानें जो हमें अलग बनाते हैं",
+  "features.qualitySelection.title": "गुणवत्ता चयन",
+  "features.qualitySelection.desc": "आपकी आवश्यकताओं के अनुसार चुने गए प्रीमियम उत्पादों की विस्तृत रेंज तक पहुंचें।",
+  "features.transparentPricing.title": "पारदर्शी मूल्य निर्धारण",
+  "features.transparentPricing.desc": "स्पष्ट और प्रतिस्पर्धी कीमतों का लाभ उठाएं, बिना किसी छिपे शुल्क के।",
+  "features.efficientLogistics.title": "प्रभावी लॉजिस्टिक्स",
+  "features.efficientLogistics.desc": "तेज, विश्वसनीय और कुशल डिलीवरी सेवाओं का आनंद लें।",
+  "features.uniqueYarn.title": "विशेष यार्न प्रस्ताव",
+  "features.uniqueYarn.desc": "आपकी विशिष्ट परियोजना आवश्यकताओं के लिए विशेष यार्न खोजें।",
+  "features.lowInterestCredit.title": "कम ब्याज ऋण",
+  "features.lowInterestCredit.desc": "कम ब्याज वाले क्रेडिट विकल्पों के साथ लचीले भुगतान का लाभ लें।",
+  "features.buyAssist.title": "खरीद सहायक कार्यक्रम",
+  "features.buyAssist.desc": "आपकी खरीद यात्रा में व्यक्तिगत सहायता और मार्गदर्शन प्राप्त करें।",
+
+
+  "buttons.goToCart": "कार्ट पर जाएं",
+"buttons.addToCart": "कार्ट में जोड़ें",
+
+
+  "cta.card1.title": "हमें असाधारण क्या बनाता है?",
+  "cta.card1.point1": "पर्यावरण अनुकूल प्रक्रियाएँ",
+  "cta.card1.point2": "अनुकूलन योग्य समाधान",
+  "cta.card1.point3": "प्रतिस्पर्धी मूल्य निर्धारण",
+  "cta.card1.point4": "प्रीमियम गुणवत्ता",
+  "cta.card1.point5": "पारदर्शी नीतियाँ",
+  "cta.card1.point6": "समय पर डिलीवरी",
+  "cta.card2.title": "उन उद्योगों के लिए डिज़ाइन किए गए प्रीमियम यार्न जो केवल पूर्णता की माँग करते हैं।",
+  "cta.card3.title": "फैशन, होम टेक्सटाइल, औद्योगिक और शिल्प क्षेत्रों को गुणवत्ता की आपूर्ति।",
+  "cta.learnMore": "और जानें",
+
+  "blog.section.title": "टिप्स, ट्रिक्स और गाइड ब्लॉग",
+
+  "blog.box1.title": "सूत की यात्रा: कच्चे रेशे से उच्च गुणवत्ता वाले धागे तक",
+"blog.box1.desc": "कपास, रेशम और पॉलिएस्टर जैसे कच्चे माल को प्रीमियम सूत में कैसे बदला जाता है, इस प्रक्रिया की एक झलक। इसमें उत्पादन प्रक्रिया, गुणवत्ता नियंत्रण और स्थिरता प्रयासों को उजागर किया गया है।",
+"blog.readMore": "और पढ़ें",
+
+"blog.blog2.imageAlt": "ब्लॉग छवि",
+"blog.blog2.title": "गुणवत्ता युक्त सूत की शुरुआत से अंत तक निर्माण प्रक्रिया",
+"blog.blog2.description": "Ink n Dyes में, हम पहले धागे से ही गुणवत्ता में विश्वास करते हैं। हमारी सूत निर्माण प्रक्रिया कुशल कारीगरी और नवाचार का एक सटीक संयोजन है, जो ताकत, स्थिरता और दृश्य सौंदर्य प्रदान करने वाले सूत तैयार करने के लिए डिज़ाइन की गई है।",
+
+"blog.blog3.imageAlt": "ब्लॉग छवि",
+"blog.blog3.title": "रंगाई की कला: कैसे रंग सुत को जीवन देता है",
+"blog.blog3.description": "सूत की रंगाई की प्रक्रिया रासायनिक विशेषज्ञता और रचनात्मक दृष्टिकोण का एक कलात्मक संगम है। 1,000 से अधिक जीवंत सूत रंगों के साथ, हम वस्त्र डिजाइनरों और निर्माताओं को कल्पनाओं को जीवन में लाने में सक्षम बनाते हैं।",
+
+"blog.blog4.imageAlt": "ब्लॉग छवि",
+"blog.blog4.title": "कोन बनाम हैंक: अपनी आवश्यकता के अनुसार सही यार्न प्रारूप चुनें",
+"blog.blog4.description": "सभी यार्न प्रारूप समान नहीं होते। यार्न कोन और हैंक के बीच का चुनाव मामूली लग सकता है, लेकिन यह आपके उत्पादन की दक्षता, रंगाई की सटीकता और बुनाई शैली को काफी प्रभावित कर सकता है।"
+
+
+
+
+
 }
 
 

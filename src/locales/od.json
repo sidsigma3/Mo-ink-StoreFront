@@ -296,7 +296,153 @@
   "knowmore.videoPoint2": "ଗର୍ବର ସହିତ ଓଡିଶାରେ ତିଆରି, ସାରା ଭାରତରେ ଭରସାଯୋଗ୍ୟ",
   "knowmore.videoPoint3": "ନବୋନ୍ମେଷ ପ୍ରେରିତ, ଆଧୁନିକ ଉତ୍ପାଦନ ସହିତ ସମର୍ଥିତ",
   "knowmore.videoPoint4": "ବିଶ୍ୱ ମାନଦଣ୍ଡ ସହିତ ପରିବେଶ ପ୍ରତି ମିତ୍ର ସମ୍ପ୍ରଚଳନ",
-  "knowmore.videoPoint5": "ତ୍ୱରିତ ଲଜିଷ୍ଟିକ୍ସ ଓ ବ୍ୟକ୍ତିଗତ ଗ୍ରାହକ ସହଯୋଗ"
+  "knowmore.videoPoint5": "ତ୍ୱରିତ ଲଜିଷ୍ଟିକ୍ସ ଓ ବ୍ୟକ୍ତିଗତ ଗ୍ରାହକ ସହଯୋଗ",
+
+
+"colorCatalog.headingTop": "ରଙ୍ଗ ପୁସ୍ତକାଳୟ",
+"colorCatalog.headingMain1": "ଏକ ଜଗତ",
+"colorCatalog.headingMain2": "ଅସୀମ ରଙ୍ଗରେ",
+"colorCatalog.subText": "ଗାଢ଼ ରୁ ନରମ ପର୍ଯ୍ୟନ୍ତ, ଆମେ ଏମିତି ରଙ୍ଗ ଦେଉଛୁ ଯାହା ପ୍ରେରଣା ଦେଉଛି, ମିଶୁଛି ଓ ଅଲଗା ଭାବେ ଆଭା ଦେଉଛି।",
+"colorCatalog.tag": "କୋନ୍/ହ୍ୟାଙ୍କ",
+
+
+"color.BLEACH_WHITE": "ବ୍ଲିଚ୍ ଧଳା",
+"color.OFF_WHITE": "ଅଫ୍ ହ୍ୱାଇଟ୍",
+"color.RASUN_KORA": "ରସୁଣ କୋରା",
+"color.MUGA": "ମୂଗା",
+"color.SHEED_NO_35": "ସିଡ୍ ନମ୍ବର-୩୫",
+"color.SHEED_NO_22": "ସିଡ୍ ନମ୍ବର-୨୨",
+"color.BUP": "ବିଉପି",
+"color.AIU": "ଏଆଇଉ",
+"color.ROSAGULLA": "ରସଗୋଲା",
+"color.STILL_GREY": "ସ୍ଟିଲ୍ ଧୂସର",
+"color.LIGHT_PINK": "ହାଲୁକା ଗୋଲାପୀ",
+"color.DEEP_PINK": "ଗାଢ଼ ଗୋଲାପୀ",
+"color.RANI": "ରାଣୀ",
+"color.BASANTI": "ବସନ୍ତୀ",
+"color.GOYEL": "ଗୋଯେଲ୍",
+"color.ORANGE": "କମଳା",
+"color.RED": "ଲାଲ",
+"color.MAROON": "ମାରୁନ୍",
+"color.MADAVI": "ମାଧବୀ",
+"color.PADAMO_GOLAP": "ପଦମ ଗୋଲାପ",
+"color.TOMATO": "ଟମାଟୋ",
+"color.ASHMANI": "ଆସ୍ମାନୀ",
+"color.FARAZA": "ଫାରାଜା",
+"color.TUTEA": "ଟୁଟିଆ",
+"color.SEA_GREEN": "ସମୁଦ୍ର ହରିତ",
+"color.KACHI_KALAPATA": "କାଚି କଳାପତ୍ର",
+"color.KARCHERCARI": "କର୍ଚେରକାରୀ",
+"color.JAL_PAI": "ଜଳ ପାଇଁ",
+"color.PAKKA_NABU": "ପାକ୍କା ନବୁ",
+"color.MOTER_SUTEE": "ମୋଟର ସୁତେ",
+"color.SHARSHEE_FULL": "ଶରଷୀ ଫୁଲ",
+"color.MASTER": "ମାଷ୍ଟର",
+"color.ROYAL_BLUE": "ରଏଲ ବ୍ଲୁ",
+"color.PACHA_PATA": "ପଚା ପତା",
+"color.MAGENTA": "ମେଜେଣ୍ଟା",
+"color.PEYAZI": "ପିଆଜି",
+"color.PANA_FULL": "ପାନା ଫୁଲ",
+"color.PESTA": "ପେସ୍ତା",
+"color.RUST": "ଜଙ୍ଗ",
+"color.SHEED_NO_290": "ସିଡ୍ ନମ୍ବର-୨୯୦",
+"color.KRISHNO_NIL": "କୃଷ୍ଣ ନୀଳ",
+"color.RAJA_GREEN": "ରାଜା ହରିତ",
+"color.TIYA_GREEN": "ଟିଆ ହରିତ",
+"color.BOTTLE_GREEN": "ବୋତଲ ହରିତ",
+"color.SHEED_NO_543": "ସିଡ୍ ନମ୍ବର-୫୪୩",
+"color.BLACK": "କଳା",
+"color.GHEE": "ଘିଅ",
+"color.CHANDAN": "ଚନ୍ଦନ",
+"color.SHYAMOCY": "ଶ୍ୟାମସି",
+
+
+"banner.main.crafting.title": "ପ୍ରତ୍ୟେକ ସୂତାରେ ନିପୁଣତା ଗଠନ",
+"banner.main.crafting.desc": "ପ୍ରତ୍ୟେକ ପ୍ରକଳ୍ପ ପାଇଁ ଉଜ୍ଜ୍ୱଳ, ବହୁଦେଶୀୟ ଓ ଦୀର୍ଘକାଳୀନ ସୂତା ଆବିଷ୍କାର କରନ୍ତୁ",
+
+"banner.main.premium.title": "ପ୍ରିମିୟମ୍ ଗୁଣସମ୍ପନ୍ନ ସୂତା",
+"banner.main.premium.desc": "ଆମେ ତିଆରି କରୁଥିବା ପ୍ରତ୍ୟେକ ଇଁଜିରେ ଉତ୍କୃଷ୍ଟତା ଅନୁଭବ କରନ୍ତୁ",
+
+"banner.main.softness.title": "ମୃଦୁତା ଓ ଦୃଢତାର ମିଶ୍ରଣ",
+"banner.main.softness.desc": "ପ୍ରତ୍ୟେକ ହାତରେ ତିଆରି ହେଉଥିବା କଳାକୃତିରେ ଆରାମ ଓ ସ୍ଥାୟୀତ୍ୱ ବୁନନ୍ତୁ",
+
+"banner.main.vibrant.title": "ଚମକଦାର ରଙ୍ଗ, ଦୀର୍ଘକାଳୀନ ତାନ",
+"banner.main.vibrant.desc": "ଗାଢ଼ ରଙ୍ଗିତ ଓ ଦୀର୍ଘସ୍ଥାୟୀ ସୂତା ସହିତ ଆପଣଙ୍କର ସୃଜନାଶୀଳତାକୁ ମୁକ୍ତ କରନ୍ତୁ",
+
+"banner.main.threads.title": "ଆଗ୍ରହ ଜଗାଉଥିବା ସୂତା",
+"banner.main.threads.desc": "ସୌନ୍ଦର୍ଯ୍ୟ ଓ ଉତ୍କୃଷ୍ଟତା ପାଇଁ ବୁନାଯାଇଥିବା ସୂତା ସହିତ ଅନୁଭବ କରନ୍ତୁ ଏକ ଅନ୍ୟ ଅନୁଭୂତି",
+
+"banner.side.excellence.title": "ନିପୁଣତାରେ ବୁନାଯାଇଛି",
+"banner.side.excellence.desc": "ଆମେ ସୂତାକୁ ନିପୁଣତା ସହିତ ତିଆରି କରୁଛୁ",
+
+"banner.side.quality.title": "ଗୁଣବତ୍ତା ରେ ଆରମ୍ଭ ହୁଏ ଏଠାରୁ",
+"banner.side.quality.desc": "ଆମେ ବିଶ୍ୱ ମାନଙ୍କ ସମ୍ପନ୍ନ ସୂତା ତିଆରି କରୁଛୁ",
+
+
+
+
+  "marquee.engineered": "ଶକ୍ତି ପାଇଁ ଇଞ୍ଜିନିୟର୍ କରାଯାଇଛି, ସାନ୍ତ୍ୱନା ପାଇଁ ତିଆରି",
+  "marquee.precision": "ଦୀର୍ଘସ୍ଥାୟୀ ଚମକ ସହିତ ସଠିକ୍ ରୂପେ ରଙ୍ଗିତ ସୂତା",
+  "marquee.softTouch": "ନରମ ସ୍ପର୍ଶ। ଶିଳ୍ପ ଦୃଢତା। ସବୁବେଳେ ବିଶ୍ୱସନୀୟ।",
+  "marquee.builtToWeave": "କାହାଣୀ ବୁନିବା ପାଇଁ ତିଆରି, ଦୀର୍ଘସ୍ଥାୟୀତା ପାଇଁ କାତାଯାଇଛି",
+
+
+
+  "features.section.title": "ଆମର ପ୍ରଭାବ",
+  "features.section.desc": "ଯେଉଁ ଲାଭ ଆମକୁ ଅନ୍ୟମାନଙ୍କୁ ଠାରୁ ଅଲଗା କରେ ତାହା ଆବିଷ୍କାର କରନ୍ତୁ",
+  "features.qualitySelection.title": "ଗୁଣବତ୍ତା ଚୟନ",
+  "features.qualitySelection.desc": "ଆପଣଙ୍କର ଆବଶ୍ୟକତା ଅନୁଯାୟୀ ସଚେତନ ଭାବରେ ଚୟନିତ ପ୍ରିମିୟମ୍ ଉତ୍ପାଦର ବ୍ୟାପକ ରେଞ୍ଜ ପାଆନ୍ତୁ।",
+  "features.transparentPricing.title": "ପାରଦର୍ଶୀ ମୂଲ୍ୟ ନିର୍ଣ୍ଣୟ",
+  "features.transparentPricing.desc": "କୌଣସି ଲୁଚିଥିବା ଖର୍ଚ୍ଚ ଛାଡି ସ୍ପଷ୍ଟ ଏବଂ ପ୍ରତିଯୋଗିତାମୂଳକ ମୂଲ୍ୟରୁ ଲାଭ ଉଠାନ୍ତୁ।",
+  "features.efficientLogistics.title": "କାର୍ଯ୍ୟକ୍ଷମ ଲଜିଷ୍ଟିକ୍ସ",
+  "features.efficientLogistics.desc": "ଦ୍ରୁତ, ନିଶ୍ଚିତ ଏବଂ କାର୍ଯ୍ୟକ୍ଷମ ବିତରଣ ସେବା ଉପଭୋଗ କରନ୍ତୁ।",
+  "features.uniqueYarn.title": "ଅନନ୍ୟ ସୂତା ଦେଖା",
+  "features.uniqueYarn.desc": "ଆପଣଙ୍କର ଅନନ୍ୟ ପ୍ରକଳ୍ପ ଆବଶ୍ୟକତା ପାଇଁ ବିଶେଷ ସୂତା ପ୍ରକାର ଖୋଜନ୍ତୁ।",
+  "features.lowInterestCredit.title": "କମ୍ ସୁଦ ଋଣ",
+  "features.lowInterestCredit.desc": "ନିମ୍ନ ସୁଦ ନିକାସ ଏବଂ ଲଚିଳା ପ୍ରଦାନ ବିକଳ୍ପରୁ ଲାଭ ଉଠାନ୍ତୁ।",
+  "features.buyAssist.title": "କ୍ରୟ ସାହାଯ୍ୟ କାର୍ଯ୍ୟକ୍ରମ",
+  "features.buyAssist.desc": "ଆପଣଙ୍କର କ୍ରୟ ଯାତ୍ରା ଅବଧିରେ ବ୍ୟକ୍ତିଗତ ସାହାଯ୍ୟ ଓ ମାର୍ଗଦର୍ଶନ ପାଆନ୍ତୁ।",
+
+
+"buttons.goToCart": "କାର୍ଟକୁ ଯାଆନ୍ତୁ",
+"buttons.addToCart": "କାର୍ଟରେ ଯୋଗ କରନ୍ତୁ",
+  
+  "cta.card1.title": "ଆମକୁ ବିଶେଷ କଣ କରେ?",
+  "cta.card1.point1": "ପରିବେଶ-ମିତ୍ର ଅଭିଯାନ",
+  "cta.card1.point2": "ଅନୁକୂଳନ ହେଉଥିବା ସମାଧାନ",
+  "cta.card1.point3": "ପ୍ରତିଯୋଗିତାମୂଳକ ମୂଲ୍ୟ",
+  "cta.card1.point4": "ପ୍ରିମିୟମ୍ ଗୁଣବତ୍ତା",
+  "cta.card1.point5": "ପାରଦର୍ଶୀ ନୀତିଗୁଡ଼ିକ",
+  "cta.card1.point6": "ସମୟରେ ବିତରଣ",
+  "cta.card2.title": "ସେହି ଉଦ୍ୟୋଗଗୁଡ଼ିକ ପାଇଁ ଡିଜାଇନ୍ କରାଯାଇଥିବା ପ୍ରିମିୟମ୍ ସୂତା ଯେଉଁମାନେ କେବଳ ସମ୍ପୂର୍ଣ୍ଣତା ଚାହାଁନ୍ତି।",
+  "cta.card3.title": "ଫ୍ୟାସନ୍, ଘର ଟେକ୍ସଟାଇଲ୍, ଉଦ୍ୟୋଗିକ ଓ ହସ୍ତଶିଳ୍ପ ଖାତିରେ ଗୁଣବତ୍ତା ଯୋଗାଣ।",
+  "cta.learnMore": "ଅଧିକ ଜାଣନ୍ତୁ",
+
+
+  "blog.section.title": "ଟିପ୍ସ, ଟ୍ରିକ୍ସ ଏବଂ ଗାଇଡ୍ ବ୍ଲଗ୍",
+
+
+  "blog.box1.title": "ସୂତର ଯାତ୍ରା: କଚ୍ଚା ରେସା ରୁ ଉଚ୍ଚ ଗୁଣଯୁକ୍ତ ଧାଗା ପର୍ଯ୍ୟନ୍ତ",
+"blog.box1.desc": "କପାସ, ପଟ, ପଲିଏଷ୍ଟର ଭଳି କଚ୍ଚା ଉପାଦାନକୁ ପ୍ରିମିୟମ୍ ସୂତରେ କିପରି ପରିଣତ କରାଯାଏ, ତାହାର ଏକ ଅନ୍ତର୍ଦୃଷ୍ଟି। ଏହି ବ୍ଲଗ୍‌ରେ ଉତ୍ପାଦନ ପ୍ରକ୍ରିୟା, ଗୁଣ ନିୟନ୍ତ୍ରଣ ଓ ସ୍ଥିରତା ଉଦ୍ୟମକୁ ଆଲୋକପାତ କରାଯାଇଛି।",
+"blog.readMore": "ଅଧିକ ପଢ଼ନ୍ତୁ",
+
+"blog.blog2.imageAlt": "ବ୍ଲଗ୍ ଛବି",
+"blog.blog2.title": "ଗୁଣବତ୍ତାଯୁକ୍ତ ସୂତ କିପରି ଆରମ୍ଭ ରୁ ଶେଷ ପର୍ଯ୍ୟନ୍ତ ତିଆରି ହୁଏ",
+"blog.blog2.description": "Ink n Dyes ରେ, ଆମେ ପ୍ରଥମ ଧାଗାଠାରୁ ଗୁଣବତ୍ତାରେ ଆସ୍ଥା ରଖୁ। ଆମ ସୂତ ଉତ୍ପାଦନ ପ୍ରକ୍ରିୟା କୁଶଳ ଶିଳ୍ପ ଓ ନୂତନତାର ଏକ ନିଖୁତ ସମ୍ମିଳନ ଯାହା ଏମିତି ସୂତ ଉତ୍ପାଦନ ପାଇଁ ଡିଜାଇନ୍ କରାଯାଇଛି ଯାହା ଶକ୍ତି, ସମଙ୍ଗତା ଓ ଭିଜୁଆଲ୍ ପରିପୂର୍ଣ୍ଣତା ଦେଇଥାଏ।",
+
+"blog.blog3.imageAlt": "ବ୍ଲଗ୍ ଛବି",
+"blog.blog3.title": "ରଙ୍ଗ କଳା: କିପରି ରଙ୍ଗ ସୂତକୁ ଜୀବନ ଦିଏ",
+"blog.blog3.description": "ସୂତ ରଙ୍ଗାଇ ପ୍ରକ୍ରିୟାଟି ଏକ କଳାତ୍ମକ ରସାୟନିକ ଦକ୍ଷତା ଓ ସୃଜନଶୀଳ ଦୃଷ୍ଟିକୋଣର ସମ୍ମିଳନ। 1,000 ରୁ ଅଧିକ ଆକର୍ଷଣୀୟ ସୂତ ରଙ୍ଗ ସହିତ, ଆମେ ବସ୍ତ୍ର ଡିଜାଇନର ଓ ଉତ୍ପାଦକଙ୍କୁ କଳ୍ପନାକୁ ଜୀବନ ଦେବା ପାଇଁ ସଶକ୍ତ କରୁଛୁ।",
+
+"blog.blog4.imageAlt": "ବ୍ଲଗ୍ ଛବି",
+"blog.blog4.title": "କୋନ୍ ବନାମ ହ୍ୟାଙ୍କ: ଆପଣଙ୍କର ଆବଶ୍ୟକତା ପାଇଁ ସଠିକ୍ ସୂତ ଆକୃତି ବାଛନ୍ତୁ",
+"blog.blog4.description": "ସମସ୍ତ ସୂତ ଆକୃତି ସମାନ ନୁହେଁ। କୋନ୍ ଓ ହ୍ୟାଙ୍କ ମଧ୍ୟରେ ବାଛିବା ଦେଖିବାକୁ ସହଜ ଲାଗିପାରେ, କିନ୍ତୁ ଏହା ଆପଣଙ୍କର ଉତ୍ପାଦନ କ୍ଷମତା, ରଙ୍ଗାଇର ନିଖୁତତା ଓ ବୁନାଇ ଶୈଳୀକୁ ଅପାର ଭାବେ ପ୍ରଭାବିତ କରିପାରେ।"
+
+
+
+
+
+
 }
 
 

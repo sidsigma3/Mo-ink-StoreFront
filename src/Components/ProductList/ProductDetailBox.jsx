@@ -7,6 +7,7 @@ import { addToCart, removeFromCart, getCart } from '../../Services/CartService';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from '../../Utils/commoncontext';
+import { useTranslation } from "react-i18next";
 import Toast from '../Toast/Toast';
 
 const ProductDetailBox = ({
@@ -25,6 +26,8 @@ const ProductDetailBox = ({
   const [justRemoved, setJustRemoved] = useState(false);
   const [quantity, setQuantity] = useState(itemQuantity || 1);
   const [cartItems, setCartItems] = useState([]);
+  const { t } = useTranslation();
+  
 
   const [toasts, setToasts] = useState([]);
   const showToast = (message, type = "success") => {
@@ -277,7 +280,7 @@ const handleAddToCart = async () => {
               : 'bg-purple-800 text-white hover:bg-purple-600'
           } transition-colors`}
         >
-          {isInCart ? "GO TO CART" : "ADD TO CART"}
+          {isInCart ?  t("buttons.goToCart") : t("buttons.addToCart")}
           <span>
             <MdOutlineShoppingCart size={20} />
           </span>

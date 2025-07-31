@@ -286,5 +286,154 @@
   "knowmore.videoPoint2": "ওড়িশায় গর্বের সাথে নির্মিত, ভারতের সর্বত্র বিশ্বাসযোগ্য",
   "knowmore.videoPoint3": "উদ্ভাবন-ভিত্তিক, আধুনিক ম্যানুফ্যাকচারিং দ্বারা সমর্থিত",
   "knowmore.videoPoint4": "বিশ্বমানের পরিবেশবান্ধব অনুশীলন",
-  "knowmore.videoPoint5": "দ্রুত লজিস্টিকস ও ব্যক্তিগত ক্লায়েন্ট সহায়তা"
+  "knowmore.videoPoint5": "দ্রুত লজিস্টিকস ও ব্যক্তিগত ক্লায়েন্ট সহায়তা",
+
+
+  
+  "colorCatalog.headingTop": "রঙের গ্রন্থাগার",
+  "colorCatalog.headingMain1": "একটি জগৎ",
+  "colorCatalog.headingMain2": "সীমাহীন রঙে",
+  "colorCatalog.subText": "গাঢ় থেকে হালকা পর্যন্ত, আমরা এমন রঙ সরবরাহ করি যা অনুপ্রেরণা জাগায়, মিশে যায় এবং আলাদা করে তোলে।",
+  "colorCatalog.tag": "কোন/হ্যাঙ্ক",
+
+
+  
+  "color.BLEACH_WHITE": "ব্লিচ সাদা",
+  "color.OFF_WHITE": "অফ হোয়াইট",
+  "color.RASUN_KORA": "রসুন কোরা",
+  "color.MUGA": "মুগা",
+  "color.SHEED_NO_35": "শীট নং-৩৫",
+  "color.SHEED_NO_22": "শীট নং-২২",
+  "color.BUP": "বিইউপি",
+  "color.AIU": "এআইইউ",
+  "color.ROSAGULLA": "রসগোল্লা",
+  "color.STILL_GREY": "স্টিল ধূসর",
+  "color.LIGHT_PINK": "হালকা গোলাপী",
+  "color.DEEP_PINK": "গাঢ় গোলাপী",
+  "color.RANI": "রানী",
+  "color.BASANTI": "বসন্তী",
+  "color.GOYEL": "গোয়েল",
+  "color.ORANGE": "কমলা",
+  "color.RED": "লাল",
+  "color.MAROON": "মেরুন",
+  "color.MADAVI": "মাধবী",
+  "color.PADAMO_GOLAP": "পদ্ম গোলাপ",
+  "color.TOMATO": "টমেটো",
+  "color.ASHMANI": "আসমানী",
+  "color.FARAZA": "ফারাজা",
+  "color.TUTEA": "টুটা",
+  "color.SEA_GREEN": "সাগর সবুজ",
+  "color.KACHI_KALAPATA": "কাঁচা কলাপাতা",
+  "color.KARCHERCARI": "কারচেরকারি",
+  "color.JAL_PAI": "জলপাই",
+  "color.PAKKA_NABU": "পাকা নেবু",
+  "color.MOTER_SUTEE": "মটর সুতি",
+  "color.SHARSHEE_FULL": "সরষে ফুল",
+  "color.MASTER": "মাস্টার",
+  "color.ROYAL_BLUE": "রয়্যাল ব্লু",
+  "color.PACHA_PATA": "পাকা পাতা",
+  "color.MAGENTA": "ম্যাজেন্টা",
+  "color.PEYAZI": "পেঁয়াজি",
+  "color.PANA_FULL": "পানার ফুল",
+  "color.PESTA": "পেস্তা",
+  "color.RUST": "জং",
+  "color.SHEED_NO_290": "শীট নং-২৯০",
+  "color.KRISHNO_NIL": "কৃষ্ণ নীল",
+  "color.RAJA_GREEN": "রাজা সবুজ",
+  "color.TIYA_GREEN": "টিয়া সবুজ",
+  "color.BOTTLE_GREEN": "বোতল সবুজ",
+  "color.SHEED_NO_543": "শীট নং-৫৪৩",
+  "color.BLACK": "কালো",
+  "color.GHEE": "ঘি",
+  "color.CHANDAN": "চন্দন",
+  "color.SHYAMOCY": "শ্যামচি",
+
+
+  "banner.main.crafting.title": "প্রতিটি সুতায় নিখুঁতভাবে তৈরি",
+  "banner.main.crafting.desc": "প্রতিটি প্রকল্পের জন্য উজ্জ্বল, বহুমুখী এবং টেকসই সুতার সন্ধান করুন",
+
+  "banner.main.premium.title": "প্রিমিয়াম মানের সূতা",
+  "banner.main.premium.desc": "আমাদের প্রতিটি আঁশে উৎকর্ষতার অভিজ্ঞতা নিন",
+
+  "banner.main.softness.title": "নরমতা ও টেকসইতার মিলন",
+  "banner.main.softness.desc": "প্রতিটি হাতে তৈরি সৃষ্টি যেন হয় আরামদায়ক ও দীর্ঘস্থায়ী",
+
+  "banner.main.vibrant.title": "উজ্জ্বল রং, দীর্ঘস্থায়ী টেক্সচার",
+  "banner.main.vibrant.desc": "সমৃদ্ধ রঙিন ও দীর্ঘস্থায়ী সূতা দিয়ে খুলে দিন আপনার সৃষ্টিশীলতার দুয়ার",
+
+  "banner.main.threads.title": "অনুপ্রেরণামূলক সূতা",
+  "banner.main.threads.desc": "সৌন্দর্য ও নিখুঁততার জন্য প্রস্তুত সূতার ছোঁয়ায় অনুভব করুন পার্থক্য",
+
+  "banner.side.excellence.title": "উৎকর্ষতা দিয়ে গাঁথা",
+  "banner.side.excellence.desc": "আমরা সূতা তৈরি করি নিখুঁতভাবে",
+
+  "banner.side.quality.title": "গুণমানের সূতার সূচনা এখানেই",
+  "banner.side.quality.desc": "আমরা তৈরি করি বিশ্বমানের সূতা",
+
+
+
+
+  
+  "marquee.engineered": "শক্তির জন্য নির্মিত, আরামের জন্য তৈরি",
+  "marquee.precision": "দীর্ঘস্থায়ী দীপ্তির সঙ্গে নিখুঁতভাবে রঞ্জিত সূতা",
+  "marquee.softTouch": "নরম স্পর্শ। শিল্পক্ষেত্রের দৃঢ়তা। সবসময় নির্ভরযোগ্য।",
+  "marquee.builtToWeave": "গল্প বুনতে তৈরি, দীর্ঘস্থায়ী করার জন্য সূতা কাটা হয়েছে",
+
+
+
+  "features.section.title": "মান সংযোজন",
+  "features.section.desc": "আমাদের আলাদা করে তোলে এমন সুবিধাগুলি জানুন",
+  "features.qualitySelection.title": "মানসম্পন্ন নির্বাচন",
+  "features.qualitySelection.desc": "আপনার প্রয়োজন অনুযায়ী বাছাই করা প্রিমিয়াম পণ্যের বিস্তৃত পরিসরে প্রবেশ করুন।",
+  "features.transparentPricing.title": "স্বচ্ছ মূল্য নির্ধারণ",
+  "features.transparentPricing.desc": "কোনও লুকানো খরচ ছাড়াই স্বচ্ছ ও প্রতিযোগিতামূলক মূল্য সুবিধা পান।",
+  "features.efficientLogistics.title": "দক্ষ সরবরাহ ব্যবস্থা",
+  "features.efficientLogistics.desc": "দ্রুত, নির্ভরযোগ্য এবং দক্ষ ডেলিভারি পরিষেবা উপভোগ করুন।",
+  "features.uniqueYarn.title": "অনন্য সূতা পণ্য",
+  "features.uniqueYarn.desc": "আপনার বিশেষ প্রকল্পের প্রয়োজনে উপযুক্ত এক্সক্লুসিভ সূতা আবিষ্কার করুন।",
+  "features.lowInterestCredit.title": "কম সুদের ঋণ",
+  "features.lowInterestCredit.desc": "কম সুদের ঋণ সুবিধাসহ নমনীয় পেমেন্ট বিকল্পগুলির সুযোগ নিন।",
+  "features.buyAssist.title": "ক্রয় সহায়তা প্রোগ্রাম",
+  "features.buyAssist.desc": "আপনার ক্রয় যাত্রার সময় ব্যক্তিগত সহায়তা ও দিকনির্দেশনা পান।",
+
+
+  "buttons.goToCart": "কার্টে যান",
+"buttons.addToCart": "কার্টে যোগ করুন",
+
+
+
+   "cta.card1.title": "আমাদের অসাধারণ করে তোলে কী?",
+  "cta.card1.point1": "পরিবেশ-বান্ধব অনুশীলন",
+  "cta.card1.point2": "কাস্টমাইজযোগ্য সমাধান",
+  "cta.card1.point3": "প্রতিযোগিতামূলক মূল্য",
+  "cta.card1.point4": "প্রীমিয়াম গুণমান",
+  "cta.card1.point5": "স্বচ্ছ নীতিমালা",
+  "cta.card1.point6": "সময়মতো ডেলিভারি",
+  "cta.card2.title": "শুধুমাত্র পরিপূর্ণতার দাবি করে এমন শিল্পগুলোর জন্য ডিজাইন করা প্রিমিয়াম সূতা।",
+  "cta.card3.title": "ফ্যাশন, গৃহসজ্জা, শিল্প ও হস্তশিল্প ক্ষেত্রে গুণমানের যোগান।",
+  "cta.learnMore": "আরও জানুন",
+
+
+  "blog.section.title": "টিপস, ট্রিকস ও গাইড ব্লগ",
+
+  "blog.box1.title": "সুতোয় যাত্রা: কাঁচা ফাইবার থেকে উচ্চমানের থ্রেড",
+"blog.box1.desc": "কাপড়, সিল্ক ও পলিয়েস্টারের মতো কাঁচামাল কীভাবে উন্নত মানের সুতোয় রূপান্তরিত হয় তার অন্তর্দৃষ্টি। উৎপাদন প্রক্রিয়া, মান নিয়ন্ত্রণ এবং টেকসই উদ্যোগগুলিকে হাইলাইট করা হয়েছে।",
+"blog.readMore": "আরও পড়ুন",
+
+"blog.blog2.imageAlt": "ব্লগ চিত্র",
+"blog.blog2.title": "কিভাবে গুণমানসম্পন্ন সুতো শুরু থেকে শেষ পর্যন্ত তৈরি হয়",
+"blog.blog2.description": "Ink n Dyes-এ, আমরা প্রথম সুতো থেকেই গুণমানকে বিশ্বাস করি। আমাদের সুতো উৎপাদনের প্রক্রিয়া দক্ষ কারুশিল্প এবং উদ্ভাবনের এক নিখুঁত সংমিশ্রণ, যা এমন সুতো তৈরি করার জন্য ডিজাইন করা হয়েছে যা শক্তি, একরূপতা এবং দৃশ্যমান পরিপূর্ণতা প্রদান করে।",
+
+"blog.blog3.imageAlt": "ব্লগ চিত্র",
+"blog.blog3.title": "রঙের শিল্প: কীভাবে রঙ সুতোকে প্রাণ দেয়",
+"blog.blog3.description": "সুতো রং করার প্রক্রিয়াটি একটি রসায়নিক দক্ষতা ও সৃজনশীল দৃষ্টিভঙ্গির শৈল্পিক সংমিশ্রণ। ১,০০০-এরও বেশি উজ্জ্বল সুতো রঙের মাধ্যমে, আমরা বস্ত্র ডিজাইনার ও প্রস্তুতকারকদের কল্পনাকে বাস্তব রূপ দিতে সক্ষম করে তুলি।",
+
+"blog.blog4.imageAlt": "ব্লগ চিত্র",
+"blog.blog4.title": "কোন বনাম হ্যাঙ্ক: আপনার প্রয়োজনে সঠিক সুতো ফরম্যাট বেছে নিন",
+"blog.blog4.description": "সব সুতো ফরম্যাট সমান নয়। কোন এবং হ্যাঙ্কের মধ্যে পছন্দটি ছোট মনে হলেও, এটি আপনার উৎপাদন দক্ষতা, রং করার নির্ভুলতা এবং বুননের শৈলীতে উল্লেখযোগ্য প্রভাব ফেলতে পারে।"
+
+
+
+
+
 }

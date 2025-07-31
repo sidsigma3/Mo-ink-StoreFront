@@ -1,5 +1,6 @@
 import React ,{ useRef, useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import BlogBox1 from './BlogBox1'
 import BlogBox2 from "./BloxBox2";
 import BlogBox3 from "./BloxBox3";
@@ -12,6 +13,8 @@ const BlogList = () => {
     const scrollRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
+      const { t } = useTranslation();
+
 
     // Check if scrolling is possible
     useEffect(() => {
@@ -55,7 +58,7 @@ const BlogList = () => {
             )}
 
             <div className="w-full overflow-hidden">
-                <h3 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">Tips, Tricks & Guides Blog</h3>
+                <h3 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">{t("blog.section.title")}</h3>
                 <ul ref={scrollRef} className="flex overflow-x-auto gap-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 mt-3 scrollbar-hide">
                     <li><BlogBox1 /></li>
                     <li><BlogBox2 /></li>

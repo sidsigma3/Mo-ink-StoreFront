@@ -1,12 +1,22 @@
 import React from 'react'
+import { useTranslation } from "react-i18next";
 
 const BlogBox4 = () => {
+  const { t } = useTranslation();
+
+   function truncateWords(text, wordLimit) {
+  const words = text.split(" ");
+  return words.length > wordLimit
+    ? words.slice(0, wordLimit).join(" ") + "..."
+    : text;
+}
+
   return (
     <div>
        <a href="/Blog4" className="block">
         <article className="bg-white border border-grey-100 rounded-2xl overflow-hidden transition-transform transform hover:scale-95">
             <img
-                alt="Blog Image"
+                alt={t("blog.blog4.imageAlt")}
                 src="https://images.pexels.com/photos/1122844/pexels-photo-1122844.jpeg"
                 className="w-full h-32 md:w-full md:h-48 object-cover"
             />
@@ -14,16 +24,16 @@ const BlogBox4 = () => {
             <div className="p-3">
                 <a href="#">
                 <h3 className="text-md line-clamp-2 md:text-xl font-semibold text-gray-900">
-                Cone vs. Hank: Choosing the Right Yarn Format for Your Needs
+                  {t("blog.blog4.title")}
                 </h3>
                 </a>
 
                 <p className="hidden sm:block mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                Not all yarn formats are created equal. The choice between a yarn cone and a hank may seem minor, but it can greatly impact your production efficiency, dyeing precision, and weaving style. 
+                  {truncateWords(t("blog.blog4.description"), 20)}
                 </p>
 
                 <a href="/Blog4" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
-                Read more
+                  {t("blog.readMore")}
 
                 <span aria-hidden="true" className="block transition-all group-hover:ms-0.5 rtl:rotate-180">
                     &rarr;

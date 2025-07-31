@@ -1,54 +1,57 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FaShoppingCart, FaGlobe, FaStar, FaTags, FaTruck, FaYarn, FaCreditCard, FaAssistiveListeningSystems } from "react-icons/fa";
 
 const FeturesList_LandingPage = () => {
+  const { t } = useTranslation();
+  
   const features = [
     // {
     //   icon: <FaShoppingCart className="text-purple-500 text-2xl" />,
-    //   title: "User-Friendly Platform",
-    //   description: "Easily navigate and shop with our intuitive platform designed for a seamless experience.",
+    //   titleKey: "features.userFriendly.title",
+    //   descriptionKey: "features.userFriendly.desc",
     // },
     // {
     //   icon: <FaGlobe className="text-purple-500 text-2xl" />,
-    //   title: "Digital Ecosystem",
-    //   description: "Connect across the entire supply chain with our advanced digital infrastructure.",
+    //   titleKey: "features.digitalEcosystem.title",
+    //   descriptionKey: "features.digitalEcosystem.desc",
     // },
     {
       icon: <FaStar className="text-purple-500 text-2xl" />,
-      title: "Quality Selection",
-      description: "Access a wide range of premium products carefully curated for your needs.",
+      titleKey: "features.qualitySelection.title",
+      descriptionKey: "features.qualitySelection.desc",
     },
     {
       icon: <FaTags className="text-purple-500  text-2xl" />,
-      title: "Transparent Pricing",
-      description: "Benefit from clear and competitive pricing with no hidden costs.",
+      titleKey: "features.transparentPricing.title",
+      descriptionKey: "features.transparentPricing.desc",
     },
     {
       icon: <FaTruck className="text-purple-500 text-2xl" />,
-      title: "Efficient Logistics",
-      description: "Enjoy fast, reliable, and efficient delivery services.",
+      titleKey: "features.efficientLogistics.title",
+      descriptionKey: "features.efficientLogistics.desc",
     },
     {
       icon: <FaYarn className="text-purple-500 text-2xl" />,
-      title: "Unique Yarn Offerings",
-      description: "Discover exclusive yarn varieties to meet your unique project requirements.",
+      titleKey: "features.uniqueYarn.title",
+      descriptionKey: "features.uniqueYarn.desc",
     },
     {
       icon: <FaCreditCard className="text-purple-500 text-2xl" />,
-      title: "Low-Interest Credit",
-      description: "Take advantage of flexible payment options with low-interest credit facilities.",
+      titleKey: "features.lowInterestCredit.title",
+      descriptionKey: "features.lowInterestCredit.desc",
     },
     {
       icon: <FaAssistiveListeningSystems className="text-purple-500 text-2xl" />,
-      title: "Buy Assist Program",
-      description: "Get personalized assistance and guidance throughout your buying journey.",
+      titleKey: "features.buyAssist.title",
+      descriptionKey: "features.buyAssist.desc",
     },
   ];
 
   return (
     <section className=" bg-white">
       <div>
-        <h2 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">Value Additions</h2>
+        <h2 className="text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12">{t("features.section.title")}</h2>
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature, index) => (
             <div
@@ -58,8 +61,8 @@ const FeturesList_LandingPage = () => {
               <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md mb-6">
                 {feature.icon}
               </div>
-              <h3 className="text-md md:text-2xl  text-black font-semibold text-center md:mb-4 ">{feature.title}</h3>
-              <p className="hidden sm:block text-md text-gray-500 text-md">{feature.description}</p>
+              <h3 className="text-md md:text-2xl  text-black font-semibold text-center md:mb-4 ">{t(feature.titleKey)}</h3>
+              <p className="hidden sm:block text-md text-gray-500 text-md">{t(feature.descriptionKey)}</p>
             </div>
           ))}
         </div>

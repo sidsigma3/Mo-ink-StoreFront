@@ -1,6 +1,16 @@
 import React from 'react'
+import { useTranslation } from "react-i18next";
 
 const BlogBox1 = () => {
+  const { t } = useTranslation();
+
+   function truncateWords(text, wordLimit) {
+  const words = text.split(" ");
+  return words.length > wordLimit
+    ? words.slice(0, wordLimit).join(" ") + "..."
+    : text;
+}
+  
   return (
     <div>
        <a href="/Blog1" className="block">
@@ -15,16 +25,16 @@ const BlogBox1 = () => {
             <div className="p-3">
                 <a href="#">
                 <h3 className="text-md line-clamp-2 md:text-xl font-semibold text-gray-900">
-                The Journey of Yarn: From Raw Fiber to High-Quality Thread.
+                {t("blog.box1.title")}
                 </h3>
                 </a>
 
                 <p className="hidden sm:block mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-                A behind-the-scenes look at how raw materials like cotton, silk, and polyester are transformed into premium yarns. Highlight the production process, quality control, and sustainability efforts.
+               {truncateWords(t("blog.box1.desc"), 20)}
                 </p>
 
                 <a href="/Blog1" className="group mt-4 inline-flex items-center gap-1 text-sm font-medium text-purple-800">
-                Read more
+                {t("blog.readMore")}
 
                 <span aria-hidden="true" className="block transition-all group-hover:ms-0.5 rtl:rotate-180">
                     &rarr;

@@ -1,13 +1,16 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const MarqueeText = () => {
-const texts = [
-  "Engineered for Strength, Crafted for Comfort",
-  "Precision-Dyed Yarns with Lasting Brilliance",
-  "Soft Touch. Industrial Toughness. Always Reliable.",
-  "Built to Weave Stories, Spun to Last Long",
-];
+  const { t } = useTranslation();
+
+  const textKeys = [
+    "marquee.engineered",
+    "marquee.precision",
+    "marquee.softTouch",
+    "marquee.builtToWeave"
+  ];
 
   const colors = ["text-purple-600", "text-yellow-400", "text-red-500", "text-green-500"];
 
@@ -15,13 +18,13 @@ const texts = [
     <div className="relative w-full overflow-hidden bg-white py-4">
       <div className="flex animate-marquee whitespace-nowrap">
         {Array(2).fill(0).map((_, loopIndex) =>
-          texts.map((text, index) => (
+          textKeys.map((textKey, index) => (
             <div
               key={`${loopIndex}-${index}`}
               className="flex items-center text-xl font-semibold text-gray-900 mx-8"
             >
               <FaStar className={`mx-2 ${colors[index % colors.length]}`} />
-              <span>{text}</span>
+              <span>{t(textKey)}</span>
             </div>
           ))
         )}

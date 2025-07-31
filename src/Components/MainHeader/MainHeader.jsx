@@ -36,7 +36,7 @@ const MainHeader = () => {
   }, []);
 
   return (
-    <header className="w-full px-6 py-3  flex justify-between items-center border-b border-gray-200 bg-white relative z-50">
+    <header className="w-full px-2 py-3  flex justify-between items-center border-b border-gray-200 bg-white relative z-50">
       {/* Logo + Brand */}
       <div className="flex items-center gap-2">
       <a href="/#home">
@@ -67,25 +67,37 @@ const MainHeader = () => {
 
       {/* Desktop Login Button */}
       <div className="hidden lg:block">
-        <button
-          onClick={() => navigate("/login")}
-          type="button"
-          className="text-base sm:text-lg font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
-        >
-         {t("Sign Up")}
-        </button>
+        <div className=" d-flex gap-3 align-items-center">
+            <div className="">
+              <LanguageSwitcher className="w-full" />
+            </div>
+              <button
+                onClick={() => navigate("/login")}
+                type="button"
+                className="text-base sm:text-lg font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
+              >
+              {t("Sign Up")}
+              </button>
+        </div>
       </div>
 
-      <div className="">
+      {/* <div className="">
         <LanguageSwitcher className="w-full" />
-      </div>
+      </div> */}
 
 
       {/* Hamburger Icon for Tablet & Mobile */}
       <div className="lg:hidden">
+
+       <div className="d-flex gap-3">
+            <div className="">
+              <LanguageSwitcher className="w-full" />
+            </div>
+
         <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Menu">
           {isOpen ? <X size={30} /> : <Menu size={30} />}
         </button>
+      </div>
       </div>
 
       {/* Mobile Menu */}
@@ -105,6 +117,7 @@ const MainHeader = () => {
               </HashLink>
             ))}
 
+           
             <button
               onClick={() => {
                 setIsOpen(false); // optional: close mobile menu on nav

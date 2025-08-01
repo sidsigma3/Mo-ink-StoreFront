@@ -71,7 +71,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
           <PiHeadphonesBold size={30} />
           <div>
-            <h6 className="text-purple-600 font-bold m-0">+91 78788654122</h6>
+            <h6 className="text-purple-600 font-bold m-0">+91 74069 44477</h6>
             <p className="text-gray-500 text-sm m-0">24/7 Support center</p>
           </div>
         </div>

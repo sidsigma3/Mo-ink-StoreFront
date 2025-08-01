@@ -45,18 +45,28 @@ const LanguageSwitcher = ({ className = "" }) => {
             />
             
             {/* Language Options */}
-            <div className="absolute top-full right-0 mt-1 flex bg-white border border-gray-200 rounded-lg shadow-lg z-20 overflow-hidden">
+             <div className="absolute top-full right-0 mt-1 w-xl bg-white border border-gray-200 rounded-lg shadow-lg z-20 overflow-hidden">
               {languages.map((language) => (
                 <button
                   key={language.code}
                   onClick={() => changeLanguage(language.code)}
-                  className={`px-3 py-2 text-xs font-medium uppercase transition-colors duration-150 ${
+                  className={`min-w-[100px] ps-3 pe-2 py-2 text-left hover:bg-gray-100 transition-colors duration-150 flex items-center gap-3 ${
                     i18n.language === language.code 
-                      ? 'bg-purple-800 text-white' 
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-purple-100 text-purple-800 border-r-2 border-purple-500' 
+                      : 'text-gray-700'
                   }`}
                 >
-                  {language.code}
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">
+                      {language.nativeName}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {language.name}
+                    </span>
+                  </div>
+                  {i18n.language === language.code && (
+                    <div className="ml-auto w-2 h-2 bg-purple-800 rounded-full" />
+                  )}
                 </button>
               ))}
             </div>

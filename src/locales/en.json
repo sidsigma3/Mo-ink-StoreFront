@@ -419,7 +419,64 @@
 
   "blog.blog4.imageAlt": "Blog Image",
 "blog.blog4.title": "Cone vs. Hank: Choosing the Right Yarn Format for Your Needs",
-"blog.blog4.description": "Not all yarn formats are created equal. The choice between a yarn cone and a hank may seem minor, but it can greatly impact your production efficiency, dyeing precision, and weaving style."
+"blog.blog4.description": "Not all yarn formats are created equal. The choice between a yarn cone and a hank may seem minor, but it can greatly impact your production efficiency, dyeing precision, and weaving style.",
+
+
+"about.breadcrumb.home": "Home",
+  "about.breadcrumb.about": "About",
+  "about.pageTitle": "About",
+  "about.ourStory.title": "Our Story",
+  "about.ourStory.paragraph1": "Ink n Dyes is a tech-enabled platform that facilitates raw material procurement for SMEs in the weaving and handloom sectors. It integrates technology to SME's buying behaviour to make available better products, at better prices, in better timelines with a comprehensive online and offline support.",
+  "about.ourStory.paragraph2": "We have developed an all-in-one solution for weavers that addresses key challenges such as sourcing quality yarns, ensuring consistent dyeing, and minimizing holding costs. Our platform offers a wide variety of yarns sourced directly from spinners at pre-approved rates, along with top-tier mechanised dyeing to eliminate inconsistencies.",
+  "about.ourStory.paragraph3": "Additionally, we provide no minimum order quantity (MOQ) and a buy-back platform, simplifying the process for weavers and offering specialized support for marketing their products.",
+  "about.ceo.imageAlt": "Avinash Mohanty - CEO",
+  "about.ceo.name": "Avinash Mohanty",
+  "about.ceo.title": "Founder & CEO",
+  "about.ceo.quote1": "\"I founded this company with a vision to supply the finest quality yarns to industries worldwide. Our journey began as a small-scale operation, and today, we proudly serve manufacturers and businesses across multiple countries.\"",
+  "about.ceo.quote2": "\"What drives us is not just the yarns we produce but the trust we build with every client. Every decision we make is centered around delivering excellence, consistency, and value to our customers.\"",
+  "about.stats.customers.number": "5K+",
+  "about.stats.customers.label": "Happy Customers",
+  "about.stats.states.number": "25+",
+  "about.stats.states.label": "States We Cover",
+  "about.stats.satisfaction.number": "98%",
+  "about.stats.satisfaction.label": "Satisfaction Rate",
+  "about.mission.title": "Our Mission",
+  "about.mission.description": "Our mission is to provide premium-quality yarns that meet the evolving needs of the textile industry while ensuring ethical and sustainable business practices. We believe in:",
+  "about.mission.point1": "Delivering high-performance yarns for various industrial applications.",
+  "about.mission.point2": "Upholding fair trade and eco-friendly production methods.",
+  "about.mission.point3": "Strengthening our partnerships with businesses for long-term growth.",
+  "about.future.title": "Looking Forward",
+  "about.future.description": "The future of textile manufacturing is dynamic, and we are committed to innovation. From adopting the latest technology to expanding our production capabilities, we continuously strive to enhance the efficiency, quality, and sustainability of our yarns. Our goal is to remain at the forefront of the industry while maintaining the trust and satisfaction of our valued customers.",
+
+
+
+  "blog1.breadcrumb.home": "Home",
+  "blog1.breadcrumb.blogs": "Blogs",
+  "blog1.breadcrumb.journey": "The Journey...",
+  "blog1.heroTitle": "The Journey of Yarn:",
+  "blog1.title": "The Journey of Yarn: From Raw Fiber to High-Quality Thread",
+  "blog1.featuredImageAlt": "Sustainable Fashion",
+  "blog1.introduction": "Yarn plays a crucial role in the textile industry, serving as the foundation for countless fabrics and garments. But have you ever wondered how raw fiber transforms into the premium-quality yarn used in large-scale textile production? At Ink N Dyes, we take pride in our meticulous process that ensures durability, consistency, and excellence in every strand.",
+  "blog1.section1.title": "1. Sourcing the Finest Raw Materials",
+  "blog1.section1.content": "The journey of yarn begins with selecting high-quality raw fibers. We procure premium cotton, silk, nylon, polyester, and blended fibers from trusted suppliers. Each fiber type undergoes rigorous testing to ensure strength, softness, and uniformity. Our commitment to sourcing the best materials lays the foundation for superior yarn production.",
+  "blog1.image1Alt": "High-quality raw fibers",
+  "blog1.image2Alt": "Eco-friendly Yarn",
+  "blog1.section2.title": "2. Cleaning and Processing",
+  "blog1.section2.content": "Once the raw fibers are sourced, they go through an intensive cleaning process to remove impurities, dirt, and natural oils. This ensures that the final product maintains a smooth and even texture. Our advanced fiber processing techniques allow us to maintain the integrity of the fibers while preparing them for the spinning stage.",
+  "blog1.section3.title": "3. Spinning: Crafting the Perfect Yarn",
+  "blog1.section3.content": "Spinning is where raw fibers are transformed into yarn. We employ state-of-the-art spinning technologies, including ring spinning, open-end spinning, and air-jet spinning, to produce yarns of various counts and textures. This stage determines the strength, twist, and fineness of the yarn, tailored to meet the demands of different textile applications.",
+  "blog1.section4.title": "4. Quality Control: Ensuring Perfection",
+  "blog1.section4.content": "Quality is at the heart of our manufacturing process. Every batch of yarn undergoes multiple quality control tests, including:",
+  "blog1.section4.point1": "Tensile strength testing to measure durability.",
+  "blog1.section4.point2": "Evenness testing to detect inconsistencies.",
+  "blog1.section4.point3": "Color fastness checks for dyed yarns.",
+  "blog1.section5.title": "5. Customization and Bulk Orders",
+  "blog1.section5.content": "we understand that every business has unique requirements. That's why we offer customized yarn solutions, including specialized blends, custom dyeing, and varying thickness options. Whether you need yarn for weaving, knitting, or industrial applications, we cater to bulk orders with precision and reliability.",
+  "blog1.section6.title": "6. Packaging and Delivery",
+  "blog1.section6.content": "Once our yarn passes all quality tests, it is carefully packaged to prevent contamination and damage during transit. We ship our products to clients worldwide, ensuring timely delivery and seamless logistics support.",
+  "blog1.recentArticles": "Recent Articles"
+
+
 
 
 

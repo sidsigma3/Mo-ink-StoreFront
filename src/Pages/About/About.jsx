@@ -8,17 +8,19 @@ import HeroSection from '../../Components/HeroSection/HeroSection';
 import BottomNav from '../../Components/BottomNav/BottomNav';
 import { FiLinkedin } from "react-icons/fi";
 import { FaInstagram } from "react-icons/fa";
-
+import { useTranslation } from "react-i18next";
 
 const About = () => {
+  const { t } = useTranslation();
+  
   const breadcrumbs = [
-    { label: "Home", link: "/home" },
-    { label: "About", link: "/About" },
+    { label: t("about.breadcrumb.home"), link: "/home" },
+    { label: t("about.breadcrumb.about"), link: "/About" },
   ];
 
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>
@@ -26,7 +28,7 @@ const About = () => {
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar /></div>
 
       <div className='px-6 md:px-14 py-3 mt-0 md:mt-10 md:text-md'>
-        <HeroSection productName={'About'} breadcrumbs={breadcrumbs} />
+        <HeroSection productName={t("about.pageTitle")} breadcrumbs={breadcrumbs} />
       </div>
  
     
@@ -37,15 +39,18 @@ const About = () => {
           {/* Story Sections */}
           <div className="">
               <section>
-                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">Our Story</h3>
+                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">{t("about.ourStory.title")}</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                Ink n Dyes is a tech-enabled platform that facilitates raw material procurement for SMEs in the weaving and handloom sectors. It integrates technology to SME's buying behaviour to make available better products, at better prices, in better timelines with a comprehensive online and offline support. </p>
+                  {t("about.ourStory.paragraph1")}
+                </p>
 
                 <p className="mb-4">
-                We have developed an all-in-one solution for weavers that addresses key challenges such as sourcing quality yarns, ensuring consistent dyeing, and minimizing holding costs. Our platform offers a wide variety of yarns sourced directly from spinners at pre-approved rates, along with top-tier mechanised dyeing to eliminate inconsistencies. </p>
+                  {t("about.ourStory.paragraph2")}
+                </p>
 
                 <p className="mb-8"> 
-                 Additionally, we provide no minimum order quantity (MOQ) and a buy-back platform, simplifying the process for weavers and offering specialized support for marketing their products. </p>
+                  {t("about.ourStory.paragraph3")}
+                </p>
               </section>
 
           {/* Hero Section */}
@@ -53,7 +58,7 @@ const About = () => {
             <div className="relative aspect-[1/1] lg:aspect-1:1">
               <img
                 src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Avi_CEO.png?updatedAt=1749872370942"
-                alt="Avinash Mohanty - CEO"
+                alt={t("about.ceo.imageAlt")}
                 className="rounded-lg object-cover w-full h-full"
               />
               <div className="absolute bottom-4 right-4 flex space-x-3">
@@ -67,14 +72,14 @@ const About = () => {
             </div>
             
             <div className="flex flex-col justify-center">
-              <h2 className="text-2xl md:text-3xl  font-bold text-gray-900 mb-3">Avinash Mohanty</h2>
-              <p className="text-lg text-purple-800 mb-6">Founder & CEO</p>
+              <h2 className="text-2xl md:text-3xl  font-bold text-gray-900 mb-3">{t("about.ceo.name")}</h2>
+              <p className="text-lg text-purple-800 mb-6">{t("about.ceo.title")}</p>
               <div className="prose prose-lg text-gray-600">
                 <p className="mb-4">
-                  "I founded this company with a vision to supply the finest quality yarns to industries worldwide. Our journey began as a small-scale operation, and today, we proudly serve manufacturers and businesses across multiple countries."
+                  {t("about.ceo.quote1")}
                 </p>
                 <p>
-                "What drives us is not just the yarns we produce but the trust we build with every client. Every decision we make is centered around delivering excellence, consistency, and value to our customers."
+                  {t("about.ceo.quote2")}
                 </p>
               </div>
             </div>
@@ -83,35 +88,35 @@ const About = () => {
           {/* Stats Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 my-8 border-y border-gray-200">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-800 mb-2">5K+</div>
-                  <div className="text-gray-600">Happy Customers</div>
+                  <div className="text-4xl font-bold text-purple-800 mb-2">{t("about.stats.customers.number")}</div>
+                  <div className="text-gray-600">{t("about.stats.customers.label")}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-800 mb-2">25+</div>
-                  <div className="text-gray-600">States We Cover</div>
+                  <div className="text-4xl font-bold text-purple-800 mb-2">{t("about.stats.states.number")}</div>
+                  <div className="text-gray-600">{t("about.stats.states.label")}</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-800 mb-2">98%</div>
-                  <div className="text-gray-600">Satisfaction Rate</div>
+                  <div className="text-4xl font-bold text-purple-800 mb-2">{t("about.stats.satisfaction.number")}</div>
+                  <div className="text-gray-600">{t("about.stats.satisfaction.label")}</div>
                 </div>
               </div>
 
               <section>
-                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">Our Mission</h3>
+                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">{t("about.mission.title")}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                Our mission is to provide premium-quality yarns that meet the evolving needs of the textile industry while ensuring ethical and sustainable business practices. We believe in:
+                  {t("about.mission.description")}
                 </p>
                 <ul className="list-disc list-inside text-gray-600 space-y-2 mb-8">
-                <li>Delivering high-performance yarns for various industrial applications.</li>
-                <li>Upholding fair trade and eco-friendly production methods.</li>
-                <li>Strengthening our partnerships with businesses for long-term growth.</li>
+                <li>{t("about.mission.point1")}</li>
+                <li>{t("about.mission.point2")}</li>
+                <li>{t("about.mission.point3")}</li>
               </ul>
               </section>
 
               <section>
-                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">Looking Forward</h3>
+                <h3 className="text-xl md:text-2xl  font-semibold text-gray-900 mb-4">{t("about.future.title")}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                The future of textile manufacturing is dynamic, and we are committed to innovation. From adopting the latest technology to expanding our production capabilities, we continuously strive to enhance the efficiency, quality, and sustainability of our yarns. Our goal is to remain at the forefront of the industry while maintaining the trust and satisfaction of our valued customers.
+                  {t("about.future.description")}
                 </p>
               </section>
           </div>

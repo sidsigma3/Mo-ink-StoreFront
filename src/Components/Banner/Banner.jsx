@@ -32,7 +32,7 @@ const Banner = () => {
     { 
       titleKey: "banner.main.vibrant.title", 
       descKey: "banner.main.vibrant.desc", 
-      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/6.png?updatedAt=1751358589601" 
+      img: "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/banner4.png?updatedAt=1751355597212" 
     },
     { 
       titleKey: "banner.main.threads.title", 

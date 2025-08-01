@@ -15,6 +15,9 @@ import { getCart } from "../../Services/CartService"
 import { useAppContext } from '../../Utils/commoncontext';
 import { MdChevronRight } from "react-icons/md";
 import { AiOutlineLogout } from "react-icons/ai";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
+
 
 
 
@@ -28,6 +31,8 @@ const NavbarHeader = () => {
 
   const [accountOpen, setAccountOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+    const { t } = useTranslation();
+  
 
   const [customer, setCustomer] = useState({});  // <-- Added
 
@@ -105,7 +110,7 @@ const NavbarHeader = () => {
   return (
   // Only showing updated JSX portion for visual improvements (same logic retained)
 
-<div className='d-flex align-items-center justify-content-between border-bottom px-3 py-2 bg-white'>
+<div className='d-flex align-items-center justify-content-between border-bottom px-1 py-2 bg-white'>
 
   
 
@@ -116,10 +121,19 @@ const NavbarHeader = () => {
     <img className="h-10 cursor-pointer" src="/images/logo.png" alt="Logo" onClick={() => navigate("/home")} />
   </div>
 
+
 {/* Mobile Menu */}
-    <div className="right-3 block lg:hidden  ">
-    <FiMenu size={26} className="cursor-pointer" onClick={() => setIsOpen(true)} />
+    <div className="right-3 block lg:hidden">
+  <div className="flex items-center gap-3">
+    <LanguageSwitcher className="w-auto" />
+    <FiMenu 
+      size={30} 
+      className="cursor-pointer text-gray-700 hover:text-gray-900 transition-colors duration-200" 
+      onClick={() => setIsOpen(true)}
+      aria-label="Open menu"
+    />
   </div>
+</div>
 
  {/* Slide-out Sidebar */}
   <div
@@ -172,6 +186,8 @@ const NavbarHeader = () => {
 
   {/* Right Icons Section */}
   <div className="hidden lg:flex gap-4 items-center">
+
+  <LanguageSwitcher className="w-auto" />
     
     {/* Wishlist */}
     <div onClick={handleWishlist} className="flex items-center justify-center w-10 h-10 rounded-full yellow-light-bg cursor-pointer relative">

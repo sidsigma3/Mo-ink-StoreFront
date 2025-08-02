@@ -45,8 +45,8 @@ const location = useLocation();
       >
     <div className='w-full'>
         {/* <div className='px-5 py-3'> <TopNavigation></TopNavigation></div> */}
-        <div className='px-6 md:px-14 py-1 md:py-3'> <MainHeader></MainHeader></div>
-        <div className='px-4 md:px-14'> <MainHero></MainHero> </div>
+        <div className='px-6 md:px-14 py-1 md:py-3 bg-gradient-to-l from-[#BDBDB9] via-[#D2D2CD] to-[#D2D0CC]'> <MainHeader></MainHeader></div>
+        <div className=''> <MainHero></MainHero> </div>
         <div className='md:px-14 py-28'> <MainFeatures></MainFeatures> </div>
         <div className=' py-3'> <MainWhyUs></MainWhyUs> </div>
         <div className='md:px-14 py-12'> <MainBestsellers></MainBestsellers> </div>

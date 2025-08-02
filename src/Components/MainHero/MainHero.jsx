@@ -8,7 +8,7 @@ const MainHero = () => {
     <section id="home-section" className="relative w-full overflow-hidden">
 
       {/* Mobile View */}
-      <div className="block sm:hidden relative w-full h-[87vh] overflow-hidden rounded-3xl">
+      <div className="block sm:hidden relative w-full h-[87vh] overflow-hidden ">
         <img
           src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Mobile_Banner.png?updatedAt=1749534746101"
           alt="Mobile Hero"
@@ -40,7 +40,7 @@ const MainHero = () => {
 
       {/* Desktop View */}
       <div
-        className="hidden sm:block w-full h-[85vh] bg-cover bg-[position:center] bg-no-repeat rounded-3xl z-0"
+        className="hidden sm:block w-full h-[85vh] bg-cover bg-[position:center] bg-no-repeat z-0"
         style={{
           backgroundImage: "url('https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/MainHero_Banner.png?updatedAt=1745685185559')",
         }}

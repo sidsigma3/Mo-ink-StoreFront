@@ -257,7 +257,7 @@ const [toasts, setToasts] = useState([]);
         <img
           src="/images/logo.png"
           alt="Logo"
-          className="w-28 sm:w-24 mx-auto lg:mx-0"
+          className="w-16 sm:w-12  mx-auto lg:mx-0"
         />
       </div>
 
@@ -423,11 +423,11 @@ const [toasts, setToasts] = useState([]);
        
       </div>
 
-       <div className="mt-3 d-flex justify-center position-absolute top-2 right-5">
+       {/* <div className="mt-3 d-flex justify-center position-absolute top-2 right-5">
                 <div>
               <LanguageSwitcher className="w-full" />
                 </div>
-        </div>
+        </div> */}
        {/* Toast Notification */}
      <div className="fixed top-4 right-4 z-50 space-y-2">
                 {toasts.map((toast) => (

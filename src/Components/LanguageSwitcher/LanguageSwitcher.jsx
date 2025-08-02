@@ -30,7 +30,7 @@ const LanguageSwitcher = ({ className = "" }) => {
         {/* Mobile Icon Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 bg-white border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-purple-800 focus:border-transparent"
+          className="p-2 border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-purple-800 focus:border-transparent"
         >
           <IoLanguage className="w-5 h-5 text-gray-600" />
         </button>
@@ -79,11 +79,11 @@ const LanguageSwitcher = ({ className = "" }) => {
         {/* Main Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-purple-800 focus:border-transparent w-full"
+          className="flex items-center gap-2 px-4 py-2.5   border border-gray-200 rounded-lg hover:border-gray-300 transition-all duration-200 focus:outline-none focus:ring-1 focus:ring-purple-800 focus:border-transparent w-full"
         >
           <IoLanguage className="w-5 h-5 text-gray-500" />
           <span className="text-sm font-medium text-gray-700 flex-1 text-left">
-            {currentLang?.nativeName || "Select"}
+            {currentLang?.nativeName || "English"}
           </span>
           <ChevronDown 
             className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${

@@ -81,7 +81,7 @@ try {
                 <img
                     src="/images/logo.png"
                     alt="Logo"
-                    className="w-28 sm:w-24 mx-auto lg:mx-0"
+                    className="w-16 sm:w-12  mx-auto lg:mx-0"
                 />
             </div>
 

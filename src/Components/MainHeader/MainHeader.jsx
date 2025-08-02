@@ -36,7 +36,7 @@ const MainHeader = () => {
   }, []);
 
   return (
-    <header className="w-full px-2 py-3  flex justify-between items-center border-b border-gray-200 bg-white relative z-50">
+    <header className="w-full px-2 py-3  flex justify-between items-center relative z-50">
       {/* Logo + Brand */}
       <div className="flex items-center gap-2">
       <a href="/#home">
@@ -69,15 +69,15 @@ const MainHeader = () => {
       <div className="hidden lg:block">
         <div className=" d-flex gap-3 align-items-center">
             <div className="">
-              <LanguageSwitcher className="w-full" />
+              <LanguageSwitcher className="w-full " />
             </div>
-              <button
+              {/* <button
                 onClick={() => navigate("/login")}
                 type="button"
                 className="text-base sm:text-lg font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
               >
               {t("Sign Up")}
-              </button>
+              </button> */}
         </div>
       </div>
 
@@ -118,7 +118,7 @@ const MainHeader = () => {
             ))}
 
            
-            <button
+            {/* <button
               onClick={() => {
                 setIsOpen(false); // optional: close mobile menu on nav
                 navigate("/login");
@@ -127,7 +127,7 @@ const MainHeader = () => {
               className="text-base font-medium rounded-full text-purple-800 py-2 px-10 border-1 border-purple-800 hover:bg-purple-800 hover:text-white transition-colors"
             >
              {t("Sign Up")}
-            </button>
+            </button> */}
           </div>
         </div>
       )}

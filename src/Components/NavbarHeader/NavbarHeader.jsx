@@ -187,7 +187,7 @@ const NavbarHeader = () => {
   {/* Right Icons Section */}
   <div className="hidden lg:flex gap-4 items-center">
 
-  <LanguageSwitcher className="w-auto" />
+  <LanguageSwitcher className="w-auto bg-white !important" />
     
     {/* Wishlist */}
     <div onClick={handleWishlist} className="flex items-center justify-center w-10 h-10 rounded-full yellow-light-bg cursor-pointer relative">

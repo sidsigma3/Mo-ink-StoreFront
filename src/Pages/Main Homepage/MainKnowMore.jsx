@@ -20,7 +20,7 @@ const MainKnowMore = () => {
 
   return (
     <div className=" bg-white text-gray-800">
-      <div className='px-6 md:px-14 py-1 md:py-3'> <MainHeader></MainHeader></div>
+      <div className='px-6 md:px-14 py-1 md:py-3  bg-[#D2D2CD]'> <MainHeader></MainHeader></div>
         <div className=''> <MainKMHero></MainKMHero> </div>
 
       {/* 2. Company Overview */}

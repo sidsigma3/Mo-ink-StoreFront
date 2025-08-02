@@ -46,14 +46,14 @@ const LoginPage = ({ togglePage, setAuthStatus }) => {
 
       {/* Logo */}
       <div className="absolute top-4 left-4 lg:left-8 lg:top-8 flex justify-center lg:justify-start w-full lg:w-auto pr-4">
-        <img src="/images/logo.png" alt="Logo" className="w-28 sm:w-24 mx-auto lg:mx-0" />
+        <img src="/images/logo.png" alt="Logo" className="w-16 sm:w-12 mx-auto lg:mx-0" />
       </div>
 
-       <div className="mt-3 d-flex justify-center position-absolute top-2 right-5">
+       {/* <div className="mt-3 d-flex justify-center position-absolute top-2 right-5">
                 <div>
               <LanguageSwitcher className="w-full" />
                 </div>
-        </div>
+        </div> */}
 
       {/* Auth Box */}
       <div className="bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white w-full max-w-md sm:max-w-lg md:max-w-lg text-dark backdrop-blur-md">

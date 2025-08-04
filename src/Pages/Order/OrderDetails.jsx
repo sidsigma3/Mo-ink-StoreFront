@@ -815,12 +815,12 @@ const handleBuyAgain = async (orderToBuy) => {
 
                             </div>
                         </td>
-                        <td>
+                        <td className='d-flex justify-end mt-2'>
                             <div>
                             <p className='text-end text-green-500'>
                             <span className="mr-1 font-semibold">-</span> ₹{totalDiscount.toFixed(0)}</p>
-                            <p className='text-gray-400 text-end'>₹{Math.round(discountByPayment)}</p>
-                            <p className='text-gray-400 text-end'>₹{Math.round(discountByCoupon)}</p>
+                            {/* <p className='text-gray-400 text-end'>₹{Math.round(discountByPayment)}</p> */}
+                            {/* <p className='text-gray-400 text-end'>₹{Math.round(discountByCoupon)}</p> */}
                             </div>
                         </td>
                         </tr>

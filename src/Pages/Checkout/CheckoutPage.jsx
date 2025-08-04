@@ -1481,12 +1481,12 @@ const CheckoutPage = () => {
 
                                         </div>
                                     </td>
-                                    <td>
+                                    <td className='d-flex justify-end mt-3'>
                                         <div>
                                             <p className='text-end text-green-500'>
                                              <span className="mr-1 font-semibold">-</span> ₹{totalDiscount.toFixed(0)}</p>
-                                            <p className='text-gray-400 text-end'>₹{discountByPayment.toFixed(0)}</p>
-                                            <p className='text-gray-400 text-end'>₹{discountByCoupon.toFixed(0)}</p>
+                                            {/* <p className='text-gray-400 text-end'>₹{discountByPayment.toFixed(0)}</p> */}
+                                            {/* <p className='text-gray-400 text-end'>₹{discountByCoupon.toFixed(0)}</p> */}
                                         </div>
                                     </td>
                                 </tr>

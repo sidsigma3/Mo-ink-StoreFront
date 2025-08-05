@@ -226,7 +226,7 @@ const handleAddToCart = async () => {
 
       <div className="col-4">
         <label htmlFor="Quantity" className="sr-only">Quantity</label>
-        <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border-2 border-purple-300 rounded-lg bg-white">
+        <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border-1 border-purple-300 rounded-lg bg-white">
           <button
             type="button"
             onClick={handleDecrease}

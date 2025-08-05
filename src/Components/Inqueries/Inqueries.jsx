@@ -63,19 +63,24 @@ const Inqueries = () => {
             <input className="p-2 rounded border w-full md:w-1/2" placeholder={t("inquiries.name")} value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
             <input className="p-2 rounded border w-full md:w-1/2" placeholder={t("inquiries.company")} value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
           </div>
+ 
+          <div className="flex flex-col sm:flex-row gap-3">
+           <Dropdown className="rounded border w-full sm:w-1/2 text-center " onSelect={(value) => setFormData({ ...formData, interest: value })}>
+              <Dropdown.Toggle variant="" className="border-0 w-full justify-center ">
+                {formData.interest || t("inquiries.interest")}
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="w-full">
+                <Dropdown.Item eventKey="Sell Products" className="text-center">
+                  {t("inquiries.sell")}
+                </Dropdown.Item>
+                <Dropdown.Item eventKey="Buy Products" className="text-center">
+                  {t("inquiries.buy")}
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
 
-          <Dropdown onSelect={(value) => setFormData({ ...formData, interest: value })}>
-            <Dropdown.Toggle variant="light" className="w-full border p-2 rounded">
-              {formData.interest || t("inquiries.interest")}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item eventKey="Sell Products">{t("inquiries.sell")}</Dropdown.Item>
-              <Dropdown.Item eventKey="Buy Products">{t("inquiries.buy")}</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <input className="p-2 rounded border w-full" placeholder={t("inquiries.email")} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-
+          <input className="p-2 rounded border w-full md:w-1/2" placeholder={t("inquiries.email")} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+      </div>
           <div className="flex gap-3">
             <input className="p-2 rounded border w-full md:w-1/2" placeholder={t("inquiries.designation")} value={formData.designation} onChange={(e) => setFormData({ ...formData, designation: e.target.value })} />
             <input className="p-2 rounded border w-full md:w-1/2" placeholder={t("inquiries.phone")} value={formData.phoneNumber} onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} />

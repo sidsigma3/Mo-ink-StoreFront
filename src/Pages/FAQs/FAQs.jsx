@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from "react-i18next";
 import TopNavigation from '../../Components/TopNavigation/TopNavigation';
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader';
 import Navbar from '../../Components/Navbar/Navbar';
@@ -9,47 +10,42 @@ import BottomNav from '../../Components/BottomNav/BottomNav';
 import { ShieldQuestion } from 'lucide-react';
 
 const FAQs = () => {
+  const { t } = useTranslation();
+
   const breadcrumbs = [
-    { label: "Home", link: "/home" },
-    { label: "FAQs", link: "/FAQs" },
+    { label: t("faqs.breadcrumb.home"), link: "/home" },
+    { label: t("faqs.breadcrumb.faqs"), link: "/FAQs" },
   ];
 
   const faqData = [
     {
-      question: "What types of yarn do you manufacture?",
-      answer:
-        "We specialize in high-quality cotton, silk, nylon, polyester, and blended yarns etc, available in various counts and specifications to meet industrial and commercial needs.",
+      question: t("faqs.question1"),
+      answer: t("faqs.answer1"),
     },
     {
-      question: "Do you offer custom yarn specifications?",
-      answer:
-        "Yes, we provide customized yarn solutions tailored to your specific requirements. Please contact us for details on minimum order quantities and customization options.",
+      question: t("faqs.question2"),
+      answer: t("faqs.answer2"),
     },
     {
-      question: "What payment methods do you accept?",
-      answer:
-        "We accept bank transfers, corporate checks, and online payments through secure gateways. All orders must be fully paid before production or dispatch.",
+      question: t("faqs.question3"),
+      answer: t("faqs.answer3"),
     },
     {
-        question: "How long does it take to process and deliver an order?",
-        answer:
-          "Processing times depend on the order size and customization requirements. Standard bulk orders take 7-14 business days for production, with additional shipping time depending on your location.",
-      },
-    {
-        question: "Can I modify or cancel my order after placing it?",
-        answer:
-          "Since we manufacture yarns based on bulk orders, modifications or cancellations are only possible within 24 hours of order placement. After this period, the order goes into production and cannot be changed.",
+      question: t("faqs.question4"),
+      answer: t("faqs.answer4"),
     },
     {
-        question: "What is your return policy?",
-        answer:
-          "Due to the nature of our business, we do not accept returns once an order has been processed and delivered. However, if you receive a defective or incorrect item, please notify us within 48 hours of delivery for resolution.",
-      },
+      question: t("faqs.question5"),
+      answer: t("faqs.answer5"),
+    },
     {
-        question: "Can I get a refund if I am not satisfied with my order?",
-        answer:
-          "Refunds are only applicable in cases of incorrect or defective products. Since we manufacture on order, refunds for change of mind or dissatisfaction with specifications are not permitted.",
-    },  
+      question: t("faqs.question6"),
+      answer: t("faqs.answer6"),
+    },
+    {
+      question: t("faqs.question7"),
+      answer: t("faqs.answer7"),
+    },
   ];
 
   const [openIndex, setOpenIndex] = useState(null);
@@ -58,10 +54,9 @@ const FAQs = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>
@@ -69,7 +64,7 @@ const FAQs = () => {
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar /></div>
 
       <div className='px-6 md:px-14 py-3 mt-0 md:mt-10 md:text-md'>
-        <HeroSection productName={'FAQs'} breadcrumbs={breadcrumbs} />
+        <HeroSection productName={t("faqs.pageTitle")} breadcrumbs={breadcrumbs} />
       </div>
 
       {/* Main Content */}
@@ -85,9 +80,9 @@ const FAQs = () => {
 
           {/* Introduction */}
           <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("faqs.mainTitle")}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Welcome to Ink n Dyes, your trusted partner in high-quality yarn manufacturing. Below, you’ll find answers to some common questions about our products, ordering process, shipping, and policies.
+              {t("faqs.introduction")}
             </p>
           </div>
 
@@ -121,7 +116,7 @@ const FAQs = () => {
 
           {/* Last Updated */}
           <div className="mt-12 pt-8 border-t border-gray-100 text-center">
-            <p className="text-sm text-gray-500">Last updated: March 2025</p>
+            <p className="text-sm text-gray-500">{t("faqs.lastUpdated")}</p>
           </div>
         </div>
       </main>

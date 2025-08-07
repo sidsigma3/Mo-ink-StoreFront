@@ -387,7 +387,12 @@ const OTP = () => {
       </div>
 
       {/* OTP Verified Modal - This will show instead of toasts when both OTPs are verified */}
-      {isOtpVerified && <ModalOTPVerified />}
+      {isOtpVerified && (
+        <ModalOTPVerified 
+          isOpen={isOtpVerified} 
+          onClose={() => setIsOtpVerified(false)} 
+        />
+      )}
     </div>
   );
 };

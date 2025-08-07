@@ -55,7 +55,7 @@ const OTP = () => {
 
   // Phone timer effect
   useEffect(() => {
-    let interval = null;
+    let interval = setInterval(null);
     if (phoneTimerActive && phoneTimer > 0) {
       interval = setInterval(() => {
         setPhoneTimer(timer => timer - 1);
@@ -112,10 +112,10 @@ const OTP = () => {
       });
       
       setIsEmailVerified(true);
-      showToast("Email OTP verified successfully!", "success");
-      
-      // Focus on phone input if not verified yet
+      // Only show toast if phone is not verified yet
       if (!isPhoneVerified) {
+        showToast("Email OTP verified successfully!", "success");
+        // Focus on phone input if not verified yet
         setTimeout(() => {
           const phoneInput = document.getElementById('phone-otp-input');
           if (phoneInput) phoneInput.focus();
@@ -142,10 +142,10 @@ const OTP = () => {
       });
       
       setIsPhoneVerified(true);
-      showToast("Phone OTP verified successfully!", "success");
-      
-      // Focus on email input if not verified yet
+      // Only show toast if email is not verified yet
       if (!isEmailVerified) {
+        showToast("Phone OTP verified successfully!", "success");
+        // Focus on email input if not verified yet
         setTimeout(() => {
           const emailInput = document.getElementById('email-otp-input');
           if (emailInput) emailInput.focus();
@@ -166,6 +166,8 @@ const OTP = () => {
     try {
       await createCustomer(customerData);
       setIsOtpVerified(true);
+      // Clear any existing toasts before showing modal
+      setToasts([]);
     } catch (error) {
       console.error("Customer creation error:", error);
       showToast("Account creation failed. Please try again.", "error");
@@ -224,7 +226,7 @@ const OTP = () => {
 
   useEffect(() => {
     if (isOtpVerified) {
-      showToast("Congratulation, Your account is created", "success");
+      // Navigate to login after 3 seconds when modal is shown
       const timer = setTimeout(() => {
         navigate("/login");
       }, 3000);
@@ -251,12 +253,14 @@ const OTP = () => {
         />
       </div>
 
-      {/* Toast messages */}
-      <div className="absolute top-4 right-4 z-50">
-        {toasts.map((toast, index) => (
-          <Toast key={index} message={toast.message} type={toast.type} />
-        ))}
-      </div>
+      {/* Toast messages - Only show if modal is not visible */}
+      {!isOtpVerified && (
+        <div className="absolute top-4 right-4 z-50">
+          {toasts.map((toast, index) => (
+            <Toast key={index} message={toast.message} type={toast.type} />
+          ))}
+        </div>
+      )}
 
       {/* Verify Code Box */}
       <div className="verify-box bg-blur bg-opacity-40 p-6 sm:p-8 rounded-3xl border-3 border-white w-full max-w-md sm:max-w-lg text-white backdrop-blur-md z-10">
@@ -310,7 +314,7 @@ const OTP = () => {
               maxLength={6}
             />
             {isEmailVerified && (
-              <div className="absolute right-3 top-[46%]   transform -translate-y-1/2 text-green-500 text-lg">
+              <div className="absolute right-3 top-[46%] transform -translate-y-1/2 text-green-500 text-lg">
                <img 
               src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/check.png?updatedAt=1753792558024" 
               alt="Verified" 
@@ -359,7 +363,7 @@ const OTP = () => {
               maxLength={6}
             />
             {isPhoneVerified && (
-          <div className="absolute right-3 top-[46%]   transform -translate-y-1/2 text-green-500 text-lg">
+          <div className="absolute right-3 top-[46%] transform -translate-y-1/2 text-green-500 text-lg">
                <img 
               src="https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/check.png?updatedAt=1753792558024" 
               alt="Verified" 
@@ -371,7 +375,7 @@ const OTP = () => {
         </div>
 
         {/* Status message */}
-        {isEmailVerified && isPhoneVerified && (
+        {isEmailVerified && isPhoneVerified && !isOtpVerified && (
           <div className="text-center text-green-500 text-sm font-medium mt-4">
             Creating your account...
           </div>
@@ -380,23 +384,9 @@ const OTP = () => {
         {message && (
           <p className="text-green-400 text-sm mt-4">{message}</p>
         )}
-
-        {/* <div className="text-center text-xs my-4 text-gray-600">Or signin with</div>
-        <div className="flex flex-row justify-center items-center gap-2 lg:gap-4">
-          <div className="w-3/5 rounded-xl">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log(credentialResponse.credential);
-              }}
-              onError={() => {
-                console.log('Login Failed');
-              }}
-            />
-          </div>
-        </div> */}
       </div>
 
-      {/* OTP Verified Modal */}
+      {/* OTP Verified Modal - This will show instead of toasts when both OTPs are verified */}
       {isOtpVerified && <ModalOTPVerified />}
     </div>
   );

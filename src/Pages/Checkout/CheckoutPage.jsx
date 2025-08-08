@@ -32,6 +32,7 @@ import ModalCoupon from '../../Components/Modal/ModalCoupon';
 import Toast from '../../Components/Toast/Toast';
 import ProductDetailBoxMiniMobile from '../../Components/ProductList/ProductDetailBoxMiniMobile'
 
+const razorpayKey = process.env.RAZORPAY_CLIENT_KEY
 
 const getOrderItemDiscountDetails = ({
   coupon,
@@ -960,7 +961,7 @@ const CheckoutPage = () => {
           }
       
           const rzp = new window.Razorpay({
-            key: "rzp_test_oqL33XMoXAV4ym",
+            key: razorpayKey,
             amount: Number(onlinePay) * 100,
             currency: "INR",
             name: "Mo ink and Dye",

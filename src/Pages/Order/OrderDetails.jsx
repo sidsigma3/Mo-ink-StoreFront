@@ -26,6 +26,7 @@ import { addToCart , getCart ,removeFromCart } from '../../Services/CartService'
 import { useAppContext } from '../../Utils/commoncontext'
 import ModalConfirmReplaceCart from '../../Components/Modal/ModalConfirmReplaceCart'
 import PaymentModal from '../../Components/Modal/PaymentModal'
+import { sendCodOrderById } from '../../Services/OrderService'
 
 const OrderDetails = () => {
 
@@ -533,11 +534,7 @@ const handleBuyAgain = async (orderToBuy) => {
   const handlePaymentInitiate = async (paymentData) => {
     try {
       showToast("Initializing payment...", "success");
-      
-      // Get customer details from localStorage
-      const customer = JSON.parse(localStorage.getItem('userData') || '{}');
-      
-      // Prepare order data for payment with the amount from modal
+         
       const paymentRequestData = {
         orderId: order.orderId,
         amount: paymentData.amount, // Amount from the payment modal
@@ -547,91 +544,9 @@ const handleBuyAgain = async (orderToBuy) => {
 
       // Call your initiatePayment API with the specific amount
       // Note: Your API might need to be updated to accept custom amounts
-      const paymentResponse = await initiatePayment(order.orderId, paymentData.amount);
-      const { razorpayOrderId } = paymentResponse.data;
-
-      if (!razorpayOrderId || paymentResponse.status !== "SUCCESS") {
-        throw new Error("Failed to get valid Razorpay order");
-      }
-
-      // Close the modal before opening Razorpay
-      setShowPaymentModal(false);
-
-      // Load Razorpay script
-      const loadScript = (src) => {
-        return new Promise((resolve) => {
-          const script = document.createElement("script");
-          script.src = src;
-          script.onload = () => resolve(true);
-          script.onerror = () => resolve(false);
-          document.body.appendChild(script);
-        });
-      };
-
-      const razorpayLoaded = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-
-      if (!razorpayLoaded) {
-        showToast("Razorpay script failed to load. Check your internet connection.", "error");
-        return;
-      }
-
-      // Initialize Razorpay payment with the exact amount from modal
-      const rzp = new window.Razorpay({
-        key: "rzp_test_oqL33XMoXAV4ym", // Your Razorpay key
-        amount: Math.round(paymentData.amount * 100), // Ensure integer, convert to paise
-        currency: paymentData.currency,
-        name: "Mo ink and Dye",
-        description: `Balance Payment for Order #${paymentData.orderId} - ₹${paymentData.amount}`,
-        order_id: razorpayOrderId,
-        handler: async function (response) {
-          try {
-            // Payment successful - update order status
-            console.log('Payment Success:', response);
-            console.log('Payment Amount:', paymentData.amount);
-            
-            showToast("Payment successful! Updating order...", "success");
-            
-            const newPayment = {
-              id: Date.now(),
-              transactionId: response.razorpay_payment_id,
-              date: new Date().toISOString().split('T')[0],
-              amount: paymentData.amount,
-              status: "PAID"
-            };
-            setPaymentHistory(prev => [...prev, newPayment]);
-            
-           
-            setTimeout(() => {
-              fetchPaymentHistory();
-            }, );
-            
-          } catch (error) {
-            console.error("Post-payment processing failed:", error);
-            showToast("Payment succeeded but processing failed.", "error");
-          }
-        },
-        prefill: {
-          name: paymentData.customerDetails.name,
-          email: paymentData.customerDetails.email,
-          contact: paymentData.customerDetails.phone
-        },
-        notes: {
-          order_id: paymentData.orderId,
-          payment_for: "balance_payment",
-          payment_amount: paymentData.amount,
-          original_balance: balanceDue
-        },
-        theme: {
-          color: '#6B21A8'
-        },
-        modal: {
-          ondismiss: function() {
-            showToast("Payment cancelled", "error");
-          }
-        }
-      });
-
-      rzp.open();
+      const paymentResponse = await sendCodOrderById(order.orderId, paymentData.amount);
+      showToast("Payment link sent to your number", "success");
+      handleClosePaymentModal()
       
     } catch (error) {
       console.error('Payment initiation failed:', error);

@@ -90,3 +90,20 @@ export const updateOrderStatuses = async (orderId,updates) => {
     throw error;
   }
 };
+
+
+export const sendCodOrderById = async (orderId, amountToCollect) => {
+  try {
+    const response = await axios.post(
+      `${URL}/payment/cod/generate-link/${orderId}`,
+      {}, 
+      {
+        params: { amountToCollect }, 
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`Error generating COD link for order ID ${orderId}:`, error);
+    throw error;
+  }
+};

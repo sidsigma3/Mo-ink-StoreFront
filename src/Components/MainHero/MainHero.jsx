@@ -48,7 +48,7 @@ const MainHero = () => {
         <div className="w-full h-full flex items-center px-12">
           <div className="max-w-3xl">
             <h1 className="text-center text-5xl lg:text-6xl font-bold text-black mb-6">
-              {t('heroHeading')}
+              {t('heroHeading1')} <br />{t('heroHeading2')}
             </h1>
             <p className="text-center text-gray-800 text-lg mb-8">
               {t('heroSubtext1')} <br />

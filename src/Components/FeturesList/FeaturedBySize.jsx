@@ -18,7 +18,13 @@ const CATEGORY_IMAGES = {
   'cotton': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%2017078565.png?updatedAt=1751277730814',
   'bamboo': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478566.png?updatedAt=1751278205292',
   'micro modal': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478563.png?updatedAt=1751278205521',
-  'excel': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478564.png?updatedAt=1751278205379'
+  'excel': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478564.png?updatedAt=1751278205379',
+  'viscose': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478570.png?updatedAt=1754984120078',
+  'tencel': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478571.png?updatedAt=1754984120045',
+  'ecovero': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478569.png?updatedAt=1754984120131',
+  'livaeco': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478569.png?updatedAt=1754984120131',
+  'flax varieties': 'https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Group%201707478568.png?updatedAt=1754984120259'
+
 };
 
 const getCategoryImage = (productName) => {
@@ -87,9 +93,9 @@ const CardItem = ({ card, onClick }) => {
           </div> */}
         </div>
 
-        <p className="text-sm mb-2 text-gray-700">
+        <p className="text-xs mb-2 text-gray-700">
           {/* <span className="hidden sm:inline">Size: </span> */}
-          <strong>{card.size.replace(/[^0-9 /]/g, '')}</strong>
+          <strong>{card.size}</strong>
           <span> &nbsp; | &nbsp; </span>
           {/* <span className="hidden sm:inline">Type: </span> */}
           <strong className={card.variantType.toLowerCase() === 'cone' 
@@ -236,7 +242,7 @@ const FeaturedBySize = () => {
   const row2Cards = variantCards.slice(halfLength);
 
   return (
-    <div className="mt-24 mb-24 space-y-2 ">
+    <div className="mt-12 mb-20 space-y-2 ">
      <div className="flex justify-between items-center pe-4">
     <h2 className="text-2xl font-semibold md:text-3xl py-4">Shop by Size</h2>
       {/* Single Navigation for Both Rows */}

@@ -33,7 +33,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const [isInCart, setIsInCart] = useState();
     const [isWishlisted, setIsWishlisted] = useState();
     const [justRemoved, setJustRemoved] = useState();
-    const { product, size, color, price ,variantType , markupPrice ,variantDescription } = location.state || {};
+    const { product, size, color, price ,variantType , markupPrice ,variantDescription,  categoryName, selectedVariantType, selectedCounters, previousUrl     } = location.state || {};
     const [filteredColors, setFilteredColors] = useState([]);
     const [moreColors, setMoreColors] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -623,6 +623,20 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
         setFilteredColors(filtered);
     };
 
+
+  const handleBackToCategory = () => {
+    // Navigate back to Category page with the previous state
+    navigate("/category", {
+      state: {
+        categoryName: categoryName,
+        selectedVariantType: selectedVariantType,
+        selectedCounters: selectedCounters
+      },
+      // If you want to preserve the URL parameters as well
+      search: previousUrl ? previousUrl.split('?')[1] : `name=${encodeURIComponent(categoryName || 'All Products')}`
+    });
+  };
+
    
        
     console.log(product)
@@ -641,16 +655,20 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
 
             <div class="px-6 md:px-14 py-3">
  
-
-                <div className=' flex justify-start gap-4'>
-                <button
-                  onClick={() => navigate('/category')}
+          <div className='flex justify-start gap-4 items-center'>
+              <button
+                  onClick={handleBackToCategory}
                   className='text-xl rounded-md border border-purple-800 p-2 text-purple-800 hover:bg-purple-100 transition'
-                  aria-label="Go Back to Category"
-                >
+                  aria-label="Go Back"
+              >
                   <IoIosArrowBack />
-                </button>
-              </div>
+              </button>
+              {/* {categoryName && categoryName !== 'All Products' && (
+                  <span className="text-gray-600 text-sm">
+                      Back to {categoryName}
+                  </span>
+              )} */}
+          </div>
 
                 <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-8 mt-6">
                    <div class="lg:col-span-3">

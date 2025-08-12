@@ -10,7 +10,7 @@ import { getCustomerDetails, updateCustomerDetails } from '../../Services/Custom
 import BottomNav from '../../Components/BottomNav/BottomNav'
 import { useNavigate } from 'react-router-dom'
 import Toast from '../../Components/Toast/Toast'
-import SelectState from '../../Components/SelectState copy/SelectState'
+import SelectState from '../../Components/SelectState/SelectState'
 
 
 const SettingPage = () => {

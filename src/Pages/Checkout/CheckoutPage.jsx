@@ -43,7 +43,9 @@ const getOrderItemDiscountDetails = ({
   paymentDiscountPercent
 }) => {
   const isEligibleProduct = coupon?.applicableProducts?.some(p => p.id === item.productId);
-  if (!isEligibleProduct) return { allowed: false, itemDiscount: (itemTotal * paymentDiscountPercent) / 100 };
+  if (!isEligibleProduct) {
+    return { allowed: false, itemDiscount: (itemTotal * paymentDiscountPercent) / 100 };
+  }
 
   const requirement = coupon?.minPurchaseRequirement || "";
   let requirementMet = true;
@@ -58,21 +60,29 @@ const getOrderItemDiscountDetails = ({
     requirementMet = totalCartWeight >= minQty;
   }
 
-  if (!requirementMet) return { allowed: false, itemDiscount: (itemTotal * paymentDiscountPercent) / 100 };
+  if (!requirementMet) {
+    return { allowed: false, itemDiscount: (itemTotal * paymentDiscountPercent) / 100 };
+  }
 
   const couponValue = Number(coupon.discountValue || 0);
   const discountType = coupon.discountType;
 
   if (discountType === "FixedAmount") {
-    const fixedAmount = couponValue;
-    const afterFixed = itemTotal - fixedAmount;
+    // ✅ Distribute fixed amount proportionally to item value
+    const proportion = itemTotal / totalCartValue;
+    const itemFixedDiscount = couponValue * proportion;
+
+    const afterFixed = itemTotal - itemFixedDiscount;
     const paymentDiscount = (afterFixed * paymentDiscountPercent) / 100;
-    return { allowed: true, itemDiscount: fixedAmount + paymentDiscount };
+
+    return { allowed: true, itemDiscount: itemFixedDiscount + paymentDiscount };
   } else {
+    // Percentage coupon
     const combinedPercent = couponValue + paymentDiscountPercent - (couponValue * paymentDiscountPercent) / 100;
     return { allowed: true, itemDiscount: (itemTotal * combinedPercent) / 100 };
   }
 };
+
 
 
 const CheckoutPage = () => {
@@ -217,7 +227,7 @@ const CheckoutPage = () => {
 
     const { online, cod } = getPaymentSplit(selectedPayment);
 
-    const getCouponDiscountDetails = (coupon, item, itemTotal, totalCartWeight, totalCartValue) => {
+   const getCouponDiscountDetails = (coupon, item, itemTotal, totalCartWeight, totalCartValue) => {
   if (!coupon) return { allowed: false, amount: 0, percent: 0 };
 
   const isEligibleProduct = coupon.applicableProducts?.some(p => p.id === item.productId);
@@ -227,7 +237,7 @@ const CheckoutPage = () => {
   let requirementMet = true;
 
   if (requirement.includes("Minimum purchase amount")) {
-    const match = requirement.match(/\₹\s?(\d+)/);
+    const match = requirement.match(/₹\s?(\d+)/);
     const minAmount = match ? Number(match[1]) : 0;
     requirementMet = totalCartValue >= minAmount;
   } else if (requirement.includes("Minimum quantity required")) {
@@ -239,7 +249,10 @@ const CheckoutPage = () => {
   if (!requirementMet) return { allowed: false, amount: 0, percent: 0 };
 
   if (coupon.discountType === "FixedAmount") {
-    const amount = Number(coupon.discountValue || 0);
+    const totalDiscount = Number(coupon.discountValue || 0);
+    // Calculate this item's proportional share of the total discount
+    const itemSharePercent = itemTotal / totalCartValue;
+    const amount = totalDiscount * itemSharePercent;
     const percent = (amount / itemTotal) * 100;
     return { allowed: true, amount, percent };
   } else {
@@ -248,6 +261,67 @@ const CheckoutPage = () => {
     return { allowed: true, amount, percent };
   }
 };
+
+
+
+const checkDiscountEligibility = ({
+  discount,
+  totalCartWeight,
+  totalCartValue,
+  customerId,
+  applicableProductIds
+}) => {
+  // Customer eligibility
+  const isCustomerEligible =
+    discount.customerEligibilityType === "All" ||
+    discount.eligibleCustomers?.some(c => c.customerId === customerId);
+
+  if (!isCustomerEligible)
+    return { allowed: false, reason: "Not eligible customer" };
+
+  // Discount must be active
+  if (discount.discountStatus !== "ACTIVE")
+    return { allowed: false, reason: "Inactive discount" };
+
+  // Product eligibility
+  const hasApplicableProduct = discount.applicableProducts?.some(p =>
+    applicableProductIds.includes(p.id)
+  );
+  if (!hasApplicableProduct)
+    return { allowed: false, reason: "No eligible products in cart" };
+
+  // Min purchase requirements
+  let requirementMet = true;
+  let reason = "";
+
+  if (
+    discount.minPurchaseRequirement.includes(
+      "No minimum purchase requirement"
+    )
+  ) {
+    requirementMet = true;
+    reason = "";
+  } else if (
+    discount.minPurchaseRequirement.includes("Minimum purchase amount")
+  ) {
+    const match = discount.minPurchaseRequirement.match(/₹\)?\s*:\s*(\d+)/);
+    const minAmount = match ? Number(match[1]) : 0;
+    requirementMet = totalCartValue >= minAmount;
+    console.log(totalCartValue,minAmount)
+    if (!requirementMet) reason = `Spend ₹${minAmount} or more`;
+  } else if (
+    discount.minPurchaseRequirement.includes("Minimum quantity required")
+  ) {
+    const match = discount.minPurchaseRequirement.match(/(\d+)/);
+    const minQty = match ? Number(match[1]) : 0;
+    requirementMet = totalCartWeight >= minQty;
+    if (!requirementMet) reason = `Buy at least ${minQty}kg`;
+  }
+
+  return { allowed: requirementMet, reason };
+};
+
+
 
 
     // const totalProductCost = selectedCartItems.reduce((total, item) => {
@@ -409,18 +483,57 @@ const CheckoutPage = () => {
             setLoading(false);
         }
     };
+    
 
-    const eligibleDiscounts = discounts.filter(discount => {
-        const isCustomerEligible = discount.eligibleCustomers?.some(c => c.customerId === customerId);
-        const isActive = discount.discountStatus === "ACTIVE";
-        return isCustomerEligible && isActive;
+    const totalCartWeight = selectedCartItems.reduce((acc, item) => {
+        const unit = item.variantType === "CONE" ? 50 : 10;
+        return acc + (item.quantity * unit);
+    }, 0);
+
+    const totalCartValue = selectedCartItems.reduce((acc, item) => {
+        const unit = item.variantType === "CONE" ? 50 : 10;
+        return acc + (item.price * item.quantity * unit);
+    }, 0);
+
+   const eligibleDiscounts = discounts
+    .filter(discount => discount.discountStatus === "ACTIVE") 
+    .map(discount => {
+        const result = checkDiscountEligibility({
+        discount,
+        totalCartWeight,
+        totalCartValue,
+        customerId,
+        applicableProductIds: cartItems.map(item => item.productId)
+        });
+        return { ...discount, allowed: result.allowed, reason: result.reason };
     });
+
+
+
+    console.log(eligibleDiscounts)
+
     
     const filteredDiscounts = eligibleDiscounts.filter(discount =>
         discount.discountCode.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    
+     useEffect(() => {
+        if (!appliedCoupon) return;
+
+        // Re-check eligibility for the currently applied coupon
+        const { allowed, reason } = checkDiscountEligibility({
+            discount: appliedCoupon,
+            totalCartWeight,
+            totalCartValue,
+            customerId,
+            applicableProductIds: selectedCartItems.map(item => item.productId)
+        });
+
+        if (!allowed) {
+            setAppliedCoupon(null);
+            showToast(reason || "Discount removed due to cart changes");
+        }
+    }, [totalCartWeight, totalCartValue, selectedCartItems, appliedCoupon]);
     
     
     const fetchOrders = useCallback(async () => {
@@ -1335,47 +1448,72 @@ const CheckoutPage = () => {
 
                                 <h4 className='font-semibold text-lg mt-3'>Best Coupon</h4>
 
-                                <ul className="space-y-2 mt-3 cursor-pointer">
-                                    {filteredDiscounts.map((discount) => (
+                               <ul className="space-y-2 mt-3 cursor-pointer">
+                                {filteredDiscounts.map((discount) => (
+                                    <li
+                                    key={discount.discountId}
+                                    className={`border rounded-xl flex ${!discount.allowed ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    >
+                                    {/* Left Purple Discount Badge */}
+                                    <div className="bg-purple-800 w-10 relative rounded-l-xl">
+                                        <h4
+                                        className="-rotate-90 text-sm font-bold text-white -translate-x-4 translate-y-12 w-20 select-none"
+                                        onClick={() => discount.allowed && handleCouponClick(discount)}
+                                        >
+                                        {discount.discountValue}
+                                        {discount.discountType === 'Percentage' ? '%' : '₹'} OFF
+                                        </h4>
+                                         <div className="absolute top-4 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-8 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-12 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-16 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-20 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-24 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-28 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-32 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                            <div className="absolute top-36 -left-2 w-3 h-3 bg-white rounded-full"></div>
+                                    </div>
+                                   
 
-                                        <li key={discount.discountId} className="border rounded-xl flex">
-                                            <div className='bg-purple-800 w-10  relative rounded-l-xl'>
-                                                <h4 className="-rotate-90 text-sm font-bold text-white -translate-x-4 translate-y-12 w-20 cursor-pointer select-none"
-                                                    onClick={() => handleCouponClick(discount)}>
-                                                    {discount.discountValue}{discount.discountType === 'Percentage' ? '%' : '₹'}
-                                                    OFF
-                                                </h4>
-                                                <div className="absolute top-4 -left-2 w-3 h-3 bg-white rounded-full"></div>
-                                                <div className="absolute top-8 -left-2 w-3 h-3 bg-white rounded-full"></div>
-                                                <div className="absolute top-12 -left-2 w-3 h-3 bg-white rounded-full"></div>
-                                                <div className="absolute top-16 -left-2 w-3 h-3 bg-white rounded-full"></div>
-                                                <div className="absolute top-20 -left-2 w-3 h-3 bg-white rounded-full"></div>
-                                                <div className="absolute top-24 -left-2 w-3 h-3 bg-white rounded-full"></div>
-                                                <div className="absolute top-28 -left-2 w-3 h-3 bg-white rounded-full"></div>
-                                            </div>
-                                            <div className={`flex-1 p-2 hover:border-blue-800 hover:border-2 hover:rounded-tr-md hover:rounded-br-md ${appliedCoupon?.discountId == discount.discountId ? "border-blue-800 border-2 rounded-tr-md rounded-br-md": ""}`}>
-                                                <div className='flex justify-between '>
-                                                    <h3 className="font-semibold text-xl">{discount.discountCode}</h3>
-                                                    <h5 className='text-purple-800 font-bold text-md'
-                                                        onClick={() => handleCouponClick(discount)}>APPLY</h5>
-                                                </div>
-                                                <h4 className="text-green-600 font-semibold mt-2 border-b-2 border-dotted pb-2">
-                                                    Save ₹
-                                                    {
-                                                        Math.round(
-                                                        discount.discountType === 'Percentage'
-                                                            ? (Number(totalProductCost) * Number(discount.discountValue)) / 100
-                                                            : Number(discount.discountValue)
-                                                        )
-                                                    } on this order!
-                                                    </h4>
+                                    {/* Right Discount Details */}
+                                    <div
+                                        className={`flex-1 p-2 hover:border-blue-800 hover:border-2 hover:rounded-tr-md hover:rounded-br-md 
+                                        ${appliedCoupon?.discountId === discount.discountId ? "border-blue-800 border-2 rounded-tr-md rounded-br-md" : ""}`}
+                                    >
+                                        <div className="flex justify-between">
+                                        <h3 className="font-semibold text-xl">{discount.discountCode}</h3>
+                                        {discount.allowed ? (
+                                            <h5
+                                            className="text-purple-800 font-bold text-md cursor-pointer"
+                                            onClick={() => handleCouponClick(discount)}
+                                            >
+                                            APPLY
+                                            </h5>
+                                        ) : (
+                                            <h5 className="text-gray-400 font-bold text-md">
+                                            Not Eligible
+                                            </h5>
+                                        )}
+                                        </div>
 
-                                                <h4 className='mt-4 font-medium'>Use Code {discount.discountCode} Get {discount.discountValue} {discount.discountType === 'Percentage' ? '%' : '₹'} off as <br></br>discount bonus</h4>
+                                        <h4 className="text-green-600 font-semibold mt-2 border-b-2 border-dotted pb-2">
+                                        Save ₹
+                                        {Math.round(
+                                            discount.discountType === 'Percentage'
+                                            ? (Number(totalProductCost) * Number(discount.discountValue)) / 100
+                                            : Number(discount.discountValue)
+                                        )} on this order!
+                                        </h4>
 
-                                            </div>
+                                        <h4 className="mt-3 font-medium">{discount.minPurchaseRequirement}</h4>
 
-                                        </li>
-                                    ))}
+                                        <h4 className="mt-3 font-medium">
+                                        Use Code {discount.discountCode} Get {discount.discountValue}
+                                        {discount.discountType === 'Percentage' ? '%' : '₹'} off as discount bonus
+                                        </h4>
+                                    </div>
+                                    </li>
+                                ))}
                                 </ul>
 
                             </div>

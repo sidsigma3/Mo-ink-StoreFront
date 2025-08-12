@@ -29,7 +29,7 @@ const SlilderCard = ({ title, children }) => {
   return (
     <>
       <div className="flex justify-between items-center pe-4">
-        <h2 className="text-2xl font-semibold md:text-3xl py-4 ">Top Selling {title}</h2>
+        <h2 className="text-2xl font-semibold md:text-3xl py-4 ">{title}</h2>
         <div className=" flex gap-2">
           <button
             onClick={handlePrevious}

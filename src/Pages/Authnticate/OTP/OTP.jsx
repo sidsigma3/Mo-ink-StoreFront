@@ -226,10 +226,10 @@ const OTP = () => {
 
   useEffect(() => {
     if (isOtpVerified) {
-      // Navigate to login after 3 seconds when modal is shown
+      // Navigate to login after 5 seconds when modal is shown
       const timer = setTimeout(() => {
         navigate("/login");
-      }, 3000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, [isOtpVerified, navigate]);

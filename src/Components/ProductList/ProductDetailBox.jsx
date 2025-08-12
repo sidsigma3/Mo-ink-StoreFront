@@ -193,9 +193,9 @@ const handleAddToCart = async () => {
 </div>
   <div className="p-2 bg-white">
     <div className='mb-3'>
-      <h5 className="font-bold text-md flex items-center flex-wrap justify-center text-purple-800">
-        {productName}
-        <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span>
+      <h5 className="font-semibold text-md flex items-center flex-wrap justify-center text-purple-800">
+        {/* {productName}
+        <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span> */}
         {size}
         <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span>
         {variantType}

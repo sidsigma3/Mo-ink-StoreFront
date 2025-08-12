@@ -1,7 +1,65 @@
-import React, { useState, useEffect } from 'react'
+
+import React, { useState, useEffect, useRef } from 'react'
 import FeturedBox from './FeturedBox'
 import { fetchProducts } from '../../Services/ProductService';
 import { useNavigate } from 'react-router-dom';
+
+
+// Add this component inside your FeaturedList.js file, before the main FeaturedList component
+const SliderCard = ({ title, children }) => {
+  const sliderRef = useRef(null);
+
+  const handlePrevious = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({
+        left: -500, 
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const handleNext = () => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({
+        left: 500, 
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  return (
+    <>
+      <div className="flex justify-between items-center pe-4">
+        <h2 className="text-2xl font-semibold md:text-3xl py-4">{title}</h2>
+        <div className="flex gap-2">
+          <button
+            onClick={handlePrevious}
+            className="rounded-full border-1 border-purple-800 p-2 transition sm:bg-purple-800 sm:text-white md:bg-transparent md:text-purple-800 md:p-4 md:hover:bg-purple-800 md:hover:text-white"          
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5 rtl:rotate-180">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button
+            onClick={handleNext} 
+            className="rounded-full border-1 border-purple-800 p-2 transition sm:bg-purple-800 sm:text-white md:bg-transparent md:text-purple-800 md:p-4 md:hover:bg-purple-800 md:hover:text-white"       
+          >
+            <svg className="size-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <ul
+        ref={sliderRef}
+        className="flex flex-nowrap gap-4 overflow-x-auto p-0 m-0 list-none scroll-smooth snap-x scrollbar-hide snap-mandatory"
+      >
+        {children}
+      </ul>
+    </>
+  );
+};
 
 const FeturedList = () => {
 
@@ -85,7 +143,7 @@ const handleNavigation = (selectedCategory) => {
 
 
   return (
-<div className='mt-2 bg-gradient-to-b from-white via-purple-100 to-white px-6 md:px-14 pb-18'>
+<div className='mt-2 bg-gradient-to-b from-white via-purple-100 to-white ps-6 md:px-14 pb-18 '>
 
       {/* <h3 className='text-2xl font-semibold md:text-5xl text-center text-gray-900 mb-12 '>Featured Categories</h3> */}
 
@@ -98,10 +156,10 @@ const handleNavigation = (selectedCategory) => {
             <li><FeturedBox productName={'Wool Yarn'} number={12}></FeturedBox></li>
         </ul> */}
 
-      <ul className="grid grid-cols-2 sm:flex gap-3 justify-content-around mt-5">
-        {products.length > 0 ? (
-          aggregateProductData(products).map((product, index) => {
-            return (
+     <SliderCard title="Featured Categories">
+  {products.length > 0 ? (
+    aggregateProductData(products).map((product, index) => {
+      return (
               <li key={index} onClick={() => handleNavigation(product.productName)}>
                 <FeturedBox productName={product.productName} color={product.groupedVariants.map((group) => group.variants.length).reduce(
                   (accumulator, currentValue) => accumulator + currentValue, 0,
@@ -113,7 +171,7 @@ const handleNavigation = (selectedCategory) => {
         ) : (
           <p>No products available</p>
         )}
-      </ul>
+      </SliderCard>
 
 
     </div>

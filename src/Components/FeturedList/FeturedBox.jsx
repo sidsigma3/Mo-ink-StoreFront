@@ -7,81 +7,59 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
     "Excel": "/images/Yarn2.jpg",
     "Micro Modal": "/images/Yarn5.jpg",
     "Bamboo": "/images/Yarn4.jpg",
+    "Lenzing Micro Modal": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn1.png?updatedAt=1754928796191",
+    "Viscose": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn7.jpg?updatedAt=1749718954502",
+    "Tencel": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn6.jpg?updatedAt=1749718954437",
+    "Ecovero": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn8.png?updatedAt=1754927536082",
+    "Birla Micro Modal": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarnss.png?updatedAt=1754933798745",
+    "Livaeco": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarns.png?updatedAt=1754933780605",
+    "Flax Varieties": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn7%20%20.png?updatedAt=1754927543913",
+    "Excel-Linen": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn8.png?updatedAt=1754927906052",
   };
 
   const imageSrc = imageUrl || categoryImages[productName] || '';
 
-
-  // const mobileView = (
-  //   <div className={`flex flex-col items-center justify-center w-full h-28 rounded-xl ${iconData[productName]?.bg || 'bg-gray-100 text-gray-500'}`}>
-  //     <div className="text-2xl mb-1">{iconData[productName]?.icon || "🧵"}</div>
-  //     <div className="text-lg mt-2 font-medium text-center">{productName}</div>
-  //   </div>
-  // );
-
-const mobileView = (
-<div>
-  <div
-    className={`flex flex-col items-center border-2 border-white bg-[#DCDDD7]  justify-center w-full h-28 rounded-xl bg-no-repeat relative overflow-hidden text-white`}
-    style={{
-      backgroundImage: `url(${imageSrc})`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
-    }}
-  >
-    {/* Gradient overlays */}
-    <div className="absolute inset-0 bg-gradient-to-r from-[#DCDDD7] via-transparent to-transparent rounded-xl z-0" />
-    <div className="absolute inset-0 bg-gradient-to-l from-[#DCDDD7] via-transparent to-transparent rounded-xl z-0" />
-
-    {/* Product name at top-left corner */}
-    <div className="absolute top-0 left-0 z-10">
-    <span className="absolute -left-px -top-px rounded-br-3xl  bg-purple-800 px-3 py-1 text-sm font-medium uppercase whitespace-nowrap tracking-widest text-white z-20">
-            {productName}
-          </span>
-      <span className="text-dark font-semibold text-sm">{productName}</span>
+  const mobileView = (
+    <div className="relative w-full h-32 rounded-xl overflow-hidden shadow-sm">
+      {/* Background image container */}
+      <div
+        className="absolute inset-0 bg-gray-100"
+        style={{
+          backgroundImage: `url(${imageSrc})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      
+      {/* Subtle overlay for better text readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-10" />
+      
+      {/* Product name label - positioned at top left */}
+      <div className="absolute top-0 left-0 z-10">
+        <span className="inline-block bg-purple-800 text-white px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-br-lg">
+          {productName}
+        </span>
+      </div>
     </div>
-
-
-  </div>
-</div>
-
-
-);
-
-
-
-
-
+  );
 
   return (
-    <div>
-      <div className="block sm:hidden">
+    <div className="snap-start shrink-0">
+      {/* Mobile View */}
+      <div className="block sm:hidden w-40">
         {mobileView}
       </div>
 
+      {/* Desktop View */}
       <a
         href="#"
         className="hidden sm:flex relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex-col items-center"
         style={{ width: '18rem', padding: '1rem' }}
       >
-        {/* <span
-          className="absolute -left-px -top-px rounded-bl-3xl rounded-tr-3xl bg-yellow-300 px-6 py-2 font-medium uppercase tracking-widest text-black text-sm md:text-md "
-        >
-          Premium Yarn
-        </span> */}
-
-                <div className="text-center">
+        <div className="text-center">
           <strong className="text-lg font-semibold text-gray-900 block">
             {productName}
           </strong>
-
-          {/* <p className="mt-2 text-gray-700 text-sm">
-            {number} SKU
-          </p>
-
-          <p className="mt-1 text-gray-700 text-sm">
-            {color} Color
-          </p> */}
         </div>
 
         <div className="size-64 bg-gray-100 rounded-full flex items-center justify-start overflow-hidden mt-2 mb-2">
@@ -91,20 +69,6 @@ const mobileView = (
             className="object-contain h-full w-full transition-transform duration-500 ease-in-out hover:scale-110"
           />
         </div>
-
-        {/* <div className="text-center">
-          <strong className="text-lg font-semibold text-gray-900 block">
-            {productName}
-          </strong>
-
-          <p className="mt-2 text-gray-700 text-sm">
-            {number} SKU
-          </p>
-
-          <p className="mt-1 text-gray-700 text-sm">
-            {color} Color
-          </p>
-        </div> */}
       </a>
     </div>
   );

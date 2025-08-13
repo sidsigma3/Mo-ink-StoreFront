@@ -248,6 +248,7 @@ const calculateOrderSummary = async (
   const productDataMap = new Map();
   const itemCosts = [];
 
+  // Step 1: Calculate base total, total weight, and store item cost data
   for (const variant of orderVariants) {
     const weight = Number(variant.orderWeight) || 0;
     const { productId, size, color, variantType } = variant;
@@ -280,10 +281,11 @@ const calculateOrderSummary = async (
     itemCosts.push({
       variant,
       cost,
-      gstRate: productDataMap.get(variant.productId)?.gstOnProduct || 0,
+      gstRate: productDataMap.get(productId)?.gstOnProduct || 0,
     });
   }
 
+  // Step 2: Check coupon eligibility
   const couponDiscountValue = Number(appliedCoupon?.discountValue) || 0;
   const couponDiscountType = appliedCoupon?.discountType || 'Percentage';
   let discountAllowed = true;
@@ -298,17 +300,20 @@ const calculateOrderSummary = async (
     discountAllowed = totalWeight >= minQty;
   }
 
+  // Step 3: Calculate coupon discount amount
   let couponDiscountAmount = 0;
   if (discountAllowed) {
     if (couponDiscountType === 'Percentage') {
       couponDiscountAmount = (baseTotal * couponDiscountValue) / 100;
     } else if (couponDiscountType === 'FixedAmount') {
-      couponDiscountAmount = couponDiscountValue * orderVariants.length;
+      // Fixed amount applies to whole order, not per item
+      couponDiscountAmount = couponDiscountValue;
     }
   }
 
   const subtotalAfterCoupon = baseTotal - couponDiscountAmount;
 
+  // Step 4: Payment discount
   const paymentDiscountPercent = paymentDiscountMap[order.paymentTypeDiscount] || 0;
   const paymentDiscountAmount = (subtotalAfterCoupon * paymentDiscountPercent) / 100;
   const finalTotal = subtotalAfterCoupon - paymentDiscountAmount;
@@ -317,16 +322,21 @@ const calculateOrderSummary = async (
   discountByPayment = paymentDiscountAmount;
   const totalDiscount = discountByCoupon + discountByPayment;
 
+  // Step 5: GST calculation per item
   for (const { cost, gstRate } of itemCosts) {
     let discountedPrice = cost;
 
     if (discountAllowed) {
       if (couponDiscountType === 'Percentage') {
-        const combinedPercent = couponDiscountValue + paymentDiscountPercent - (couponDiscountValue * paymentDiscountPercent) / 100;
+        const combinedPercent =
+          couponDiscountValue +
+          paymentDiscountPercent -
+          (couponDiscountValue * paymentDiscountPercent) / 100;
         discountedPrice = cost - (cost * combinedPercent) / 100;
       } else if (couponDiscountType === 'FixedAmount') {
-       const itemCouponDiscount = couponDiscountValue;
-        const afterCoupon = cost - itemCouponDiscount;
+        // Distribute fixed amount proportionally by cost share
+        const itemShare = (cost / baseTotal) * couponDiscountAmount;
+        const afterCoupon = cost - itemShare;
         const paymentDiscount = (afterCoupon * paymentDiscountPercent) / 100;
         discountedPrice = afterCoupon - paymentDiscount;
       }
@@ -338,10 +348,13 @@ const calculateOrderSummary = async (
     gstAmount += gstForItem;
   }
 
+  // Step 6: Final payable calculations
   const netPayable = finalTotal + gstAmount + handlingCharges + platformFees;
   const walletAmount = order?.payment?.walletAmount || 0;
   const cancelRefundAmount = order?.payment?.cancelRefundAmount || 0;
-  const walletUsed = Number((walletAmount > cancelRefundAmount ? walletAmount - cancelRefundAmount : 0)).toFixed(0) || 0;
+  const walletUsed =
+    Number(walletAmount > cancelRefundAmount ? walletAmount - cancelRefundAmount : 0).toFixed(0) ||
+    0;
   const adjustedNetPay = netPayable - walletUsed;
 
   const online = Number(order.paymentTypeDiscount?.replace('%', '')) || 0;
@@ -367,13 +380,16 @@ const calculateOrderSummary = async (
     combinedDiscountPercent:
       couponDiscountType === 'Percentage'
         ? discountAllowed
-          ? couponDiscountValue + paymentDiscountPercent - (couponDiscountValue * paymentDiscountPercent) / 100
+          ? couponDiscountValue +
+            paymentDiscountPercent -
+            (couponDiscountValue * paymentDiscountPercent) / 100
           : paymentDiscountPercent
         : discountAllowed && baseTotal > 0
         ? Number(((couponDiscountAmount + discountByPayment) / baseTotal) * 100)
         : paymentDiscountPercent,
   };
 };
+
 
 
 useEffect(() => {

@@ -30,7 +30,7 @@ const SliderCard = ({ title, children }) => {
   return (
     <>
       <div className="flex justify-between items-center pe-4">
-        <h2 className="text-2xl font-semibold md:text-3xl py-4">{title}</h2>
+        <h2 className="text-2xl font-semibold md:text-3xl py-4 mb-3">{title}</h2>
         <div className="flex gap-2">
           <button
             onClick={handlePrevious}
@@ -156,7 +156,7 @@ const handleNavigation = (selectedCategory) => {
             <li><FeturedBox productName={'Wool Yarn'} number={12}></FeturedBox></li>
         </ul> */}
 
-     <SliderCard title="Featured Categories">
+     <SliderCard title="Categories">
   {products.length > 0 ? (
     aggregateProductData(products).map((product, index) => {
       return (

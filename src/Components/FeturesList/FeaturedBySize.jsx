@@ -242,7 +242,7 @@ const FeaturedBySize = () => {
   const row2Cards = variantCards.slice(halfLength);
 
   return (
-    <div className="mt-12 mb-20 space-y-2 ">
+    <div className="mt-12 mb-8 md:mb-20 space-y-2 ">
      <div className="flex justify-between items-center pe-4">
     <h2 className="text-2xl font-semibold md:text-3xl py-4">Shop by Size</h2>
       {/* Single Navigation for Both Rows */}

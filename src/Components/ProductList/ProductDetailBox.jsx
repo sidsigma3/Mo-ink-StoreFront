@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TiStarFullOutline } from "react-icons/ti";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { Eye } from 'lucide-react';
 import { addToWishlist, removeFromWishlist, getWishlist } from '../../Services/WishlistService';
 import { addToCart, removeFromCart, getCart } from '../../Services/CartService';
 import { useNavigate } from 'react-router-dom';
@@ -170,140 +171,262 @@ const handleAddToCart = async () => {
 
   return (
     <>
-      {/* Product Card */}
-  <div className="relative block bg-white border-2 border-gray-200 rounded-xl overflow-hidden" style={{ width: '19rem' }}>
- 
-<div className={`relative flex justify-center items-center ${
-  variantType === "CONE" 
-    ? "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]" 
-    : variantType === "HANK"
-    ? "bg-gradient-to-b from-[#D6D2D3] via-[#D6D2D3] to-[#D6D2D3]"
-    : "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]" // fallback gradient
-}`} style={{ height: '10rem', overflow: 'hidden' }}>
-  <img
-    src={`${backendUrl}${colorImage}`}
-    alt=""
-    className="h-full object-contain"
-    style={{ 
-      transform: 'scale(1.1)',
-      // transformOrigin: 'center top',
-      // marginBottom: '-5%'
-    }}
-  />
-</div>
-  <div className="p-2 bg-white">
-    <div className='mb-3'>
-      <h5 className="font-semibold text-md flex items-center flex-wrap justify-center text-purple-800">
-        {/* {productName}
-        <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span> */}
-        {size}
-        <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span>
-        {variantType}
-      </h5>
+      {/* Small Screen Card - Horizontal Layout */}
+      <div className="block sm:block md:hidden relative bg-white border-2 border-gray-200 rounded-xl overflow-hidden w-full">
+          {/* Image Section - Small Screen */}
+         <div className={`relative flex justify-center items-center ${
+          variantType === "CONE" 
+            ? "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]" 
+            : variantType === "HANK"
+            ? "bg-gradient-to-b from-[#D6D2D3] via-[#D6D2D3] to-[#D6D2D3]"
+            : "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]"
+        }`} style={{ height: '10rem', overflow: 'hidden' }}>
+          <img
+            src={`${backendUrl}${colorImage}`}
+            alt=""
+            className="h-full object-contain"
+            style={{ transform: 'scale(1.1)' }}
+          />
+    
+            {/* Wishlist badge */}
+            <div className="absolute top-2 right-2">
+              <button
+                className="bg-purple-100 p-2 text-purple-800 rounded-lg border-2 border-purple-200 hover:bg-purple-200 transition-colors"
+                onClick={handleWishlistClick}
+              >
+                {isWishlistPage && justRemoved ? (
+                  <FaHeart className="text-purple-600 text-sm" />
+                ) : isWishlisted ? (
+                  <FaHeart color="red" className="text-sm" />
+                ) : (
+                  <FaRegHeart className="text-purple-600 text-sm" />
+                )}
+              </button>
+            </div>
+          </div>
 
-  <h5 className="flex items-center justify-center gap-2 mt-2">
-  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
-    {color}
-  </span>
-  <span 
-    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200"
-    style={{ backgroundColor: hexCode }}
-  >
-    {hexCode?.toUpperCase()}
-  </span>
-</h5>
-    </div>
+          {/* Content Section - Small Screen */}
+          <div className="flex-1 p-2">
+            {/* Product Info */}
+            <div className="mb-2">
+              <h5 className="font-semibold text-sm flex items-center justify-center text-purple-800">
+                {size}
+                {/* <span className="mx-1 text-sm leading-none px-1 text-purple-500">•</span>
+                {variantType} */}
+              </h5>
 
-    {/* Quantity Row */}
-    <div className="flex items-center justify-between mt-3 mb-2">
-      <div className="border-2 border-purple-200 px-3 py-2 rounded-lg col-4 bg-purple-50">
-        {variantType === "CONE" ? (
-          <h5 className="font-medium text-purple-800">50 Kg</h5>
-        ) : (
-          <h5 className="font-medium text-purple-800">10 Kg</h5>
-        )}
+              <div className="flex items-center justify-between gap-1 mt-1">
+                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                  {color}
+                </span>
+
+                <div className="border-2 border-purple-200 px-2 py-1  rounded-lg bg-purple-50">
+                  <h5 className="font-medium text-purple-800 text-xs">
+                    {variantType === "CONE" ? "50 Kg" : "10 Kg"}
+                  </h5>
+                </div>
+                {/* <span 
+                  className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200"
+                  style={{ backgroundColor: hexCode }}
+                >
+                  {hexCode?.toUpperCase()}
+                </span> */}
+              </div>
+            </div>
+
+            {/* Horizontal content layout */}
+            {/* <div className="flex items-center justify-between gap-2"> */}
+              {/* Left side - Weight and Quantity */}
+              {/* <div className="flex flex-col gap-1"> */}
+                {/* <div className="border-2 border-purple-200 px-2 py-1 rounded-lg bg-purple-50">
+                  <h5 className="font-medium text-purple-800 text-sm">
+                    {variantType === "CONE" ? "50 Kg" : "10 Kg"}
+                  </h5>
+                </div> */}
+                
+                {/* <div className="flex items-center justify-between w-16 h-8 border-1 border-purple-300 rounded-lg bg-white">
+                  <button
+                    type="button"
+                    onClick={handleDecrease}
+                    className="w-8 h-full text-base text-purple-600 hover:opacity-75 transition font-bold"
+                  >
+                    &minus;
+                  </button>
+                  <input
+                    type="number"
+                    value={quantity}
+                    readOnly
+                    className="w-6 text-center text-sm font-medium text-purple-800"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleIncrease}
+                    className="w-8 h-full text-base text-purple-600 hover:opacity-75 transition font-bold"
+                  >
+                    +
+                  </button>
+                </div> */}
+              {/* </div> */}
+              {/* </div> */}
+
+
+
+               {/* Buttons */}
+              <div className="flex d-flex justify-between  items-center gap-1">
+                <div className="flex flex-col">
+                  <h4 className="text-purple-800 font-bold text-lg">₹{Math.round(price)}</h4>
+                  <p className="text-gray-400 font-medium text-sm"><s>₹{Math.round(markupPrice)}</s></p>
+                </div>
+
+                {showCart && location.pathname !== "/shoppingCart" && (
+                  <button
+                    onClick={handleCartButtonClick}
+                    className={`flex items-center justify-center p-2 rounded-full transition-colors ${
+                      isInCart 
+                        ? 'bg-green-500 text-white ' 
+                        : 'bg-purple-800 text-white '
+                    }`}
+                  >
+                    {isInCart ? <Eye size={16} /> : <MdOutlineShoppingCart size={16} />}
+                  </button>
+                )}
+            </div>
+
+           
+            
+          </div>
       </div>
 
-      <div className="col-4">
-        <label htmlFor="Quantity" className="sr-only">Quantity</label>
-        <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border-1 border-purple-300 rounded-lg bg-white">
-          <button
-            type="button"
-            onClick={handleDecrease}
-            className="w-10 h-full text-lg text-purple-600 hover:opacity-75 transition font-bold"
-          >
-            &minus;
-          </button>
-
-          <input
-            type="number"
-            id="Quantity"
-            value={quantity}
-            readOnly
-            className="w-8 text-center pl-2 text-sm font-medium text-purple-800"
+      {/* Medium+ Screen Card - Vertical Layout */}
+      <div className="hidden md:block relative bg-white border-2 border-gray-200 rounded-xl overflow-hidden" style={{ width: '19rem' }}>
+        {/* Image Section - Medium+ Screen */}
+        <div className={`relative flex justify-center items-center ${
+          variantType === "CONE" 
+            ? "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]" 
+            : variantType === "HANK"
+            ? "bg-gradient-to-b from-[#D6D2D3] via-[#D6D2D3] to-[#D6D2D3]"
+            : "bg-gradient-to-b from-[#979EA4] via-[#A2A5AC] to-[#C0C4C6]"
+        }`} style={{ height: '10rem', overflow: 'hidden' }}>
+          <img
+            src={`${backendUrl}${colorImage}`}
+            alt=""
+            className="h-full object-contain"
+            style={{ transform: 'scale(1.1)' }}
           />
+        </div>
 
-          <button
-            type="button"
-            onClick={handleIncrease}
-            className="w-10 h-full text-lg text-purple-600 hover:opacity-75 transition font-bold"
-          >
-            +
-          </button>
+        {/* Content Section - Medium+ Screen */}
+        <div className="p-2 bg-white">
+          {/* Product Info */}
+          <div className='mb-3'>
+            <h5 className="font-semibold text-md flex items-center flex-wrap justify-center text-purple-800">
+              {size}
+              <span className="mx-1 text-xl leading-none px-1 text-purple-500">•</span>
+              {variantType}
+            </h5>
+
+            <h5 className="flex items-center justify-center gap-2 mt-2">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                {color}
+              </span>
+              <span 
+                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200"
+                style={{ backgroundColor: hexCode }}
+              >
+                {hexCode?.toUpperCase()}
+              </span>
+            </h5>
+          </div>
+
+          {/* Quantity Row */}
+          <div className="flex items-center justify-between mt-3 mb-2">
+            <div className="border-2 border-purple-200 px-3 py-2 rounded-lg col-4 bg-purple-50">
+              {variantType === "CONE" ? (
+                <h5 className="font-medium text-purple-800">50 Kg</h5>
+              ) : (
+                <h5 className="font-medium text-purple-800">10 Kg</h5>
+              )}
+            </div>
+
+            <div className="col-4">
+              <label htmlFor="Quantity" className="sr-only">Quantity</label>
+              <div className="flex items-center justify-between w-20 sm:w-32 md:w-20 h-9 border-1 border-purple-300 rounded-lg bg-white">
+                <button
+                  type="button"
+                  onClick={handleDecrease}
+                  className="w-10 h-full text-lg text-purple-600 hover:opacity-75 transition font-bold"
+                >
+                  &minus;
+                </button>
+
+                <input
+                  type="number"
+                  id="Quantity"
+                  value={quantity}
+                  readOnly
+                  className="w-8 text-center pl-2 text-sm font-medium text-purple-800"
+                />
+
+                <button
+                  type="button"
+                  onClick={handleIncrease}
+                  className="w-10 h-full text-lg text-purple-600 hover:opacity-75 transition font-bold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Price & Rating */}
+          <div className="mt-2 flex justify-between items-center rounded-lg bg-purple-50 p-2">
+            <div className="flex gap-2 items-center">
+              <h4 className="text-purple-800 font-bold text-2xl">₹{Math.round(price)}</h4>
+              <p className="text-gray-400 font-medium"><s>₹{Math.round(markupPrice)}</s></p>
+            </div>
+
+            <div className="bg-yellow-100 flex gap-1 items-center h-8 px-2 rounded-md border border-yellow-200">
+              <span className="text-yellow-500">
+                <TiStarFullOutline />
+              </span>
+              <p className="text-sm font-bold text-yellow-700">4.5</p>
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-2 mt-3 justify-between">
+            {showCart && location.pathname !== "/shoppingCart" && (
+              <button
+                onClick={handleCartButtonClick}
+                className={`flex items-center justify-center gap-2 py-2 font-bold rounded-lg flex-1 text-md ${
+                  isInCart 
+                    ? 'bg-green-500 text-white hover:bg-green-600' 
+                    : 'bg-purple-800 text-white hover:bg-purple-600'
+                } transition-colors`}
+              >
+                {isInCart ? t("buttons.goToCart") : t("buttons.addToCart")}
+                <span>
+                  <MdOutlineShoppingCart size={20} />
+                </span>
+              </button>
+            )}
+
+            <button
+              className="bg-purple-100 p-2 text-purple-800 rounded-lg px-3 border-2 border-purple-200 hover:bg-purple-200 transition-colors"
+              onClick={handleWishlistClick}
+            >
+              {isWishlistPage && justRemoved ? (
+                <FaHeart className="text-purple-600" />
+              ) : isWishlisted ? (
+                <FaHeart color="red" />
+              ) : (
+                <FaRegHeart className="text-purple-600" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    {/* Price & Rating */}
-    <div className="mt-2 flex justify-between items-center rounded-lg bg-purple-50 p-2">
-      <div className="flex gap-2 items-center">
-        <h4 className="text-purple-800 font-bold text-2xl">₹{Math.round(price)}</h4>
-        <p className="text-gray-400 font-medium"><s>₹{Math.round(markupPrice)}</s></p>
-      </div>
-
-      <div className="bg-yellow-100 flex gap-1 items-center h-8 px-2 rounded-md border border-yellow-200">
-        <span className="text-yellow-500">
-          <TiStarFullOutline />
-        </span>
-        <p className="text-sm font-bold text-yellow-700">4.5</p>
-      </div>
-    </div>
-
-    {/* Buttons */}
-    <div className="flex gap-2 mt-3 justify-between">
-      {showCart && location.pathname !== "/shoppingCart" && (
-        <button
-          onClick={handleCartButtonClick}
-          className={`flex items-center justify-center gap-2 py-2 font-bold rounded-lg flex-1 text-md ${
-            isInCart 
-              ? 'bg-green-500 text-white hover:bg-green-600' 
-              : 'bg-purple-800 text-white hover:bg-purple-600'
-          } transition-colors`}
-        >
-          {isInCart ?  t("buttons.goToCart") : t("buttons.addToCart")}
-          <span>
-            <MdOutlineShoppingCart size={20} />
-          </span>
-        </button>
-      )}
-
-      <button
-        className="bg-purple-100 p-2 text-purple-800 rounded-lg px-3 border-2 border-purple-200 hover:bg-purple-200 transition-colors"
-        onClick={handleWishlistClick}
-      >
-        {isWishlistPage && justRemoved ? (
-          <FaHeart className="text-purple-600" />
-        ) : isWishlisted ? (
-          <FaHeart color="red" />
-        ) : (
-          <FaRegHeart className="text-purple-600" />
-        )}
-      </button>
-    </div>
-  </div>
-</div>
-
-  
       {/* Toast Notification*/}
       <div className="fixed top-4 right-4 z-50 space-y-2">
         {toasts.map((toast) => (

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductDetailBox from './ProductDetailBox';
 import { fetchProducts } from '../../Services/ProductService';
 
 const SlilderCard = ({ title, children }) => {
   const sliderRef = useRef(null); // ✅ added ref to UL
+  const navigate = useNavigate();
 
   const handlePrevious = () => {
     if (sliderRef.current) {
@@ -24,13 +26,28 @@ const SlilderCard = ({ title, children }) => {
   };
 
 
+   const handleNavigation = (selectedCategory) => {
+    navigate(`/category?name=${encodeURIComponent(selectedCategory)}`);
+  };
+
+
   
 
   return (
     <>
       <div className="flex justify-between items-center pe-4">
-        <h2 className="text-2xl font-semibold md:text-3xl py-4 ">{title}</h2>
-        <div className=" flex gap-2">
+        <h2 className="text-2xl font-semibold md:text-3xl py-4 ">{title} Yarns</h2>
+        <div className="sm:block md:hidden">
+          <button
+            onClick={() => handleNavigation(title)}
+            className="text-purple-800 text-end font-bold rounded-lg "
+          >
+            View All
+          </button>
+        </div>
+
+        {/* Navigation buttons for medium and larger devices */}
+        <div className="hidden md:flex gap-2">
           <button
             onClick={handlePrevious}
             className="rounded-full border-1 border-purple-800 p-2
@@ -82,10 +99,10 @@ const SlilderCard = ({ title, children }) => {
 
       <ul
         ref={sliderRef}
-        className="flex flex-nowrap gap-4 overflow-x-auto p-0 m-0 list-none scroll-smooth snap-x snap-mandatory"
-      >
-        {children}
-      </ul>
+        className="flex flex-nowrap gap-2.5 overflow-x-auto p-0 m-0 list-none scroll-smooth snap-x snap-mandatory sm:flex-col sm:gap-2 md:flex-row md:gap-4"
+>
+  {children}
+</ul>
     </>
   );
 };
@@ -165,7 +182,7 @@ const ProductList = () => {
 console.log(products)
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-11">
      {products.map((product) => (
         <div key={product.id} className="relative flex flex-col bg-white rounded-lg">
           <SlilderCard title={product.productName}>
@@ -174,8 +191,8 @@ console.log(products)
               .map((variant) => (
                 <li
                   key={`${product.id}-${variant.id}`}
-                  className="snap-start bg-white overflow-hidden transition flex flex-col items-center flex-shrink-0"
-                  style={{ minWidth: '250px', padding: '' }}
+                  className="snap-start bg-white overflow-hidden transition flex flex-col items-center flex-shrink-0 sm:w-full md:w-auto"
+                  style={{ minWidth: '20px', padding: '' }}
                 >
                   <ProductDetailBox
                     productName={product.productName}

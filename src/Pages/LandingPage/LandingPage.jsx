@@ -66,8 +66,8 @@ const LandingPage = () => {
       <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader /></div>
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar /></div>
       <div className='md:px-14 py-3'> <Banner /></div>
-      <div className='py-3'><MarqueeText /></div>
-      <div className='pt-3 md:py-3'><FeturedList /></div>
+      <div className='py-3 hidden sm:block'><MarqueeText /></div>
+      <div className='md:pt-3 md:py-3'><FeturedList /></div>
       <div className='ps-6 md:pr-14 md:ps-14 '><FeaturedBySize /></div>
       <div className='ps-6 md:pr-14 md:ps-14 '> <ProductList /></div>
       <div className='px-6 md:px-14 pt-20 pb-20'> <FeturesList_LandingPage /></div>

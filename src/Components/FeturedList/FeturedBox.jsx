@@ -36,7 +36,7 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
       
       {/* Product name label - positioned at top left */}
       <div className="absolute top-0 left-0 z-10">
-        <span className="inline-block bg-purple-800 text-white px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-br-lg">
+        <span className="inline-block bg-purple-800 text-white px-3 py-1 text-[10px] font-semibold uppercase tracking-wider rounded-br-lg">
           {productName}
         </span>
       </div>
@@ -46,7 +46,7 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
   return (
     <div className="snap-start shrink-0">
       {/* Mobile View */}
-      <div className="block sm:hidden w-40">
+      <div className="block sm:hidden w-[115px]">
         {mobileView}
       </div>
 

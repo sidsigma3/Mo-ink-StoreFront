@@ -55,7 +55,7 @@ const CategoryBox = ({
   }
 
   return (
-    <div className="bg-purple-100 border rounded-4 p-3 cursor-pointer h-fit w-full sm:h-[320px] md:h-auto" onClick={handleClick}>
+    <div className="bg-purple-100 border rounded-4 p-3 cursor-pointer w-full sm:h-[420px] md:h-auto" onClick={handleClick}>
       <div className="flex flex-col items-center gap-2"> 
         <span className="text-purple-800">
           {variant === "hank" ? (
@@ -78,7 +78,7 @@ const CategoryBox = ({
             />
           )}
         </span>
-        <h4 className="text-md md:text-lg text-center font-semibold">Count - {size}</h4>
+        <h4 className="text-md md:text-lg text-center font-semibold">{size}</h4>
         <h4 className="text-md md:text-lg font-medium">
           Total color - {Array.isArray(color) ? color.length : 1}
         </h4>

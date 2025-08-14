@@ -670,45 +670,30 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
               )} */}
           </div>
 
-                <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-8 mt-6">
-                   <div class="lg:col-span-3">
-                    <div className="grid sm:grid-cols-3 gap-2 text-center">
-                    {/* Main Image: Prefer Hank if exists, else fallback */}
-                    <div className="sm:col-span-2 bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-                        <img
-                        src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
-                        alt="Main Product"
-                        className="w-full h-full object-contain rounded-lg"
-                        />
+                <div class="grid items-start justify-center grid-cols-1 lg:grid-cols-4 gap-8 mt-6">
+                  <div className="lg:col-span-2">
+                    <div className="w-full max-w-2xl mx-auto">
+                      {/* Single Product Image Container */}
+                      <div className="relative group">
+                        <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border border-gray-200 transition-all duration-300 overflow-hidden">
+                          {/* Aspect ratio container for perfect square */}
+                          <div className="aspect-square relative">
+                            <img
+                              src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
+                              alt={`${product.productName} - ${variantType}`}
+                              className="w-full h-full object-cover rounded-2xl transition-all duration-500 group-hover:scale-105"
+                              loading="lazy"
+                            />
+
+                          </div>
+                        </div>
+                        
+                      </div>
                     </div>
-
-                    {/* Two Smaller Images */}
-                  <div className="hidden sm:grid space-y-2 w-full h-full md:space-y-1 md:grid-cols-1 md:gap-1">
-                {/* Show Cone image */}
-                <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-                  <img
-                    src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[1]}`}
-                    alt="Cone Product"
-                    className="w-full h-full object-contain rounded-lg"
-                  />
-                </div>
-
-                {/* Optional: Fallback image or duplicate */}
-                <div className="bg-gray-100 flex items-center justify-center rounded-lg border-2 border-gray-300 aspect-square">
-                  <img
-                    src={`${backendUrl}${product.productImage?.find(img => img.includes(variantType.toLowerCase())) || product.productImage?.[0]}`}
-                    alt="Fallback Product"
-                    className="w-full h-full object-contain rounded-lg"
-                  />
-                </div>
-              </div>
-
-                    </div>
-
-</div>
+                  </div>
 
 
-                    <div class="w-full lg:col-span-2">
+                    <div class="w-full md:w-4/5 lg:col-span-2">
 
                         <span class="inline-flex items-center rounded-md bg-pink-200 px-2 py-1 text-xs font-medium text-pink-600 ring-1 ring-inset ring-pink-700/10">Sale off</span>
                         <div className='d-flex flex-wrap items-center gap-3 mt-6 lg:block'>

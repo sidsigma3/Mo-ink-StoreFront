@@ -15,7 +15,7 @@ const MarqueeText = () => {
   const colors = ["text-purple-600", "text-yellow-400", "text-red-500", "text-green-500"];
 
   return (
-    <div className="relative w-full overflow-hidden bg-white py-4">
+    <div className="relative w-full overflow-hidden bg-white py-4 ">
       <div className="flex animate-marquee whitespace-nowrap">
         {Array(2).fill(0).map((_, loopIndex) =>
           textKeys.map((textKey, index) => (

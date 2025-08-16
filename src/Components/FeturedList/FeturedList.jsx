@@ -31,7 +31,7 @@ const SliderCard = ({ title, children }) => {
     <>
       <div className="flex justify-between items-center pe-4">
         <h2 className="text-2xl font-semibold md:text-3xl py-4 mb-3">{title}</h2>
-        <div className="flex gap-2">
+        <div className="flex gap-2 hidden sm:flex">
           <button
             onClick={handlePrevious}
             className="rounded-full border-1 border-purple-800 p-2 transition sm:bg-purple-800 sm:text-white md:bg-transparent md:text-purple-800 md:p-4 md:hover:bg-purple-800 md:hover:text-white"          

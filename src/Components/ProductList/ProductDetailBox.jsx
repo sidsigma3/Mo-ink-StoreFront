@@ -220,7 +220,7 @@ const handleAddToCart = async () => {
                   {color}
                 </span>
 
-                <div className="border-2 border-purple-200 px-2 py-1  rounded-lg bg-purple-50">
+                <div className="border-1 border-purple-200 px-2 py-1  rounded-lg bg-purple-50">
                   <h5 className="font-medium text-purple-800 text-xs">
                     {variantType === "CONE" ? "50 Kg" : "10 Kg"}
                   </h5>

@@ -246,7 +246,7 @@ const FeaturedBySize = () => {
      <div className="flex justify-between items-center pe-4">
     <h2 className="text-2xl font-semibold md:text-3xl py-4">Shop by Size</h2>
       {/* Single Navigation for Both Rows */}
-       <div className=" flex justify-end items-center gap-2">
+       <div className=" flex justify-end items-center gap-2 hidden sm:flex">
           <button
             onClick={handlePrevious}
              className="rounded-full border-1 border-purple-800 p-2

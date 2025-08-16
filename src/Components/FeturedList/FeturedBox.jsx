@@ -46,7 +46,7 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
   return (
     <div className="snap-start shrink-0">
       {/* Mobile View */}
-      <div className="block sm:hidden w-[115px]">
+      <div className="block sm:hidden w-[130px]">
         {mobileView}
       </div>
 

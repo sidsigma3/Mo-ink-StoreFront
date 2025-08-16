@@ -61,7 +61,7 @@ const Testimonial = () => {
       if (window.innerWidth < 768) { // Only auto-slide on mobile
         setCurrentSlide((prev) => (prev + 1) % testimonials.length);
       }
-    }, 4000);
+    }, 2000);
 
     return () => clearInterval(timer);
   }, []);

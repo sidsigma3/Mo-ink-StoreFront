@@ -122,7 +122,7 @@ const calculatedAmounts = useMemo(() => {
   return (
     <div className='grid grid-cols-9 md:grid-cols-7 gap-3 border-1 rounded p-3'>
       <div className='col-span-3 md:col-span-2 lg:col-span-1'>
-        <img src='https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/unur73unur73unur.png?updatedAt=1748863098691' className='w-5/4 aspect-square object-cover rounded-md' alt='Wool Item' />
+        <img src='https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/download%20(14).png?updatedAt=1755759401456' className='w-5/4 aspect-square object-cover rounded-md' alt='Wool Item' />
       </div>
 
       <div className='col-span-6 md:col-span-3 lg:col-span-2 flex flex-col items-start justify-center text-gray-500 font-medium'>

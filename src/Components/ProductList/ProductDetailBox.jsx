@@ -215,16 +215,16 @@ const handleAddToCart = async () => {
                 {variantType} */}
               </h5>
 
-              <div className="flex items-center justify-between gap-1 mt-1">
+              <div className="flex items-center justify-center gap-1 mt-1">
                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
                   {color}
                 </span>
 
-                <div className="border-1 border-purple-200 px-2 py-1  rounded-lg bg-purple-50">
+                {/* <div className="border-1 border-purple-200 px-2 py-1  rounded-lg bg-purple-50">
                   <h5 className="font-medium text-purple-800 text-xs">
                     {variantType === "CONE" ? "50 Kg" : "10 Kg"}
                   </h5>
-                </div>
+                </div> */}
                 {/* <span 
                   className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200"
                   style={{ backgroundColor: hexCode }}

@@ -218,7 +218,7 @@ const CheckoutPage = () => {
       
         // Sum total weight from cart items
         const totalWeight = cartItems.reduce((acc, item) => {
-          const unitWeight = item.variantType === 'CONE'? 50 : 10; 
+          const unitWeight = selectedWeight[item.variantId]; 
           const weight = Number(item.quantity) * unitWeight || 0; // assuming 1 quantity = 1kg
           return acc + weight;
         }, 0);
@@ -504,12 +504,12 @@ const checkDiscountEligibility = ({
     
 
     const totalCartWeight = selectedCartItems.reduce((acc, item) => {
-        const unit = item.variantType === "CONE" ? 50 : 10;
+        const unit = selectedWeight[item.variantId];
         return acc + (item.quantity * unit);
     }, 0);
 
     const totalCartValue = selectedCartItems.reduce((acc, item) => {
-        const unit = item.variantType === "CONE" ? 50 : 10;
+        const unit = selectedWeight[item.variantId];
         return acc + (item.price * item.quantity * unit);
     }, 0);
 
@@ -716,19 +716,19 @@ const checkDiscountEligibility = ({
   const ratePerKg = customerState === "odisha" ? 3 : 5;
 
   const totalCartWeight = cartItems.reduce((acc, item) => {
-    const unit = item.variantType === "CONE" ? 50 : 10;
+    const unit = selectedWeight[item.variantId];
     return acc + (item.quantity * unit);
   }, 0);
 
   const totalCartValue = cartItems.reduce((acc, item) => {
-    const unit = item.variantType === "CONE" ? 50 : 10;
+    const unit = selectedWeight[item.variantId];
     return acc + (item.price * item.quantity * unit);
   }, 0);
 
   return cartItems
     .filter(item => item.variantId && item.quantity > 0)
     .map(item => {
-      const unitWeight = item.variantType === "CONE" ? 50 : 10;
+      const unitWeight = selectedWeight[item.variantId];
       const itemWeight = item.quantity * unitWeight;
       const itemTotal = item.price * item.quantity * unitWeight;
       const gstRate = item.gstRate || 0;
@@ -788,24 +788,24 @@ const checkDiscountEligibility = ({
         const totalWeight = cartItems.reduce((acc, item) => {
             if (!item.variantId || item.quantity <= 0) return acc;
           
-            const unitWeight = item.variantType === "CONE" ? 50 : 10; // grams
+            const unitWeight = selectedWeight[item.variantId]; // grams
             return acc + item.quantity * unitWeight;
           }, 0);
 
             const totalCartWeight = cartItems.reduce((acc, item) => {
-                const unit = item.variantType === "CONE" ? 50 : 10;
+                const unit = selectedWeight[item.variantId];
                 return acc + (item.quantity * unit);
             }, 0);
 
           const totalCartValue = cartItems.reduce((acc, item) => {
-            const unit = item.variantType === "CONE" ? 50 : 10;
+            const unit = selectedWeight[item.variantId];
             return acc + (item.price * item.quantity * unit);
         }, 0);
       
         return cartItems
           .filter(item => item.variantId && item.quantity > 0)
           .map(item => {
-            const unitWeight = item.variantType === "CONE" ? 50 : 10 ;
+            const unitWeight = selectedWeight[item.variantId] ;
             const itemWeight = Number(item.quantity) * unitWeight;
             const itemTotal = item.price * item.quantity * unitWeight;
             const gstRate = item.gstRate || 0;

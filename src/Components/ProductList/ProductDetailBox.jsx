@@ -215,7 +215,7 @@ const handleAddToCart = async () => {
                 {variantType} */}
               </h5>
 
-              <div className="flex items-center justify-between gap-1 mt-1">
+              <div className="flex items-center justify-center gap-1 mt-1">
                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
                   {color}
                 </span>
@@ -231,6 +231,7 @@ const handleAddToCart = async () => {
                   <option value="50">50 Kg</option>
                 </select>
               </div>
+
 
                 {/* <span 
                   className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200"

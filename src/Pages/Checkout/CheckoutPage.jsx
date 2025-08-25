@@ -114,8 +114,10 @@ const CheckoutPage = () => {
     const [walletError, setWalletError] = useState('');
 
     const [walletBalance, setWalletBalance] = useState(0);
-    const platformFees = 49;
+    const platformFees = 0 ;
     const [toasts, setToasts] = useState([]);
+
+    const [selectedWeight,setSelectedWeight] = useState({})
 
      useEffect(() => {
           window.scrollTo(0, 0);
@@ -146,6 +148,22 @@ const CheckoutPage = () => {
     (customer?.addresses || []).find((addr) => addr.addressType === selectedType) ||
     customer?.addresses?.[0] ||
     null;
+
+
+    useEffect(() => {
+        if (cartItems.length > 0) {
+            setSelectedWeight((prev) => {
+            const newWeights = { ...prev };
+            cartItems.forEach(item => {
+                if (!newWeights[item.variantId]) {
+                // set default to 10 (or from item if available)
+                newWeights[item.variantId] = 10; 
+                }
+            });
+            return newWeights;
+            });
+        }
+    }, [cartItems]);
 
 
     const handleVariantTypeChange = (variantId, type) => {
@@ -366,7 +384,7 @@ const checkDiscountEligibility = ({
 
   // Pre-calculate total cart weight and value
   selectedCartItems.forEach(item => {
-    const unitWeight = item.variantType === 'CONE' ? 50 : 10;
+    const unitWeight = selectedWeight[item.variantId]
     const itemWeight = item.quantity * unitWeight;
     const itemTotal = item.price * itemWeight;
     totalCartWeight += itemWeight;
@@ -374,7 +392,7 @@ const checkDiscountEligibility = ({
   });
 
   selectedCartItems.forEach(item => {
-    const unitWeight = item.variantType === 'CONE' ? 50 : 10;
+    const unitWeight = selectedWeight[item.variantId]
     const itemWeight = item.quantity * unitWeight;
     const itemTotal = item.price * itemWeight;
     const gstRate = item.gstRate || 0;
@@ -1180,6 +1198,8 @@ const checkDiscountEligibility = ({
                                     itemQuantity={item.quantity}
                                     onQuantityChange={handleQuantityChange}
                                     colorImage={item.colorImage}
+                                    selectedWeight={selectedWeight}
+                                    setSelectedWeight={setSelectedWeight}
                                     />
 
                                 </div>
@@ -1205,6 +1225,9 @@ const checkDiscountEligibility = ({
                                     onVariantTypeChange={handleVariantTypeChange}
                                     onQuantityChange={handleQuantityChange}
                                     onRemove={handleRemoveFromCart}
+                                    selectedWeight={selectedWeight}
+                                    setSelectedWeight={setSelectedWeight}
+
                                     />
                                 </div>
                                 ) : (

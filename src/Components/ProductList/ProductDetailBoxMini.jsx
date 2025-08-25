@@ -12,7 +12,8 @@ import { FaTrash } from "react-icons/fa";
 
 
 const ProductDetailBoxMini = ({ productName, price, size, color ,itemQuantity, variantId, isWishlist, onWishlistToggle, onCartToggle, hexCode,variantType,productImage,markupPrice,colorImage,colorCode, onRemove,
-
+  selectedWeight,
+  setSelectedWeight,
   isSelected = false,
    variants = [] ,
   showCart = true,
@@ -191,15 +192,23 @@ const getImageByVariantType = (variantType, imageUrls) => {
 
 
           <div className='flex justify-right gap-4 align-items-center mt-3'>
-            <div className='border rounded w-20 h-9 flex items-center justify-center sm:text-sm md:text-sm '>
-              {variantType === "CONE" ? (
-                <p>50 Kg</p>
-              ):(
-                <p>10 Kg</p>
-              )
-            }
-             
-            </div>
+              <div className="border rounded w-24 h-9 flex items-center justify-center sm:text-sm md:text-sm">
+                <select
+                  value={selectedWeight[variantId]}
+                  onChange={(e) => 
+                    setSelectedWeight((prev) => ({
+                      ...prev,
+                      [variantId]: Number(e.target.value),
+                    }))
+                  }
+                  className="w-full h-full bg-transparent text-center focus:outline-none"
+                >
+                  <option value="10">10 Kg</option>
+                  <option value="25">25 Kg</option>
+                  <option value="50">50 Kg</option>
+                </select>
+              </div>
+
 
             <div className='col-4'>
               <label htmlFor="Quantity" className="sr-only"> Quantity </label>

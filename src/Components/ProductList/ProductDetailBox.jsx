@@ -28,7 +28,7 @@ const ProductDetailBox = ({
   const [quantity, setQuantity] = useState(itemQuantity || 1);
   const [cartItems, setCartItems] = useState([]);
   const { t } = useTranslation();
-  
+  const [selectedWeight, setSelectedWeight] = useState(10);
 
   const [toasts, setToasts] = useState([]);
   const showToast = (message, type = "success") => {
@@ -220,11 +220,18 @@ const handleAddToCart = async () => {
                   {color}
                 </span>
 
-                <div className="border-1 border-purple-200 px-2 py-1  rounded-lg bg-purple-50">
-                  <h5 className="font-medium text-purple-800 text-xs">
-                    {variantType === "CONE" ? "50 Kg" : "10 Kg"}
-                  </h5>
-                </div>
+               <div className="border-1 border-purple-200 px-2 py-1 rounded-lg bg-purple-50">
+                <select
+                  value={selectedWeight}
+                  onChange={(e) => setSelectedWeight(e.target.value)}
+                  className="text-purple-800 text-xs font-medium bg-purple-50 focus:outline-none"
+                >
+                  <option value="10">10 Kg</option>
+                  <option value="25">25 Kg</option>
+                  <option value="50">50 Kg</option>
+                </select>
+              </div>
+
                 {/* <span 
                   className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200"
                   style={{ backgroundColor: hexCode }}
@@ -341,11 +348,16 @@ const handleAddToCart = async () => {
           {/* Quantity Row */}
           <div className="flex items-center justify-between mt-3 mb-2">
             <div className="border-2 border-purple-200 px-3 py-2 rounded-lg col-4 bg-purple-50">
-              {variantType === "CONE" ? (
-                <h5 className="font-medium text-purple-800">50 Kg</h5>
-              ) : (
-                <h5 className="font-medium text-purple-800">10 Kg</h5>
-              )}
+               <select
+                value={selectedWeight}
+                onChange={(e) => setSelectedWeight(Number(e.target.value))}
+                className="bg-purple-50 text-purple-800 font-medium outline-none"
+              >
+                <option value={10}>10 Kg</option>
+                <option value={25}>25 Kg</option>
+                <option value={50}>50 Kg</option>
+              </select>
+            
             </div>
 
             <div className="col-4">

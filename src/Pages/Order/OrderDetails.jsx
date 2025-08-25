@@ -48,7 +48,8 @@ const OrderDetails = () => {
     const [pendingOrder, setPendingOrder] = useState(null);
     const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-    // Payment history state
+    const platformFees = 0
+
     const [paymentHistory, setPaymentHistory] = useState([
       // Example structure - replace with actual data from your API
       // {
@@ -394,7 +395,7 @@ const calculateOrderSummary = async (
 
 useEffect(() => {
   const fetchSummary = async () => {
-    const summaryData = await calculateOrderSummary(order, appliedCoupon, handlingCharges, 49);
+    const summaryData = await calculateOrderSummary(order, appliedCoupon, handlingCharges, platformFees);
     setSummary(summaryData);
   };
   fetchSummary();
@@ -796,7 +797,7 @@ const handleBuyAgain = async (orderToBuy) => {
                         <tr className='border-b-2'>
                         <td className='pb-2'>Platform Fees</td>
                         <td className='pb-2'></td>
-                        <td className='text-end pb-2'>₹49</td>
+                        <td className='text-end pb-2'>₹{platformFees}</td>
                         </tr>
 
                         <tr>

@@ -26,7 +26,7 @@ import { addToCart , getCart ,removeFromCart } from '../../Services/CartService'
 import { useAppContext } from '../../Utils/commoncontext'
 import ModalConfirmReplaceCart from '../../Components/Modal/ModalConfirmReplaceCart'
 import PaymentModal from '../../Components/Modal/PaymentModal'
-import { sendCodOrderById } from '../../Services/OrderService'
+import { sendCodOrderById , getCodOrderById } from '../../Services/OrderService'
 
 const OrderDetails = () => {
 
@@ -92,38 +92,33 @@ const OrderDetails = () => {
     }, []);
 
     // Fetch payment history - Replace with actual API call
-    const fetchPaymentHistory = async () => {
+    const fetchPaymentHistory = async (orderId) => {
       try {
-        // Replace this with your actual API call
-        // const response = await getPaymentHistory(order.orderId);
-        // setPaymentHistory(response.data);
-        
-        // For demo purposes - uncomment the lines below to see the payment history table
-        // setPaymentHistory([
-        //   {
-        //     id: 1,
-        //     transactionId: "pay_123456789",
-        //     date: "2024-01-15",
-        //     amount: 500,
-        //     status: "PAID"
-        //   },
-        //   {
-        //     id: 2,
-        //     transactionId: "pay_987654321",
-        //     date: "2024-01-20",
-        //     amount: 300,
-        //     status: "PAID"
-        //   }
-        // ]);
-      } catch (error) {
-        console.error('Failed to fetch payment history:', error);
-      }
+        const res = await getCodOrderById(orderId);
+        const codTransactions = res.data?.paymentCodTransactions || [];
+
+        // Standard structure for COD transactions
+        const formattedTransactions = codTransactions.map((tx, index) => ({
+          srNo: index + 1, // optional serial number
+          transactionId: tx.razorpayReferenceId,
+          date: tx.paidAt ? new Date(tx.paidAt).toLocaleString() : "N/A",
+          paymentMode: tx.razorpayOrderId ? "Online Payment Link" : "Cash",
+          amountCollected: tx.amountPaid || 0,
+          remainingAmount: tx.remainingAmount ?? 0,
+          status: tx.status || (tx.remainingAmount === 0 ? "Completed" : "Pending"),
+        }));
+
+    setPaymentHistory(formattedTransactions);
+  } catch (error) {
+    console.error("Failed to fetch COD transactions:", error);
+  }
     };
 
     // Load payment history on component mount
     useEffect(() => {
+      console.log('hello')
       if (order?.orderId) {
-        fetchPaymentHistory();
+        fetchPaymentHistory(order?.orderId);
       }
     }, [order?.orderId]);
 
@@ -852,69 +847,51 @@ const handleBuyAgain = async (orderToBuy) => {
                              <tr>
                                <th className="px-4 py-3 text-left font-medium text-gray-600">Transaction ID</th>
                                <th className="px-4 py-3 text-left font-medium text-gray-600">Date</th>
-                               <th className="px-4 py-3 text-right font-medium text-gray-600">Amount</th>
+                                 <th className="px-4 py-3 text-center font-medium text-gray-600">Payment type</th>
+                               <th className="px-4 py-3 text-center font-medium text-gray-600">Amount</th>
                                <th className="px-4 py-3 text-right font-medium text-gray-600">Remaining</th>
-                               <th className="px-4 py-3 text-center font-medium text-gray-600">Status</th>
+                               {/* <th className="px-4 py-3 text-center font-medium text-gray-600">Status</th> */}
                              </tr>
                            </thead>
-                           <tbody className="divide-y divide-gray-200">
-                             {/* Initial Payment Row */}
-                             <tr className="hover:bg-gray-50">
-                               <td className="px-4 py-3 font-mono text-xs text-gray-600">
-                                 {order?.payment?.transactionId || 'N/A'}
-                               </td>
-                               <td className="px-4 py-3 text-gray-600">
-                                 {orderDate.split(',')[0]}
-                               </td>
-                               <td className="px-4 py-3 text-right font-semibold text-gray-900">
-                                 ₹{order?.payment?.totalAmountPaid?.toFixed(0) || 0}
-                               </td>
-                               <td className="px-4 py-3 text-right font-semibold text-orange-600">
-                                 ₹{order?.payment?.pendingAmount?.toFixed(0) || 0}
-                               </td>
-                               <td className="px-4 py-3 text-center">
-                                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                   PAID
-                                 </span>
-                               </td>
-                             </tr>
-                             
-                             {paymentHistory.map((payment, index) => {
-                               const previousPayments = paymentHistory.slice(0, index).reduce((sum, p) => sum + p.amount, 0);
-                               const remainingAfterThis = Math.max(0, (order?.payment?.pendingAmount || 0) - previousPayments - payment.amount);
-                               return (
-                                 <tr key={payment.id || index} className="hover:bg-gray-50">
-                                   <td className="px-4 py-3 font-mono text-xs text-blue-600">
-                                     {payment.transactionId}
-                                   </td>
-                                   <td className="px-4 py-3 text-gray-600">
-                                     {new Date(payment.date).toLocaleDateString('en-IN', {
-                                       day: 'numeric',
-                                       month: 'short',
-                                       year: 'numeric'
-                                     })}
-                                   </td>
-                                   <td className="px-4 py-3 text-right font-semibold text-gray-900">
-                                     ₹{payment.amount.toFixed(0)}
-                                   </td>
-                                   <td className="px-4 py-3 text-right font-semibold text-orange-600">
-                                     ₹{remainingAfterThis.toFixed(0)}
-                                   </td>
-                                   <td className="px-4 py-3 text-center">
-                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                       payment.status === 'PAID' 
-                                         ? 'bg-green-100 text-green-800' 
-                                         : payment.status === 'PENDING'
-                                         ? 'bg-yellow-100 text-yellow-800'
-                                         : 'bg-red-100 text-red-800'
-                                     }`}>
-                                       {payment.status}
-                                     </span>
-                                   </td>
-                                 </tr>
-                               );
-                             })}
-                           </tbody>
+                            <tbody className="divide-y divide-gray-200">
+                              {paymentHistory.map((payment, index) => (
+                                <tr key={index} className="hover:bg-gray-50">
+                                  <td>{payment.transactionId}</td>
+                                  <td className="px-4 py-3 text-gray-600">
+                                    {new Date(payment.date).toLocaleDateString("en-IN", {
+                                      day: "numeric",
+                                      month: "short", 
+                                      year: "numeric",
+                                      // hour: "2-digit",
+                                      // minute: "2-digit"
+                                    })}
+                                  </td>
+                                   <td className="px-4 py-3 text-center font-semibold text-gray-900">
+                                    {payment.paymentMode}
+                                  </td>
+                                  <td className="px-4 py-3 text-center font-semibold text-gray-900">
+                                    ₹{payment.amountCollected.toFixed(0)}
+                                  </td>
+                                  <td className="px-4 py-3 text-right font-semibold text-orange-600">
+                                    ₹{payment.remainingAmount.toFixed(0)}
+                                  </td>
+                                  {/* <td className="px-4 py-3 text-center">
+                                    <span
+                                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                        payment.status === "PAID"
+                                          ? "bg-green-100 text-green-800"
+                                          : payment.status === "PENDING"
+                                          ? "bg-yellow-100 text-yellow-800"
+                                          : "bg-red-100 text-red-800"
+                                      }`}
+                                    >
+                                      {payment.status}
+                                    </span>
+                                  </td> */}
+                                  {/* <td className="px-4 py-3 text-gray-600">{payment.remarks || "-"}</td> */}
+                                </tr>
+                              ))}
+                            </tbody>
                          </table>
                        </div>
                        

@@ -14,7 +14,7 @@ const FeaturedBox = ({ productName, number, color, imageUrl }) => {
     "Birla Micro Modal": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarnss.png?updatedAt=1754933798745",
     "Livaeco": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarns.png?updatedAt=1754933780605",
     "Flax Varieties": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn7%20%20.png?updatedAt=1754927543913",
-    "Excel-Linen": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn8.png?updatedAt=1754927906052",
+    "Excel-Linen": "https://ik.imagekit.io/mediadata/Mo%20Ink%20n%20Dyes/Yarn22.png?updatedAt=1756185220923",
   };
 
   const imageSrc = imageUrl || categoryImages[productName] || '';

@@ -267,7 +267,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
                     onChange={(e) =>
                       handleChangeWeight(item.variantId, e.target.value)
                     }
-                    className="w-20 h-7 text-[12px] text-center font-semibold bg-white border rounded focus:outline-none"
+                    className="w-16 h-7 text-[12px] text-center font-semibold bg-white border rounded focus:outline-none"
                   >
                     <option value={10}>10kg</option>
                     <option value={25}>25kg</option>
@@ -278,7 +278,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => handleDecrease(item.variantId, item.quantity)}
-                      className="w-6 h-7 flex items-center justify-center text-gray-600 text-sm border rounded"
+                      className="w-6 h-6 flex items-center justify-center text-back text-sm border bg-white rounded"
                       disabled={item.quantity <= 1}
                     >
                       −
@@ -288,7 +288,7 @@ const getImageByVariantType = (variantType, imageUrls) => {
 
                     <button
                       onClick={() => handleIncrease(item.variantId, item.quantity)}
-                      className="w-6 h-7 flex items-center justify-center text-gray-600 text-sm border rounded"
+                      className="w-6 h-6 flex items-center justify-center text-back text-sm border bg-white rounded"
                     >
                       +
                     </button>

@@ -41,7 +41,7 @@ const SelectState = ({ value, onChange }) => {
         name="state"
         value={query}
         onChange={handleInputChange}
-        className="border border-gray-300 rounded p-1 w-full"
+        className="border border-gray-300 rounded p-1 w-full mt-2"
         placeholder="Search state"
         autoComplete="off"
       />

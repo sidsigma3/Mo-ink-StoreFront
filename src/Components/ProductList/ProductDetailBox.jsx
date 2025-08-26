@@ -220,7 +220,7 @@ const handleAddToCart = async () => {
                   {color}
                 </span>
 
-               <div className="border-1 border-purple-200 px-2 py-1 rounded-lg bg-purple-50">
+               {/* <div className="border-1 border-purple-200 px-2 py-1 rounded-lg bg-purple-50">
                 <select
                   value={selectedWeight}
                   onChange={(e) => setSelectedWeight(e.target.value)}
@@ -230,7 +230,7 @@ const handleAddToCart = async () => {
                   <option value="25">25 Kg</option>
                   <option value="50">50 Kg</option>
                 </select>
-              </div>
+              </div> */}
 
 
                 {/* <span 

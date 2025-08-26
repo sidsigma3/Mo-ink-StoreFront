@@ -91,6 +91,15 @@ export const updateOrderStatuses = async (orderId,updates) => {
   }
 };
 
+export const getCodOrderById = async (orderId) => {
+  try {
+    const response = await axios.get(`${URL}/payment/cod/${orderId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching order with ID ${orderId}:`, error);
+    throw error;
+  }
+};
 
 export const sendCodOrderById = async (orderId, amountToCollect) => {
   try {

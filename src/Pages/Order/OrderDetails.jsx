@@ -528,8 +528,19 @@ const handleBuyAgain = async (orderToBuy) => {
     setPendingOrder(null);
   };
 
-  // Calculate balance due
+
   const balanceDue = order?.payment?.pendingAmount?.toFixed(0) - order?.payment?.totalAdjustedAmount?.toFixed(0);
+
+  let balanceDueAmount;
+
+  if (paymentHistory.length > 0) {
+    // take the last transaction
+    const lastTransaction = paymentHistory[paymentHistory.length - 1];
+    balanceDueAmount = lastTransaction.remainingAmount;
+  } else {
+    // fallback to calculation
+    balanceDueAmount = (order?.payment?.pendingAmount || 0) - (order?.payment?.totalAdjustedAmount || 0);
+  }
 
   // Check if any balance payment has been made (only additional payments, not initial)
   const hasPaymentHistory = paymentHistory.length > 0;
@@ -895,12 +906,12 @@ const handleBuyAgain = async (orderToBuy) => {
                          </table>
                        </div>
                        
-                       {balanceDue > 0 && (
+                       {balanceDueAmount > 0 && (
                          <div className="bg-orange-50 border-t border-orange-200 px-4 py-3">
                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                              <div>
                                <p className="font-medium text-orange-800">
-                                 Current Balance: <span className="font-bold">₹{balanceDue}</span>
+                                 Current Balance: <span className="font-bold">₹{balanceDueAmount}</span>
                                </p>
                                <p className="text-xs text-orange-600 mt-1">
                                  Make a payment to reduce your pending balance
@@ -917,7 +928,7 @@ const handleBuyAgain = async (orderToBuy) => {
                        )}
                        
                        {/* Fully Paid Message */}
-                       {balanceDue <= 0 && (
+                       {balanceDueAmount <= 0 && (
                          <div className="bg-green-50 border-t border-green-200 px-4 py-3">
                            <div className="flex items-center gap-2">
                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -929,13 +940,13 @@ const handleBuyAgain = async (orderToBuy) => {
                        )}
                      </div>
                    ) : (
-                     balanceDue > 0 && (
+                     balanceDueAmount > 0 && (
                        <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
                          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                            <div>
                              <h6 className="font-semibold text-lg text-orange-800">Payment Pending</h6>
                              <p className="text-orange-700 text-sm">
-                               You have a pending balance of <span className="font-bold">₹{balanceDue}</span> for this order.
+                               You have a pending balance of <span className="font-bold">₹{balanceDueAmount}</span> for this order.
                              </p>
                            </div>
                            <button

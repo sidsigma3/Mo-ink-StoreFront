@@ -68,10 +68,10 @@ const OTP = () => {
 
   // Auto-submit when both OTPs are verified
   useEffect(() => {
-    if (isEmailVerified && isPhoneVerified && !isOtpVerified) {
+    if (isPhoneVerified && !isOtpVerified) {
       handleFinalSubmit();
     }
-  }, [isEmailVerified, isPhoneVerified]);
+  }, [isPhoneVerified]);
 
   const handleNumericInput = (e, setter, otpType) => {
     // Don't allow input if already verified
@@ -166,8 +166,6 @@ const OTP = () => {
     try {
       await createCustomer(customerData);
       setIsOtpVerified(true);
-      // Clear any existing toasts before showing modal
-      setToasts([]);
     } catch (error) {
       console.error("Customer creation error:", error);
       showToast("Account creation failed. Please try again.", "error");
@@ -226,10 +224,17 @@ const OTP = () => {
 
   useEffect(() => {
     if (isOtpVerified) {
-      // Navigate to login after 5 seconds when modal is shown
+      // ✅ Show success toast immediately
+      showToast(
+        "Your account is ready! Login credentials have been sent to your email.",
+        "success"
+      );
+
+      // ✅ Redirect after 5s
       const timer = setTimeout(() => {
         navigate("/login");
       }, 5000);
+
       return () => clearTimeout(timer);
     }
   }, [isOtpVerified, navigate]);
@@ -277,7 +282,7 @@ const OTP = () => {
         </p>
 
         {/* Email OTP Section */}
-        <div className="relative mb-3">
+        {/* <div className="relative mb-3">
           <div className="flex justify-between items-center mb-1">
             <span className="text-dark text-l font-semibold">Email OTP</span>
             <button
@@ -323,7 +328,7 @@ const OTP = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
         {/* Phone OTP Section */}
         <div className="relative mb-4">
@@ -375,7 +380,7 @@ const OTP = () => {
         </div>
 
         {/* Status message */}
-        {isEmailVerified && isPhoneVerified && !isOtpVerified && (
+        {isPhoneVerified && !isOtpVerified && (
           <div className="text-center text-green-500 text-sm font-medium mt-4">
             Creating your account...
           </div>
@@ -387,12 +392,12 @@ const OTP = () => {
       </div>
 
       {/* OTP Verified Modal - This will show instead of toasts when both OTPs are verified */}
-      {isOtpVerified && (
+      {/* {isPhoneVerified && (
         <ModalOTPVerified 
-          isOpen={isOtpVerified} 
+          isOpen={isPhoneVerified} 
           onClose={() => setIsOtpVerified(false)} 
         />
-      )}
+      )} */}
     </div>
   );
 };

@@ -220,13 +220,13 @@ const [toasts, setToasts] = useState([]);
         });
       }
   
-      if (formData.email) {
-        await otpSend({
-          emailOrPhone: formData.email,
-          accountType: "CUSTOMER",
-          otpType: "EMAIL",
-        });
-      }
+      // if (formData.email) {
+      //   await otpSend({
+      //     emailOrPhone: formData.email,
+      //     accountType: "CUSTOMER",
+      //     otpType: "EMAIL",
+      //   });
+      // }
   
       // Navigate to OTP page with full customer data
       navigate("/otp", {

@@ -165,7 +165,9 @@ const OTP = () => {
 
     try {
       await createCustomer(customerData);
+      console.log('hello')
       setIsOtpVerified(true);
+      console.log('byeeee')
     } catch (error) {
       console.error("Customer creation error:", error);
       showToast("Account creation failed. Please try again.", "error");
@@ -278,7 +280,7 @@ const OTP = () => {
 
         <h2 className="text-2xl text-dark font-bold mb-2">Verify Your OTP</h2>
         <p className="text-l text-gray-600 mb-6">
-          An OTP has been sent to your email & Phone number
+          An OTP has been sent to your Phone number
         </p>
 
         {/* Email OTP Section */}
@@ -392,12 +394,12 @@ const OTP = () => {
       </div>
 
       {/* OTP Verified Modal - This will show instead of toasts when both OTPs are verified */}
-      {/* {isPhoneVerified && (
+      {isOtpVerified && (
         <ModalOTPVerified 
-          isOpen={isPhoneVerified} 
+          isOpen={isOtpVerified} 
           onClose={() => setIsOtpVerified(false)} 
         />
-      )} */}
+      )}
     </div>
   );
 };

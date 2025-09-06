@@ -7,7 +7,7 @@ const MainFeatures = () => {
 
   return (
     <section id="features">
-      <div className="container mx-auto lg:max-w-screen-xl md:max-w-screen-md px-4" id="about-section">
+      <div className="container bg-grey-100 mx-auto lg:max-w-screen-xl md:max-w-screen-md px-4" id="about-section">
         {/* Section Header */}
         <div className="text-center mb-14">
           <p className="text-purple-800 text-lg font-bold mb-3 tracking-widest uppercase">

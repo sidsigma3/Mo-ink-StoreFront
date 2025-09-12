@@ -98,9 +98,12 @@ const Category = () => {
 
   // Update URL when category changes (but not when it's from navigation state)
   const handleCategoryChange = (categoryName) => {
-    setSelectedCategory(categoryName);
-    setSearchParams({ name: encodeURIComponent(categoryName) });
-  };
+  setSelectedCategory(categoryName);
+  setSearchParams({ name: encodeURIComponent(categoryName) });
+   setTimeout(() => {
+    setIsOpen(false);
+  }, 300);
+};
 
   const variantType = [
     { name: "CONE" },
@@ -292,26 +295,29 @@ const Category = () => {
             <div className='w-full max-w-xs'>
               {/* Type Filter - Mobile */}
               {selectedCategory && (
-                <div className="border rounded mt-3 p-3">
-                  <h4 className="text-xl font-semibold mb-3">Type</h4>
-                  <ul className="space-y-2">
-                    {variantType.map((variant, index) => {
-                      const isSelected = selectedVariantType === variant.name;
-                      return (
-                        <li
-                          key={index}
-                          className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-purple-200" : "bg-white"} flex justify-between items-center`}
-                          onClick={() =>
-                            setSelectedVariantType(isSelected ? "" : variant.name)
-                          }
-                        >
-                          <h5 className="text-base font-medium">{variant.name}</h5>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
+                  <div className="border rounded mt-3 p-3">
+                    <h4 className="text-xl font-semibold mb-3">Type</h4>
+                    <ul className="space-y-2">
+                      {variantType.map((variant, index) => {
+                        const isSelected = selectedVariantType === variant.name;
+                        return (
+                          <li
+                            key={index}
+                            className={`p-2 border border-1 rounded cursor-pointer ${isSelected ? "bg-purple-200" : "bg-white"} flex justify-between items-center`}
+                            onClick={() => {
+                              setSelectedVariantType(isSelected ? "" : variant.name);
+                               setTimeout(() => {
+                                setIsOpen(false);
+                              }, 300);
+                            }}
+                          >
+                            <h5 className="text-base font-medium">{variant.name}</h5>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
             </div>
           </div>
         </div>

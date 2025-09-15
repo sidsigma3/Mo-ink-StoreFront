@@ -766,9 +766,31 @@
   "faqs.answer6": "Due to the nature of our business, we do not accept returns once an order has been processed and delivered. However, if you receive a defective or incorrect item, please notify us within 48 hours of delivery for resolution.",
   "faqs.question7": "Can I get a refund if I am not satisfied with my order?",
   "faqs.answer7": "Refunds are only applicable in cases of incorrect or defective products. Since we manufacture on order, refunds for change of mind or dissatisfaction with specifications are not permitted.",
-  "faqs.lastUpdated": "Last updated: March 2025"
+  "faqs.lastUpdated": "Last updated: March 2025",
 
 
+  "featuredCategories": "Categories",
+  "featuredBySize": "Shop by size",
+
+
+  "nav": {
+    "home": "Home",
+    "about": "About", 
+    "blog": "Blog",
+    "contact": "Contact",
+    "support": "24/7 Support center"
+      },
+
+
+
+  "blog.breadcrumb.home": "Home",
+  "blog.breadcrumb.blogs": "Blogs",
+  "blog.pages.blogs": "Blogs",
+
+  "breadcrumb.home": "Home",
+  "breadcrumb.contactus": "Contact Us",
+  "contactus": "Contact Us"
+    
 
 
 

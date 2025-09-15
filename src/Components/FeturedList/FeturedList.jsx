@@ -3,11 +3,13 @@ import React, { useState, useEffect, useRef } from 'react'
 import FeturedBox from './FeturedBox'
 import { fetchProducts } from '../../Services/ProductService';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 
 // Add this component inside your FeaturedList.js file, before the main FeaturedList component
 const SliderCard = ({ title, children }) => {
   const sliderRef = useRef(null);
+  
 
   const handlePrevious = () => {
     if (sliderRef.current) {
@@ -64,7 +66,9 @@ const SliderCard = ({ title, children }) => {
 const FeturedList = () => {
 
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+      const { t } = useTranslation();
+
 
   useEffect(() => {
     const getProducts = async () => {
@@ -156,7 +160,7 @@ const handleNavigation = (selectedCategory) => {
             <li><FeturedBox productName={'Wool Yarn'} number={12}></FeturedBox></li>
         </ul> */}
 
-     <SliderCard title="Categories">
+     <SliderCard title={t('featuredCategories')}>
   {products.length > 0 ? (
     aggregateProductData(products).map((product, index) => {
       return (

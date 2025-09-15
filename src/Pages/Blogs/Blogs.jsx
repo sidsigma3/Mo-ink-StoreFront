@@ -10,12 +10,17 @@ import BlogBox1 from '../../Components/BlogList/BlogBox1';
 import BlogBox2 from '../../Components/BlogList/BloxBox2';
 import BlogBox3 from '../../Components/BlogList/BloxBox3';
 import BlogBox4 from '../../Components/BlogList/BloxBox4';
+import { useTranslation } from "react-i18next";
+
+
 
 
 const Blogs = () => {
+  const { t } = useTranslation();
+  
   const breadcrumbs = [
-    { label: "Home", link: "/home" },
-    { label: "Blogs", link: "/blogs" },
+    { label: t("blog.breadcrumb.home"), link: "/home" },
+    { label: t("blog.breadcrumb.blogs"), link: "/blogs" },
   ];
 
       useEffect(() => {
@@ -28,7 +33,7 @@ const Blogs = () => {
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar /></div>
 
       <div className='px-6 md:px-14 py-3 mt-0 md:mt-10 md:text-md'>
-        <HeroSection productName={'Blogs'} breadcrumbs={breadcrumbs} />
+        <HeroSection productName={t("blog.pages.blogs")} breadcrumbs={breadcrumbs} />
       </div>
 
       {/* Main Content */}

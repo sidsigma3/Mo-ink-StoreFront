@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchProducts } from '../../Services/ProductService';
+import { useTranslation } from 'react-i18next';
+
 
 const backendUrl = process.env.REACT_APP_IMAGE_URL;
 
@@ -149,6 +151,7 @@ const CardItem = ({ card, onClick }) => {
 const FeaturedBySize = () => {
   const [variantCards, setVariantCards] = useState([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const sliderRef1 = useRef(null);
   const sliderRef2 = useRef(null);
 
@@ -244,7 +247,7 @@ const FeaturedBySize = () => {
   return (
     <div className="mt-12 mb-8 md:mb-20 space-y-2 ">
      <div className="flex justify-between items-center pe-4">
-    <h2 className="text-2xl font-semibold md:text-3xl py-4">Shop by Size</h2>
+    <h2 className="text-2xl font-semibold md:text-3xl py-4">{t('featuredBySize')}</h2>
       {/* Single Navigation for Both Rows */}
        <div className=" flex justify-end items-center gap-2 hidden sm:flex">
           <button

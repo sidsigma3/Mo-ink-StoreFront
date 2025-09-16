@@ -795,7 +795,33 @@
 
 "breadcrumb.home": "होम",
 "breadcrumb.contactus": "संपर्क करें",
-"contactus": "संपर्क करें"
+"contactus": "संपर्क करें",
+"breadcrumb.account": "खाता",
+"breadcrumb.shoppingCart": "शॉपिंग कार्ट",
+"Shopping Cart": "शॉपिंग कार्ट",
+
+
+
+"accordion": {
+  "productDescription": "उत्पाद विवरण",
+  "noDescriptionAvailable": "कोई विवरण उपलब्ध नहीं है।",
+  "packagingDelivery": "पैकेजिंग और डिलीवरी",
+  "cartonBoxPacking": "नमी-रोधी बोरी पैकिंग के साथ कार्टन बॉक्स।",
+  "ordersDispatched": "खरीद आदेश के 7 कार्य दिवसों के भीतर ऑर्डर भेजे जाते हैं।",
+  "timelyDelivery": "समय पर डिलीवरी घर तक / निकटतम परिवहन गोदाम तक।",
+  "suggestedUse": "अनुशंसित उपयोग",
+  "suitableForWeaving": "हैंडलूम और पावर लूम बुनाई (वार्प और वेफ्ट अनुप्रयोग) के लिए उपयुक्त।",
+  "customizedProcessing": "पूर्व-आदेश पर कस्टमाइज़्ड प्रोसेसिंग उपलब्ध।",
+  "precautions": "सावधानियाँ",
+  "storeYarns": "धागों को सूखी, ठंडी जगह पर सीधी धूप से दूर रखें।",
+  "keepPackaging": "धूल जमने से बचाने के लिए पैकेजिंग को सील रखें।",
+  "storageArea": "भंडारण क्षेत्र चूहामुक्त हो और नियमित कीट नियंत्रण किया जाए।"
+},
+
+
+"colorCatalogue.clickHere": "रंग कैटलॉग के लिए यहाँ क्लिक करें"
+
+
 
 
 

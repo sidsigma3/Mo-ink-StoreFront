@@ -789,7 +789,29 @@
 
   "breadcrumb.home": "Home",
   "breadcrumb.contactus": "Contact Us",
-  "contactus": "Contact Us"
+  "contactus": "Contact Us",
+  "breadcrumb.account": "Account",
+  "breadcrumb.shoppingCart": "Shopping Cart",
+  "Shopping Cart": "Shopping Cart",
+
+
+  "accordion": {
+    "productDescription": "Product Description",
+    "noDescriptionAvailable": "No description available.",
+    "packagingDelivery": "Packaging & Delivery",
+    "cartonBoxPacking": "Carton Box with moisture resistant gunny bag packing.",
+    "ordersDispatched": "Orders are dispatched within 7 business days of the Purchase Order.",
+    "timelyDelivery": "Timely delivery to the doorstep / nearest transport godown.",
+    "suggestedUse": "Suggested Use",
+    "suitableForWeaving": "Suitable for handloom and power loom weaving for warp & weft application.",
+    "customizedProcessing": "Customized processing available on pre-order basis",
+    "precautions": "Precautions",
+    "storeYarns": "Store yarns in a dry, cool place away from direct sunlight",
+    "keepPackaging": "Keep packaging sealed to avoid dust accumulation.",
+    "storageArea": "Storage area to be rodent-free & regular pest control should be done."
+  },
+
+  "colorCatalogue.clickHere": "Click here for color catalogue"
     
 
 

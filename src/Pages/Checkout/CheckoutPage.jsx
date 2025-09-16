@@ -30,7 +30,10 @@ import { initiatePayment } from '../../Services/PaymentService'
 import ModalSuccess from '../../Components/Modal/ModalSuccess' 
 import ModalCoupon from '../../Components/Modal/ModalCoupon';
 import Toast from '../../Components/Toast/Toast';
-import ProductDetailBoxMiniMobile from '../../Components/ProductList/ProductDetailBoxMiniMobile'
+import ProductDetailBoxMiniMobile from '../../Components/ProductList/ProductDetailBoxMiniMobile';
+import { useTranslation } from 'react-i18next';
+
+
 
 const razorpayKey = process.env.RAZORPAY_CLIENT_KEY
 
@@ -88,7 +91,8 @@ const getOrderItemDiscountDetails = ({
 const CheckoutPage = () => {
 
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const { updateCartAndWishlistCounts } = useAppContext();
     
@@ -651,10 +655,10 @@ const checkDiscountEligibility = ({
 
 
     const breadcrumbs = [
-        { label: "Home", link: "/home" },
-        { label: "Account", link: "/account" },
-        { label: "Shopping Cart", link: "/shoppingCart" }
-    ];
+    { label: t('breadcrumb.home'), link: "/home" },
+    { label: t('breadcrumb.account'), link: "/account" },
+    { label: t('breadcrumb.shoppingCart'), link: "/shoppingCart" }
+];
 
     const [showModal, setShowModal] = useState(false);
     
@@ -1156,7 +1160,7 @@ const checkDiscountEligibility = ({
             <div className='px-6 lg:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
 
             <div className='px-6 lg:px-14 py-3'>
-                <HeroSection productName={"Shopping Cart"} breadcrumbs={breadcrumbs}></HeroSection>
+                <HeroSection productName={t("Shopping Cart")} breadcrumbs={breadcrumbs}></HeroSection>
             </div>
 
             <div className='px-6 md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>

@@ -792,7 +792,32 @@
 
 "breadcrumb.home": "হোম",
 "breadcrumb.contactus": "যোগাযোগ করুন",
-"contactus": "যোগাযোগ করুন"
+"contactus": "যোগাযোগ করুন",
+"breadcrumb.account": "অ্যাকাউন্ট",
+"breadcrumb.shoppingCart": "শপিং কার্ট",
+"Shopping Cart": "শপিং কার্ট",
+
+
+
+"accordion": {
+  "productDescription": "পণ্যের বিবরণ",
+  "noDescriptionAvailable": "কোনও বিবরণ পাওয়া যায়নি।",
+  "packagingDelivery": "প্যাকেজিং ও ডেলিভারি",
+  "cartonBoxPacking": "আর্দ্রতা-প্রতিরোধী গুনি ব্যাগ সহ কার্টন বাক্স প্যাকিং।",
+  "ordersDispatched": "ক্রয় আদেশের 7 কর্মদিবসের মধ্যে অর্ডার পাঠানো হয়।",
+  "timelyDelivery": "সময়মতো ডেলিভারি বাসায় / নিকটতম পরিবহন গুদামে।",
+  "suggestedUse": "প্রস্তাবিত ব্যবহার",
+  "suitableForWeaving": "হ্যান্ডলুম ও পাওয়ার লুম বুনন (ওয়ার্প ও ওয়েফট প্রয়োগ) এর জন্য উপযুক্ত।",
+  "customizedProcessing": "প্রি-অর্ডার ভিত্তিতে কাস্টমাইজড প্রক্রিয়াকরণ পাওয়া যায়।",
+  "precautions": "সতর্কতা",
+  "storeYarns": "সূত্রগুলো শুকনো, ঠাণ্ডা জায়গায় সরাসরি সূর্যালোক থেকে দূরে রাখুন।",
+  "keepPackaging": "ধুলা জমা এড়াতে প্যাকেজিং সিল অবস্থায় রাখুন।",
+  "storageArea": "সংরক্ষণের স্থান ইঁদুরমুক্ত হওয়া উচিত এবং নিয়মিত কীটনাশক নিয়ন্ত্রণ করা উচিত।"
+},
+
+"colorCatalogue.clickHere": "রঙের ক্যাটালগের জন্য এখানে ক্লিক করুন"
+
+
 
 
 

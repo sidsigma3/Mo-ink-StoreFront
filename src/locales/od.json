@@ -798,7 +798,31 @@
 
 "breadcrumb.home": "ମୂଳ ପୃଷ୍ଠା",
 "breadcrumb.contactus": "ଯୋଗାଯୋଗ କରନ୍ତୁ",
-"contactus": "ଯୋଗାଯୋଗ କରନ୍ତୁ"
+"contactus": "ଯୋଗାଯୋଗ କରନ୍ତୁ",
+"breadcrumb.account": "ଖାତା",
+"breadcrumb.shoppingCart": "ଶପିଙ୍ଗ୍ କାର୍ଟ",
+"Shopping Cart": "ଶପିଙ୍ଗ୍ କାର୍ଟ",
+
+
+"accordion": {
+  "productDescription": "ଉତ୍ପାଦ ବର୍ଣ୍ଣନା",
+  "noDescriptionAvailable": "କୌଣସି ବର୍ଣ୍ଣନା ଉପଲବ୍ଧ ନାହିଁ।",
+  "packagingDelivery": "ପ୍ୟାକେଜିଂ ଏବଂ ଡିଲିଭରୀ",
+  "cartonBoxPacking": "ଆର୍ଦ୍ରତା-ରୋଧକ ଗୁଣି ବାଗ୍ ସହିତ କାର୍ଟନ୍ ବକ୍ସ।",
+  "ordersDispatched": "କ୍ରୟ ଆଦେଶର 7 କାର୍ଯ୍ୟଦିନ ମଧ୍ୟରେ ଆର୍ଡର୍ ପଠାଯାଏ।",
+  "timelyDelivery": "ସମୟରେ ଘରଦୁଆର / ସର୍ବନିକଟ ପରିବହନ ଗୋଦାମରେ ଡିଲିଭରୀ।",
+  "suggestedUse": "ପ୍ରସ୍ତାବିତ ବ୍ୟବହାର",
+  "suitableForWeaving": "ହାଣ୍ଡଲୁମ୍ ଏବଂ ପାୱର୍ଲୁମ୍ ବୁଣା (ତାଣି & ପୋଟ) ପାଇଁ ଉପଯୁକ୍ତ।",
+  "customizedProcessing": "ପୂର୍ବ-ଆର୍ଡର୍ ଆଧାରରେ କଷ୍ଟମାଇଜ୍ଡ ପ୍ରୋସେସିଂ ଉପଲବ୍ଧ।",
+  "precautions": "ସାବଧାନୀ",
+  "storeYarns": "ଧାଗାକୁ ଶୁଖିଲା, ଠଣ୍ଡା ସ୍ଥାନରେ ସୂର୍ଯ୍ୟକିରଣରୁ ଦୂରେ ସାଜିରଖନ୍ତୁ।",
+  "keepPackaging": "ଧୁଳି ସଞ୍ଚୟ ରୋକିବା ପାଇଁ ପ୍ୟାକେଜିଂ ସିଲ୍ କରିରଖନ୍ତୁ।",
+  "storageArea": "ସଞ୍ଚୟ ସ୍ଥାନକୁ ଇନ୍ଦୁର-ମୁକ୍ତ ରଖନ୍ତୁ ଏବଂ ନିୟମିତ ପେଷ୍ଟ କଣ୍ଟ୍ରୋଲ୍ କରାଯିବା ଉଚିତ।"
+},
+
+"colorCatalogue.clickHere": "ରଙ୍ଗ କ୍ୟାଟାଲଗ୍ ପାଇଁ ଏଠାରେ କ୍ଲିକ୍ କରନ୍ତୁ"
+
+
 
 
 

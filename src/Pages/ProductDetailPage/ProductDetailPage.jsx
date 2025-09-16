@@ -21,6 +21,8 @@ import namer from 'color-namer';
 import { useAppContext } from '../../Utils/commoncontext'
 import { getColorLibraryByProductId , getUnusedActiveColors } from '../../Services/ColorService'
 import { IoIosArrowBack } from "react-icons/io";
+import { useTranslation } from 'react-i18next';
+
 
 
 
@@ -30,6 +32,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
     const backendUrl = process.env.REACT_APP_IMAGE_URL
     const location = useLocation();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [isInCart, setIsInCart] = useState();
     const [isWishlisted, setIsWishlisted] = useState();
     const [justRemoved, setJustRemoved] = useState();
@@ -61,49 +64,48 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
       };
     
       const accordionData = [
-       {
-        title: "Product Description",
-        content: (
-          <div className="text-md text-gray-600 mt-4">
-            {(variantDescription || "No description available.")
-              .split("\n")
-              .map((line, idx) => (
-                <p key={idx}>{line.trim()}</p>
-              ))}
-          </div>
-        ),
-      },
-        {
-          title: "Packaging & Delivery",
-          content: (
-            <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
-              <li>Carton Box with moisture resistant gunny bag packing.</li>
-              <li>Orders are dispatched within 7 business days of the Purchase Order.</li>
-              <li>Timely delivery to the doorstep / nearest transport godown.</li>
-            </ul>
-          ),
-        },
-        {
-          title: "Suggested Use",
-          content: (
-            <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
-              <li>Suitable for handloom and power loom weaving for warp & weft application.</li>
-              <li>Customized processing available on pre-order basis</li>
-            </ul>
-          ),
-        },
-        {
-          title: "Precautions",
-          content: (
-            <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
-              <li>Store yarns in a dry, cool place away from direct sunlight</li>
-              <li>Keep packaging sealed to avoid dust accumulation.</li>
-              <li>Storage area to be rodent-free & regular pest control should be done.</li>
-            </ul>
-          ),
-        },
-      ];
-    
+          {
+            title: t('accordion.productDescription'),
+            content: (
+              <div className="text-md text-gray-600 mt-4">
+                {(variantDescription || t('accordion.noDescriptionAvailable'))
+                  .split("\n")
+                  .map((line, idx) => (
+                    <p key={idx}>{line.trim()}</p>
+                  ))}
+              </div>
+            ),
+          },
+          {
+            title: t('accordion.packagingDelivery'),
+            content: (
+              <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
+                <li>{t('accordion.cartonBoxPacking')}</li>
+                <li>{t('accordion.ordersDispatched')}</li>
+                <li>{t('accordion.timelyDelivery')}</li>
+              </ul>
+            ),
+          },
+          {
+            title: t('accordion.suggestedUse'),
+            content: (
+              <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
+                <li>{t('accordion.suitableForWeaving')}</li>
+                <li>{t('accordion.customizedProcessing')}</li>
+              </ul>
+            ),
+          },
+          {
+            title: t('accordion.precautions'),
+            content: (
+              <ul className="text-md text-gray-600 mt-4 list-disc ml-5">
+                <li>{t('accordion.storeYarns')}</li>
+                <li>{t('accordion.keepPackaging')}</li>
+                <li>{t('accordion.storageArea')}</li>
+              </ul>
+            ),
+          },
+        ];
     
 
      useEffect(() => {
@@ -768,7 +770,7 @@ const ProductDetailPage = ({ variantId, quantity, onWishlistToggle }) => {
                               
                              >
                                 <img src="/images/select-color.png" className="w-10 h-10 " alt="More Colors" />
-                                <h4 className="text-sm text-center text-blue-600 font-semibold">Click here for color catalogue</h4>
+                                <h4 className="text-sm text-center text-blue-600 font-semibold">{t('colorCatalogue.clickHere')}</h4>
                             </div>
 
                             <div

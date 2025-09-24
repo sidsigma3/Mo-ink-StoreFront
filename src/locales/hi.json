@@ -778,6 +778,8 @@
   "featuredBySize": "आकार के अनुसार खरीदें",
 
 
+  "breadcrumb.Profile": "प्रोफ़ाइल",
+
 
 
   "nav": {
@@ -799,6 +801,30 @@
 "breadcrumb.account": "खाता",
 "breadcrumb.shoppingCart": "शॉपिंग कार्ट",
 "Shopping Cart": "शॉपिंग कार्ट",
+"Review your cart": "अपना कार्ट देखें",
+"Shipping Address": "शिपिंग पता",
+"Payment": "भुगतान",
+"Discounts": "छूट",
+"Total Cost": "कुल लागत",
+"Total Discount": "कुल छूट",
+"Pay type": "भुगतान प्रकार",
+"Coupon": "कूपन",
+"Final Cost": "अंतिम लागत",
+"CGST": "CGST",
+"SGST": "SGST",
+"Handling Charges": "हैंडलिंग शुल्क",
+"Platform Fees": "प्लेटफ़ॉर्म शुल्क",
+"Net Pay": "शुद्ध भुगतान",
+"Wallet": "वॉलेट",
+"To pay": "भुगतान करने के लिए",
+"Advance Paid": "पूर्व भुगतान",
+"Balance Due": "शेष राशि",
+
+"checkout": {
+  "ensureSSL": "चेकआउट सुनिश्चित करें - SSL एन्क्रिप्टेड",
+  "secureDetails": "हर लेनदेन के दौरान आपके वित्तीय और व्यक्तिगत विवरण सुरक्षित रहेंगे।"
+},
+
 
 
 
@@ -819,7 +845,65 @@
 },
 
 
-"colorCatalogue.clickHere": "रंग कैटलॉग के लिए यहाँ क्लिक करें"
+"colorCatalogue.clickHere": "रंग कैटलॉग के लिए यहाँ क्लिक करें",
+
+"profile": {
+  "title": "प्रोफ़ाइल",
+  "fullName": "पूरा नाम",
+  "password": "पासवर्ड",
+  "country": "देश",
+  "email": "ईमेल",
+  "mobileNumber": "मोबाइल नंबर",
+  "whatsappNumber": "व्हाट्सएप नंबर",
+  "aadhaarImages": "आधार कार्ड छवियाँ",
+  "frontSide": "सामने की ओर",
+  "backSide": "पीछे की ओर",
+  "clickUploadFront": "सामने की ओर अपलोड करने के लिए क्लिक करें",
+  "clickUploadBack": "पीछे की ओर अपलोड करने के लिए क्लिक करें",
+  "fileFormat": "PNG, JPG, JPEG अधिकतम 5MB तक",
+  "uploaded": "अपलोड हो गया",
+  "deleteImage": "छवि हटाएँ",
+  "changeImage": "छवि बदलें",
+  "gstNumber": "जीएसटी नंबर",
+  "pincode": "पिनकोड",
+  "state": "राज्य",
+  "city": "शहर",
+  "landmark": "लैंडमार्क",
+  "logout": "लॉग आउट",
+  "saveChanges": "परिवर्तन सहेजें"
+},
+
+
+"payment": {
+  "paymentFailure": "भुगतान विफल",
+  "paymentDeclined": "भुगतान अस्वीकृत",
+  "transitionFailed": "ओह नहीं! आपका लेन-देन विफल हो गया",
+  "paymentFailedMessage": "तकनीकी त्रुटि के कारण भुगतान विफल हो गया। ऐसा कभी-कभी होता है, कृपया अभी या कुछ देर बाद पुनः प्रयास करें। यदि त्रुटि बनी रहती है, तो कृपया",
+  "writeToSupport": "हमारे सपोर्ट को लिखें",
+  "weWillHelp": ", और हम मदद करेंगे।",
+  "placeAsCOD": "कैश ऑन डिलीवरी के रूप में रखें",
+  "retryPayment": "भुगतान पुनः प्रयास करें",
+  "close": "बंद करें",
+  "failedRazorpayOrder": "वैध Razorpay ऑर्डर प्राप्त करने में विफल",
+  "failedLoadRazorpay": "Razorpay लोड करने में विफल",
+  "paymentFor": "ऑर्डर के लिए भुगतान",
+  "postProcessingFailed": "भुगतान सफल हुआ लेकिन बाद की प्रोसेसिंग विफल रही।",
+  "failedPlaceOrder": "ऑर्डर देने में विफल",
+  "failedUpdateOrder": "ऑर्डर अपडेट करने में विफल",
+
+  "paymentSuccess": "भुगतान सफल",
+"paymentSuccessful": "भुगतान सफल रहा",
+"thankYouPaymentSuccessful": "धन्यवाद! भुगतान सफल रहा",
+"paymentReceivedMessage": "हमें आपका भुगतान प्राप्त हो गया है और हम प्रक्रिया शुरू करने के लिए उत्साहित हैं। आपको शीघ्र ही सभी विवरणों के साथ एक पुष्टिकरण ईमेल प्राप्त होगा।",
+"exploreMore": "और देखें",
+"goToOrders": "ऑर्डर पर जाएं"
+},
+"breadcrumb.paymentFailure": "भुगतान विफल",
+"breadcrumb.checkout": "चेकआउट",
+"breadcrumb.paymentSuccess": "भुगतान सफल"
+
+
+
 
 
 

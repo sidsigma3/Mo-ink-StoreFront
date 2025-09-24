@@ -1164,7 +1164,7 @@ const checkDiscountEligibility = ({
             </div>
 
             <div className='px-6 md:px-6 lg:px-14 py-3 gap-5 lg:w-full '>
-                <h5 className='font-semibold text-xl md:text-2xl'>Review your cart</h5>
+                <h5 className='font-semibold text-xl md:text-2xl'>{t("Review your cart")}</h5>
                 {cartItems.length > 0 ? (
                     <ul className='hidden md:grid mt-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
                         {cartItems.map((item) => {
@@ -1245,7 +1245,7 @@ const checkDiscountEligibility = ({
                 <div className=' flex-1 mt-10 md:px-24'>
 
                     <div className='flex justify-between'>
-                        <h5 className='font-semibold text-xl md:text-2xl'>Shipping Address</h5>
+                        <h5 className='font-semibold text-xl md:text-2xl'>{t("Shipping Address")}</h5>
                         <button 
                         onClick={() => navigate('/address')} 
                         className='flex items-center gap-2 border-1 p-2 rounded-md border-purple-700 text-purple-800 text-sm font-semibold'
@@ -1378,7 +1378,7 @@ const checkDiscountEligibility = ({
 
                     <div className='mt-5 grid grid-cols-1 md:grid-cols-2 gap-3'>
                         <div className=''>
-                            <h5 className='font-semibold text-xl md:text-2xl'>Payment</h5>
+                            <h5 className='font-semibold text-xl md:text-2xl'>{t("Payment")}</h5>
                             <Dropdown onSelect={handleSelectPayment} size="sm" className='mt-2 md:text-sm'>
                                 <Dropdown.Toggle variant="light" id="dropdown-basic" className="d-flex align-items-center justify-content-between gap-2 w-100">
                                     <p className="m-0">{selectedPayment}</p>
@@ -1429,7 +1429,7 @@ const checkDiscountEligibility = ({
                         </div>
 
                         <div className="">
-                            <h5 className="font-semibold text-xl md:text-2xl">Discounts</h5>
+                            <h5 className="font-semibold text-xl md:text-2xl">{t("Discounts")}</h5>
                             <Button
                                 variant="light"
 
@@ -1614,7 +1614,7 @@ const checkDiscountEligibility = ({
                         <table className='w-100 rounded mt-2 font-semibold'>
                             <tbody className='leading-8'>
                                 <tr className=''>
-                                    <td className='pb-0.5'>Total Cost</td>
+                                    <td className='pb-0.5'>{t("Total Cost")}</td>
                                     <td></td>
                                    <td style={{ textAlign: 'end' }}>₹{Math.round(totalProductCost).toLocaleString()}
                                     </td>
@@ -1622,9 +1622,9 @@ const checkDiscountEligibility = ({
                                 <tr className='border-b-2'>
                                     <td>
                                         <div>
-                                            <p className='pb-0.5'>Total Discount</p>
-                                            <p className='text-gray-400 pl-6 pb-0.5'>Pay type</p>
-                                            <p className='text-gray-400 pl-6 pb-2'>Coupon </p>
+                                            <p className='pb-0.5'>{t("Total Discount")}</p>
+                                            <p className='text-gray-400 pl-6 pb-0.5'>{t("Pay type")}</p>
+                                            <p className='text-gray-400 pl-6 pb-2'>{t("Coupon")} </p>
                                         </div>
                                     </td>
                                     <td>
@@ -1658,7 +1658,7 @@ const checkDiscountEligibility = ({
                                 </tr>
                                 
                                 <tr className=''>
-                                    <td className='pt-2 pb-0.5'>Final Cost</td>
+                                    <td className='pt-2 pb-0.5'>{t("Final Cost")}</td>
                                     <td className='pt-2 pb-0.5'></td>
                                     <td className='text-end pt-2 pb-0.5'>₹{finalTotal.toFixed(0)}</td>
                                 </tr>
@@ -1669,13 +1669,13 @@ const checkDiscountEligibility = ({
                                 <>
 
                                         <tr className=''>
-                                            <td className='pb-0.5'>CGST</td>
+                                            <td className='pb-0.5'>{t("CGST")}</td>
                                             <td className='pb-0.5'></td>
                                             <td className='text-end pb-0.5'>₹{(gstAmount/2).toFixed(0)}</td>
                                         </tr>
 
                                         <tr className=''>
-                                            <td className='pb-0.5'>SGST</td>
+                                            <td className='pb-0.5'>{t("SGST")}</td>
                                             <td className='pb-0.5'></td>
                                             <td className='text-end pb-0.5'>₹{(gstAmount/2).toFixed(0)}</td>
                                         </tr>
@@ -1683,7 +1683,7 @@ const checkDiscountEligibility = ({
                                         </>
                                     ) : (
                                     <tr>
-                                    <td className='pb-0.5'>SGST</td>
+                                    <td className='pb-0.5'>{t("SGST")}</td>
                                     <td className='pb-0.5'></td>
                                     <td className='text-end pb-0.5'>₹{(gstAmount).toFixed(0)}</td>
                                     </tr>
@@ -1692,24 +1692,24 @@ const checkDiscountEligibility = ({
                                 
 
                                 <tr className=''>
-                                    <td className='pb-0.5'>Handling Charges</td>
+                                    <td className='pb-0.5'>{t("Handling Charges")}</td>
                                     <td className='pb-0.5'></td>
                                     <td className='text-end pb-0.5'>₹{handlingCharges}</td>
                                 </tr>
                                 <tr className='border-b-2'>
-                                    <td className='pb-2'>Platform Fees</td>
+                                    <td className='pb-2'>{t("Platform Fees")}</td>
                                     <td className='pb-2'></td>
                                     <td className='text-end pb-2'>₹{platformFees}</td>
                                 </tr>
                                 <tr>
-                                    <td className='pt-2 pb-0.5'>Net Pay</td>
+                                    <td className='pt-2 pb-0.5'>{t("Net Pay")}</td>
                                     <td className='pt-2 pb-0.5'></td>
                                     <td className='text-end pt-2 pb-0.5'>
                                         ₹{Math.round(netPayable).toLocaleString()}
                                     </td>
                                 </tr>
                                 <tr className='border-b-2'>
-                                    <td className='pb-2'>Wallet</td>
+                                    <td className='pb-2'>{t("Wallet")}</td>
                                     <td className='pb-2'>₹{walletBalance.toFixed(0)}</td>
                                     <td style={{ textAlign: 'end' }} className='pb-2'>
                                         <div className="text-right">
@@ -1728,7 +1728,7 @@ const checkDiscountEligibility = ({
                                     </td>
                                 </tr>
                                 <tr className='border-b-2'>
-                                     <td className='pt-2 pb-2'>To pay</td>
+                                     <td className='pt-2 pb-2'>{t("To pay")}</td>
                                     <td className='pt-2'></td>
                                     <td className='text-end pt-2 pb-2'>
                                         ₹{Math.round(adjustedNetPay).toLocaleString()}
@@ -1736,14 +1736,14 @@ const checkDiscountEligibility = ({
                                 </tr>
                                
                                 <tr>
-                                    <td className='pt-2 pb-0.5 '>Advance Paid</td>
+                                    <td className='pt-2 pb-0.5 '>{t("Advance Paid")}</td>
                                     <td className='pt-2 pb-0.5'>{online}%</td>
                                     <td className='text-end pt-2 pb-0.5'>₹{onlinePay.toFixed(0)}
                                     </td>
                                 </tr>
 
                                 <tr className=''>
-                                    <td className='pb-2'>Balance Due</td>
+                                    <td className='pb-2'>{t("Balance Due")}</td>
                                     <td className='pb-2'>{cod}%</td>
                                     <td className='text-end pb-2'>₹{codPay.toFixed(0)}</td>
                                 </tr>
@@ -1762,8 +1762,8 @@ const checkDiscountEligibility = ({
                         )}
                     </div>
                     <div className='mt-6 md:px-24'>
-                        <h4 className='font-semibold flex gap-2'><span className='text-purple-800'><RiLock2Line size={20} /></span>Ensure Checkout- SSL Encrypted</h4>
-                        <p className='text-slate-400 mt-2'>Ensuring your financial and personal details are secure during every transaction</p>
+                        <h4 className='font-semibold flex gap-2'><span className='text-purple-800'><RiLock2Line size={20} /></span>{t('checkout.ensureSSL')}</h4>
+                        <p className='text-slate-400 mt-2'>{t('checkout.secureDetails')}</p>
                     </div>
                 </div>
             </div>

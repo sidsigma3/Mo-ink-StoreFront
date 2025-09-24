@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import TopNavigation from '../../Components/TopNavigation/TopNavigation';
 import NavbarHeader from '../../Components/NavbarHeader/NavbarHeader';
 import Navbar from '../../Components/Navbar/Navbar';
@@ -10,19 +11,18 @@ import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const PaymentSuccess = () => {
-  
+  const { t } = useTranslation();
   const navigate = useNavigate()
   
   const breadcrumbs = [
-    { label: "Home", link: "/home" },
-    { label: "Checkout", link: "/CheckoutPage" },
-    { label: "Payment Success", link: "PaymentSuccess" },
+    { label: t('breadcrumb.home'), link: "/home" },
+    { label: t('breadcrumb.checkout'), link: "/CheckoutPage" },
+    { label: t('breadcrumb.paymentSuccess'), link: "PaymentSuccess" },
   ];
 
-  
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>
@@ -30,51 +30,50 @@ const PaymentSuccess = () => {
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar /></div>
   
       <div className='px-6 md:px-14 py-3 mt-0 md:mt-10 md:text-md'>
-        <HeroSection productName={'Payment Success'} breadcrumbs={breadcrumbs} />
+        <HeroSection productName={t('payment.paymentSuccess')} breadcrumbs={breadcrumbs} />
       </div>
   
-        {/* Main Content */}
-        <main className="max-w-7xl mx-auto py-12">
-          <div className=" flex flex-col items-center text-center bg-white rounded-5 p-6 md:px-20">
-            {/* Image */}
-            <div className="flex justify-center mb-6">
-             <img
-                src="/images/Payment-Success.png"
-                alt="Payment Declined"
-                className="w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 object-contain"
-              />
-            </div>
-  
-            {/* Text Content */}
-            <h1 className="text-2xl font-semibold text-gray-900 mb-3">
-            Thank You! Payment Successful</h1>
-  
-            <p className="text-gray-600 mb-6">
-            We’ve received your payment and we’re excited to get things rolling.
-            You’ll receive a confirmation email shortly with all the details.
-            </p>
-  
-            {/* Buttons */}
-            <div className=" flex flex-col sm:flex-row gap-3 w-full lg:w-1/2">
-              <button
-                className="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
-                onClick={()=>navigate('/home')}
-              >
-                Explore More
-              </button>
-  
-              <button
-                className="w-full px-4 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-500 transition-colors font-medium flex items-center justify-center gap-2"
-                onClick={() => navigate('/orders')}
-              >
-                <ShoppingBag size={20} />
-                Go To Orders
-                <ArrowRight size={20} />
-              </button>
-            </div>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto py-12">
+        <div className="flex flex-col items-center text-center bg-white rounded-5 p-6 md:px-20">
+          {/* Image */}
+          <div className="flex justify-center mb-6">
+           <img
+              src="/images/Payment-Success.png"
+              alt={t('payment.paymentSuccessful')}
+              className="w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 object-contain"
+            />
           </div>
-        </main>
-      
+
+          {/* Text Content */}
+          <h1 className="text-2xl font-semibold text-gray-900 mb-3">
+            {t('payment.thankYouPaymentSuccessful')}
+          </h1>
+
+          <p className="text-gray-600 mb-6">
+            {t('payment.paymentReceivedMessage')}
+          </p>
+
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-1/2">
+            <button
+              className="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+              onClick={()=>navigate('/home')}
+            >
+              {t('payment.exploreMore')}
+            </button>
+
+            <button
+              className="w-full px-4 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-500 transition-colors font-medium flex items-center justify-center gap-2"
+              onClick={() => navigate('/orders')}
+            >
+              <ShoppingBag size={20} />
+              {t('payment.goToOrders')}
+              <ArrowRight size={20} />
+            </button>
+          </div>
+        </div>
+      </main>
   
       <div className='px-6 md:px-14 py-3 mt-10'><Cta /></div>
       <div className='px-6 md:px-14 py-3'> <Footer /></div>

@@ -784,6 +784,10 @@
   "featuredBySize": "ଆକାର ଅନୁସାରେ କିଣନ୍ତୁ",
 
 
+  "breadcrumb.Profile": "ପ୍ରୋଫାଇଲ୍",
+
+
+
   "nav": {
   "home": "ମୂଳ ପୃଷ୍ଠା",
   "about": "ପରିଚୟ",
@@ -802,6 +806,30 @@
 "breadcrumb.account": "ଖାତା",
 "breadcrumb.shoppingCart": "ଶପିଙ୍ଗ୍ କାର୍ଟ",
 "Shopping Cart": "ଶପିଙ୍ଗ୍ କାର୍ଟ",
+"Review your cart": "ଆପଣଙ୍କର କାର୍ଟ ସମୀକ୍ଷା କରନ୍ତୁ",
+"Shipping Address": "ଡେଲିଭରୀ ଠିକଣା",
+"Payment": "ପେମେଣ୍ଟ",
+"Discounts": "ଡିସ୍କାଉଣ୍ଟ",
+"Total Cost": "ସମୁଦାୟ ଖର୍ଚ୍ଚ",
+"Total Discount": "ମୋଟ ଡିସ୍କାଉଣ୍ଟ",
+"Pay type": "ପେମେଣ୍ଟ ପ୍ରକାର",
+"Coupon": "କୁପନ୍",
+"Final Cost": "ଚୁକ୍ତିମୂଳ୍ୟ",
+"CGST": "CGST",
+"SGST": "SGST",
+"Handling Charges": "ହ୍ୟାଣ୍ଡଲିଂ ଚାର୍ଜ",
+"Platform Fees": "ପ୍ଲାଟଫର୍ମ ଫିସ୍",
+"Net Pay": "ନେଟ୍ ପେମେଣ୍ଟ",
+"Wallet": "ୱାଲେଟ୍",
+"To pay": "ପେମେଣ୍ଟ ପାଇଁ",
+"Advance Paid": "ଅଗ୍ରିମ ପେମେଣ୍ଟ",
+"Balance Due": "ଶେଷ ରାଶି",
+
+
+"checkout": {
+  "ensureSSL": "ଚେକଆଉଟ୍ ସୁନିଶ୍ଚିତ କରନ୍ତୁ - SSL ଇନ୍‌କ୍ରିପ୍ଟେଡ୍",
+  "secureDetails": "ପ୍ରତ୍ୟେକ ଟ୍ରାଞ୍ଜାକ୍ସନରେ ଆପଣଙ୍କର ଆର୍ଥିକ ଏବଂ ବ୍ୟକ୍ତିଗତ ବିବରଣୀ ସୁରକ୍ଷିତ ରହିବ।"
+},
 
 
 "accordion": {
@@ -820,7 +848,66 @@
   "storageArea": "ସଞ୍ଚୟ ସ୍ଥାନକୁ ଇନ୍ଦୁର-ମୁକ୍ତ ରଖନ୍ତୁ ଏବଂ ନିୟମିତ ପେଷ୍ଟ କଣ୍ଟ୍ରୋଲ୍ କରାଯିବା ଉଚିତ।"
 },
 
-"colorCatalogue.clickHere": "ରଙ୍ଗ କ୍ୟାଟାଲଗ୍ ପାଇଁ ଏଠାରେ କ୍ଲିକ୍ କରନ୍ତୁ"
+"colorCatalogue.clickHere": "ରଙ୍ଗ କ୍ୟାଟାଲଗ୍ ପାଇଁ ଏଠାରେ କ୍ଲିକ୍ କରନ୍ତୁ",
+
+
+"profile": {
+  "title": "ପ୍ରୋଫାଇଲ୍",
+  "fullName": "ପୂରା ନାମ",
+  "password": "ପାସୱାର୍ଡ",
+  "country": "ଦେଶ",
+  "email": "ଇମେଲ୍",
+  "mobileNumber": "ମୋବାଇଲ୍ ନମ୍ବର",
+  "whatsappNumber": "ୱାଟସ୍ଆପ୍ ନମ୍ବର",
+  "aadhaarImages": "ଆଧାର କାର୍ଡ ଛବି",
+  "frontSide": "ସାମ୍ନା ପଟ",
+  "backSide": "ପଛ ପଟ",
+  "clickUploadFront": "ସାମ୍ନା ପଟ ଅପଲୋଡ୍ ପାଇଁ କ୍ଲିକ୍ କରନ୍ତୁ",
+  "clickUploadBack": "ପଛ ପଟ ଅପଲୋଡ୍ ପାଇଁ କ୍ଲିକ୍ କରନ୍ତୁ",
+  "fileFormat": "PNG, JPG, JPEG 5MB ପର୍ଯ୍ୟନ୍ତ",
+  "uploaded": "ଅପଲୋଡ୍ ହୋଇଛି",
+  "deleteImage": "ଛବି ବିଲୋପ କରନ୍ତୁ",
+  "changeImage": "ଛବି ପରିବର୍ତ୍ତନ କରନ୍ତୁ",
+  "gstNumber": "ଜିଏସ୍ଟି ନମ୍ବର",
+  "pincode": "ପିନ୍ କୋଡ୍",
+  "state": "ରାଜ୍ୟ",
+  "city": "ସହର",
+  "landmark": "ଲ୍ୟାଣ୍ଡମାର୍କ",
+  "logout": "ଲଗ୍ ଆଉଟ୍",
+  "saveChanges": "ପରିବର୍ତ୍ତନ ସୁରକ୍ଷିତ କରନ୍ତୁ"
+},
+
+
+"payment": {
+  "paymentFailure": "ପେମେଣ୍ଟ ବିଫଳ",
+  "paymentDeclined": "ପେମେଣ୍ଟ ପ୍ରତ୍ୟାଖ୍ୟାନ",
+  "transitionFailed": "ହାୟ ନା! ଆପଣଙ୍କର ଟ୍ରାଞ୍ଜାକ୍ସନ ବିଫଳ ହେଲା",
+  "paymentFailedMessage": "ପ୍ରାଯୁକ୍ତିକ ତ୍ରୁଟି କାରଣରୁ ପେମେଣ୍ଟ ବିଫଳ ହେଲା। ଏହା କେବେ କେବେ ହୁଏ, ଦୟାକରି ଏବେ କିମ୍ବା କିଛି ମିନିଟ୍ ପରେ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ। ଯଦି ତ୍ରୁଟି ଚାଲିଥାଏ, ଦୟାକରି",
+  "writeToSupport": "ଆମ ସପୋର୍ଟକୁ ଲେଖନ୍ତୁ",
+  "weWillHelp": ", ଆମେ ସାହାଯ୍ୟ କରିବୁ।",
+  "placeAsCOD": "COD (ଡିଲିଭରୀ ସମୟରେ ନଗଦ) ଭାବରେ ରଖନ୍ତୁ",
+  "retryPayment": "ପୁନର୍ବାର ପେମେଣ୍ଟ କରନ୍ତୁ",
+  "close": "ବନ୍ଦ କରନ୍ତୁ",
+  "failedRazorpayOrder": "ବୈଧ Razorpay ଅର୍ଡର ପାଇବାରେ ବିଫଳ",
+  "failedLoadRazorpay": "Razorpay ଲୋଡ୍ କରିବାରେ ବିଫଳ",
+  "paymentFor": "ଅର୍ଡର ପାଇଁ ପେମେଣ୍ଟ",
+  "postProcessingFailed": "ପେମେଣ୍ଟ ସଫଳ ହେଲା କିନ୍ତୁ ପରବର୍ତ୍ତୀ ପ୍ରୋସେସିଂ ବିଫଳ ହେଲା।",
+  "failedPlaceOrder": "ଅର୍ଡର କରିବାରେ ବିଫଳ",
+  "failedUpdateOrder": "ଅର୍ଡର ଅଦ୍ୟତନ କରିବାରେ ବିଫଳ",
+
+"paymentSuccess": "ପେମେଣ୍ଟ ସଫଳ",
+"paymentSuccessful": "ପେମେଣ୍ଟ ସଫଳ ହେଲା",
+"thankYouPaymentSuccessful": "ଧନ୍ୟବାଦ! ପେମେଣ୍ଟ ସଫଳ ହେଲା",
+"paymentReceivedMessage": "ଆମେ ଆପଣଙ୍କର ପେମେଣ୍ଟ ପାଇଛୁ ଏବଂ ପ୍ରକ୍ରିୟା ଆରମ୍ଭ କରିବାକୁ ଆମେ ଉତ୍ସାହିତ। ଖୁବ ସିଗ୍ରେ ସମସ୍ତ ବିବରଣୀ ସହିତ ଆପଣ ଗୋଟିଏ ନିଶ୍ଚିତିକରଣ ଇମେଲ୍ ପାଇବେ।",
+"exploreMore": "ଅଧିକ ଦେଖନ୍ତୁ",
+"goToOrders": "ଅର୍ଡରକୁ ଯାଆନ୍ତୁ"
+},
+"breadcrumb.paymentFailure": "ପେମେଣ୍ଟ ବିଫଳ",
+"breadcrumb.checkout": "ଚେକଆଉଟ୍",
+"breadcrumb.paymentSuccess": "ପେମେଣ୍ଟ ସଫଳ"
+
+
+
 
 
 

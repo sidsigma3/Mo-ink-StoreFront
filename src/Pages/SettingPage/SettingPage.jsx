@@ -13,6 +13,7 @@ import BottomNav from '../../Components/BottomNav/BottomNav'
 import { useNavigate } from 'react-router-dom'
 import Toast from '../../Components/Toast/Toast'
 import SelectState from '../../Components/SelectState/SelectState'
+import { useTranslation } from 'react-i18next';
 
 
 const SettingPage = () => {
@@ -24,6 +25,7 @@ const SettingPage = () => {
   const [originalCustomer, setOriginalCustomer] = useState({});
   const [isModified, setIsModified] = useState(false); 
   const [toasts, setToasts] = useState([]);
+      const { t } = useTranslation();
   
   // Aadhaar card image states
   const [aadhaarImages, setAadhaarImages] = useState({
@@ -233,9 +235,9 @@ const SettingPage = () => {
   }
 
   const breadcrumbs = [
-    { label: "Home", link: "/home" },
-    { label: "Account", link: "/account" },
-    { label: "Profile", link: "/setting" },
+    { label: t('breadcrumb.home'), link: "/home" },
+    { label: t('breadcrumb.account'), link: "/account" },
+    { label: t('breadcrumb.Profile'), link: "/setting" },
   ];
 
   useEffect(() => {
@@ -247,49 +249,49 @@ const SettingPage = () => {
       <div className='px-6 md:px-14 py-1 md:py-3'> <NavbarHeader></NavbarHeader></div>
       <div className='px-6 md:px-14 py-3 hidden md:block'> <Navbar></Navbar></div>
       <div className='px-6 md:px-14 py-3 mt-0 md:mt-10'>
-        <HeroSection productName={"Profile"} breadcrumbs={breadcrumbs}></HeroSection>
+        <HeroSection productName={t('profile.title')} breadcrumbs={breadcrumbs}></HeroSection>
       </div>
 
       <div className='px-6 md:px-14 py-4 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4'>
 
         <div className="flex flex-col">
-          <label className="font-medium">Full Name</label>
+          <label className="font-medium">{t('profile.fullName')}</label>
           <input className="border-1 p-1 rounded mt-2" name="fullName" value={customer.fullName} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">Password</label>
+          <label className="font-medium">{t('profile.password')}</label>
           <input className="border-1 p-1 rounded mt-2" type="password" name="password" value={customer.password} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">Country</label>
+          <label className="font-medium">{t('profile.country')}</label>
           <input className="border-1 p-1 rounded mt-2" name="country" value={customer.country} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">Email</label>
+          <label className="font-medium">{t('profile.email')}</label>
           <input className="border-1 p-1 rounded mt-2" name="email" value={customer.email} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">Mobile number</label>
+          <label className="font-medium">{t('profile.mobileNumber')}</label>
           <input className="border-1 p-1 rounded mt-2" name="mobile" value={customer.mobile} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">WhatsApp number</label>
+          <label className="font-medium">{t('profile.whatsappNumber')}</label>
           <input className="border-1 p-1 rounded mt-2" name="whatsapp" value={customer.whatsapp} onChange={handleInputChange} />
         </div>
 
         {/* Aadhaar Card Upload Section */}
         <div className="flex flex-col md:col-span-2">
-          <label className="font-medium mb-3">Aadhaar Card Images</label>
+          <label className="font-medium mb-3">{t('profile.aadhaarImages')}</label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-x-16">
             
             {/* Front Side Upload */}
             <div className="space-y-3">
-              <h4 className="text-sm font-medium text-gray-600">Front Side</h4>
+              <h4 className="text-sm font-medium text-gray-600">{t('profile.frontSide')}</h4>
               <div className="relative">
                 {!aadhaarPreviews.front ? (
                   <div 
@@ -297,8 +299,8 @@ const SettingPage = () => {
                     onClick={() => frontFileRef.current?.click()}
                   >
                     <FiUpload className="mx-auto text-3xl text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500 mb-1">Click to upload front side</p>
-                    <p className="text-xs text-gray-400">PNG, JPG, JPEG up to 5MB</p>
+                    <p className="text-sm text-gray-500 mb-1">{t('profile.clickUploadFront')}</p>
+                    <p className="text-xs text-gray-400">{t('profile.fileFormat')}</p>
                   </div>
                 ) : (
                   <div className="relative rounded-lg overflow-hidden border border-gray-200 bg-white">
@@ -313,17 +315,16 @@ const SettingPage = () => {
                       onLoad={() => console.log('Image loaded successfully')}
                     />
                     <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                      Uploaded
+                      {t('profile.uploaded')}
                     </div>
                     
                     {/* Action buttons */}
-                    {/* Action buttons - Right bottom corner */}
-                      <div className="absolute w-full bottom-3 px-2 flex flex-row justify-between gap-1.5">
+                    <div className="absolute w-full bottom-3 px-2 flex flex-row justify-between gap-1.5">
                         <button
                           type="button"
                           onClick={() => removeImage('front')}
                           className="w-8 h-8 flex items-center justify-center bg-white hover:bg-red-400 border-1 border-red-600 backdrop-blur-sm text-white !p-2 rounded-full transition-all duration-200  hover:shadow-xl hover:scale-105"
-                          title="Delete Image"
+                          title={t('profile.deleteImage')}
                         >
                           <MdDeleteOutline size={16} 
                             className='text-red-600'
@@ -334,7 +335,7 @@ const SettingPage = () => {
                           type="button"
                           onClick={() => frontFileRef.current?.click()}
                           className="w-8 h-8 flex items-center justify-center  bg-purple-800 hover:bg-purple-600 backdrop-blur-sm text-white !p-2 rounded-full transition-all duration-200  hover:shadow-xl hover:scale-105"
-                          title="Change Image"
+                          title={t('profile.changeImage')}
                         >
                           <FiUpload size={16} />
                         </button>
@@ -353,7 +354,7 @@ const SettingPage = () => {
 
             {/* Back Side Upload */}
             <div className="space-y-3">
-              <h4 className="text-sm font-medium text-gray-600">Back Side</h4>
+              <h4 className="text-sm font-medium text-gray-600">{t('profile.backSide')}</h4>
               <div className="relative">
                 {!aadhaarPreviews.back ? (
                   <div 
@@ -361,8 +362,8 @@ const SettingPage = () => {
                     onClick={() => backFileRef.current?.click()}
                   >
                     <FiUpload className="mx-auto text-3xl text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500 mb-1">Click to upload back side</p>
-                    <p className="text-xs text-gray-400">PNG, JPG, JPEG up to 5MB</p>
+                    <p className="text-sm text-gray-500 mb-1">{t('profile.clickUploadBack')}</p>
+                    <p className="text-xs text-gray-400">{t('profile.fileFormat')}</p>
                   </div>
                 ) : (
                   <div className="relative rounded-lg overflow-hidden border border-gray-200 bg-white">
@@ -377,18 +378,16 @@ const SettingPage = () => {
                       onLoad={() => console.log('Image loaded successfully')}
                     />
                     <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
-                      Uploaded
+                      {t('profile.uploaded')}
                     </div>
                     
                     {/* Action buttons */}
                     <div className="absolute w-full bottom-3 px-2 flex flex-row justify-between gap-1.5">
-   
-                                 
                          <button
                           type="button"
                           onClick={() => removeImage('back')}
                           className="w-8 h-8 flex items-center justify-center bg-white hover:bg-red-400 border-1 border-red-600 backdrop-blur-sm text-white !p-2 rounded-full transition-all duration-200  hover:shadow-xl hover:scale-105"
-                          title="Delete Image"
+                          title={t('profile.deleteImage')}
                         >
                           <MdDeleteOutline size={16} 
                             className='text-red-600'
@@ -399,7 +398,7 @@ const SettingPage = () => {
                           type="button"
                           onClick={() => backFileRef.current?.click()}
                           className="w-8 h-8 flex items-center justify-center bg-purple-800 hover:bg-purple-600 backdrop-blur-sm text-white !p-2 rounded-full transition-all duration-200  hover:shadow-xl hover:scale-105"
-                          title="Change Image"
+                          title={t('profile.changeImage')}
                         >
                           <FiUpload size={16} />
                         </button>
@@ -418,37 +417,35 @@ const SettingPage = () => {
           </div>
         </div>
 
-        
-
         <div className="flex flex-col">
-          <label className="font-medium">GST number</label>
+          <label className="font-medium">{t('profile.gstNumber')}</label>
           <input className="border-1 p-1 rounded mt-2" name="gstNumber" value={customer.gstNumber} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">Pincode</label>
+          <label className="font-medium">{t('profile.pincode')}</label>
           <input className="border-1 p-1 rounded mt-2" name="pincode" value={customer.pincode} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">State</label>
+          <label className="font-medium">{t('profile.state')}</label>
           <SelectState value={customer.state} onChange={handleInputChange}></SelectState>
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">City</label>
+          <label className="font-medium">{t('profile.city')}</label>
           <input className="border-1 p-1 rounded mt-2" name="city" value={customer.city} onChange={handleInputChange} />
         </div>
 
         <div className="flex flex-col">
-          <label className="font-medium">Landmark</label>
+          <label className="font-medium">{t('profile.landmark')}</label>
           <input className="border-1 p-1 rounded mt-2" name="landmark" value={customer.landmark} onChange={handleInputChange} />
         </div>
 
       </div>
 
       <div className='px-6 md:px-14 py-3 flex justify-between'>
-        <button onClick={handleLogout} className='bg-red-100 text-red-500 rounded p-1 w-40 font-bold flex items-center justify-center gap-2'><span><RxExit size={20} /></span>LOG OUT</button>
+        <button onClick={handleLogout} className='bg-red-100 text-red-500 rounded p-1 w-40 font-bold flex items-center justify-center gap-2'><span><RxExit size={20} /></span>{t('profile.logout')}</button>
 
         <button
           onClick={handleSaveChanges}
@@ -458,7 +455,7 @@ const SettingPage = () => {
               : 'bg-gray-200 text-gray-500 cursor-not-allowed'
             }`}
         >
-          SAVE CHANGES
+          {t('profile.saveChanges')}
         </button>
       </div>
 

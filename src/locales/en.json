@@ -773,6 +773,9 @@
   "featuredBySize": "Shop by size",
 
 
+  "breadcrumb.Profile": "Profile",
+
+
   "nav": {
     "home": "Home",
     "about": "About", 
@@ -793,6 +796,30 @@
   "breadcrumb.account": "Account",
   "breadcrumb.shoppingCart": "Shopping Cart",
   "Shopping Cart": "Shopping Cart",
+  "Review your cart": "Review your cart",
+  "Shipping Address": "Shipping Address",
+  "Payment": "Payment",
+  "Discounts": "Discounts",
+  "Total Cost": "Total Cost",
+  "Total Discount": "Total Discount",
+  "Pay type": "Pay type",
+  "Coupon": "Coupon",
+  "Final Cost": "Final Cost",
+  "CGST": "CGST",
+  "SGST": "SGST",
+  "Handling Charges": "Handling Charges",
+  "Platform Fees": "Platform Fees",
+  "Net Pay": "Net Pay",
+  "Wallet": "Wallet",
+  "To pay": "To pay",
+  "Advance Paid": "Advance Paid",
+  "Balance Due": "Balance Due",
+
+  
+  "checkout": {
+    "ensureSSL": "Ensure Checkout- SSL Encrypted",
+    "secureDetails": "Ensuring your financial and personal details are secure during every transaction"
+  },
 
 
   "accordion": {
@@ -811,7 +838,66 @@
     "storageArea": "Storage area to be rodent-free & regular pest control should be done."
   },
 
-  "colorCatalogue.clickHere": "Click here for color catalogue"
+  "colorCatalogue.clickHere": "Click here for color catalogue",
+
+
+  "profile": {
+    "title": "Profile",
+    "fullName": "Full Name",
+    "password": "Password",
+    "country": "Country",
+    "email": "Email",
+    "mobileNumber": "Mobile number",
+    "whatsappNumber": "WhatsApp number",
+    "aadhaarImages": "Aadhaar Card Images",
+    "frontSide": "Front Side",
+    "backSide": "Back Side",
+    "clickUploadFront": "Click to upload front side",
+    "clickUploadBack": "Click to upload back side",
+    "fileFormat": "PNG, JPG, JPEG up to 5MB",
+    "uploaded": "Uploaded",
+    "deleteImage": "Delete Image",
+    "changeImage": "Change Image",
+    "gstNumber": "GST number",
+    "pincode": "Pincode",
+    "state": "State",
+    "city": "City",
+    "landmark": "Landmark",
+    "logout": "LOG OUT",
+    "saveChanges": "SAVE CHANGES"
+  },
+
+  
+  "payment": {
+    "paymentFailure": "Payment Failure",
+    "paymentDeclined": "Payment Declined",
+    "transitionFailed": "Oh no! Your transition failed",
+    "paymentFailedMessage": "The payment failed due to a technical error. It happens, just try again now, or after a couple of minutes. If the error persists, please",
+    "writeToSupport": "write to our support",
+    "weWillHelp": ", and we will help.",
+    "placeAsCOD": "Place as COD",
+    "retryPayment": "Retry Payment",
+    "close": "Close",
+    "failedRazorpayOrder": "Failed to get valid Razorpay order",
+    "failedLoadRazorpay": "Failed to load Razorpay",
+    "paymentFor": "Payment for Order",
+    "postProcessingFailed": "Payment succeeded but post-processing failed.",
+    "failedPlaceOrder": "Failed to place order",
+    "failedUpdateOrder": "Failed to update order",
+
+    "paymentSuccess": "Payment Success",
+    "paymentSuccessful": "Payment Successful",
+    "thankYouPaymentSuccessful": "Thank You! Payment Successful",
+    "paymentReceivedMessage": "We've received your payment and we're excited to get things rolling. You'll receive a confirmation email shortly with all the details.",
+    "exploreMore": "Explore More",
+    "goToOrders": "Go To Orders"
+
+  },
+
+    "breadcrumb.paymentFailure": "Payment Failure",
+    "breadcrumb.checkout": "Checkout",
+    "breadcrumb.paymentSuccess": "Payment Success"
+
     
 
 

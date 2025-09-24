@@ -775,6 +775,8 @@
   "featuredCategories": "বিভাগসমূহ",
   "featuredBySize": "আকার অনুযায়ী কেনাকাটা করুন",
 
+  "breadcrumb.Profile": "প্রোফাইল",
+
 
   "nav": {
   "home": "হোম",
@@ -796,6 +798,30 @@
 "breadcrumb.account": "অ্যাকাউন্ট",
 "breadcrumb.shoppingCart": "শপিং কার্ট",
 "Shopping Cart": "শপিং কার্ট",
+"Review your cart": "আপনার কার্ট পর্যালোচনা করুন",
+"Shipping Address": "শিপিং ঠিকানা",
+"Payment": "পেমেন্ট",
+"Discounts": "ছাড়",
+"Total Cost": "মোট খরচ",
+"Total Discount": "মোট ছাড়",
+"Pay type": "পেমেন্ট ধরন",
+"Coupon": "কুপন",
+"Final Cost": "চূড়ান্ত খরচ",
+"CGST": "CGST",
+"SGST": "SGST",
+"Handling Charges": "হ্যান্ডলিং চার্জ",
+"Platform Fees": "প্ল্যাটফর্ম ফি",
+"Net Pay": "নেট পেমেন্ট",
+"Wallet": "ওয়ালেট",
+"To pay": "পেমেন্ট করতে",
+"Advance Paid": "আগাম প্রদত্ত",
+"Balance Due": "ব্যালেন্স বকেয়া",
+
+
+"checkout": {
+  "ensureSSL": "চেকআউট নিশ্চিত করুন - SSL এনক্রিপ্টেড",
+  "secureDetails": "প্রত্যেক লেনদেনের সময় আপনার আর্থিক ও ব্যক্তিগত তথ্য নিরাপদ থাকে তা নিশ্চিত করা হচ্ছে"
+},
 
 
 
@@ -815,7 +841,70 @@
   "storageArea": "সংরক্ষণের স্থান ইঁদুরমুক্ত হওয়া উচিত এবং নিয়মিত কীটনাশক নিয়ন্ত্রণ করা উচিত।"
 },
 
-"colorCatalogue.clickHere": "রঙের ক্যাটালগের জন্য এখানে ক্লিক করুন"
+"colorCatalogue.clickHere": "রঙের ক্যাটালগের জন্য এখানে ক্লিক করুন",
+
+
+"profile": {
+  "title": "প্রোফাইল",
+  "fullName": "পুরো নাম",
+  "password": "পাসওয়ার্ড",
+  "country": "দেশ",
+  "email": "ইমেইল",
+  "mobileNumber": "মোবাইল নম্বর",
+  "whatsappNumber": "হোয়াটসঅ্যাপ নম্বর",
+  "aadhaarImages": "আধার কার্ড ছবি",
+  "frontSide": "সামনের দিক",
+  "backSide": "পেছনের দিক",
+  "clickUploadFront": "সামনের দিক আপলোড করতে ক্লিক করুন",
+  "clickUploadBack": "পেছনের দিক আপলোড করতে ক্লিক করুন",
+  "fileFormat": "PNG, JPG, JPEG সর্বোচ্চ 5MB",
+  "uploaded": "আপলোড হয়েছে",
+  "deleteImage": "ছবি মুছুন",
+  "changeImage": "ছবি পরিবর্তন করুন",
+  "gstNumber": "জিএসটি নম্বর",
+  "pincode": "পিনকোড",
+  "state": "রাজ্য",
+  "city": "শহর",
+  "landmark": "ল্যান্ডমার্ক",
+  "logout": "লগ আউট",
+  "saveChanges": "পরিবর্তন সংরক্ষণ করুন"
+},
+
+
+"payment": {
+  "paymentFailure": "পেমেন্ট ব্যর্থ",
+  "paymentDeclined": "পেমেন্ট বাতিল হয়েছে",
+  "transitionFailed": "আহা! আপনার লেনদেন ব্যর্থ হয়েছে",
+  "paymentFailedMessage": "প্রযুক্তিগত ত্রুটির কারণে পেমেন্ট ব্যর্থ হয়েছে। মাঝে মাঝে এটি ঘটে, অনুগ্রহ করে এখনই অথবা কয়েক মিনিট পরে আবার চেষ্টা করুন। যদি ত্রুটি চলতেই থাকে, অনুগ্রহ করে",
+  "writeToSupport": "আমাদের সাপোর্টে লিখুন",
+  "weWillHelp": ", এবং আমরা সাহায্য করব।",
+  "placeAsCOD": "ক্যাশ অন ডেলিভারি হিসেবে রাখুন",
+  "retryPayment": "পেমেন্ট আবার চেষ্টা করুন",
+  "close": "বন্ধ করুন",
+  "failedRazorpayOrder": "বৈধ Razorpay অর্ডার আনতে ব্যর্থ",
+  "failedLoadRazorpay": "Razorpay লোড করতে ব্যর্থ",
+  "paymentFor": "অর্ডারের জন্য পেমেন্ট",
+  "postProcessingFailed": "পেমেন্ট সফল হয়েছে কিন্তু পরবর্তী প্রক্রিয়াকরণ ব্যর্থ হয়েছে।",
+  "failedPlaceOrder": "অর্ডার দিতে ব্যর্থ",
+  "failedUpdateOrder": "অর্ডার আপডেট করতে ব্যর্থ",
+
+  "paymentSuccess": "পেমেন্ট সফল",
+"paymentSuccessful": "পেমেন্ট সফল হয়েছে",
+"thankYouPaymentSuccessful": "ধন্যবাদ! পেমেন্ট সফল হয়েছে",
+"paymentReceivedMessage": "আমরা আপনার পেমেন্ট পেয়েছি এবং প্রক্রিয়া শুরু করতে আমরা উচ্ছ্বসিত। খুব শীঘ্রই সমস্ত বিবরণ সহ আপনি একটি নিশ্চিতকরণ ইমেল পাবেন।",
+"exploreMore": "আরও দেখুন",
+"goToOrders": "অর্ডারে যান"
+},
+"breadcrumb.paymentFailure": "পেমেন্ট ব্যর্থ",
+"breadcrumb.checkout": "চেকআউট",
+
+
+
+"breadcrumb.paymentSuccess": "পেমেন্ট সফল"
+
+
+
+
 
 
 

@@ -27,6 +27,8 @@ import { useAppContext } from '../../Utils/commoncontext'
 import ModalConfirmReplaceCart from '../../Components/Modal/ModalConfirmReplaceCart'
 import PaymentModal from '../../Components/Modal/PaymentModal'
 import { sendCodOrderById , getCodOrderById } from '../../Services/OrderService'
+import { resolveRatePerKg } from '../../Services/SettingsService'
+import useHandlingRate from '../../Utils/useHandlingRate'
 
 const OrderDetails = () => {
 
@@ -202,16 +204,23 @@ const OrderDetails = () => {
       };
 
 
+      // Handling rates are set in the admin panel and served by the backend.
+      const [handlingRateConfig] = useHandlingRate();
+
       const calculateHandlingCharges = (cartItems, shippingAddressString) => {
         if (!shippingAddressString) return 0;
-      
-        const parts = shippingAddressString.split(",") || [];
-        const state = parts.length >= 3 ? parts[parts.length - 3]?.trim().toLowerCase() : "";
-      
+
+        // Addresses are stored as "address, street, city, state, PIN: <zip>, country"
+        // with null fields dropped, so anchor on "PIN:" instead of counting back from
+        // the end — counting lands on the city whenever country is missing.
+        const beforePin = String(shippingAddressString).split("PIN:")[0];
+        const parts = beforePin.split(",").map((part) => part.trim()).filter(Boolean);
+        const state = (parts[parts.length - 1] || "").toLowerCase();
+
         if (!state) return 0;
-      
-        const ratePerKg = state === "odisha" ? 3 : 5;
-      
+
+        const ratePerKg = resolveRatePerKg(state, handlingRateConfig);
+
         const totalWeight = cartItems.reduce((acc, item) => {
           if (item.status === 'CANCELLED') return acc; // 👈 Skip cancelled items
           const weight = Number(item.orderWeight) || 0;

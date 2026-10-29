@@ -27,6 +27,8 @@ import { useAppContext } from '../../Utils/commoncontext'
 import { getWalletTransactions } from '../../Services/CustomerService'
 import { createOrder, updateOrderStatuses } from '../../Services/OrderService'
 import { initiatePayment } from '../../Services/PaymentService'
+import { resolveRatePerKg } from '../../Services/SettingsService'
+import useHandlingRate from '../../Utils/useHandlingRate'
 import ModalSuccess from '../../Components/Modal/ModalSuccess' 
 import ModalCoupon from '../../Components/Modal/ModalCoupon';
 import Toast from '../../Components/Toast/Toast';
@@ -214,12 +216,15 @@ const CheckoutPage = () => {
       }, [customer?.customerId]);
       
 
+    // Handling rates are set in the admin panel and served by the backend.
+    const [handlingRateConfig] = useHandlingRate();
+
     const calculateHandlingCharges = (cartItems, selectedAddress) => {
         if (!selectedAddress?.state) return 0;
-      
+
         const customerState = selectedAddress.state.toLowerCase();
-        const ratePerKg = customerState === "odisha" ? 3 : 5;
-      
+        const ratePerKg = resolveRatePerKg(customerState, handlingRateConfig);
+
         // Sum total weight from cart items
         const totalWeight = cartItems.reduce((acc, item) => {
           const unitWeight = selectedWeight[item.variantId]; 
@@ -441,7 +446,7 @@ const checkDiscountEligibility = ({
     totalDiscountPercentage,
     handlingCharges,
   };
-}, [selectedCartItems, selectedPayment, appliedCoupon, walletUsed, platformFees, online, cod, selectedAddress]);
+}, [selectedCartItems, selectedPayment, appliedCoupon, walletUsed, platformFees, online, cod, selectedAddress, handlingRateConfig]);
 
 
     const handleWalletChange = (e) => {
@@ -717,7 +722,7 @@ const checkDiscountEligibility = ({
 
   const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME")?.state?.toLowerCase() || "";
   const customerState = selectedAddress?.state?.toLowerCase() || "";
-  const ratePerKg = customerState === "odisha" ? 3 : 5;
+  const ratePerKg = resolveRatePerKg(customerState, handlingRateConfig);
 
   const totalCartWeight = cartItems.reduce((acc, item) => {
     const unit = selectedWeight[item.variantId];
@@ -784,9 +789,9 @@ const checkDiscountEligibility = ({
       
         console.log(paymentDiscount,productDiscount)    
 
-        const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME").state.toLowerCase();
+        const billingState = customer?.addresses?.find(addr => addr.addressType === "HOME")?.state?.toLowerCase() || "";
         const customerState = selectedAddress?.state?.toLowerCase() || "";
-        const ratePerKg = customerState === "odisha" ? 3 : 5;
+        const ratePerKg = resolveRatePerKg(customerState, handlingRateConfig);
       
         // Total weight for proportional handling charge calculation
         const totalWeight = cartItems.reduce((acc, item) => {
